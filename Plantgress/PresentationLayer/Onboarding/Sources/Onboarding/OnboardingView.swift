@@ -12,10 +12,7 @@ public struct OnboardingView: View {
     public init() {}
     
     public var body: some View {
-        VStack {
-            Text("Onboarding")
-        }
-        .padding()
+        Text("Hello, OnboardingView!")
     }
 }
 

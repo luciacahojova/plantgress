@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		24A561BF2CFE4F13003C5C84 /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = 24A561BE2CFE4F13003C5C84 /* Onboarding */; };
 		24CDAEF72CFF6FB70082CC98 /* UIToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 24CDAEF62CFF6FB70082CC98 /* UIToolkit */; };
+		24CDAF1F2CFF9BFE0082CC98 /* Plants in Frameworks */ = {isa = PBXBuildFile; productRef = 24CDAF1E2CFF9BFE0082CC98 /* Plants */; };
+		24CDAF252CFF9F410082CC98 /* Explore in Frameworks */ = {isa = PBXBuildFile; productRef = 24CDAF242CFF9F410082CC98 /* Explore */; };
+		24CDAF282CFFA03F0082CC98 /* Profile in Frameworks */ = {isa = PBXBuildFile; productRef = 24CDAF272CFFA03F0082CC98 /* Profile */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +41,10 @@
 		24A561BC2CFE4EC9003C5C84 /* Exceptions for "PresentationLayer" folder in "Plantgress" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Explore,
 				Onboarding,
+				Plants,
+				Profile,
 				UIToolkit,
 			);
 			target = 24A561772CFE4758003C5C84 /* Plantgress */;
@@ -78,6 +84,9 @@
 			files = (
 				24A561BF2CFE4F13003C5C84 /* Onboarding in Frameworks */,
 				24CDAEF72CFF6FB70082CC98 /* UIToolkit in Frameworks */,
+				24CDAF252CFF9F410082CC98 /* Explore in Frameworks */,
+				24CDAF282CFFA03F0082CC98 /* Profile in Frameworks */,
+				24CDAF1F2CFF9BFE0082CC98 /* Plants in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,6 +161,9 @@
 			packageProductDependencies = (
 				24A561BE2CFE4F13003C5C84 /* Onboarding */,
 				24CDAEF62CFF6FB70082CC98 /* UIToolkit */,
+				24CDAF1E2CFF9BFE0082CC98 /* Plants */,
+				24CDAF242CFF9F410082CC98 /* Explore */,
+				24CDAF272CFFA03F0082CC98 /* Profile */,
 			);
 			productName = Plantgress;
 			productReference = 24A561782CFE4758003C5C84 /* Plantgress.app */;
@@ -434,7 +446,6 @@
 				DEVELOPMENT_TEAM = 8LD6238W2H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
@@ -464,7 +475,6 @@
 				DEVELOPMENT_TEAM = 8LD6238W2H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
@@ -603,6 +613,18 @@
 		24CDAEF62CFF6FB70082CC98 /* UIToolkit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UIToolkit;
+		};
+		24CDAF1E2CFF9BFE0082CC98 /* Plants */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Plants;
+		};
+		24CDAF242CFF9F410082CC98 /* Explore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Explore;
+		};
+		24CDAF272CFFA03F0082CC98 /* Profile */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Profile;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
