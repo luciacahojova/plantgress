@@ -9,18 +9,10 @@ import UIToolkit
 import UIKit
 
 enum OnboardingFlow: Flow {
-    case login(Login)
-    case register(Register)
-    
-    enum Login: Equatable {
-        case dismiss
-        case showRegistration
-    }
-    
-    enum Register: Equatable {
-        case dismiss
-        case pop
-    }
+    case showLogin
+    case showRegistration
+    case dismiss
+    case pop
 }
 
 public protocol OnboardingFlowControllerDelegate: AnyObject {
@@ -42,7 +34,11 @@ public final class OnboardingFlowController: FlowController {
     }
     
     override public func setup() -> UIViewController {
-        let view = OnboardingView()
+        let viewModel = OnboardingOverviewViewModel(
+            flowController: self
+        )
+        let view = OnboardingOverviewView(viewModel: viewModel)
+        
         return HostingController(rootView: view)
     }
     
@@ -54,35 +50,31 @@ public final class OnboardingFlowController: FlowController {
     override public func handleFlow(_ flow: Flow) {
         guard let onboardingFlow = flow as? OnboardingFlow else { return }
         switch onboardingFlow {
-        case let .login(loginFlow): handleLoginFlow(loginFlow)
-        case let .register(registerFlow): handleRegisterFlow(registerFlow)
-        }
-    }
-}
-
-// MARK: Login flow
-extension OnboardingFlowController {
-    func handleLoginFlow(_ flow: OnboardingFlow.Login) {
-        switch flow {
-        case .dismiss: dismiss()
+        case .showLogin: showLogin()
         case .showRegistration: showRegistration()
-        }
-    }
-    
-    private func showRegistration() {
-        let view = OnboardingView()
-        let vc = HostingController(rootView: view)
-        navigationController.pushViewController(vc, animated: true)
-    }
-}
-
-// MARK: Register flow
-extension OnboardingFlowController {
-    func handleRegisterFlow(_ flow: OnboardingFlow.Register) {
-        switch flow {
         case .dismiss: dismiss()
         case .pop: pop()
         }
+    }
+    
+    private func showLogin() {
+        let vm = LoginViewModel(
+            flowController: self
+        )
+        let view = LoginView(viewModel: vm)
+        let vc = HostingController(rootView: view)
+        
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    private func showRegistration() {
+        let vm = RegistrationViewModel(
+            flowController: self
+        )
+        let view = RegistrationView(viewModel: vm)
+        let vc = HostingController(rootView: view)
+        
+        navigationController.pushViewController(vc, animated: true)
     }
 }
 

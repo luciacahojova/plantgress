@@ -9,13 +9,31 @@ import SwiftUI
 
 struct ProfileOverviewView: View {
     
-    init() {}
+    // MARK: - Stored properties
+    
+    @ObservedObject private var viewModel: ProfileOverviewViewModel
+    
+    // MARK: - Init
+    
+    init(viewModel: ProfileOverviewViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    // MARK: - Body
     
     var body: some View {
-        Text("Hello, ProfileOverview!")
+        VStack {
+            Button("Show Onboarding") {
+                viewModel.onIntent(.sync(.presentOnboarding(message: nil)))
+            }
+        }
     }
 }
 
 #Preview {
-    ProfileOverviewView()
+    let vm = ProfileOverviewViewModel(flowController: nil)
+    
+    ProfileOverviewView(
+        viewModel: vm
+    )
 }

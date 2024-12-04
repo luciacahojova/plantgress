@@ -9,13 +9,24 @@ import UIToolkit
 import UIKit
 
 enum ProfileFlow: Flow {
-    
+    case presentOnboarding(message: String?)
+}
+
+public protocol ProfileFlowControllerDelegate: AnyObject {
+    func presentOnboarding(message: String?)
 }
 
 public final class ProfileFlowController: FlowController {
     
+    public weak var delegate: ProfileFlowControllerDelegate?
+    
     public override func setup() -> UIViewController {
-        let view = ProfileOverviewView()
+        let vm = ProfileOverviewViewModel(
+            flowController: self
+        )
+        let view = ProfileOverviewView(
+            viewModel: vm
+        )
         let vc = HostingController(rootView: view)
         
         return vc
@@ -24,7 +35,11 @@ public final class ProfileFlowController: FlowController {
     public override func handleFlow(_ flow: Flow) {
         guard let flow = flow as? ProfileFlow else { return }
         switch flow {
-            
+        case .presentOnboarding(let message): presentOnboarding(message: message)
         }
+    }
+    
+    private func presentOnboarding(message: String?) {
+        delegate?.presentOnboarding(message: message)
     }
 }

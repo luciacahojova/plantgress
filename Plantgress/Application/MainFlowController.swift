@@ -25,7 +25,7 @@ protocol MainFlowControllerDelegate: AnyObject {
     )
 }
 
-final class MainFlowController: FlowController {
+final class MainFlowController: FlowController, ProfileFlowControllerDelegate {
     
     weak var delegate: MainFlowControllerDelegate?
     
@@ -43,7 +43,6 @@ final class MainFlowController: FlowController {
             tag: MainTab.plants.rawValue
         )
         let fc = PlantsFlowController(navigationController: nc)
-//        fc.delegate = self
         let rootVC = startChildFlow(fc)
         nc.viewControllers = [rootVC]
         return nc
@@ -69,8 +68,8 @@ final class MainFlowController: FlowController {
             image: UIImage(systemName: "pencil"),
             tag: MainTab.profile.rawValue
         )
-        let fc = PlantsFlowController(navigationController: nc)
-//        fc.delegate = self
+        let fc = ProfileFlowController(navigationController: nc)
+        fc.delegate = self
         let vc = startChildFlow(fc)
         nc.viewControllers = [vc]
         return nc

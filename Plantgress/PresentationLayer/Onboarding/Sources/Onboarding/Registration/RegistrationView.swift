@@ -1,0 +1,39 @@
+//
+//  RegistrationView.swift
+//  Onboarding
+//
+//  Created by Lucia Cahojova on 04.12.2024.
+//
+
+import SwiftUI
+
+struct RegistrationView: View {
+    
+    // MARK: - Stored properties
+    
+    @ObservedObject private var viewModel: RegistrationViewModel
+    
+    // MARK: - Init
+    
+    init(viewModel: RegistrationViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    // MARK: - Body
+    
+    var body: some View {
+        VStack {
+            Button("Setup Main") {
+                viewModel.onIntent(.sync(.dismiss))
+            }
+        }
+    }
+}
+
+#Preview {
+    let vm = RegistrationViewModel(flowController: nil)
+    
+    RegistrationView(
+        viewModel: vm
+    )
+}

@@ -8,7 +8,7 @@
 import UIToolkit
 import Onboarding
 
-final class AppFlowController: FlowController {
+final class AppFlowController: FlowController, OnboardingFlowControllerDelegate, MainFlowControllerDelegate {
     
     // MARK: - Dependencies
     
@@ -20,7 +20,7 @@ final class AppFlowController: FlowController {
         navigationController.viewControllers = [loadingVC]
         
         Task {
-            let isUserLoggedIn: Bool = true
+            let isUserLoggedIn: Bool = false
             
             if isUserLoggedIn {
                 setupMain()
@@ -35,9 +35,16 @@ final class AppFlowController: FlowController {
     }
     
     func setupMain() {
+        // Create an instance of MainFlowController, passing the current navigationController
         let fc = MainFlowController(navigationController: navigationController)
-//        fc.delegate = self
+        
+        // Set the delegate of MainFlowController to this AppFlowController instance
+        fc.delegate = self
+        
+        // Start the MainFlowController and retrieve its root view controller
         let rootVC = startChildFlow(fc)
+        
+        // Replace the current view controllers in the navigation stack with the root view controller
         navigationController.viewControllers = [rootVC]
     }
     
@@ -46,16 +53,37 @@ final class AppFlowController: FlowController {
         animated: Bool,
         completion: (() -> Void)?
     ) {
+        // Create a new navigation controller for the onboarding flow
         let nc = NavigationController()
+        
+        // Create the onboarding flow controller with the new navigation controller
         let fc = OnboardingFlowController(
-            message: nil,
-            navigationController: navigationController
+            message: message,
+            navigationController: nc
         )
-//        fc.delegate = self
+        fc.delegate = self
+        
+        // Set the onboarding root view controller
         let rootVC = startChildFlow(fc)
         nc.viewControllers = [rootVC]
+        
+        // Configure modal presentation
         nc.modalPresentationStyle = .fullScreen
         nc.navigationBar.isHidden = false
+        
+        // Present the onboarding flow modally
         navigationController.present(nc, animated: animated, completion: completion)
+    }
+    
+    public func handleLogout() {
+        Task {
+            do {
+                self.presentOnboarding(
+                    message: "To continue, you must log in again.",
+                    animated: true,
+                    completion: nil
+                )
+            }
+        }
     }
 }
