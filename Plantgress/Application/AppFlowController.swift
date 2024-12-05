@@ -77,13 +77,11 @@ final class AppFlowController: FlowController, OnboardingFlowControllerDelegate,
     
     public func handleLogout() {
         Task {
-            do {
-                self.presentOnboarding(
-                    message: "To continue, you must log in again.",
-                    animated: true,
-                    completion: nil
-                )
-            }
+            self.presentOnboarding(
+                message: "To continue, you must log in again.",
+                animated: true,
+                completion: nil
+            )
         }
     }
 }
