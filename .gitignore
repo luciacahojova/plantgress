@@ -7,3 +7,19 @@
 /build
 
 .DS_Store
+
+## User settings
+xcuserdata/
+*.xcuserdata
+*.xcuserstate
+*.xcschememanagement.plist
+
+# App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Obj-C/Swift specific
+*.hmap
+
+DerivedData/
