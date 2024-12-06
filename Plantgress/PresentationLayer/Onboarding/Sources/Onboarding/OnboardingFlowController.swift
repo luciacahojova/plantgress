@@ -1,0 +1,80 @@
+//
+//  OnboardingFlowController.swift
+//  Onboarding
+//
+//  Created by Lucia Cahojova on 03.12.2024.
+//
+
+import UIToolkit
+import UIKit
+
+enum OnboardingFlow: Flow {
+    case showLogin
+    case showRegistration
+    case dismiss
+    case pop
+}
+
+public protocol OnboardingFlowControllerDelegate: AnyObject {
+    func setupMain()
+}
+
+public final class OnboardingFlowController: FlowController {
+    
+    public weak var delegate: OnboardingFlowControllerDelegate?
+    
+    private let message: String?
+    
+    public init(
+        message: String?,
+        navigationController: UINavigationController
+    ) {
+        self.message = message
+        super.init(navigationController: navigationController)
+    }
+    
+    override public func setup() -> UIViewController {
+        let viewModel = OnboardingOverviewViewModel(
+            flowController: self
+        )
+        let view = OnboardingOverviewView(viewModel: viewModel)
+        
+        return HostingController(rootView: view)
+    }
+    
+    override public func dismiss() {
+        super.dismiss()
+        delegate?.setupMain()
+    }
+    
+    override public func handleFlow(_ flow: Flow) {
+        guard let onboardingFlow = flow as? OnboardingFlow else { return }
+        switch onboardingFlow {
+        case .showLogin: showLogin()
+        case .showRegistration: showRegistration()
+        case .dismiss: dismiss()
+        case .pop: pop()
+        }
+    }
+    
+    private func showLogin() {
+        let vm = LoginViewModel(
+            flowController: self
+        )
+        let view = LoginView(viewModel: vm)
+        let vc = HostingController(rootView: view)
+        
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    private func showRegistration() {
+        let vm = RegistrationViewModel(
+            flowController: self
+        )
+        let view = RegistrationView(viewModel: vm)
+        let vc = HostingController(rootView: view)
+        
+        navigationController.pushViewController(vc, animated: true)
+    }
+}
+
