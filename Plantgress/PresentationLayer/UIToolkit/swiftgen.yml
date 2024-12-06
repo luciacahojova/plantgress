@@ -1,0 +1,10 @@
+xcassets:
+  inputs:
+    - Sources/Assets/Colors.xcassets
+    - Sources/Assets/Icons.xcassets
+    - Sources/Assets/Images.xcassets
+  outputs:
+    - templatePath: swiftgen-xcassets.stencil
+      output: Sources/Assets/Generated.swift
+      params:
+        publicAccess: true

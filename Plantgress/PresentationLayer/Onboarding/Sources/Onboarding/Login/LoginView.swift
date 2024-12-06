@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIToolkit
 
 struct LoginView: View {
     
@@ -26,6 +27,9 @@ struct LoginView: View {
             Button("Setup Main") {
                 viewModel.onIntent(.dismiss)
             }
+            
+            Rectangle()
+                .fill(Asset.Colors.green.color)
         }
         .lifecycle(viewModel)
     }

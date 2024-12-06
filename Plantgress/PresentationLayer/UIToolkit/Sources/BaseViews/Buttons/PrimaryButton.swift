@@ -15,6 +15,7 @@ public struct PrimaryButton: View {
         Button("Primary Button") {
             
         }
+        .foregroundStyle(Asset.Colors.green.color)
     }
 }
 
