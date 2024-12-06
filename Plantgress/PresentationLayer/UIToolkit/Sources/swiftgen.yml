@@ -1,0 +1,19 @@
+xcassets:
+  inputs:
+    - Resources/Assets/Colors.xcassets
+    - Resources/Assets/Icons.xcassets
+    - Resources/Assets/Images.xcassets
+  outputs:
+    - templatePath: swiftgen-xcassets.stencil
+      output: Resources/Assets.generated.swift
+      params:
+        publicAccess: true
+
+strings:
+  inputs:
+    - Resources/Localizable/Base.lproj/Localizable.strings
+  outputs:
+    - templatePath: swiftgen-strings.stencil
+      output: Resources/Localizable.generated.swift
+      params:
+        publicAccess: true

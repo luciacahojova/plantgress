@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import UIToolkit
 
 struct PlantsOverviewView: View {
     
     init() {}
     
     var body: some View {
-        Text("Hello, PlantsOverview!")
+        Text(Strings.welcome)
     }
 }
 
