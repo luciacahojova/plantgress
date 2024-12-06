@@ -39,32 +39,12 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     
     // MARK: - Intent
     enum Intent {
-        case sync(Sync)
-        case async(Async)
-        
-        enum Sync {
-            case presentOnboarding(message: String?)
-        }
-        
-        enum Async {
-            
-        }
+        case presentOnboarding(message: String?)
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
-        case let .sync(syncIntent):
-            switch syncIntent {
-            case .presentOnboarding(let message): presentOnboarding(message: message)
-            }
-        case let .async(asyncIntent):
-            executeTask(
-                Task {
-                    switch asyncIntent {
-                        
-                    }
-                }
-            )
+        case .presentOnboarding(let message): presentOnboarding(message: message)
         }
     }
     

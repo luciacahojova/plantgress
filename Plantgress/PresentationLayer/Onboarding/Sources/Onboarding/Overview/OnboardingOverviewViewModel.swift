@@ -39,34 +39,14 @@ final class OnboardingOverviewViewModel: BaseViewModel, ViewModel, ObservableObj
     
     // MARK: - Intent
     enum Intent {
-        case sync(Sync)
-        case async(Async)
-        
-        enum Sync {
-            case showLogin
-            case showRegistration
-        }
-        
-        enum Async {
-            
-        }
+        case showLogin
+        case showRegistration
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
-        case let .sync(syncIntent):
-            switch syncIntent {
-            case .showLogin: showLogin()
-            case .showRegistration: showRegistration()
-            }
-        case let .async(asyncIntent):
-            executeTask(
-                Task {
-                    switch asyncIntent {
-                        
-                    }
-                }
-            )
+        case .showLogin: showLogin()
+        case .showRegistration: showRegistration()
         }
     }
     

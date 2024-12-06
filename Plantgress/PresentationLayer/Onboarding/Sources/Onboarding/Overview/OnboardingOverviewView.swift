@@ -24,13 +24,14 @@ struct OnboardingOverviewView: View {
     var body: some View {
         VStack {
             Button("Show Login") {
-                viewModel.onIntent(.sync(.showLogin))
+                viewModel.onIntent(.showLogin)
             }
             
             Button("Show Registration") {
-                viewModel.onIntent(.sync(.showRegistration))
+                viewModel.onIntent(.showRegistration)
             }
         }
+        .lifecycle(viewModel)
     }
 }
 

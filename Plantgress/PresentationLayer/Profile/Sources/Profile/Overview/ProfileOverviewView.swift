@@ -24,9 +24,10 @@ struct ProfileOverviewView: View {
     var body: some View {
         VStack {
             Button("Show Onboarding") {
-                viewModel.onIntent(.sync(.presentOnboarding(message: nil)))
+                viewModel.onIntent(.presentOnboarding(message: nil))
             }
         }
+        .lifecycle(viewModel)
     }
 }
 

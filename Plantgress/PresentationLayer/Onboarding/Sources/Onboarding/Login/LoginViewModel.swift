@@ -39,32 +39,12 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     // MARK: - Intent
     enum Intent {
-        case sync(Sync)
-        case async(Async)
-        
-        enum Sync {
-            case dismiss
-        }
-        
-        enum Async {
-            
-        }
+        case dismiss
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
-        case let .sync(syncIntent):
-            switch syncIntent {
-            case .dismiss: dismiss()
-            }
-        case let .async(asyncIntent):
-            executeTask(
-                Task {
-                    switch asyncIntent {
-                        
-                    }
-                }
-            )
+        case .dismiss: dismiss()
         }
     }
     
