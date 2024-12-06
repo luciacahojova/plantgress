@@ -13,7 +13,34 @@ struct PlantsOverviewView: View {
     init() {}
     
     var body: some View {
-        Text(Strings.welcome)
+        ScrollView {
+            VStack {
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+            }
+        }
     }
 }
 

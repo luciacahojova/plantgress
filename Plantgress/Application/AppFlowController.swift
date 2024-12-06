@@ -7,6 +7,7 @@
 
 import UIToolkit
 import Onboarding
+import UIKit
 
 final class AppFlowController: FlowController, OnboardingFlowControllerDelegate, MainFlowControllerDelegate {
     
@@ -15,12 +16,14 @@ final class AppFlowController: FlowController, OnboardingFlowControllerDelegate,
     // MARK: - Flow handling
     
     func start() {
+        configureAppearance()
+        
         let loadingView = LaunchView()
         let loadingVC = HostingController(rootView: loadingView)
         navigationController.viewControllers = [loadingVC]
         
         Task {
-            let isUserLoggedIn: Bool = false
+            let isUserLoggedIn: Bool = true
             
             if isUserLoggedIn {
                 setupMain()
@@ -83,5 +86,12 @@ final class AppFlowController: FlowController, OnboardingFlowControllerDelegate,
                 completion: nil
             )
         }
+    }
+    
+    private func configureAppearance() {
+        UITabBar.appearance().backgroundColor = Asset.Colors.primaryBackground.uiColor
+        
+        UITabBar.appearance().unselectedItemTintColor = Asset.Colors.tertiaryText.uiColor
+        UITabBar.appearance().tintColor = Asset.Colors.primaryText.uiColor
     }
 }

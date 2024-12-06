@@ -27,9 +27,6 @@ struct LoginView: View {
             Button("Setup Main") {
                 viewModel.onIntent(.dismiss)
             }
-            
-            Rectangle()
-                .fill(Asset.Colors.green.color)
         }
         .lifecycle(viewModel)
     }

@@ -27,7 +27,6 @@ struct ProfileOverviewView: View {
             Button("Show Onboarding") {
                 viewModel.onIntent(.presentOnboarding(message: nil))
             }
-            .foregroundStyle(Colors.green)
         }
         .lifecycle(viewModel)
     }
