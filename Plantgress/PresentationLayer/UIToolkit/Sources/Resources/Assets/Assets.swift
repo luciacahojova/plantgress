@@ -5,6 +5,7 @@
 //  Created by Lucia Cahojova on 06.12.2024.
 //
 
+import SwiftUI
 import Foundation
 import SwiftUICore
 
@@ -59,5 +60,22 @@ public enum Images {
 }
 
 public enum Fonts {
+    public static let largeTitleBold: Font = .custom(relativeTo: .largeTitle, size: 34, weight: .bold)
+
+    public static let titleBold: Font = .custom(relativeTo: .title2, size: 22, weight: .bold)
     
+    public static let bodyRegular: Font = .custom(relativeTo: .body, size: 17, weight: .regular)
+    public static let bodySemibold: Font = .custom(relativeTo: .body, size: 17, weight: .semibold)
+    public static let bodyBold: Font = .custom(relativeTo: .body, size: 17, weight: .bold)
+
+    public static let subheadlineBold: Font = .custom(relativeTo: .subheadline, size: 15, weight: .bold)
+
+    public static let calloutSemibold: Font = .custom(relativeTo: .footnote, size: 13, weight: .semibold)
+
+    public static let captionMedium: Font = .custom(relativeTo: .caption2, size: 11, weight: .medium)
+    
+    public static let footnoteRegular: Font = .custom(relativeTo: .footnote, size: 8, weight: .regular)
+    public static let footnotetMedium: Font = .custom(relativeTo: .footnote, size: 8, weight: .medium)
+    public static let footnoteSemibold: Font = .custom(relativeTo: .footnote, size: 8, weight: .semibold)
+    public static let footnoteBold: Font = .custom(relativeTo: .footnote, size: 8, weight: .bold)
 }

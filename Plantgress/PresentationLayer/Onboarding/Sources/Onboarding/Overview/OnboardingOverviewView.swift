@@ -35,11 +35,13 @@ struct OnboardingOverviewView: View {
             Button("Show Login") {
                 viewModel.onIntent(.showLogin)
             }
+            .font(Fonts.bodyBold)
             .frame(height: 50)
             
             Button("Show Registration") {
                 viewModel.onIntent(.showRegistration)
             }
+            .font(Fonts.bodyRegular)
             .frame(height: 50)
         }
         .foregroundStyle(Colors.primaryText)
