@@ -112,5 +112,4 @@ final class AppFlowController: FlowController, OnboardingFlowControllerDelegate,
         UITabBar.appearance().tintColor = Asset.Colors.primaryText.uiColor
         UITabBar.appearance().unselectedItemTintColor = Asset.Colors.tertiaryText.uiColor
     }
-
 }

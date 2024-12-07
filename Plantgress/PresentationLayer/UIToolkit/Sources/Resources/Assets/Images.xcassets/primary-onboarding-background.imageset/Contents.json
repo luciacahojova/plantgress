@@ -3,6 +3,16 @@
     {
       "filename" : "primary-onboarding-background.pdf",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "primary-onboarding-background-dark.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {

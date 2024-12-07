@@ -24,14 +24,25 @@ struct OnboardingOverviewView: View {
     
     var body: some View {
         VStack {
+            Spacer()
+            
+            Images.logoWithText
+                .resizable()
+                .scaledToFit()
+                .frame(width: 200, height: 200)
+                .edgesIgnoringSafeArea(.all)
+            
             Button("Show Login") {
                 viewModel.onIntent(.showLogin)
             }
+            .frame(height: 50)
             
             Button("Show Registration") {
                 viewModel.onIntent(.showRegistration)
             }
+            .frame(height: 50)
         }
+        .foregroundStyle(Colors.primaryText)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {
             Images.primaryOnboardingBackground
