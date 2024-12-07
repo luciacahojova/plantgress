@@ -1,14 +1,14 @@
 //
-//  LoginViewModel.swift
+//  ForgottenPasswordViewModel.swift
 //  Onboarding
 //
-//  Created by Lucia Cahojova on 04.12.2024.
+//  Created by Lucia Cahojova on 07.12.2024.
 //
 
 import SwiftUI
 import UIToolkit
 
-final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
+final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     // MARK: - Dependencies
     
@@ -40,21 +40,15 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     // MARK: - Intent
     enum Intent {
         case dismiss
-        case showForgottenPassword
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
         case .dismiss: dismiss()
-        case .showForgottenPassword: showForgottenPassword()
         }
     }
     
     private func dismiss() {
         flowController?.handleFlow(OnboardingFlow.dismiss)
-    }
-    
-    private func showForgottenPassword() {
-        flowController?.handleFlow(OnboardingFlow.showForgottenPassword)
     }
 }

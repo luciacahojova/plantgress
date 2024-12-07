@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIToolkit
 
 struct OnboardingOverviewView: View {
     
@@ -30,6 +31,13 @@ struct OnboardingOverviewView: View {
             Button("Show Registration") {
                 viewModel.onIntent(.showRegistration)
             }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background {
+            Images.primaryOnboardingBackground
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
         }
         .lifecycle(viewModel)
     }

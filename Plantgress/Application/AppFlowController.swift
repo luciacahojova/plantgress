@@ -23,7 +23,7 @@ final class AppFlowController: FlowController, OnboardingFlowControllerDelegate,
         navigationController.viewControllers = [loadingVC]
         
         Task {
-            let isUserLoggedIn: Bool = true
+            let isUserLoggedIn: Bool = false
             
             if isUserLoggedIn {
                 setupMain()
@@ -89,9 +89,28 @@ final class AppFlowController: FlowController, OnboardingFlowControllerDelegate,
     }
     
     private func configureAppearance() {
-        UITabBar.appearance().backgroundColor = Asset.Colors.primaryBackground.uiColor
-        
-        UITabBar.appearance().unselectedItemTintColor = Asset.Colors.tertiaryText.uiColor
+        // Configure the navigation bar appearance
+        let navigationAppearance = UINavigationBarAppearance()
+        navigationAppearance.configureWithOpaqueBackground()
+        navigationAppearance.backgroundColor = Asset.Colors.primaryBackground.uiColor
+        navigationAppearance.titleTextAttributes = [.foregroundColor: Asset.Colors.primaryText.uiColor]
+        navigationAppearance.largeTitleTextAttributes = [.foregroundColor: Asset.Colors.primaryText.uiColor]
+        navigationAppearance.shadowColor = nil
+
+        UINavigationBar.appearance().standardAppearance = navigationAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navigationAppearance
+        UINavigationBar.appearance().compactAppearance = navigationAppearance
+        UINavigationBar.appearance().tintColor = Asset.Colors.primaryText.uiColor
+
+        // Configure the tab bar appearance
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.backgroundColor = Asset.Colors.primaryBackground.uiColor
+
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         UITabBar.appearance().tintColor = Asset.Colors.primaryText.uiColor
+        UITabBar.appearance().unselectedItemTintColor = Asset.Colors.tertiaryText.uiColor
     }
+
 }

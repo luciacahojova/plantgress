@@ -52,7 +52,10 @@ public enum Colors {
 }
 
 public enum Images {
-    
+    public static let logo = Asset.Images.logo.image
+    public static let logoWithText = Asset.Images.logoWithText.image
+    public static let primaryOnboardingBackground = Asset.Images.primaryOnboardingBackground.image
+    public static let secondaryOnboardingBackground = Asset.Images.secondaryOnboardingBackground.image
 }
 
 public enum Fonts {

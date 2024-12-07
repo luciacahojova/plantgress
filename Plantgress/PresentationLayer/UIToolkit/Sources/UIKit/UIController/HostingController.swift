@@ -7,29 +7,50 @@
 
 import SwiftUI
 
-public class HostingController<Content>: UIHostingController<Content> where Content: View {
-    
+public class HostingController<Content>: UIHostingController<AnyView> where Content: View {
+
+    private let prefersLargeTitles: Bool
+    private let showsNavigationBar: Bool
     private var statusBarStyle: UIStatusBarStyle?
     
     override public var preferredStatusBarStyle: UIStatusBarStyle {
         return statusBarStyle ?? navigationController?.preferredStatusBarStyle ?? .default
     }
     
-    public convenience init(rootView: Content, statusBarStyle: UIStatusBarStyle) {
-        self.init(rootView: rootView)
-        self.statusBarStyle = statusBarStyle
+    public init(
+        rootView: Content,
+        title: String? = nil,
+        prefersLargeTitles: Bool = true,
+        showsNavigationBar: Bool = true,
+        statusBarStyle: UIStatusBarStyle? = nil
+    ) {
+        self.showsNavigationBar = showsNavigationBar
+        self.prefersLargeTitles = prefersLargeTitles
+        super.init(
+            rootView: AnyView(
+                rootView
+                    .navigationBarTitleDisplayMode(.large)
+                    .navigationBarHidden(!showsNavigationBar)
+            )
+        )
+        self.title = title
     }
     
-    override public init(rootView: Content) {
-        super.init(rootView: rootView)
-        print("\(type(of: self)) initialized")
+    public override func viewDidLoad() {
+        super.viewDidLoad()
         setupUI()
     }
     
-    public required init?(coder aDecoder: NSCoder) {
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(!showsNavigationBar, animated: animated)
+        self.navigationController?.navigationBar.prefersLargeTitles = prefersLargeTitles
+    }
+    
+    dynamic required init?(coder aDecoder: NSCoder) {
+        self.showsNavigationBar = true
+        self.prefersLargeTitles = false
         super.init(coder: aDecoder)
-        print("\(type(of: self)) initialized")
-        setupUI()
     }
     
     deinit {
@@ -37,6 +58,7 @@ public class HostingController<Content>: UIHostingController<Content> where Cont
     }
     
     private func setupUI() {
-        #warning("TODO: Setup UI")
+        view.backgroundColor = Asset.Colors.primaryBackground.uiColor
+        navigationItem.backBarButtonItem = UIBarButtonItem(image: nil, style: .done, target: nil, action: nil)
     }
 }

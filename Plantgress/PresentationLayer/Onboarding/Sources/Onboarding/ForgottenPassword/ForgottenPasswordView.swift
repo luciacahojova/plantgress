@@ -1,22 +1,22 @@
 //
-//  RegistrationView.swift
+//  ForgottenPasswordView.swift
 //  Onboarding
 //
-//  Created by Lucia Cahojova on 04.12.2024.
+//  Created by Lucia Cahojova on 07.12.2024.
 //
 
 import SwiftUI
 import UIToolkit
 
-struct RegistrationView: View {
+struct ForgottenPasswordView: View {
     
     // MARK: - Stored properties
     
-    @ObservedObject private var viewModel: RegistrationViewModel
+    @ObservedObject private var viewModel: ForgottenPasswordViewModel
     
     // MARK: - Init
     
-    init(viewModel: RegistrationViewModel) {
+    init(viewModel: ForgottenPasswordViewModel) {
         self.viewModel = viewModel
     }
     
@@ -40,9 +40,9 @@ struct RegistrationView: View {
 }
 
 #Preview {
-    let vm = RegistrationViewModel(flowController: nil)
+    let vm = ForgottenPasswordViewModel(flowController: nil)
     
-    RegistrationView(
+    ForgottenPasswordView(
         viewModel: vm
     )
 }
