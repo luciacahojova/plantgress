@@ -8,6 +8,7 @@
 import UIToolkit
 import UIKit
 import SwiftUI
+import FirebaseCore
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        FirebaseApp.configure()
         
         // Initialize main window with navigation controller
         let nc = NavigationController()
