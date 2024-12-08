@@ -15,6 +15,12 @@
 		24FECAD72D06023700999950 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAD62D06023700999950 /* FirebaseAuth */; };
 		24FECAD92D06023700999950 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAD82D06023700999950 /* FirebaseFirestore */; };
 		24FECADB2D06023700999950 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECADA2D06023700999950 /* FirebaseStorage */; };
+		24FECADF2D061E8000999950 /* SharedDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECADE2D061E8000999950 /* SharedDomain */; };
+		24FECAE72D0622B300999950 /* FirebaseAuthProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAE62D0622B300999950 /* FirebaseAuthProvider */; };
+		24FECAE92D0622B300999950 /* FirebaseFirestoreProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAE82D0622B300999950 /* FirebaseFirestoreProvider */; };
+		24FECAEB2D0622C000999950 /* FirebaseStorageProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAEA2D0622C000999950 /* FirebaseStorageProvider */; };
+		24FECAEF2D06250F00999950 /* AuthToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAEE2D06250F00999950 /* AuthToolkit */; };
+		24FECAF22D062B5300999950 /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAF12D062B5300999950 /* Resolver */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +58,23 @@
 			);
 			target = 24A561772CFE4758003C5C84 /* Plantgress */;
 		};
+		24FECADD2D061E6200999950 /* Exceptions for "DomainLayer" folder in "Plantgress" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				SharedDomain,
+			);
+			target = 24A561772CFE4758003C5C84 /* Plantgress */;
+		};
+		24FECAE32D06224700999950 /* Exceptions for "DataLayer" folder in "Plantgress" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Providers/FirebaseAuthProvider,
+				Providers/FirebaseFirestoreProvider,
+				Providers/FirebaseStorageProvider,
+				Toolkits/AuthToolkit,
+			);
+			target = 24A561772CFE4758003C5C84 /* Plantgress */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -70,11 +93,17 @@
 		};
 		24A561B72CFE4CBC003C5C84 /* DomainLayer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				24FECADD2D061E6200999950 /* Exceptions for "DomainLayer" folder in "Plantgress" target */,
+			);
 			path = DomainLayer;
 			sourceTree = "<group>";
 		};
 		24A561B82CFE4CC5003C5C84 /* DataLayer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				24FECAE32D06224700999950 /* Exceptions for "DataLayer" folder in "Plantgress" target */,
+			);
 			path = DataLayer;
 			sourceTree = "<group>";
 		};
@@ -85,13 +114,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24FECAEB2D0622C000999950 /* FirebaseStorageProvider in Frameworks */,
+				24FECAE92D0622B300999950 /* FirebaseFirestoreProvider in Frameworks */,
 				24A561BF2CFE4F13003C5C84 /* Onboarding in Frameworks */,
 				24FECAD72D06023700999950 /* FirebaseAuth in Frameworks */,
+				24FECAE72D0622B300999950 /* FirebaseAuthProvider in Frameworks */,
 				24CDAEF72CFF6FB70082CC98 /* UIToolkit in Frameworks */,
+				24FECAEF2D06250F00999950 /* AuthToolkit in Frameworks */,
 				24CDAF252CFF9F410082CC98 /* Explore in Frameworks */,
+				24FECADF2D061E8000999950 /* SharedDomain in Frameworks */,
 				24CDAF282CFFA03F0082CC98 /* Profile in Frameworks */,
 				24FECADB2D06023700999950 /* FirebaseStorage in Frameworks */,
 				24CDAF1F2CFF9BFE0082CC98 /* Plants in Frameworks */,
+				24FECAF22D062B5300999950 /* Resolver in Frameworks */,
 				24FECAD92D06023700999950 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -173,6 +208,12 @@
 				24FECAD62D06023700999950 /* FirebaseAuth */,
 				24FECAD82D06023700999950 /* FirebaseFirestore */,
 				24FECADA2D06023700999950 /* FirebaseStorage */,
+				24FECADE2D061E8000999950 /* SharedDomain */,
+				24FECAE62D0622B300999950 /* FirebaseAuthProvider */,
+				24FECAE82D0622B300999950 /* FirebaseFirestoreProvider */,
+				24FECAEA2D0622C000999950 /* FirebaseStorageProvider */,
+				24FECAEE2D06250F00999950 /* AuthToolkit */,
+				24FECAF12D062B5300999950 /* Resolver */,
 			);
 			productName = Plantgress;
 			productReference = 24A561782CFE4758003C5C84 /* Plantgress.app */;
@@ -254,6 +295,7 @@
 			packageReferences = (
 				242FB64F2D03238300EAD725 /* XCRemoteSwiftPackageReference "SwiftGenPlugin" */,
 				24FECAD52D06023700999950 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				24FECAF02D062B5300999950 /* XCRemoteSwiftPackageReference "Resolver" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 24A561792CFE4758003C5C84 /* Products */;
@@ -644,6 +686,14 @@
 				minimumVersion = 11.6.0;
 			};
 		};
+		24FECAF02D062B5300999950 /* XCRemoteSwiftPackageReference "Resolver" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Resolver.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -681,6 +731,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 24FECAD52D06023700999950 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		24FECADE2D061E8000999950 /* SharedDomain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SharedDomain;
+		};
+		24FECAE62D0622B300999950 /* FirebaseAuthProvider */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAuthProvider;
+		};
+		24FECAE82D0622B300999950 /* FirebaseFirestoreProvider */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseFirestoreProvider;
+		};
+		24FECAEA2D0622C000999950 /* FirebaseStorageProvider */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseStorageProvider;
+		};
+		24FECAEE2D06250F00999950 /* AuthToolkit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AuthToolkit;
+		};
+		24FECAF12D062B5300999950 /* Resolver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24FECAF02D062B5300999950 /* XCRemoteSwiftPackageReference "Resolver" */;
+			productName = Resolver;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

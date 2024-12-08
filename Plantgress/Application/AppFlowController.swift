@@ -5,13 +5,17 @@
 //  Created by Lucia Cahojova on 03.12.2024.
 //
 
-import UIToolkit
 import Onboarding
+import Resolver
+import SharedDomain
 import UIKit
+import UIToolkit
 
 final class AppFlowController: FlowController, OnboardingFlowControllerDelegate, MainFlowControllerDelegate {
     
     // MARK: - Dependencies
+    
+    @Injected private var isUserLoggedInUseCase: IsUserLoggedInUseCase
     
     // MARK: - Flow handling
     
@@ -23,7 +27,7 @@ final class AppFlowController: FlowController, OnboardingFlowControllerDelegate,
         navigationController.viewControllers = [loadingVC]
         
         Task {
-            let isUserLoggedIn: Bool = false
+            let isUserLoggedIn = isUserLoggedInUseCase.execute()
             
             if isUserLoggedIn {
                 setupMain()

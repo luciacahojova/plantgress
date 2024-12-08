@@ -5,4 +5,19 @@
 //  Created by Lucia Cahojova on 03.12.2024.
 //
 
-import Foundation
+import FirebaseAuthProvider
+import FirebaseFirestoreProvider
+import FirebaseStorageProvider
+import Resolver
+
+public extension Resolver {
+    static func registerProviders() {
+        
+        register { DefaultFirebaseAuthProvider() as FirebaseAuthProvider }
+        
+        register { DefaultFirebaseFirestoreProvider() as FirebaseFirestoreProvider }
+        
+        register { DefaultFirebaseStorageProvider() as FirebaseStorageProvider }
+        
+    }
+}
