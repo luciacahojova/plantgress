@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIToolkit
 
 struct OnboardingOverviewView: View {
     
@@ -23,13 +24,33 @@ struct OnboardingOverviewView: View {
     
     var body: some View {
         VStack {
+            Spacer()
+            
+            Images.logoWithText
+                .resizable()
+                .scaledToFit()
+                .frame(width: 200, height: 200)
+                .edgesIgnoringSafeArea(.all)
+            
             Button("Show Login") {
                 viewModel.onIntent(.showLogin)
             }
+            .font(Fonts.bodyBold)
+            .frame(height: 50)
             
             Button("Show Registration") {
                 viewModel.onIntent(.showRegistration)
             }
+            .font(Fonts.bodyRegular)
+            .frame(height: 50)
+        }
+        .foregroundStyle(Colors.primaryText)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background {
+            Images.primaryOnboardingBackground
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
         }
         .lifecycle(viewModel)
     }

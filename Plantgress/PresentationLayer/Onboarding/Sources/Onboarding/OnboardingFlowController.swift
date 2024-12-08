@@ -11,6 +11,7 @@ import UIKit
 enum OnboardingFlow: Flow {
     case showLogin
     case showRegistration
+    case showForgottenPassword
     case dismiss
     case pop
 }
@@ -38,8 +39,12 @@ public final class OnboardingFlowController: FlowController {
             flowController: self
         )
         let view = OnboardingOverviewView(viewModel: viewModel)
+        let vc = HostingController(
+            rootView: view,
+            showsNavigationBar: false
+        )
         
-        return HostingController(rootView: view)
+        return vc
     }
     
     override public func dismiss() {
@@ -52,6 +57,7 @@ public final class OnboardingFlowController: FlowController {
         switch onboardingFlow {
         case .showLogin: showLogin()
         case .showRegistration: showRegistration()
+        case .showForgottenPassword: showForgottenPassword()
         case .dismiss: dismiss()
         case .pop: pop()
         }
@@ -62,7 +68,10 @@ public final class OnboardingFlowController: FlowController {
             flowController: self
         )
         let view = LoginView(viewModel: vm)
-        let vc = HostingController(rootView: view)
+        let vc = HostingController(
+            rootView: view,
+            title: "Log In"
+        )
         
         navigationController.pushViewController(vc, animated: true)
     }
@@ -72,6 +81,16 @@ public final class OnboardingFlowController: FlowController {
             flowController: self
         )
         let view = RegistrationView(viewModel: vm)
+        let vc = HostingController(rootView: view)
+        
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    private func showForgottenPassword() {
+        let vm = ForgottenPasswordViewModel(
+            flowController: self
+        )
+        let view = ForgottenPasswordView(viewModel: vm)
         let vc = HostingController(rootView: view)
         
         navigationController.pushViewController(vc, animated: true)

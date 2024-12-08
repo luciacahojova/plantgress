@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIToolkit
 
 struct LoginView: View {
     
@@ -26,6 +27,17 @@ struct LoginView: View {
             Button("Setup Main") {
                 viewModel.onIntent(.dismiss)
             }
+            
+            Button("Forgotten Password") {
+                viewModel.onIntent(.showForgottenPassword)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background {
+            Images.secondaryOnboardingBackground
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
         }
         .lifecycle(viewModel)
     }

@@ -38,8 +38,8 @@ final class MainFlowController: FlowController, ProfileFlowControllerDelegate {
     private func setupPlantsTab() -> UINavigationController {
         let nc = NavigationController()
         nc.tabBarItem = UITabBarItem(
-            title: "Plants",
-            image: UIImage(systemName: "pencil"),
+            title: nil,
+            image: Asset.Icons.leaf.uiImage,
             tag: MainTab.plants.rawValue
         )
         let fc = PlantsFlowController(navigationController: nc)
@@ -51,8 +51,8 @@ final class MainFlowController: FlowController, ProfileFlowControllerDelegate {
     private func setupDiagnosticsTab() -> UINavigationController {
         let nc = NavigationController()
         nc.tabBarItem = UITabBarItem(
-            title: "Explore",
-            image: UIImage(systemName: "pencil"),
+            title: nil,
+            image: Asset.Icons.globe.uiImage,
             tag: MainTab.explore.rawValue
         )
         let fc = ExploreFlowController(navigationController: nc)
@@ -64,8 +64,8 @@ final class MainFlowController: FlowController, ProfileFlowControllerDelegate {
     private func setupProfileTab() -> UINavigationController {
         let nc = NavigationController()
         nc.tabBarItem = UITabBarItem(
-            title: "Profile",
-            image: UIImage(systemName: "pencil"),
+            title: nil,
+            image: Asset.Icons.user.uiImage,
             tag: MainTab.profile.rawValue
         )
         let fc = ProfileFlowController(navigationController: nc)

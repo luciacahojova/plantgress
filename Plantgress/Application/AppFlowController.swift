@@ -7,6 +7,7 @@
 
 import UIToolkit
 import Onboarding
+import UIKit
 
 final class AppFlowController: FlowController, OnboardingFlowControllerDelegate, MainFlowControllerDelegate {
     
@@ -15,6 +16,8 @@ final class AppFlowController: FlowController, OnboardingFlowControllerDelegate,
     // MARK: - Flow handling
     
     func start() {
+        configureAppearance()
+        
         let loadingView = LaunchView()
         let loadingVC = HostingController(rootView: loadingView)
         navigationController.viewControllers = [loadingVC]
@@ -83,5 +86,30 @@ final class AppFlowController: FlowController, OnboardingFlowControllerDelegate,
                 completion: nil
             )
         }
+    }
+    
+    private func configureAppearance() {
+        // Configure the navigation bar appearance
+        let navigationAppearance = UINavigationBarAppearance()
+        navigationAppearance.configureWithOpaqueBackground()
+        navigationAppearance.backgroundColor = Asset.Colors.primaryBackground.uiColor
+        navigationAppearance.titleTextAttributes = [.foregroundColor: Asset.Colors.primaryText.uiColor]
+        navigationAppearance.largeTitleTextAttributes = [.foregroundColor: Asset.Colors.primaryText.uiColor]
+        navigationAppearance.shadowColor = nil
+
+        UINavigationBar.appearance().standardAppearance = navigationAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navigationAppearance
+        UINavigationBar.appearance().compactAppearance = navigationAppearance
+        UINavigationBar.appearance().tintColor = Asset.Colors.primaryText.uiColor
+
+        // Configure the tab bar appearance
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.backgroundColor = Asset.Colors.primaryBackground.uiColor
+
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+        UITabBar.appearance().tintColor = Asset.Colors.primaryText.uiColor
+        UITabBar.appearance().unselectedItemTintColor = Asset.Colors.tertiaryText.uiColor
     }
 }

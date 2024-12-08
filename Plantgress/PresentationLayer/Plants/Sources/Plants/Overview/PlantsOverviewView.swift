@@ -6,13 +6,41 @@
 //
 
 import SwiftUI
+import UIToolkit
 
 struct PlantsOverviewView: View {
     
     init() {}
     
     var body: some View {
-        Text("Hello, PlantsOverview!")
+        ScrollView {
+            VStack {
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+                Text(Strings.welcome)
+            }
+        }
     }
 }
 

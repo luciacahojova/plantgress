@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIToolkit
 
 struct RegistrationView: View {
     
@@ -26,6 +27,13 @@ struct RegistrationView: View {
             Button("Setup Main") {
                 viewModel.onIntent(.dismiss)
             }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background {
+            Images.secondaryOnboardingBackground
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
         }
         .lifecycle(viewModel)
     }

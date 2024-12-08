@@ -40,15 +40,21 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     // MARK: - Intent
     enum Intent {
         case dismiss
+        case showForgottenPassword
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
         case .dismiss: dismiss()
+        case .showForgottenPassword: showForgottenPassword()
         }
     }
     
     private func dismiss() {
         flowController?.handleFlow(OnboardingFlow.dismiss)
+    }
+    
+    private func showForgottenPassword() {
+        flowController?.handleFlow(OnboardingFlow.showForgottenPassword)
     }
 }

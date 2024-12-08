@@ -16,7 +16,10 @@ public final class PlantsFlowController: FlowController {
     
     public override func setup() -> UIViewController {
         let view = PlantsOverviewView()
-        let vc = HostingController(rootView: view)
+        let vc = HostingController(
+            rootView: view,
+            title: "Plants"
+        )
         
         return vc
     }
