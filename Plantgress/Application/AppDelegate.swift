@@ -5,9 +5,11 @@
 //  Created by Lucia Cahojova on 03.12.2024.
 //
 
-import UIToolkit
-import UIKit
+import FirebaseCore
+import Resolver
 import SwiftUI
+import UIKit
+import UIToolkit
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +21,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        // Configue Firebae
+        FirebaseApp.configure()
+        
+        // Register Resolver dependencies
+        Resolver.registerProviders()
+        Resolver.registerRepositories()
+        Resolver.registerUseCases()
         
         // Initialize main window with navigation controller
         let nc = NavigationController()

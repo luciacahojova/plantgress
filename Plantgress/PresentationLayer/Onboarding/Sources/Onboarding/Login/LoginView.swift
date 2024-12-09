@@ -24,6 +24,10 @@ struct LoginView: View {
     
     var body: some View {
         VStack {
+            Button("Log In") {
+                viewModel.onIntent(.logIn)
+            }
+            
             Button("Setup Main") {
                 viewModel.onIntent(.dismiss)
             }

@@ -1,0 +1,16 @@
+//
+//  AuthRepository.swift
+//  SharedDomain
+//
+//  Created by Lucia Cahojova on 08.12.2024.
+//
+
+import Foundation
+
+public protocol AuthRepository {
+    func isUserLoggedIn() -> Bool
+    func registerUser(credentials: RegistrationCredentials) async throws
+    func sendEmailVerification() async throws
+    func logInUser(credentials: LoginCredentials) async throws
+    func logOutUser() throws
+}

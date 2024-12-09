@@ -1,13 +1,11 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
     name: "Onboarding",
-    platforms: [
-        .iOS(.v17)
-    ],
+    platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
@@ -15,7 +13,9 @@ let package = Package(
             targets: ["Onboarding"]),
     ],
     dependencies: [
-        .package(path: "../UIToolKit"),
+        .package(name: "UIToolKit",path: "../UIToolKit"),
+        .package(name: "SharedDomain", path: "../../DomainLayer/SharedDomain"),
+        .package(url: "https://github.com/hmlongco/Resolver.git", .upToNextMajor(from: "1.0.0")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -24,6 +24,8 @@ let package = Package(
             name: "Onboarding",
             dependencies: [
                 .product(name: "UIToolkit", package: "UIToolkit"),
+                .product(name: "SharedDomain", package: "SharedDomain"),
+                .product(name: "Resolver", package: "Resolver"),
             ]
         ),
         .testTarget(
