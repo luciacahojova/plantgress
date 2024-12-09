@@ -1,11 +1,23 @@
+// MARK: Onboarding
 "onboarding_login_button" = "Prihlásiť";
 "onboarding_registration_button" = "Zaregistrovať";
 
 "login_title" = "Prihlásenie";
 "registration_title" = "Regitrácia";
+"verification_link_title" = "Overovací odkaz bol odoslaný";
+"forgotten_password_title" = "Zabudnuté heslo";
 
 "onboarding_name_placeholder" = "Meno";
 "onboarding_surname_placeholder" = "Priezvisko";
 "onboarding_email_placeholder" = "Email";
 "onboarding_password_placeholder" = "Heslo";
 "onboarding_repeat_password_placeholder" = "Heslo znova";
+
+"verification_link_sent_message" = "Overovací odkaz bol odoslaný na vašu e-mailovú adresu. Prosím, overte svoj e-mail, aby ste aktivovali svoj účet. Po overení sa môžete prihlásiť do aplikácie. Ak ste e-mail nedostali, môžete požiadať o opätovné odoslanie odkazu.";
+"resend_verification_link_button" = "Znova odoslať overovací odkaz";
+"email_already_verified_message" = "Vaša e-mailová adresa už bola overená.";
+
+"default_error_message" = "Niečo sa pokazilo.";
+"invalid_email_format_error_message" = "Zadajte platnú e-mailovú adresu.";
+"invalid_password_format_error_message" = "Heslo musí mať aspoň 8 znakov a musí obsahovať aspoň jedno veľké písmeno, jedno malé písmeno a jedno číslo.";
+"passwords_dont_match_error_message" = "Heslá sa nezhodujú.";

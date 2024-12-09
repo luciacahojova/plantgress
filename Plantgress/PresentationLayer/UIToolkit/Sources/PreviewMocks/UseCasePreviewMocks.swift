@@ -22,3 +22,11 @@ class IsUserLoggedInUseCasePreviewMock: IsUserLoggedInUseCase {
 class SendEmailVerificationUseCasePreviewMock: SendEmailVerificationUseCase {
     func execute() {}
 }
+
+class ValidateEmailUseCasePreviewMock: ValidateEmailUseCase {
+    func execute(email: String) throws {}
+}
+
+class ValidatePasswordUseCasePreviewMock: ValidatePasswordUseCase {
+    func execute(password: String) throws {}
+}

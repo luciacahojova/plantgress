@@ -27,29 +27,56 @@ struct RegistrationView: View {
         GeometryReader { geo in
             VStack(spacing: Constants.Spacing.medium) {
                 OutlinedTextField(
-                    text: .constant(""),
-                    placeholder: Strings.onboardingEmailPlaceholder
+                    text: Binding<String>(
+                        get: { viewModel.state.email },
+                        set: { email in viewModel.onIntent(.emailChanged(email)) }
+                    ),
+                    placeholder: Strings.onboardingEmailPlaceholder,
+                    errorMessage: viewModel.state.emailErrorMessage
                 )
                 
                 OutlinedTextField(
-                    text: .constant(""),
-                    placeholder: Strings.onboardingNamePlaceholder
+                    text: Binding<String>(
+                        get: { viewModel.state.name },
+                        set: { name in viewModel.onIntent(.nameChanged(name)) }
+                    ),
+                    placeholder: Strings.onboardingNamePlaceholder,
+                    errorMessage: viewModel.state.nameErrorMessage
                 )
                 
                 OutlinedTextField(
-                    text: .constant(""),
-                    placeholder: Strings.onboardingSurnamePlaceholder
+                    text: Binding<String>(
+                        get: { viewModel.state.surname },
+                        set: { surname in viewModel.onIntent(.surnameChanged(surname)) }
+                    ),
+                    placeholder: Strings.onboardingSurnamePlaceholder,
+                    errorMessage: viewModel.state.surnameErrorMessage
                 )
                 
                 SecureOulinedTextField(
-                    text: .constant(""),
-                    placeholder: Strings.onboardingPasswordPlaceholder
+                    text: Binding<String>(
+                        get: { viewModel.state.password },
+                        set: { password in viewModel.onIntent(.passwordChanged(password)) }
+                    ),
+                    placeholder: Strings.onboardingPasswordPlaceholder,
+                    errorMessage: viewModel.state.passwordErrorMessage
                 )
                 
                 SecureOulinedTextField(
-                    text: .constant(""),
-                    placeholder: Strings.onboardingRepeatPasswordPlaceholder
+                    text: Binding<String>(
+                        get: { viewModel.state.repeatPassword },
+                        set: { repeatPassword in viewModel.onIntent(.repeatPasswordChanged(repeatPassword)) }
+                    ),
+                    placeholder: Strings.onboardingRepeatPasswordPlaceholder,
+                    errorMessage: viewModel.state.repeatPasswordErrorMessage
                 )
+                
+                if let errorMessage = viewModel.state.errorMessage {
+                    Text(errorMessage)
+                        .font(Fonts.captionMedium)
+                        .foregroundStyle(Color.red)
+                        .multilineTextAlignment(.center)
+                }
                 
                 Spacer()
                 
@@ -57,7 +84,7 @@ struct RegistrationView: View {
                     viewModel.onIntent(.registerUser)
                 }
                 .buttonStyle(
-                    PrimaryButtonStyle(isDisabled: false) // TODO:
+                    PrimaryButtonStyle(isDisabled: viewModel.state.isRegisterButtonDisabled)
                 )
             }
             .padding(.horizontal)
@@ -70,6 +97,7 @@ struct RegistrationView: View {
             }
             .frame(maxWidth: geo.size.width, maxHeight: geo.size.height)
         }
+        .animation(.default, value: viewModel.state.isRegisterButtonDisabled)
         .edgesIgnoringSafeArea(.bottom)
         .lifecycle(viewModel)
     }

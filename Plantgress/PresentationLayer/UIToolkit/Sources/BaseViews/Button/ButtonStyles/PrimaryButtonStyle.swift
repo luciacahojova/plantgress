@@ -47,7 +47,6 @@ public struct PrimaryButtonStyle: ButtonStyle {
                     .frame(height: 24)
             }
         }
-        .disabled(isDisabled)
         .foregroundColor(foregroundColor)
         .frame(maxWidth: .infinity)
         .frame(minHeight: Constants.Frame.primaryButtonHeight)
@@ -55,7 +54,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
         .cornerRadius(cornerRadius)
         .opacity((configuration.isPressed || isDisabled) ? 0.8 : 1)
         .animation(.linear(duration: 0.1), value: configuration.isPressed)
-        .allowsHitTesting(!isLoading)
+        .allowsHitTesting(!isLoading && !isDisabled)
     }
 }
 

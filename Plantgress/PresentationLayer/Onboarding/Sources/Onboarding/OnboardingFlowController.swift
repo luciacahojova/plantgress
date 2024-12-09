@@ -12,6 +12,7 @@ enum OnboardingFlow: Flow {
     case showLogin
     case showRegistration
     case showForgottenPassword
+    case showVerificationLink
     case dismiss
     case pop
 }
@@ -58,6 +59,7 @@ public final class OnboardingFlowController: FlowController {
         case .showLogin: showLogin()
         case .showRegistration: showRegistration()
         case .showForgottenPassword: showForgottenPassword()
+        case .showVerificationLink: showVerificationLink()
         case .dismiss: dismiss()
         case .pop: pop()
         }
@@ -98,5 +100,17 @@ public final class OnboardingFlowController: FlowController {
         
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    private func showVerificationLink() {
+        let vm = VerificationLinkViewModel(
+            flowController: self
+        )
+        let view = VerificationLinkView(viewModel: vm)
+        let vc = HostingController(
+            rootView: view,
+            title: Strings.verificationLinkTitle
+        )
+        
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
-

@@ -38,7 +38,7 @@ extension DefaultFirebaseAuthProvider: FirebaseAuthProvider {
         let user = try await Auth.auth().signIn(withEmail: credentials.email, password: credentials.password).user
         
         if !user.isEmailVerified {
-            throw AuthError.userNotVerified
+            throw AuthError.emailNotVerified
         }
     }
     

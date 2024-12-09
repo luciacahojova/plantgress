@@ -70,9 +70,12 @@ public enum Fonts {
     public static let titleBold: Font = .custom(relativeTo: .title2, size: 22, weight: .bold)
     
     public static let bodyRegular: Font = .custom(relativeTo: .body, size: 17, weight: .regular)
+    public static let bodyMedium: Font = .custom(relativeTo: .body, size: 17, weight: .medium)
     public static let bodySemibold: Font = .custom(relativeTo: .body, size: 17, weight: .semibold)
     public static let bodyBold: Font = .custom(relativeTo: .body, size: 17, weight: .bold)
 
+    public static let subheadlineMedium: Font = .custom(relativeTo: .subheadline, size: 15, weight: .medium)
+    public static let subheadlineSemibold: Font = .custom(relativeTo: .subheadline, size: 15, weight: .semibold)
     public static let subheadlineBold: Font = .custom(relativeTo: .subheadline, size: 15, weight: .bold)
 
     public static let calloutSemibold: Font = .custom(relativeTo: .footnote, size: 13, weight: .semibold)
