@@ -5,6 +5,7 @@
 //  Created by Lucia Cahojova on 04.12.2024.
 //
 
+import Resolver
 import SwiftUI
 import UIToolkit
 
@@ -44,9 +45,10 @@ struct RegistrationView: View {
 }
 
 #Preview {
-    let vm = RegistrationViewModel(flowController: nil)
+    Resolver.registerUseCasesForPreviews()
     
-    RegistrationView(
+    let vm = RegistrationViewModel(flowController: nil)
+    return RegistrationView(
         viewModel: vm
     )
 }
