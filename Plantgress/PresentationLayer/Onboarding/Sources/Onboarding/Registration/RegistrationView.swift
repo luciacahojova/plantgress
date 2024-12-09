@@ -27,6 +27,10 @@ struct RegistrationView: View {
             Button("Setup Main") {
                 viewModel.onIntent(.dismiss)
             }
+            
+            Button("Register User") {
+                viewModel.onIntent(.registerUser)
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {

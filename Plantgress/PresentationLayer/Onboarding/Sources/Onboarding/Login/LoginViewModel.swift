@@ -5,10 +5,14 @@
 //  Created by Lucia Cahojova on 04.12.2024.
 //
 
+import Resolver
+import SharedDomain
 import SwiftUI
 import UIToolkit
 
 final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
+    
+    @Injected private var logInUserUseCase: LogInUserUseCase
     
     // MARK: - Dependencies
     
@@ -41,12 +45,14 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     enum Intent {
         case dismiss
         case showForgottenPassword
+        case logIn
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
         case .dismiss: dismiss()
         case .showForgottenPassword: showForgottenPassword()
+        case .logIn: logIn()
         }
     }
     
@@ -56,5 +62,25 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func showForgottenPassword() {
         flowController?.handleFlow(OnboardingFlow.showForgottenPassword)
+    }
+    
+    private func logIn() {
+        executeTask(
+            Task {
+                do {
+                    try await logInUserUseCase.execute(
+                        credentials: LoginCredentials(
+                            email: "luciacahojova@gmail.com",
+                            password: "LuciaCahojova"
+                        )
+                    )
+                } catch {
+                    print("ERROR login")
+                    return
+                }
+                
+                flowController?.handleFlow(OnboardingFlow.dismiss)
+            }
+        )
     }
 }

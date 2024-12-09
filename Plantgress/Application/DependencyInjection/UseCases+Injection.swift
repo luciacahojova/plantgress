@@ -10,8 +10,10 @@ import SharedDomain
 
 public extension Resolver {
     static func registerUseCases() {
-        
+        // Authentication
         register { IsUserLoggedInUseCaseImpl(authRepository: resolve()) as IsUserLoggedInUseCase }
-        
+        register { RegisterUserUseCaseImpl(authRepository: resolve()) as RegisterUserUseCase }
+        register { LogInUserUseCaseImpl(authRepository: resolve()) as LogInUserUseCase }
+        register { SendEmailVerificationUseCaseImpl(authRepository: resolve()) as SendEmailVerificationUseCase }
     }
 }
