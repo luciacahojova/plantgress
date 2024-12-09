@@ -1,1 +1,11 @@
-"welcome" = "Vitajte";
+"onboarding_login_button" = "Prihlásiť";
+"onboarding_registration_button" = "Zaregistrovať";
+
+"login_title" = "Prihlásenie";
+"registration_title" = "Regitrácia";
+
+"onboarding_name_placeholder" = "Meno";
+"onboarding_surname_placeholder" = "Priezvisko";
+"onboarding_email_placeholder" = "Email";
+"onboarding_password_placeholder" = "Heslo";
+"onboarding_repeat_password_placeholder" = "Heslo znova";

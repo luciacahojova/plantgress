@@ -1,1 +1,11 @@
-"welcome" = "Welcome";
+"onboarding_login_button" = "Log In";
+"onboarding_registration_button" = "Register";
+
+"login_title" = "Log In";
+"registration_title" = "Register";
+
+"onboarding_name_placeholder" = "Name";
+"onboarding_surname_placeholder" = "Surname";
+"onboarding_email_placeholder" = "Email";
+"onboarding_password_placeholder" = "Password";
+"onboarding_repeat_password_placeholder" = "Repeat password";

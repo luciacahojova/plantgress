@@ -19,6 +19,7 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
         .package(name: "SharedDomain", path: "../../DomainLayer/SharedDomain"),
         .package(url: "https://github.com/SwiftGen/SwiftGenPlugin", .upToNextMajor(from: "6.6.0")),
+        .package(url: "https://github.com/hmlongco/Resolver.git", .upToNextMajor(from: "1.0.0")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -27,6 +28,7 @@ let package = Package(
             name: "UIToolkit",
             dependencies: [
                 .product(name: "SharedDomain", package: "SharedDomain"),
+                .product(name: "Resolver", package: "Resolver"),
             ]
         ),
         .testTarget(

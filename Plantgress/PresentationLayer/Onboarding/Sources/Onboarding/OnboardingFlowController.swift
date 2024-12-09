@@ -70,7 +70,7 @@ public final class OnboardingFlowController: FlowController {
         let view = LoginView(viewModel: vm)
         let vc = HostingController(
             rootView: view,
-            title: "Log In"
+            title: Strings.loginTitle
         )
         
         navigationController.pushViewController(vc, animated: true)
@@ -81,7 +81,10 @@ public final class OnboardingFlowController: FlowController {
             flowController: self
         )
         let view = RegistrationView(viewModel: vm)
-        let vc = HostingController(rootView: view)
+        let vc = HostingController(
+            rootView: view,
+            title: Strings.registrationTitle
+        )
         
         navigationController.pushViewController(vc, animated: true)
     }

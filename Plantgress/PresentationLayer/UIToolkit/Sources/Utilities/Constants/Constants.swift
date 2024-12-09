@@ -20,17 +20,27 @@ public struct Constants {
          * Spacing of 4
          */
         public static let small: CGFloat = 4
-
+        
         /**
          * Spacing of 8
          */
         public static let medium: CGFloat = 8
+        
+        /**
+         * Spacing of 12
+         */
+        public static let xMedium: CGFloat = 12
 
         /**
          * Spacing of 16
          */
-        public static let large: CGFloat = 16
-
+        public static let mediumLarge: CGFloat = 16
+        
+        /**
+         * Spacing of 32
+         */
+        public static let large: CGFloat = 24
+        
         /**
          * Spacing of 32
          */
@@ -73,5 +83,41 @@ public struct Constants {
          * Icon size of 200
          */
         public static let maxi: CGFloat = 200
+    }
+    
+    // MARK: - Frames
+    public enum Frame {
+        /**
+         * Frame of size 40
+         */
+        public static let primaryButtonHeight: CGFloat = 40
+    }
+    
+    // MARK: - CornerRadiuses
+    public enum CornerRadius {
+        /**
+         * CornerRadius of size 8
+         */
+        public static let small: CGFloat = 8
+        
+        /**
+         * CornerRadius of size 12
+         */
+        public static let medium: CGFloat = 12
+        
+        /**
+         * CornerRadius of size 16
+         */
+        public static let large: CGFloat = 16
+        
+        /**
+         * CornerRadius of size 16
+         */
+        public static let xLarge: CGFloat = 24
+        
+        /**
+         * CornerRadius of size 16
+         */
+        public static let xxxLarge: CGFloat = 50
     }
 }

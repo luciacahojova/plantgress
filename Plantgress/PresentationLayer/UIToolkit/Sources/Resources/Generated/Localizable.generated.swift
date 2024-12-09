@@ -14,8 +14,24 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum Strings {
-  /// Welcome
-  public static let welcome = Strings.tr("Localizable", "welcome", fallback: "Welcome")
+  /// Log In
+  public static let loginTitle = Strings.tr("Localizable", "login_title", fallback: "Log In")
+  /// Email
+  public static let onboardingEmailPlaceholder = Strings.tr("Localizable", "onboarding_email_placeholder", fallback: "Email")
+  /// Log In
+  public static let onboardingLoginButton = Strings.tr("Localizable", "onboarding_login_button", fallback: "Log In")
+  /// Name
+  public static let onboardingNamePlaceholder = Strings.tr("Localizable", "onboarding_name_placeholder", fallback: "Name")
+  /// Password
+  public static let onboardingPasswordPlaceholder = Strings.tr("Localizable", "onboarding_password_placeholder", fallback: "Password")
+  /// Register
+  public static let onboardingRegistrationButton = Strings.tr("Localizable", "onboarding_registration_button", fallback: "Register")
+  /// Repeat password
+  public static let onboardingRepeatPasswordPlaceholder = Strings.tr("Localizable", "onboarding_repeat_password_placeholder", fallback: "Repeat password")
+  /// Surname
+  public static let onboardingSurnamePlaceholder = Strings.tr("Localizable", "onboarding_surname_placeholder", fallback: "Surname")
+  /// Register
+  public static let registrationTitle = Strings.tr("Localizable", "registration_title", fallback: "Register")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

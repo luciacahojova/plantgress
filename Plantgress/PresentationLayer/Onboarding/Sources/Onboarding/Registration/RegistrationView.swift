@@ -24,22 +24,53 @@ struct RegistrationView: View {
     // MARK: - Body
     
     var body: some View {
-        VStack {
-            Button("Setup Main") {
-                viewModel.onIntent(.dismiss)
+        GeometryReader { geo in
+            VStack(spacing: Constants.Spacing.medium) {
+                OutlinedTextField(
+                    text: .constant(""),
+                    placeholder: Strings.onboardingEmailPlaceholder
+                )
+                
+                OutlinedTextField(
+                    text: .constant(""),
+                    placeholder: Strings.onboardingNamePlaceholder
+                )
+                
+                OutlinedTextField(
+                    text: .constant(""),
+                    placeholder: Strings.onboardingSurnamePlaceholder
+                )
+                
+                SecureOulinedTextField(
+                    text: .constant(""),
+                    placeholder: Strings.onboardingPasswordPlaceholder
+                )
+                
+                SecureOulinedTextField(
+                    text: .constant(""),
+                    placeholder: Strings.onboardingRepeatPasswordPlaceholder
+                )
+                
+                Spacer()
+                
+                Button(Strings.onboardingRegistrationButton) {
+                    viewModel.onIntent(.registerUser)
+                }
+                .buttonStyle(
+                    PrimaryButtonStyle(isDisabled: false) // TODO:
+                )
             }
-            
-            Button("Register User") {
-                viewModel.onIntent(.registerUser)
+            .padding(.horizontal)
+            .padding(.top, Constants.Spacing.large)
+            .padding(.bottom, Constants.Spacing.xxxxLarge)
+            .background {
+                Images.secondaryOnboardingBackground
+                    .resizable()
+                    .scaledToFill()
             }
+            .frame(maxWidth: geo.size.width, maxHeight: geo.size.height)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background {
-            Images.secondaryOnboardingBackground
-                .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
-        }
+        .edgesIgnoringSafeArea(.bottom)
         .lifecycle(viewModel)
     }
 }
@@ -51,4 +82,5 @@ struct RegistrationView: View {
     return RegistrationView(
         viewModel: vm
     )
+    .colorScheme(.dark)
 }
