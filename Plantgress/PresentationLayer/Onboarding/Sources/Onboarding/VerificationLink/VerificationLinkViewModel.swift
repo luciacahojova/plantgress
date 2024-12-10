@@ -13,6 +13,7 @@ import UIToolkit
 final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     @Injected private var sendEmailVerificationUseCase: SendEmailVerificationUseCase
+    @Injected private var isEmailVerifiedUseCase: IsEmailVerifiedUseCase
     
     // MARK: - Dependencies
     
@@ -38,6 +39,8 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
     @Published private(set) var state: State = State()
 
     struct State {
+        var isLoginButtonDisabled = false
+        var message: String? = nil
         var errorMessage: String? = nil
     }
     
@@ -55,16 +58,29 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
     }
     
     private func showLogin() {
+        guard isEmailVerifiedUseCase.execute() else {
+            state.message = nil
+            state.errorMessage = Strings.emailNotVerifiedErrorMessage
+            state.isLoginButtonDisabled = true
+            return
+        }
+        
         flowController?.handleFlow(OnboardingFlow.showLogin)
     }
     
     private func resendLink() {
+        state.isLoginButtonDisabled = false
+        state.errorMessage = nil
+        
         executeTask(
             Task {
                 do {
                     try await sendEmailVerificationUseCase.execute()
+                    // TODO resend overview snackbar
                 } catch AuthError.emailAlreadyVerified {
-                    state.errorMessage = Strings.emailAlreadyVerifiedMessage
+                    state.message = Strings.emailAlreadyVerifiedMessage
+                } catch AuthError.tooManyRequests {
+                    state.errorMessage = Strings.tooManyRequestsErrorMessage
                 } catch {
                     state.errorMessage = Strings.defaultErrorMessage
                 }

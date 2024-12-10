@@ -18,6 +18,11 @@ extension DefaultFirebaseAuthProvider: FirebaseAuthProvider {
         return user.emailVerified()
     }
     
+    public func isEmailVerified() -> Bool {
+        guard let user = Auth.auth().currentUser else { return false }
+        return user.emailVerified()
+    }
+    
     public func registerUser(credentials: RegistrationCredentials) async throws {
         do {
             try await Auth.auth().createUser(withEmail: credentials.email, password: credentials.password)
@@ -44,7 +49,20 @@ extension DefaultFirebaseAuthProvider: FirebaseAuthProvider {
             throw AuthError.emailAlreadyVerified
         }
         
-        try await user.sendEmailVerification()
+        do {
+            try await user.sendEmailVerification()
+        } catch let error as NSError {
+            guard let authErrorCode = AuthErrorCode.init(rawValue: error._code) else {
+                throw AuthError.default
+            }
+            
+            switch authErrorCode {
+            case .tooManyRequests:
+                throw AuthError.tooManyRequests
+            default:
+                throw AuthError.default
+            }
+        }
     }
     
     public func logInUser(credentials: LoginCredentials) async throws {

@@ -18,4 +18,6 @@ public enum AuthError: Error {
     
     case invalidEmailFormat
     case invalidPasswordFormat
+    
+    case tooManyRequests
 }

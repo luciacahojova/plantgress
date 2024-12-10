@@ -75,6 +75,7 @@ public final class OnboardingFlowController: FlowController {
             title: Strings.loginTitle
         )
         
+        navigationController.popToRootViewController(animated: false)
         navigationController.pushViewController(vc, animated: true)
     }
     
@@ -111,6 +112,7 @@ public final class OnboardingFlowController: FlowController {
             title: Strings.verificationLinkTitle
         )
         
+        navigationController.popToRootViewController(animated: false)
         navigationController.pushViewController(vc, animated: true)
     }
 }

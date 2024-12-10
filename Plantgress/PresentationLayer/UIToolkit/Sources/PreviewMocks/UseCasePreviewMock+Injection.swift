@@ -14,6 +14,7 @@ public extension Resolver {
         register { LogInUserUseCasePreviewMock() as LogInUserUseCase }
         register { RegisterUserUseCaseImplePreviewMock() as RegisterUserUseCase }
         register { IsUserLoggedInUseCasePreviewMock() as IsUserLoggedInUseCase }
+        register { IsEmailVerifiedUseCasePreviewMock() as IsEmailVerifiedUseCase }
         register { SendEmailVerificationUseCasePreviewMock() as SendEmailVerificationUseCase }
         register { ValidateEmailUseCasePreviewMock() as ValidateEmailUseCase }
         register { ValidatePasswordUseCasePreviewMock() as ValidatePasswordUseCase }

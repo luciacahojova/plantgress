@@ -31,9 +31,16 @@ struct VerificationLinkView: View {
             
             Spacer()
             
+            if let errorMessage = viewModel.state.errorMessage {
+                Text(errorMessage)
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(Colors.red)
+                    .font(Fonts.captionMedium)
+            }
+            
             VStack {
-                if let errorMessage = viewModel.state.errorMessage {
-                    Text(errorMessage)
+                if let message = viewModel.state.message {
+                    Text(message)
                         .multilineTextAlignment(.center)
                 } else {
                     Button {
@@ -49,7 +56,9 @@ struct VerificationLinkView: View {
             Button(Strings.onboardingLoginButton) {
                 viewModel.onIntent(.showLogin)
             }
-            .buttonStyle(PrimaryButtonStyle())
+            .buttonStyle(
+                PrimaryButtonStyle(isDisabled: viewModel.state.isLoginButtonDisabled)
+            )
         }
         .animation(.default, value: viewModel.state.errorMessage)
         .font(Fonts.subheadlineMedium)

@@ -22,3 +22,5 @@
 "email_already_in_use_error_message" = "E-mailová adresa sa už používa.";
 "invalid_password_format_error_message" = "Heslo musí mať aspoň 8 znakov a musí obsahovať aspoň jedno veľké písmeno, jedno malé písmeno a jedno číslo.";
 "passwords_dont_match_error_message" = "Heslá sa nezhodujú.";
+"email_not_verified_error_message" = "Vaša e-mailová adresa nie je overená.";
+"too_many_requests_error_message" = "Príliš veľa požiadaviek.";

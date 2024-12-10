@@ -19,6 +19,10 @@ class IsUserLoggedInUseCasePreviewMock: IsUserLoggedInUseCase {
     func execute() -> Bool { return false }
 }
 
+class IsEmailVerifiedUseCasePreviewMock: IsEmailVerifiedUseCase {
+    func execute() -> Bool { return false }
+}
+
 class SendEmailVerificationUseCasePreviewMock: SendEmailVerificationUseCase {
     func execute() {}
 }
