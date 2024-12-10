@@ -95,4 +95,8 @@ extension DefaultFirebaseAuthProvider: FirebaseAuthProvider {
     public func getUserEmail() -> String? {
         Auth.auth().currentUser?.email
     }
+    
+    public func sendPasswordReset(email: String) async throws {
+        try await Auth.auth().sendPasswordReset(withEmail: email)
+    }
 }

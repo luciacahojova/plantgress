@@ -98,7 +98,10 @@ public final class OnboardingFlowController: FlowController {
             flowController: self
         )
         let view = ForgottenPasswordView(viewModel: vm)
-        let vc = HostingController(rootView: view)
+        let vc = HostingController(
+            rootView: view,
+            title: Strings.forgottenPasswordTitle
+        )
         
         navigationController.pushViewController(vc, animated: true)
     }
