@@ -24,3 +24,6 @@
 "passwords_dont_match_error_message" = "Heslá sa nezhodujú.";
 "email_not_verified_error_message" = "Vaša e-mailová adresa nie je overená.";
 "too_many_requests_error_message" = "Príliš veľa požiadaviek.";
+
+// MARK: General
+"dismiss_button" = "Zrušiť";

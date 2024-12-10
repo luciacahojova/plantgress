@@ -29,7 +29,7 @@ public class HostingController<Content>: UIHostingController<AnyView> where Cont
         super.init(
             rootView: AnyView(
                 GeometryReader { geo in
-                    VStack(alignment: .leading) {
+                    VStack(spacing: 0) {
                         if !showsNavigationBar, let title {
                             Text(title)
                                 .font(Fonts.largeTitleBold)
@@ -37,6 +37,7 @@ public class HostingController<Content>: UIHostingController<AnyView> where Cont
                                 .padding(.horizontal)
                                 .edgesIgnoringSafeArea(.top)
                                 .padding(.top, geo.safeAreaInsets.top)
+                                .frame(maxWidth: geo.size.width, alignment: .leading)
                         }
                         
                         rootView

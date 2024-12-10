@@ -56,12 +56,12 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
         }
     }
     
-    private func dismiss() {
-        flowController?.handleFlow(OnboardingFlow.dismiss)
+    private func dismiss() { // TODO Remove
+        flowController?.handleFlow(OnboardingFlow.setupMain)
     }
     
     private func showForgottenPassword() {
-        flowController?.handleFlow(OnboardingFlow.showForgottenPassword)
+        flowController?.handleFlow(OnboardingFlow.showVerificationLink)
     }
     
     private func logIn() {
@@ -79,7 +79,7 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
                     return
                 }
                 
-                flowController?.handleFlow(OnboardingFlow.dismiss)
+                flowController?.handleFlow(OnboardingFlow.setupMain)
             }
         )
     }

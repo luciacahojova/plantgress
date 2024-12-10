@@ -13,6 +13,7 @@ enum OnboardingFlow: Flow {
     case showRegistration
     case showForgottenPassword
     case showVerificationLink
+    case setupMain
     case dismiss
     case pop
 }
@@ -48,11 +49,6 @@ public final class OnboardingFlowController: FlowController {
         return vc
     }
     
-    override public func dismiss() {
-        super.dismiss()
-        delegate?.setupMain()
-    }
-    
     override public func handleFlow(_ flow: Flow) {
         guard let onboardingFlow = flow as? OnboardingFlow else { return }
         switch onboardingFlow {
@@ -60,7 +56,8 @@ public final class OnboardingFlowController: FlowController {
         case .showRegistration: showRegistration()
         case .showForgottenPassword: showForgottenPassword()
         case .showVerificationLink: showVerificationLink()
-        case .dismiss: dismiss()
+        case .setupMain: setupMain()
+        case .dismiss: dismissView()
         case .pop: pop()
         }
     }
@@ -75,8 +72,12 @@ public final class OnboardingFlowController: FlowController {
             title: Strings.loginTitle
         )
         
-        navigationController.popToRootViewController(animated: false)
         navigationController.pushViewController(vc, animated: true)
+    }
+    
+    private func setupMain() {
+        super.dismiss()
+        delegate?.setupMain()
     }
     
     private func showRegistration() {
@@ -104,15 +105,22 @@ public final class OnboardingFlowController: FlowController {
     
     private func showVerificationLink() {
         let vm = VerificationLinkViewModel(
-            flowController: self
+            flowController: self,
+            onDismiss: {
+                self.navigationController.popToRootViewController(animated: false)
+            }
         )
         let view = VerificationLinkView(viewModel: vm)
         let vc = HostingController(
             rootView: view,
-            title: Strings.verificationLinkTitle
+            showsNavigationBar: false
         )
+        vc.modalPresentationStyle = .overFullScreen
         
-        navigationController.popToRootViewController(animated: false)
-        navigationController.pushViewController(vc, animated: true)
+        navigationController.present(vc, animated: true)
+    }
+    
+    private func dismissView() {
+        navigationController.dismiss(animated: true)
     }
 }

@@ -9,6 +9,7 @@ import Foundation
 import Resolver
 import SharedDomain
 import UIToolkit
+import UIKit
 
 final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObject {
     
@@ -19,13 +20,18 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
     
     private weak var flowController: FlowController?
     
+    private let onDismiss: () -> Void
+    
     // MARK: - Init
 
     init(
-        flowController: FlowController?
+        flowController: FlowController?,
+        onDismiss: @escaping () -> Void
     ) {
         self.flowController = flowController
+        self.onDismiss = onDismiss
         super.init()
+        self.state.navigationBarHeight = flowController?.navigationController.navigationBar.frame.height ?? 0
     }
     
     // MARK: - Lifecycle
@@ -42,18 +48,21 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
         var isLoginButtonDisabled = false
         var message: String? = nil
         var errorMessage: String? = nil
+        var navigationBarHeight: CGFloat = 0
     }
     
     // MARK: - Intent
     enum Intent {
         case showLogin
         case resendLink
+        case dismiss
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
         case .showLogin: showLogin()
         case .resendLink: resendLink()
+        case .dismiss: dismiss()
         }
     }
     
@@ -86,5 +95,10 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
                 }
             }
         )
+    }
+    
+    private func dismiss() {
+        onDismiss()
+        flowController?.handleFlow(OnboardingFlow.dismiss)
     }
 }

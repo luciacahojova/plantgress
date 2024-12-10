@@ -65,7 +65,6 @@ final class RegistrationViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     // MARK: - Intent
     enum Intent {
-        case dismiss
         case registerUser
         case emailChanged(String)
         case nameChanged(String)
@@ -76,7 +75,6 @@ final class RegistrationViewModel: BaseViewModel, ViewModel, ObservableObject {
 
     func onIntent(_ intent: Intent) {
         switch intent {
-        case .dismiss: dismiss()
         case .registerUser: registerUser()
         case .emailChanged(let email): emailChanged(email)
         case .nameChanged(let name): nameChanged(name)
@@ -84,10 +82,6 @@ final class RegistrationViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .passwordChanged(let password): passwordChanged(password)
         case .repeatPasswordChanged(let repeatPassword): repeatPasswordChanged(repeatPassword)
         }
-    }
-    
-    private func dismiss() {
-        flowController?.handleFlow(OnboardingFlow.dismiss)
     }
     
     private func registerUser() {
