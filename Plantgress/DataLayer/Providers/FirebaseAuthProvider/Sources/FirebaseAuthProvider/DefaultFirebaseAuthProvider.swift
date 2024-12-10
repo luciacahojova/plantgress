@@ -51,7 +51,7 @@ extension DefaultFirebaseAuthProvider: FirebaseAuthProvider {
         
         do {
             try await user.sendEmailVerification()
-        } catch let error as NSError {
+        } catch  {
             guard let authErrorCode = AuthErrorCode.init(rawValue: error._code) else {
                 throw AuthError.default
             }
@@ -66,14 +66,33 @@ extension DefaultFirebaseAuthProvider: FirebaseAuthProvider {
     }
     
     public func logInUser(credentials: LoginCredentials) async throws {
-        let user = try await Auth.auth().signIn(withEmail: credentials.email, password: credentials.password).user
-        
-        if !user.isEmailVerified {
-            throw AuthError.emailNotVerified
+        do {
+            let user = try await Auth.auth().signIn(withEmail: credentials.email, password: credentials.password).user
+            
+            try await Auth.auth().updateCurrentUser(user)
+        } catch let error as NSError {
+            guard let authErrorCode = AuthErrorCode.init(rawValue: error._code) else {
+                throw AuthError.default
+            }
+            
+            switch authErrorCode {
+            case  .invalidCredential:
+                throw AuthError.invalidEmail
+            case .wrongPassword:
+                throw AuthError.wrongPassword
+            case .unverifiedEmail:
+                throw AuthError.emailNotVerified
+            default:
+                throw AuthError.default
+            }
         }
     }
     
     public func logOutUser() throws {
         try Auth.auth().signOut()
+    }
+    
+    public func getUserEmail() -> String? {
+        Auth.auth().currentUser?.email
     }
 }

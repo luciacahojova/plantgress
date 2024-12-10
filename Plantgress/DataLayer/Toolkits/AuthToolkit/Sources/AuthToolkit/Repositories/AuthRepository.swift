@@ -34,11 +34,14 @@ public struct AuthRepositoryImpl: AuthRepository {
     }
     
     public func logInUser(credentials: LoginCredentials) async throws {
-        // TODO: Is email verified? if yes, create user in the DB, then log in
         try await firebaseAuthProvider.logInUser(credentials: credentials)
     }
     
     public func logOutUser() throws {
         try firebaseAuthProvider.logOutUser()
+    }
+    
+    public func getUserEmail() -> String? {
+        firebaseAuthProvider.getUserEmail()
     }
 }

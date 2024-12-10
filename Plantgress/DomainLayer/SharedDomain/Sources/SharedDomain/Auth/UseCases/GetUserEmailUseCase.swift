@@ -1,5 +1,5 @@
 //
-//  IsEmailVerifiedUseCase.swift
+//  GetUserEmailUseCase.swift
 //  SharedDomain
 //
 //  Created by Lucia Cahojova on 10.12.2024.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-public protocol IsEmailVerifiedUseCase {
-    func execute() -> Bool
+public protocol GetUserEmailUseCase {
+    func execute() -> String?
 }
 
-public struct IsEmailVerifiedUseCaseImpl: IsEmailVerifiedUseCase {
+public struct GetUserEmailUseCaseImpl: GetUserEmailUseCase {
     
     private let authRepository: AuthRepository
     
@@ -19,7 +19,7 @@ public struct IsEmailVerifiedUseCaseImpl: IsEmailVerifiedUseCase {
         self.authRepository = authRepository
     }
     
-    public func execute() -> Bool {
-        return authRepository.isEmailVerified()
+    public func execute() -> String? {
+        return authRepository.getUserEmail()
     }
 }

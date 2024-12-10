@@ -14,4 +14,5 @@ public protocol AuthRepository {
     func sendEmailVerification() async throws
     func logInUser(credentials: LoginCredentials) async throws
     func logOutUser() throws
+    func getUserEmail() -> String?
 }
