@@ -27,7 +27,7 @@ public enum Strings {
   /// Your email address is not verified.
   public static let emailNotVerifiedErrorMessage = Strings.tr("Localizable", "email_not_verified_error_message", fallback: "Your email address is not verified.")
   /// Email verification link has been resent.
-  public static let emailVerificationResentMessage = Strings.tr("Localizable", "email_verification_resent_message", fallback: "Email verification link has been resent.")
+  public static let emailVerificationResentSnackbarMessage = Strings.tr("Localizable", "email_verification_resent_snackbar_message", fallback: "Email verification link has been resent.")
   /// Forgotten password
   public static let forgottenPasswordTitle = Strings.tr("Localizable", "forgotten_password_title", fallback: "Forgotten password")
   /// Please enter a valid email address.
@@ -63,7 +63,7 @@ public enum Strings {
   /// Send password reset
   public static let resetPasswordButtom = Strings.tr("Localizable", "reset_password_buttom", fallback: "Send password reset")
   /// Password reset link has been sent.
-  public static let resetPasswordMessage = Strings.tr("Localizable", "reset_password_message", fallback: "Password reset link has been sent.")
+  public static let resetPasswordSnackbarMessage = Strings.tr("Localizable", "reset_password_snackbar_message", fallback: "Password reset link has been sent.")
   /// Too many requests.
   public static let tooManyRequestsErrorMessage = Strings.tr("Localizable", "too_many_requests_error_message", fallback: "Too many requests.")
   /// A verification link has been sent to your email address. It may take a few minutes to arrive. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.

@@ -105,7 +105,7 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
             Task {
                 do {
                     try await sendPasswordResetUseCase.execute(email: state.email)
-                    state.snackbarData = .init(message: Strings.resetPasswordMessage)
+                    state.snackbarData = .init(message: Strings.resetPasswordSnackbarMessage)
                 } catch {
                     state.errorMessage = Strings.defaultErrorMessage
                 }

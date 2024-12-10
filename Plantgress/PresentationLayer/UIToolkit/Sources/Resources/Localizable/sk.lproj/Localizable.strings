@@ -18,11 +18,11 @@
 "verification_link_sent_message" = "Overovací odkaz bol odoslaný na vašu e-mailovú adresu. Môže trvať niekoľko minút, kým dorazí. Po overení sa môžete prihlásiť do aplikácie. Ak ste e-mail nedostali, môžete požiadať o opätovné odoslanie odkazu.";
 "resend_verification_link_button" = "Znova odoslať overovací odkaz";
 "email_already_verified_message" = "Vaša e-mailová adresa už bola overená.";
-"email_verification_resent_message" = "Overovací odkaz bol znovu odoslaný.";
+"email_verification_resent_snackbar_message" = "Overovací odkaz bol znovu odoslaný.";
 
 "password_reset_message" = "Odkaz na obnovenie hesla bude odoslaný na zadanú e-mailovú adresu. Ak neprišiel do niekoľkých minút, skontrolujte e-mailovú adresu alebo odošlite odkaz znova.";
 "reset_password_buttom" = "Zaslat odkaz na obnovenie";
-"reset_password_message" = "Odkaz na obdnovenie bol odoslaný.";
+"reset_password_snackbar_message" = "Odkaz na obdnovenie bol odoslaný.";
 
 "default_error_message" = "Niečo sa pokazilo.";
 "invalid_email_format_error_message" = "Zadajte platnú e-mailovú adresu.";
