@@ -18,8 +18,26 @@ extension DefaultFirebaseAuthProvider: FirebaseAuthProvider {
         return user.emailVerified()
     }
     
+    public func isEmailVerified() -> Bool {
+        guard let user = Auth.auth().currentUser else { return false }
+        return user.emailVerified()
+    }
+    
     public func registerUser(credentials: RegistrationCredentials) async throws {
-        try await Auth.auth().createUser(withEmail: credentials.email, password: credentials.password)
+        do {
+            try await Auth.auth().createUser(withEmail: credentials.email, password: credentials.password)
+        } catch let error as NSError {
+            guard let authErrorCode = AuthErrorCode.init(rawValue: error._code) else {
+                throw AuthError.default
+            }
+            
+            switch authErrorCode {
+            case .emailAlreadyInUse:
+                throw AuthError.emailAlreadyInUse
+            default:
+                throw AuthError.default
+            }
+        }
     }
     
     public func sendEmailVerification() async throws {
@@ -31,14 +49,27 @@ extension DefaultFirebaseAuthProvider: FirebaseAuthProvider {
             throw AuthError.emailAlreadyVerified
         }
         
-        try await user.sendEmailVerification()
+        do {
+            try await user.sendEmailVerification()
+        } catch let error as NSError {
+            guard let authErrorCode = AuthErrorCode.init(rawValue: error._code) else {
+                throw AuthError.default
+            }
+            
+            switch authErrorCode {
+            case .tooManyRequests:
+                throw AuthError.tooManyRequests
+            default:
+                throw AuthError.default
+            }
+        }
     }
     
     public func logInUser(credentials: LoginCredentials) async throws {
         let user = try await Auth.auth().signIn(withEmail: credentials.email, password: credentials.password).user
         
         if !user.isEmailVerified {
-            throw AuthError.userNotVerified
+            throw AuthError.emailNotVerified
         }
     }
     

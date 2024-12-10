@@ -9,6 +9,7 @@ import Foundation
 
 public protocol AuthRepository {
     func isUserLoggedIn() -> Bool
+    func isEmailVerified() -> Bool
     func registerUser(credentials: RegistrationCredentials) async throws
     func sendEmailVerification() async throws
     func logInUser(credentials: LoginCredentials) async throws

@@ -23,35 +23,39 @@ struct OnboardingOverviewView: View {
     // MARK: - Body
     
     var body: some View {
-        VStack {
-            Spacer()
-            
-            Images.logoWithText
-                .resizable()
-                .scaledToFit()
-                .frame(width: 200, height: 200)
-                .edgesIgnoringSafeArea(.all)
-            
-            Button("Show Login") {
-                viewModel.onIntent(.showLogin)
+        GeometryReader { geo in
+            VStack {
+                Spacer()
+                
+                Images.logoWithText
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: Constants.IconSize.maxi)
+                
+                Button(Strings.onboardingRegistrationButton) {
+                    viewModel.onIntent(.showRegistration)
+                }
+                .buttonStyle(PrimaryButtonStyle())
+                
+                Button(Strings.onboardingLoginButton) {
+                    viewModel.onIntent(.showLogin)
+                }
+                .buttonStyle(
+                    PrimaryButtonStyle(
+                        foregroundColor: Colors.primaryText,
+                        backgroundColor: Colors.secondaryButton
+                    )
+                )
             }
-            .font(Fonts.bodyBold)
-            .frame(height: 50)
-            
-            Button("Show Registration") {
-                viewModel.onIntent(.showRegistration)
+            .padding(.horizontal)
+            .padding(.bottom, Constants.Spacing.xxxxLarge)
+            .background {
+                Images.primaryOnboardingBackground
+                    .resizable()
+                    .scaledToFill()
             }
-            .font(Fonts.bodyRegular)
-            .frame(height: 50)
         }
-        .foregroundStyle(Colors.primaryText)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background {
-            Images.primaryOnboardingBackground
-                .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
-        }
+        .edgesIgnoringSafeArea(.all)
         .lifecycle(viewModel)
     }
 }
@@ -62,4 +66,5 @@ struct OnboardingOverviewView: View {
     OnboardingOverviewView(
         viewModel: vm
     )
+    .colorScheme(.light)
 }

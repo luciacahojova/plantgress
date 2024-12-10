@@ -1,6 +1,14 @@
 {
-  "originHash" : "6bfce046c223487cdad85b02f341a51a4db34648b555be249de2e2b1e347564f",
   "pins" : [
+    {
+      "identity" : "resolver",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hmlongco/Resolver.git",
+      "state" : {
+        "revision" : "47602af1ac8d7952299fbd0bda3cfbd12cf3a8ca",
+        "version" : "1.5.1"
+      }
+    },
     {
       "identity" : "swiftgenplugin",
       "kind" : "remoteSourceControl",
@@ -11,5 +19,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }

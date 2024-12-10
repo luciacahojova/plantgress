@@ -21,6 +21,10 @@ public struct AuthRepositoryImpl: AuthRepository {
         firebaseAuthProvider.isUserLoggedIn()
     }
     
+    public func isEmailVerified() -> Bool {
+        firebaseAuthProvider.isEmailVerified()
+    }
+    
     public func registerUser(credentials: RegistrationCredentials) async throws {
         try await firebaseAuthProvider.registerUser(credentials: credentials)
     }

@@ -49,6 +49,6 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
     }
     
     private func dismiss() {
-        flowController?.handleFlow(OnboardingFlow.dismiss)
+        flowController?.handleFlow(OnboardingFlow.setupMain)
     }
 }

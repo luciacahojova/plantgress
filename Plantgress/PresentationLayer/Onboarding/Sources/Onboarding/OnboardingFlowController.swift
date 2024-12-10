@@ -12,6 +12,8 @@ enum OnboardingFlow: Flow {
     case showLogin
     case showRegistration
     case showForgottenPassword
+    case showVerificationLink
+    case setupMain
     case dismiss
     case pop
 }
@@ -47,18 +49,15 @@ public final class OnboardingFlowController: FlowController {
         return vc
     }
     
-    override public func dismiss() {
-        super.dismiss()
-        delegate?.setupMain()
-    }
-    
     override public func handleFlow(_ flow: Flow) {
         guard let onboardingFlow = flow as? OnboardingFlow else { return }
         switch onboardingFlow {
         case .showLogin: showLogin()
         case .showRegistration: showRegistration()
         case .showForgottenPassword: showForgottenPassword()
-        case .dismiss: dismiss()
+        case .showVerificationLink: showVerificationLink()
+        case .setupMain: setupMain()
+        case .dismiss: dismissView()
         case .pop: pop()
         }
     }
@@ -70,10 +69,15 @@ public final class OnboardingFlowController: FlowController {
         let view = LoginView(viewModel: vm)
         let vc = HostingController(
             rootView: view,
-            title: "Log In"
+            title: Strings.loginTitle
         )
         
         navigationController.pushViewController(vc, animated: true)
+    }
+    
+    private func setupMain() {
+        super.dismiss()
+        delegate?.setupMain()
     }
     
     private func showRegistration() {
@@ -81,7 +85,10 @@ public final class OnboardingFlowController: FlowController {
             flowController: self
         )
         let view = RegistrationView(viewModel: vm)
-        let vc = HostingController(rootView: view)
+        let vc = HostingController(
+            rootView: view,
+            title: Strings.registrationTitle
+        )
         
         navigationController.pushViewController(vc, animated: true)
     }
@@ -95,5 +102,25 @@ public final class OnboardingFlowController: FlowController {
         
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    private func showVerificationLink() {
+        let vm = VerificationLinkViewModel(
+            flowController: self,
+            onDismiss: {
+                self.navigationController.popToRootViewController(animated: false)
+            }
+        )
+        let view = VerificationLinkView(viewModel: vm)
+        let vc = HostingController(
+            rootView: view,
+            showsNavigationBar: false
+        )
+        vc.modalPresentationStyle = .overFullScreen
+        
+        navigationController.present(vc, animated: true)
+    }
+    
+    private func dismissView() {
+        navigationController.dismiss(animated: true)
+    }
 }
-

@@ -36,6 +36,7 @@ public enum Icons {
     public static let doctorBag = Asset.Icons.doctorBag.image
     public static let leaf = Asset.Icons.leaf.image
     public static let user = Asset.Icons.user.image
+    public static let trash = Asset.Icons.trash.image
 }
 
 public enum Colors {
@@ -44,12 +45,15 @@ public enum Colors {
     public static let orange = Asset.Colors.orange.color
     public static let blue = Asset.Colors.blue.color
     public static let pink = Asset.Colors.pink.color
+    public static let red = Asset.Colors.red.color
     public static let coral = Asset.Colors.coral.color
     public static let primaryText = Asset.Colors.primaryText.color
     public static let secondaryText = Asset.Colors.secondaryText.color
     public static let tertiaryText = Asset.Colors.tertiaryText.color
     public static let primaryBackground = Asset.Colors.primaryBackground.color
     public static let secondaryBackground = Asset.Colors.secondaryBackground.color
+    public static let primaryButton = Asset.Colors.primaryButton.color
+    public static let secondaryButton = Asset.Colors.secondaryButton.color
 }
 
 public enum Images {
@@ -61,13 +65,18 @@ public enum Images {
 
 public enum Fonts {
     public static let largeTitleBold: Font = .custom(relativeTo: .largeTitle, size: 34, weight: .bold)
-
+    
+    public static let titleRegular: Font = .custom(relativeTo: .title2, size: 22, weight: .regular)
+    public static let titleSemibold: Font = .custom(relativeTo: .title2, size: 22, weight: .semibold)
     public static let titleBold: Font = .custom(relativeTo: .title2, size: 22, weight: .bold)
     
     public static let bodyRegular: Font = .custom(relativeTo: .body, size: 17, weight: .regular)
+    public static let bodyMedium: Font = .custom(relativeTo: .body, size: 17, weight: .medium)
     public static let bodySemibold: Font = .custom(relativeTo: .body, size: 17, weight: .semibold)
     public static let bodyBold: Font = .custom(relativeTo: .body, size: 17, weight: .bold)
 
+    public static let subheadlineMedium: Font = .custom(relativeTo: .subheadline, size: 15, weight: .medium)
+    public static let subheadlineSemibold: Font = .custom(relativeTo: .subheadline, size: 15, weight: .semibold)
     public static let subheadlineBold: Font = .custom(relativeTo: .subheadline, size: 15, weight: .bold)
 
     public static let calloutSemibold: Font = .custom(relativeTo: .footnote, size: 13, weight: .semibold)

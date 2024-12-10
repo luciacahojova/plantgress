@@ -1,1 +1,30 @@
-"welcome" = "Welcome";
+// MARK: Onboarding
+"onboarding_login_button" = "Log In";
+"onboarding_registration_button" = "Register";
+
+"login_title" = "Log In";
+"registration_title" = "Register";
+"verification_link_title" = "Verification link sent";
+"forgotten_password_title" = "Forgotten password";
+
+"onboarding_name_placeholder" = "Name";
+"onboarding_surname_placeholder" = "Surname";
+"onboarding_email_placeholder" = "Email";
+"onboarding_password_placeholder" = "Password";
+"onboarding_repeat_password_placeholder" = "Repeat password";
+
+"verification_link_sent_message" = "A verification link has been sent to your email address. Please verify your email to activate your account. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.";
+"resend_verification_link_button" = "Resend verification link";
+"email_already_verified_message" = "Your email address is already verified.";
+"email_verification_resent_message" = "Email verification link has been resent.";
+
+"default_error_message" = "Something went wrong.";
+"invalid_email_format_error_message" = "Please enter a valid email address.";
+"email_already_in_use_error_message" = "Email is already in use.";
+"invalid_password_format_error_message" = "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.";
+"passwords_dont_match_error_message" = "Passwords do not match.";
+"email_not_verified_error_message" = "Your email address is not verified.";
+"too_many_requests_error_message" = "Too many requests.";
+
+// MARK: General
+"dismiss_button" = "Dismiss";

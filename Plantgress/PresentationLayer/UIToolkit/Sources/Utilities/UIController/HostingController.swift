@@ -28,9 +28,23 @@ public class HostingController<Content>: UIHostingController<AnyView> where Cont
         self.prefersLargeTitles = prefersLargeTitles
         super.init(
             rootView: AnyView(
-                rootView
-                    .navigationBarTitleDisplayMode(.large)
-                    .navigationBarHidden(!showsNavigationBar)
+                GeometryReader { geo in
+                    VStack(spacing: 0) {
+                        if !showsNavigationBar, let title {
+                            Text(title)
+                                .font(Fonts.largeTitleBold)
+                                .foregroundStyle(Colors.primaryText)
+                                .padding(.horizontal)
+                                .edgesIgnoringSafeArea(.top)
+                                .padding(.top, geo.safeAreaInsets.top)
+                                .frame(maxWidth: geo.size.width, alignment: .leading)
+                        }
+                        
+                        rootView
+                            .navigationBarTitleDisplayMode(.large)
+                            .navigationBarHidden(!showsNavigationBar)
+                    }
+                }
             )
         )
         self.title = title
@@ -43,8 +57,8 @@ public class HostingController<Content>: UIHostingController<AnyView> where Cont
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = prefersLargeTitles
         navigationController?.setNavigationBarHidden(!showsNavigationBar, animated: animated)
-        self.navigationController?.navigationBar.prefersLargeTitles = prefersLargeTitles
     }
     
     dynamic required init?(coder aDecoder: NSCoder) {
