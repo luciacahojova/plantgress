@@ -12,7 +12,9 @@ import UIToolkit
 
 final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     
+    @Injected private var sendEmailVerificationUseCase: SendEmailVerificationUseCase
     @Injected private var logInUserUseCase: LogInUserUseCase
+    @Injected private var getUserEmailUseCase: GetUserEmailUseCase
     
     // MARK: - Dependencies
     
@@ -31,6 +33,10 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     override func onAppear() {
         super.onAppear()
+        
+        if let email = getUserEmailUseCase.execute() {
+            state.email = email
+        }
     }
     
     // MARK: - State
@@ -38,48 +44,103 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     @Published private(set) var state: State = State()
 
     struct State {
+        var email: String = ""
+        var password: String = ""
         
+        var errorMessage: String? = nil
+        var emailErrorMessage: String? = nil
+        var passwordErrorMessage: String? = nil
+        
+        var isLoginButtonLoading: Bool = false
+        var isLoginButtonDisabled: Bool {
+            [email, password]
+                .contains { $0.isBlank }
+            || [emailErrorMessage, passwordErrorMessage]
+                .contains { $0 != nil }
+        }
+        var isEmailVerificationButtonVisible = false
     }
     
     // MARK: - Intent
     enum Intent {
-        case dismiss
         case showForgottenPassword
-        case logIn
+        case sendEmailVerification
+        case logInUser
+        case emailChanged(String)
+        case passwordChanged(String)
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
-        case .dismiss: dismiss()
         case .showForgottenPassword: showForgottenPassword()
-        case .logIn: logIn()
+        case .sendEmailVerification: sendEmailVerification()
+        case .logInUser: logInUser()
+        case .emailChanged(let email): emailChanged(email)
+        case .passwordChanged(let password): passwordChanged(password)
         }
     }
     
-    private func dismiss() { // TODO Remove
-        flowController?.handleFlow(OnboardingFlow.setupMain)
-    }
-    
     private func showForgottenPassword() {
-        flowController?.handleFlow(OnboardingFlow.showVerificationLink)
+        flowController?.handleFlow(OnboardingFlow.showForgottenPassword)
     }
     
-    private func logIn() {
+    private func logInUser() {
+        state.isLoginButtonLoading = true
+        defer { state.isLoginButtonLoading = false }
+        
         executeTask(
             Task {
                 do {
                     try await logInUserUseCase.execute(
                         credentials: LoginCredentials(
-                            email: "luciacahojova@gmail.com",
-                            password: "LuciaCahojova"
+                            email: state.email,
+                            password: state.password
                         )
                     )
-                } catch {
-                    print("ERROR login")
+                    
+                    flowController?.handleFlow(OnboardingFlow.setupMain)
+                } catch AuthError.invalidEmail {
+                    state.emailErrorMessage = Strings.emailNotRegisteredErrorMessage
                     return
+                } catch AuthError.wrongPassword {
+                    state.password = ""
+                    state.passwordErrorMessage = Strings.wrongPasswordErrorMessage
+                    return
+                } catch AuthError.emailNotVerified {
+                    state.emailErrorMessage = Strings.emailNotVerifiedErrorMessage
+                    state.isEmailVerificationButtonVisible = true
+                    return
+                } catch {
+                    state.errorMessage = Strings.defaultErrorMessage
                 }
-                
-                flowController?.handleFlow(OnboardingFlow.setupMain)
+            }
+        )
+    }
+    
+    private func emailChanged(_ email: String) {
+        state.isEmailVerificationButtonVisible = false
+        state.errorMessage = nil
+        state.emailErrorMessage = nil
+        state.email = email
+    }
+    
+    private func passwordChanged(_ password: String) {
+        state.passwordErrorMessage = nil
+        state.errorMessage = nil
+        state.password = password
+    }
+    
+    private func sendEmailVerification() {
+        executeTask(
+            Task {
+                do {
+                    try await sendEmailVerificationUseCase.execute()
+                    flowController?.handleFlow(OnboardingFlow.showVerificationLink)
+                } catch AuthError.tooManyRequests {
+                    state.errorMessage = Strings.tooManyRequestsErrorMessage
+                } catch {
+                    state.errorMessage = Strings.defaultErrorMessage
+                }
             }
         )
     }

@@ -22,6 +22,8 @@ public enum Strings {
   public static let emailAlreadyInUseErrorMessage = Strings.tr("Localizable", "email_already_in_use_error_message", fallback: "Email is already in use.")
   /// Your email address is already verified.
   public static let emailAlreadyVerifiedMessage = Strings.tr("Localizable", "email_already_verified_message", fallback: "Your email address is already verified.")
+  /// Email is not registered.
+  public static let emailNotRegisteredErrorMessage = Strings.tr("Localizable", "email_not_registered_error_message", fallback: "Email is not registered.")
   /// Your email address is not verified.
   public static let emailNotVerifiedErrorMessage = Strings.tr("Localizable", "email_not_verified_error_message", fallback: "Your email address is not verified.")
   /// Email verification link has been resent.
@@ -32,6 +34,8 @@ public enum Strings {
   public static let invalidEmailFormatErrorMessage = Strings.tr("Localizable", "invalid_email_format_error_message", fallback: "Please enter a valid email address.")
   /// Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.
   public static let invalidPasswordFormatErrorMessage = Strings.tr("Localizable", "invalid_password_format_error_message", fallback: "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.")
+  /// Send verification link
+  public static let loginSendVerificationLinkButton = Strings.tr("Localizable", "login_send_verification_link_button", fallback: "Send verification link")
   /// Log In
   public static let loginTitle = Strings.tr("Localizable", "login_title", fallback: "Log In")
   /// Email
@@ -60,6 +64,8 @@ public enum Strings {
   public static let verificationLinkSentMessage = Strings.tr("Localizable", "verification_link_sent_message", fallback: "A verification link has been sent to your email address. Please verify your email to activate your account. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.")
   /// Verification link sent
   public static let verificationLinkTitle = Strings.tr("Localizable", "verification_link_title", fallback: "Verification link sent")
+  /// Wrong password.
+  public static let wrongPasswordErrorMessage = Strings.tr("Localizable", "wrong_password_error_message", fallback: "Wrong password.")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

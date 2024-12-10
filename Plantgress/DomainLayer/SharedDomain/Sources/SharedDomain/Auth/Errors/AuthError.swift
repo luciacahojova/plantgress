@@ -14,6 +14,9 @@ public enum AuthError: Error {
     case emailNotVerified
     case emailAlreadyVerified
     
+    case invalidEmail
+    case wrongPassword
+    
     case emailAlreadyInUse
     
     case invalidEmailFormat

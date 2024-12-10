@@ -13,6 +13,8 @@
 "onboarding_password_placeholder" = "Password";
 "onboarding_repeat_password_placeholder" = "Repeat password";
 
+"login_send_verification_link_button" = "Send verification link";
+
 "verification_link_sent_message" = "A verification link has been sent to your email address. Please verify your email to activate your account. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.";
 "resend_verification_link_button" = "Resend verification link";
 "email_already_verified_message" = "Your email address is already verified.";
@@ -25,6 +27,8 @@
 "passwords_dont_match_error_message" = "Passwords do not match.";
 "email_not_verified_error_message" = "Your email address is not verified.";
 "too_many_requests_error_message" = "Too many requests.";
+"email_not_registered_error_message" = "Email is not registered.";
+"wrong_password_error_message" = "Wrong password.";
 
 // MARK: General
 "dismiss_button" = "Dismiss";

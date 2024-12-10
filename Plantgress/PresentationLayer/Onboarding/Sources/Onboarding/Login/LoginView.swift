@@ -23,26 +23,75 @@ struct LoginView: View {
     // MARK: - Body
     
     var body: some View {
-        VStack {
-            Button("Log In") {
-                viewModel.onIntent(.logIn)
+        GeometryReader { geo in
+            VStack(spacing: Constants.Spacing.medium) {
+                OutlinedTextField(
+                    text: Binding<String>(
+                        get: { viewModel.state.email },
+                        set: { email in viewModel.onIntent(.emailChanged(email)) }
+                    ),
+                    placeholder: Strings.onboardingEmailPlaceholder,
+                    errorMessage: viewModel.state.emailErrorMessage
+                )
+                
+                SecureOulinedTextField(
+                    text: Binding<String>(
+                        get: { viewModel.state.password },
+                        set: { password in viewModel.onIntent(.passwordChanged(password)) }
+                    ),
+                    placeholder: Strings.onboardingPasswordPlaceholder,
+                    errorMessage: viewModel.state.passwordErrorMessage
+                )
+                
+                Button {
+                    viewModel.onIntent(.showForgottenPassword)
+                } label: {
+                    Text(Strings.forgottenPasswordTitle)
+                        .underline()
+                        .font(Fonts.subheadlineMedium)
+                        .foregroundStyle(Colors.primaryText)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                if let errorMessage = viewModel.state.errorMessage {
+                    Text(errorMessage)
+                        .font(Fonts.captionMedium)
+                        .foregroundStyle(Color.red)
+                        .multilineTextAlignment(.center)
+                }
+                
+                Spacer()
+                
+                if viewModel.state.isEmailVerificationButtonVisible {
+                    Button(Strings.loginSendVerificationLinkButton) {
+                        viewModel.onIntent(.sendEmailVerification)
+                    }
+                    .buttonStyle(PrimaryButtonStyle())
+                } else {
+                    Button(Strings.onboardingLoginButton) {
+                        viewModel.onIntent(.logInUser)
+                    }
+                    .buttonStyle(
+                        PrimaryButtonStyle(
+                            isLoading: viewModel.state.isLoginButtonLoading,
+                            isDisabled: viewModel.state.isLoginButtonDisabled
+                        )
+                    )
+                }
             }
-            
-            Button("Setup Main") {
-                viewModel.onIntent(.dismiss)
+            .padding(.horizontal)
+            .padding(.top, Constants.Spacing.large)
+            .padding(.bottom, Constants.Spacing.xxxxLarge)
+            .background {
+                Images.secondaryOnboardingBackground
+                    .resizable()
+                    .scaledToFill()
             }
-            
-            Button("Forgotten Password") {
-                viewModel.onIntent(.showForgottenPassword)
-            }
+            .frame(maxWidth: geo.size.width, maxHeight: geo.size.height)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background {
-            Images.secondaryOnboardingBackground
-                .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
-        }
+        .animation(.default, value: viewModel.state.isLoginButtonDisabled)
+        .animation(.default, value: viewModel.state.isEmailVerificationButtonVisible)
+        .edgesIgnoringSafeArea(.bottom)
         .lifecycle(viewModel)
     }
 }

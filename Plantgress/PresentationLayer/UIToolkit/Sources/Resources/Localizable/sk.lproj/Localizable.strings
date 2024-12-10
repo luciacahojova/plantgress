@@ -13,6 +13,8 @@
 "onboarding_password_placeholder" = "Heslo";
 "onboarding_repeat_password_placeholder" = "Heslo znova";
 
+"login_send_verification_link_button" = "Zaslať overovací odkaz";
+
 "verification_link_sent_message" = "Overovací odkaz bol odoslaný na vašu e-mailovú adresu. Prosím, overte svoj e-mail, aby ste aktivovali svoj účet. Po overení sa môžete prihlásiť do aplikácie. Ak ste e-mail nedostali, môžete požiadať o opätovné odoslanie odkazu.";
 "resend_verification_link_button" = "Znova odoslať overovací odkaz";
 "email_already_verified_message" = "Vaša e-mailová adresa už bola overená.";
@@ -25,6 +27,8 @@
 "passwords_dont_match_error_message" = "Heslá sa nezhodujú.";
 "email_not_verified_error_message" = "Vaša e-mailová adresa nie je overená.";
 "too_many_requests_error_message" = "Príliš veľa požiadaviek.";
+"email_not_registered_error_message" = "Email is not registered.";
+"wrong_password_error_message" = "Wrong password.";
 
 // MARK: General
 "dismiss_button" = "Zrušiť";
