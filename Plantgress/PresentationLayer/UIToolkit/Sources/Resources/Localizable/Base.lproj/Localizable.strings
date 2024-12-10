@@ -19,5 +19,6 @@
 
 "default_error_message" = "Something went wrong.";
 "invalid_email_format_error_message" = "Please enter a valid email address.";
+"email_already_in_use_error_message" = "Email is already in use.";
 "invalid_password_format_error_message" = "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.";
 "passwords_dont_match_error_message" = "Passwords do not match.";

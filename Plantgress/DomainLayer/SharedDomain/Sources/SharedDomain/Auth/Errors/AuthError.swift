@@ -8,9 +8,13 @@
 import Foundation
 
 public enum AuthError: Error {
+    case `default`
+    
     case userNotFound
     case emailNotVerified
     case emailAlreadyVerified
+    
+    case emailAlreadyInUse
     
     case invalidEmailFormat
     case invalidPasswordFormat

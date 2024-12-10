@@ -16,6 +16,8 @@ import Foundation
 public enum Strings {
   /// Something went wrong.
   public static let defaultErrorMessage = Strings.tr("Localizable", "default_error_message", fallback: "Something went wrong.")
+  /// Email is already in use.
+  public static let emailAlreadyInUseErrorMessage = Strings.tr("Localizable", "email_already_in_use_error_message", fallback: "Email is already in use.")
   /// Your email address is already verified.
   public static let emailAlreadyVerifiedMessage = Strings.tr("Localizable", "email_already_verified_message", fallback: "Your email address is already verified.")
   /// Forgotten password

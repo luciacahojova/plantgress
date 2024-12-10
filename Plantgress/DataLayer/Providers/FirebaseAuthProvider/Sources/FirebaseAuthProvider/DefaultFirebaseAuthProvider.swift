@@ -19,7 +19,20 @@ extension DefaultFirebaseAuthProvider: FirebaseAuthProvider {
     }
     
     public func registerUser(credentials: RegistrationCredentials) async throws {
-        try await Auth.auth().createUser(withEmail: credentials.email, password: credentials.password)
+        do {
+            try await Auth.auth().createUser(withEmail: credentials.email, password: credentials.password)
+        } catch let error as NSError {
+            guard let authErrorCode = AuthErrorCode.init(rawValue: error._code) else {
+                throw AuthError.default
+            }
+            
+            switch authErrorCode {
+            case .emailAlreadyInUse:
+                throw AuthError.emailAlreadyInUse
+            default:
+                throw AuthError.default
+            }
+        }
     }
     
     public func sendEmailVerification() async throws {

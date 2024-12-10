@@ -54,6 +54,7 @@ final class RegistrationViewModel: BaseViewModel, ViewModel, ObservableObject {
         var passwordErrorMessage: String? = nil
         var repeatPasswordErrorMessage: String? = nil
         
+        var isRegisterButtonLoading: Bool = false
         var isRegisterButtonDisabled: Bool {
             [email, name, surname, password, repeatPassword]
                 .contains { $0.isBlank }
@@ -90,6 +91,8 @@ final class RegistrationViewModel: BaseViewModel, ViewModel, ObservableObject {
     }
     
     private func registerUser() {
+        state.isRegisterButtonLoading = true
+        defer { state.isRegisterButtonLoading = false }
         guard areCredentialsValid() else { return }
         
         executeTask(
@@ -107,9 +110,10 @@ final class RegistrationViewModel: BaseViewModel, ViewModel, ObservableObject {
                     try await sendEmailVerificationUseCase.execute()
                     
                     flowController?.handleFlow(OnboardingFlow.showVerificationLink)
+                } catch AuthError.emailAlreadyInUse {
+                    state.emailErrorMessage = Strings.emailAlreadyInUseErrorMessage
                 } catch {
-                    // TODO: Email already in use/something went wrong
-                    return
+                    state.errorMessage = Strings.defaultErrorMessage
                 }
             }
         )

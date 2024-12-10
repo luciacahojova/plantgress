@@ -84,7 +84,10 @@ struct RegistrationView: View {
                     viewModel.onIntent(.registerUser)
                 }
                 .buttonStyle(
-                    PrimaryButtonStyle(isDisabled: viewModel.state.isRegisterButtonDisabled)
+                    PrimaryButtonStyle(
+                        isLoading: viewModel.state.isRegisterButtonLoading,
+                        isDisabled: viewModel.state.isRegisterButtonDisabled
+                    )
                 )
             }
             .padding(.horizontal)
