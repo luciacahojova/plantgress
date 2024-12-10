@@ -24,6 +24,8 @@ public enum Strings {
   public static let emailAlreadyVerifiedMessage = Strings.tr("Localizable", "email_already_verified_message", fallback: "Your email address is already verified.")
   /// Your email address is not verified.
   public static let emailNotVerifiedErrorMessage = Strings.tr("Localizable", "email_not_verified_error_message", fallback: "Your email address is not verified.")
+  /// Email verification link has been resent.
+  public static let emailVerificationResentMessage = Strings.tr("Localizable", "email_verification_resent_message", fallback: "Email verification link has been resent.")
   /// Forgotten password
   public static let forgottenPasswordTitle = Strings.tr("Localizable", "forgotten_password_title", fallback: "Forgotten password")
   /// Please enter a valid email address.

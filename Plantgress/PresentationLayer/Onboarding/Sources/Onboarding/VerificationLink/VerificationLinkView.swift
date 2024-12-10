@@ -87,6 +87,12 @@ struct VerificationLinkView: View {
         .foregroundStyle(Colors.primaryText)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .edgesIgnoringSafeArea(.bottom)
+        .snackbar(
+            Binding<SnackbarData?>(
+                get: { viewModel.state.snackbarData },
+                set: { snackbarData in viewModel.onIntent(.snackbarDataChanged(snackbarData)) }
+            )
+        )
         .lifecycle(viewModel)
     }
 }
@@ -102,5 +108,6 @@ struct VerificationLinkView: View {
     return VerificationLinkView(
         viewModel: vm
     )
-    .colorScheme(.dark)
+    .background(Colors.primaryBackground)
+    .colorScheme(.light)
 }

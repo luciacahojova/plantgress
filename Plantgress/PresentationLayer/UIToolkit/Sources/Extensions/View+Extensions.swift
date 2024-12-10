@@ -18,4 +18,14 @@ public extension View {
                 viewModel.onDisappear()
             }
     }
+    
+    func snackbar(
+        _ snackbarData: Binding<SnackbarData?>
+    ) -> some View {
+        self.modifier(
+            SnackbarModifier(
+                snackbarData: snackbarData
+            )
+        )
+    }
 }

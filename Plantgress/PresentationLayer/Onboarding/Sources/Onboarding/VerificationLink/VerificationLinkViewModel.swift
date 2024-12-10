@@ -49,12 +49,14 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
         var message: String? = nil
         var errorMessage: String? = nil
         var navigationBarHeight: CGFloat = 0
+        var snackbarData: SnackbarData?
     }
     
     // MARK: - Intent
     enum Intent {
         case showLogin
         case resendLink
+        case snackbarDataChanged(SnackbarData?)
         case dismiss
     }
 
@@ -62,6 +64,7 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
         switch intent {
         case .showLogin: showLogin()
         case .resendLink: resendLink()
+        case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
         case .dismiss: dismiss()
         }
     }
@@ -85,7 +88,10 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
             Task {
                 do {
                     try await sendEmailVerificationUseCase.execute()
-                    // TODO resend overview snackbar
+                    state.snackbarData = .init(
+                        message: Strings.emailVerificationResentMessage,
+                        alignment: .center
+                    )
                 } catch AuthError.emailAlreadyVerified {
                     state.message = Strings.emailAlreadyVerifiedMessage
                 } catch AuthError.tooManyRequests {
@@ -95,6 +101,10 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
                 }
             }
         )
+    }
+    
+    private func snackbarDataChanged(_ snackbarData: SnackbarData?) {
+        state.snackbarData = snackbarData
     }
     
     private func dismiss() {

@@ -16,6 +16,7 @@
 "verification_link_sent_message" = "Overovací odkaz bol odoslaný na vašu e-mailovú adresu. Prosím, overte svoj e-mail, aby ste aktivovali svoj účet. Po overení sa môžete prihlásiť do aplikácie. Ak ste e-mail nedostali, môžete požiadať o opätovné odoslanie odkazu.";
 "resend_verification_link_button" = "Znova odoslať overovací odkaz";
 "email_already_verified_message" = "Vaša e-mailová adresa už bola overená.";
+"email_verification_resent_message" = "Overovací odkaz bol znovu odoslaný.";
 
 "default_error_message" = "Niečo sa pokazilo.";
 "invalid_email_format_error_message" = "Zadajte platnú e-mailovú adresu.";
