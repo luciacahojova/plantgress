@@ -15,4 +15,5 @@ public protocol FirebaseAuthProvider {
     func logInUser(credentials: LoginCredentials) async throws
     func logOutUser() throws
     func getUserEmail() -> String?
+    func sendPasswordReset(email: String) async throws
 }

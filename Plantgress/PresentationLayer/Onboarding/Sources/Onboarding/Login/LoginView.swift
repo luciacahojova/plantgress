@@ -5,6 +5,7 @@
 //  Created by Lucia Cahojova on 04.12.2024.
 //
 
+import Resolver
 import SwiftUI
 import UIToolkit
 
@@ -50,6 +51,7 @@ struct LoginView: View {
                         .underline()
                         .font(Fonts.subheadlineMedium)
                         .foregroundStyle(Colors.primaryText)
+                        .padding(.horizontal, Constants.Spacing.medium)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
@@ -66,7 +68,11 @@ struct LoginView: View {
                     Button(Strings.loginSendVerificationLinkButton) {
                         viewModel.onIntent(.sendEmailVerification)
                     }
-                    .buttonStyle(PrimaryButtonStyle())
+                    .buttonStyle(
+                        PrimaryButtonStyle(
+                            isLoading: viewModel.state.isEmailVerificationButtonLoading
+                        )
+                    )
                 } else {
                     Button(Strings.onboardingLoginButton) {
                         viewModel.onIntent(.logInUser)
@@ -97,9 +103,11 @@ struct LoginView: View {
 }
 
 #Preview {
+    Resolver.registerUseCasesForPreviews()
+    
     let vm = LoginViewModel(flowController: nil)
     
-    LoginView(
+    return LoginView(
         viewModel: vm
     )
 }

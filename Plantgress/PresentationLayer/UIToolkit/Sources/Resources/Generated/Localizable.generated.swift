@@ -27,7 +27,7 @@ public enum Strings {
   /// Your email address is not verified.
   public static let emailNotVerifiedErrorMessage = Strings.tr("Localizable", "email_not_verified_error_message", fallback: "Your email address is not verified.")
   /// Email verification link has been resent.
-  public static let emailVerificationResentMessage = Strings.tr("Localizable", "email_verification_resent_message", fallback: "Email verification link has been resent.")
+  public static let emailVerificationResentSnackbarMessage = Strings.tr("Localizable", "email_verification_resent_snackbar_message", fallback: "Email verification link has been resent.")
   /// Forgotten password
   public static let forgottenPasswordTitle = Strings.tr("Localizable", "forgotten_password_title", fallback: "Forgotten password")
   /// Please enter a valid email address.
@@ -52,16 +52,22 @@ public enum Strings {
   public static let onboardingRepeatPasswordPlaceholder = Strings.tr("Localizable", "onboarding_repeat_password_placeholder", fallback: "Repeat password")
   /// Surname
   public static let onboardingSurnamePlaceholder = Strings.tr("Localizable", "onboarding_surname_placeholder", fallback: "Surname")
+  /// A reset link will be sent to the provided email address. If it doesn’t arrive within a few minutes, check the email address or resend the link.
+  public static let passwordResetMessage = Strings.tr("Localizable", "password_reset_message", fallback: "A reset link will be sent to the provided email address. If it doesn’t arrive within a few minutes, check the email address or resend the link.")
   /// Passwords do not match.
   public static let passwordsDontMatchErrorMessage = Strings.tr("Localizable", "passwords_dont_match_error_message", fallback: "Passwords do not match.")
   /// Register
   public static let registrationTitle = Strings.tr("Localizable", "registration_title", fallback: "Register")
   /// Resend verification link
   public static let resendVerificationLinkButton = Strings.tr("Localizable", "resend_verification_link_button", fallback: "Resend verification link")
+  /// Send password reset
+  public static let resetPasswordButtom = Strings.tr("Localizable", "reset_password_buttom", fallback: "Send password reset")
+  /// Password reset link has been sent.
+  public static let resetPasswordSnackbarMessage = Strings.tr("Localizable", "reset_password_snackbar_message", fallback: "Password reset link has been sent.")
   /// Too many requests.
   public static let tooManyRequestsErrorMessage = Strings.tr("Localizable", "too_many_requests_error_message", fallback: "Too many requests.")
-  /// A verification link has been sent to your email address. Please verify your email to activate your account. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.
-  public static let verificationLinkSentMessage = Strings.tr("Localizable", "verification_link_sent_message", fallback: "A verification link has been sent to your email address. Please verify your email to activate your account. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.")
+  /// A verification link has been sent to your email address. It may take a few minutes to arrive. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.
+  public static let verificationLinkSentMessage = Strings.tr("Localizable", "verification_link_sent_message", fallback: "A verification link has been sent to your email address. It may take a few minutes to arrive. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.")
   /// Verification link sent
   public static let verificationLinkTitle = Strings.tr("Localizable", "verification_link_title", fallback: "Verification link sent")
   /// Wrong password.

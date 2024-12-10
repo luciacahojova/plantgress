@@ -95,12 +95,19 @@ public final class OnboardingFlowController: FlowController {
     
     private func showForgottenPassword() {
         let vm = ForgottenPasswordViewModel(
-            flowController: self
+            flowController: self,
+            onDismiss: {
+                self.navigationController.popToRootViewController(animated: false)
+            }
         )
         let view = ForgottenPasswordView(viewModel: vm)
-        let vc = HostingController(rootView: view)
+        let vc = HostingController(
+            rootView: view,
+            showsNavigationBar: false
+        )
+        vc.modalPresentationStyle = .overFullScreen
         
-        navigationController.pushViewController(vc, animated: true)
+        navigationController.present(vc, animated: true)
     }
     
     private func showVerificationLink() {

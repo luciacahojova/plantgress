@@ -58,6 +58,8 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
             || [emailErrorMessage, passwordErrorMessage]
                 .contains { $0 != nil }
         }
+        
+        var isEmailVerificationButtonLoading: Bool = false
         var isEmailVerificationButtonVisible = false
     }
     
@@ -131,6 +133,9 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     }
     
     private func sendEmailVerification() {
+        state.isEmailVerificationButtonLoading = true
+        defer { state.isEmailVerificationButtonLoading = false }
+        
         executeTask(
             Task {
                 do {
