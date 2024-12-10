@@ -80,10 +80,10 @@ struct VerificationLinkView: View {
                 .padding(.top, Constants.Spacing.large)
                 .padding(.bottom, Constants.Spacing.xxxxLarge)
             }
+            .padding(.horizontal)
         }
         .animation(.default, value: viewModel.state.errorMessage)
         .font(Fonts.subheadlineMedium)
-        .padding(.horizontal)
         .foregroundStyle(Colors.primaryText)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .edgesIgnoringSafeArea(.bottom)

@@ -5,6 +5,7 @@
 //  Created by Lucia Cahojova on 07.12.2024.
 //
 
+import Resolver
 import SwiftUI
 import UIToolkit
 
@@ -23,50 +24,69 @@ struct ForgottenPasswordView: View {
     // MARK: - Body
     
     var body: some View {
-        VStack(spacing: Constants.Spacing.medium) {
-            OutlinedTextField(
-                text: Binding<String>(
-                    get: { viewModel.state.email },
-                    set: { email in viewModel.onIntent(.emailChanged(email)) }
-                ),
-                placeholder: Strings.onboardingEmailPlaceholder,
-                errorMessage: viewModel.state.emailErrorMessage
-            )
-            
-            Text(Strings.passwordResetMessage)
-                .font(Fonts.captionMedium)
-                .multilineTextAlignment(.leading)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            
-            
-            if let errorMessage = viewModel.state.errorMessage {
-                Text(errorMessage)
-                    .font(Fonts.captionMedium)
-                    .foregroundStyle(Color.red)
-                    .multilineTextAlignment(.center)
+        GeometryReader { geo in
+            VStack(spacing: 0) {
+                VStack(spacing: Constants.Spacing.medium) {
+                    Button {
+                        viewModel.onIntent(.dismiss)
+                    } label: {
+                        Text(Strings.dismissButton)
+                            .font(Fonts.bodyMedium)
+                    }
+                    .frame(height: viewModel.state.navigationBarHeight - geo.safeAreaInsets.top)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    
+                    Text(Strings.forgottenPasswordTitle)
+                        .font(Fonts.largeTitleBold)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                
+                VStack(spacing: Constants.Spacing.medium) {
+                    OutlinedTextField(
+                        text: Binding<String>(
+                            get: { viewModel.state.email },
+                            set: { email in viewModel.onIntent(.emailChanged(email)) }
+                        ),
+                        placeholder: Strings.onboardingEmailPlaceholder,
+                        errorMessage: viewModel.state.emailErrorMessage
+                    )
+                    
+                    Text(Strings.passwordResetMessage)
+                        .font(Fonts.captionMedium)
+                        .multilineTextAlignment(.leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, Constants.Spacing.medium)
+                    
+                    if let errorMessage = viewModel.state.errorMessage {
+                        Text(errorMessage)
+                            .font(Fonts.captionMedium)
+                            .foregroundStyle(Color.red)
+                            .multilineTextAlignment(.center)
+                    }
+                    
+                    Spacer()
+                    
+                    Button(Strings.resendVerificationLinkButton) {
+                        viewModel.onIntent(.sendResetPasswordLink)
+                    }
+                    .buttonStyle(
+                        SecondaryButtonStyle(
+                            isLoading: viewModel.state.isResetPasswordButtonLoading,
+                            isDisabled: viewModel.state.isResetPasswordButtonLoading
+                        )
+                    )
+                    
+                    Button(Strings.loginTitle) {
+                        viewModel.onIntent(.showLogin)
+                    }
+                    .buttonStyle(PrimaryButtonStyle())
+                }
+                .padding(.top, Constants.Spacing.large)
+                .padding(.bottom, Constants.Spacing.xxxxLarge)
             }
-            
-            Spacer()
-            
-            Button(Strings.resendVerificationLinkButton) {
-                viewModel.onIntent(.sendResetPasswordLink)
-            }
-            .buttonStyle(
-                SecondaryButtonStyle(
-                    isLoading: viewModel.state.isResetPasswordButtonLoading,
-                    isDisabled: viewModel.state.isResetPasswordButtonLoading
-                )
-            )
-            
-            Button(Strings.loginTitle) {
-                viewModel.onIntent(.showLogin)
-            }
-            .buttonStyle(PrimaryButtonStyle())
+            .padding(.horizontal)
         }
         .foregroundStyle(Colors.primaryText)
-        .padding(.horizontal)
-        .padding(.top, Constants.Spacing.large)
-        .padding(.bottom, Constants.Spacing.xxxxLarge)
         .animation(.default, value: viewModel.state.isResetPasswordButtonDisabled)
         .edgesIgnoringSafeArea(.bottom)
         .snackbar(
@@ -80,9 +100,14 @@ struct ForgottenPasswordView: View {
 }
 
 #Preview {
-    let vm = ForgottenPasswordViewModel(flowController: nil)
+    Resolver.registerUseCasesForPreviews()
     
-    ForgottenPasswordView(
+    let vm = ForgottenPasswordViewModel(
+        flowController: nil,
+        onDismiss: {}
+    )
+    
+    return ForgottenPasswordView(
         viewModel: vm
     )
 }

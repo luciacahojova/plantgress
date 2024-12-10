@@ -31,6 +31,7 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
         self.flowController = flowController
         self.onDismiss = onDismiss
         super.init()
+        
         self.state.navigationBarHeight = flowController?.navigationController.navigationBar.frame.height ?? 0
     }
     
@@ -45,11 +46,16 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
     @Published private(set) var state: State = State()
 
     struct State {
-        var isLoginButtonDisabled = false
         var message: String? = nil
         var errorMessage: String? = nil
-        var navigationBarHeight: CGFloat = 0
+        
         var snackbarData: SnackbarData?
+        
+        var isLoginButtonDisabled: Bool {
+            errorMessage != nil
+        }
+        
+        var navigationBarHeight: CGFloat = 0
     }
     
     // MARK: - Intent
@@ -73,7 +79,6 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
         guard isEmailVerifiedUseCase.execute() else {
             state.message = nil
             state.errorMessage = Strings.emailNotVerifiedErrorMessage
-            state.isLoginButtonDisabled = true
             return
         }
         
@@ -81,7 +86,6 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
     }
     
     private func resendLink() {
-        state.isLoginButtonDisabled = false
         state.errorMessage = nil
         
         executeTask(

@@ -19,13 +19,19 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
     
     private weak var flowController: FlowController?
     
+    private let onDismiss: () -> Void
+    
     // MARK: - Init
 
     init(
-        flowController: FlowController?
+        flowController: FlowController?,
+        onDismiss: @escaping () -> Void
     ) {
         self.flowController = flowController
+        self.onDismiss = onDismiss
         super.init()
+        
+        self.state.navigationBarHeight = flowController?.navigationController.navigationBar.frame.height ?? 0
     }
     
     // MARK: - Lifecycle
@@ -54,6 +60,8 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
         }
         
         var snackbarData: SnackbarData?
+        
+        var navigationBarHeight: CGFloat = 0
     }
     
     // MARK: - Intent
@@ -62,6 +70,7 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
         case snackbarDataChanged(SnackbarData?)
         case showLogin
         case sendResetPasswordLink
+        case dismiss
     }
 
     func onIntent(_ intent: Intent) {
@@ -70,6 +79,7 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
         case .showLogin: showLogin()
         case .sendResetPasswordLink: sendResetPasswordLink()
+        case .dismiss: dismiss()
         }
     }
     
@@ -84,7 +94,7 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
     }
     
     private func showLogin() {
-        flowController?.handleFlow(OnboardingFlow.showLogin)
+        flowController?.handleFlow(OnboardingFlow.dismiss)
     }
     
     private func sendResetPasswordLink() {
@@ -101,5 +111,10 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
                 }
             }
         )
+    }
+    
+    private func dismiss() {
+        onDismiss()
+        flowController?.handleFlow(OnboardingFlow.dismiss)
     }
 }

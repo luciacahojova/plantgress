@@ -50,6 +50,7 @@ struct LoginView: View {
                         .underline()
                         .font(Fonts.subheadlineMedium)
                         .foregroundStyle(Colors.primaryText)
+                        .padding(.horizontal, Constants.Spacing.medium)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
