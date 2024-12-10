@@ -36,6 +36,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
         VStack {
             if isLoading {
                 ProgressView()
+                    .tint(foregroundColor)
             } else {
                 configuration.label
                     .font(font)

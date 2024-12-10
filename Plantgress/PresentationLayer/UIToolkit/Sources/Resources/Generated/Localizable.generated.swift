@@ -58,12 +58,12 @@ public enum Strings {
   public static let passwordsDontMatchErrorMessage = Strings.tr("Localizable", "passwords_dont_match_error_message", fallback: "Passwords do not match.")
   /// Register
   public static let registrationTitle = Strings.tr("Localizable", "registration_title", fallback: "Register")
-  /// Resend reset link
-  public static let resendPasswordResetLinkButtom = Strings.tr("Localizable", "resend_password_reset_link_buttom", fallback: "Resend reset link")
-  /// Password reset link has been resent.
-  public static let resendPasswordResetMessage = Strings.tr("Localizable", "resend_password_reset_message", fallback: "Password reset link has been resent.")
   /// Resend verification link
   public static let resendVerificationLinkButton = Strings.tr("Localizable", "resend_verification_link_button", fallback: "Resend verification link")
+  /// Send password reset
+  public static let resetPasswordButtom = Strings.tr("Localizable", "reset_password_buttom", fallback: "Send password reset")
+  /// Password reset link has been sent.
+  public static let resetPasswordMessage = Strings.tr("Localizable", "reset_password_message", fallback: "Password reset link has been sent.")
   /// Too many requests.
   public static let tooManyRequestsErrorMessage = Strings.tr("Localizable", "too_many_requests_error_message", fallback: "Too many requests.")
   /// A verification link has been sent to your email address. It may take a few minutes to arrive. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.

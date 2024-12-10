@@ -21,8 +21,8 @@
 "email_verification_resent_message" = "Overovací odkaz bol znovu odoslaný.";
 
 "password_reset_message" = "Odkaz na obnovenie hesla bude odoslaný na zadanú e-mailovú adresu. Ak neprišiel do niekoľkých minút, skontrolujte e-mailovú adresu alebo odošlite odkaz znova.";
-"resend_password_reset_link_buttom" = "Znova odoslať odkaz";
-"resend_password_reset_message" = "Odkaz na obnovenie bol znovu odoslaný.";
+"reset_password_buttom" = "Zaslat odkaz na obnovenie";
+"reset_password_message" = "Odkaz na obdnovenie bol odoslaný.";
 
 "default_error_message" = "Niečo sa pokazilo.";
 "invalid_email_format_error_message" = "Zadajte platnú e-mailovú adresu.";

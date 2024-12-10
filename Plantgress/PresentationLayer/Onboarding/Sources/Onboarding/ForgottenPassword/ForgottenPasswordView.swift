@@ -66,20 +66,20 @@ struct ForgottenPasswordView: View {
                     
                     Spacer()
                     
-                    Button(Strings.resendVerificationLinkButton) {
-                        viewModel.onIntent(.sendResetPasswordLink)
-                    }
-                    .buttonStyle(
-                        SecondaryButtonStyle(
-                            isLoading: viewModel.state.isResetPasswordButtonLoading,
-                            isDisabled: viewModel.state.isResetPasswordButtonLoading
-                        )
-                    )
-                    
                     Button(Strings.loginTitle) {
                         viewModel.onIntent(.showLogin)
                     }
-                    .buttonStyle(PrimaryButtonStyle())
+                    .buttonStyle(SecondaryButtonStyle())
+                    
+                    Button(Strings.resetPasswordButtom) {
+                        viewModel.onIntent(.sendResetPasswordLink)
+                    }
+                    .buttonStyle(
+                        PrimaryButtonStyle(
+                            isLoading: viewModel.state.isResetPasswordButtonLoading,
+                            isDisabled: viewModel.state.isResetPasswordButtonDisabled
+                        )
+                    )
                 }
                 .padding(.top, Constants.Spacing.large)
                 .padding(.bottom, Constants.Spacing.xxxxLarge)

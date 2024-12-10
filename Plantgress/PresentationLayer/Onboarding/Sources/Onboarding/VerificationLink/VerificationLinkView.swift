@@ -64,8 +64,8 @@ struct VerificationLinkView: View {
                                 viewModel.onIntent(.resendLink)
                             } label: {
                                 Text(Strings.resendVerificationLinkButton)
-                                    .underline()
                             }
+                            .buttonStyle(SecondaryButtonStyle(isLoading: viewModel.state.isResendVerificationButtonLoading))
                         }
                     }
                     .frame(height: Constants.Frame.primaryButtonHeight)

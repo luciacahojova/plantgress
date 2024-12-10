@@ -21,8 +21,8 @@
 "email_verification_resent_message" = "Email verification link has been resent.";
 
 "password_reset_message" = "A reset link will be sent to the provided email address. If it doesn’t arrive within a few minutes, check the email address or resend the link.";
-"resend_password_reset_link_buttom" = "Resend reset link";
-"resend_password_reset_message" = "Password reset link has been resent.";
+"reset_password_buttom" = "Send password reset";
+"reset_password_message" = "Password reset link has been sent.";
 
 "default_error_message" = "Something went wrong.";
 "invalid_email_format_error_message" = "Please enter a valid email address.";

@@ -55,6 +55,8 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
             errorMessage != nil
         }
         
+        var isResendVerificationButtonLoading: Bool = false
+        
         var navigationBarHeight: CGFloat = 0
     }
     
@@ -86,7 +88,9 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
     }
     
     private func resendLink() {
+        state.isResendVerificationButtonLoading = true
         state.errorMessage = nil
+        defer { state.isResendVerificationButtonLoading = false }
         
         executeTask(
             Task {
