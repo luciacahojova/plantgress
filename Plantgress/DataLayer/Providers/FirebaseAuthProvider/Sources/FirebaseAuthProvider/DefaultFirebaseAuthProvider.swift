@@ -8,11 +8,9 @@
 import FirebaseAuth
 import SharedDomain
 
-public struct DefaultFirebaseAuthProvider {
+public struct DefaultFirebaseAuthProvider: FirebaseAuthProvider {
     public init() {}
-}
-
-extension DefaultFirebaseAuthProvider: FirebaseAuthProvider {
+    
     public func isUserLoggedIn() -> Bool {
         guard let user = Auth.auth().currentUser else { return false }
         return user.emailVerified()
@@ -23,9 +21,10 @@ extension DefaultFirebaseAuthProvider: FirebaseAuthProvider {
         return user.emailVerified()
     }
     
-    public func registerUser(credentials: RegistrationCredentials) async throws {
+    public func registerUser(credentials: RegistrationCredentials) async throws -> String {
         do {
-            try await Auth.auth().createUser(withEmail: credentials.email, password: credentials.password)
+            let user = try await Auth.auth().createUser(withEmail: credentials.email, password: credentials.password).user
+            return user.uid
         } catch let error as NSError {
             guard let authErrorCode = AuthErrorCode.init(rawValue: error._code) else {
                 throw AuthError.default

@@ -85,7 +85,7 @@ final class AppFlowController: FlowController, OnboardingFlowControllerDelegate,
     public func handleLogout() {
         Task {
             self.presentOnboarding(
-                message: "To continue, you must log in again.",
+                message: "To continue, you must log in again.", // TODO: String
                 animated: true,
                 completion: nil
             )

@@ -6,13 +6,19 @@
 //
 
 import AuthToolkit
+import ImagesToolkit
 import Resolver
 import SharedDomain
+import UserToolkit
 
 public extension Resolver {
     static func registerRepositories() {
         
         register { AuthRepositoryImpl(firebaseAuthProvider: resolve()) as AuthRepository }
+        
+        register { UserRepositoryImpl(firebaseFirestoreProvider: resolve()) as UserRepository }
+        
+        register { ImagesRepositoryImpl(firebaseStorageProvider: resolve()) as ImagesRepository }
         
     }
 }

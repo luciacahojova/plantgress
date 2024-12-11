@@ -27,7 +27,10 @@ public final class ProfileFlowController: FlowController {
         let view = ProfileOverviewView(
             viewModel: vm
         )
-        let vc = HostingController(rootView: view)
+        let vc = HostingController(
+            rootView: view,
+            title: "Profile" // TODO: Add UC to get user's name
+        )
         
         return vc
     }

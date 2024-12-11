@@ -21,6 +21,9 @@
 		24FECAEB2D0622C000999950 /* FirebaseStorageProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAEA2D0622C000999950 /* FirebaseStorageProvider */; };
 		24FECAEF2D06250F00999950 /* AuthToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAEE2D06250F00999950 /* AuthToolkit */; };
 		24FECAF22D062B5300999950 /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAF12D062B5300999950 /* Resolver */; };
+		24FECAF92D09953500999950 /* UserToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAF82D09953500999950 /* UserToolkit */; };
+		24FECAFB2D09953A00999950 /* ImagesToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAFA2D09953A00999950 /* ImagesToolkit */; };
+		24FECAFE2D09F91100999950 /* Utilities in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAFD2D09F91100999950 /* Utilities */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +65,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				SharedDomain,
+				Utilities,
 			);
 			target = 24A561772CFE4758003C5C84 /* Plantgress */;
 		};
@@ -72,6 +76,8 @@
 				Providers/FirebaseFirestoreProvider,
 				Providers/FirebaseStorageProvider,
 				Toolkits/AuthToolkit,
+				Toolkits/ImagesToolkit,
+				Toolkits/UserToolkit,
 			);
 			target = 24A561772CFE4758003C5C84 /* Plantgress */;
 		};
@@ -119,10 +125,13 @@
 				24A561BF2CFE4F13003C5C84 /* Onboarding in Frameworks */,
 				24FECAD72D06023700999950 /* FirebaseAuth in Frameworks */,
 				24FECAE72D0622B300999950 /* FirebaseAuthProvider in Frameworks */,
+				24FECAF92D09953500999950 /* UserToolkit in Frameworks */,
 				24CDAEF72CFF6FB70082CC98 /* UIToolkit in Frameworks */,
 				24FECAEF2D06250F00999950 /* AuthToolkit in Frameworks */,
 				24CDAF252CFF9F410082CC98 /* Explore in Frameworks */,
+				24FECAFB2D09953A00999950 /* ImagesToolkit in Frameworks */,
 				24FECADF2D061E8000999950 /* SharedDomain in Frameworks */,
+				24FECAFE2D09F91100999950 /* Utilities in Frameworks */,
 				24CDAF282CFFA03F0082CC98 /* Profile in Frameworks */,
 				24FECADB2D06023700999950 /* FirebaseStorage in Frameworks */,
 				24CDAF1F2CFF9BFE0082CC98 /* Plants in Frameworks */,
@@ -214,6 +223,9 @@
 				24FECAEA2D0622C000999950 /* FirebaseStorageProvider */,
 				24FECAEE2D06250F00999950 /* AuthToolkit */,
 				24FECAF12D062B5300999950 /* Resolver */,
+				24FECAF82D09953500999950 /* UserToolkit */,
+				24FECAFA2D09953A00999950 /* ImagesToolkit */,
+				24FECAFD2D09F91100999950 /* Utilities */,
 			);
 			productName = Plantgress;
 			productReference = 24A561782CFE4758003C5C84 /* Plantgress.app */;
@@ -758,6 +770,18 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 24FECAF02D062B5300999950 /* XCRemoteSwiftPackageReference "Resolver" */;
 			productName = Resolver;
+		};
+		24FECAF82D09953500999950 /* UserToolkit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UserToolkit;
+		};
+		24FECAFA2D09953A00999950 /* ImagesToolkit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ImagesToolkit;
+		};
+		24FECAFD2D09F91100999950 /* Utilities */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Utilities;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
