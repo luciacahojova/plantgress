@@ -18,7 +18,8 @@ public extension Resolver {
         register { SendEmailVerificationUseCaseImpl(authRepository: resolve()) as SendEmailVerificationUseCase }
         register { ValidateEmailUseCaseImpl() as ValidateEmailUseCase }
         register { ValidatePasswordUseCaseImpl() as ValidatePasswordUseCase }
-        register { GetUserEmailUseCaseImpl(authRepository: resolve()) as GetUserEmailUseCase }
+        register { GetCurrentUsersEmailUseCaseImpl(authRepository: resolve()) as GetCurrentUsersEmailUseCase }
+        register { GetCurrentUserUseCaseImpl(authRepository: resolve(), userRepository: resolve()) as GetCurrentUserUseCase }
         register { SendPasswordResetUseCaseImpl(authRepository: resolve()) as SendPasswordResetUseCase }
     }
 }

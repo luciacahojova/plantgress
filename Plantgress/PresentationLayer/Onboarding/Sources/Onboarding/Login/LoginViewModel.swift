@@ -14,7 +14,7 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     @Injected private var sendEmailVerificationUseCase: SendEmailVerificationUseCase
     @Injected private var logInUserUseCase: LogInUserUseCase
-    @Injected private var getUserEmailUseCase: GetUserEmailUseCase
+    @Injected private var getCurrentUsersEmailUseCase: GetCurrentUsersEmailUseCase
     
     // MARK: - Dependencies
     
@@ -34,7 +34,7 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     override func onAppear() {
         super.onAppear()
         
-        if let email = getUserEmailUseCase.execute() {
+        if let email = getCurrentUsersEmailUseCase.execute() {
             state.email = email
         }
     }

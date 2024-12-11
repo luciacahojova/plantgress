@@ -45,6 +45,10 @@ public struct AuthRepositoryImpl: AuthRepository {
         firebaseAuthProvider.getUserEmail()
     }
     
+    public func getUserId() -> String? {
+        firebaseAuthProvider.getUserId()
+    }
+    
     public func sendPasswordReset(email: String) async throws {
         try await firebaseAuthProvider.sendPasswordReset(email: email)
     }

@@ -24,6 +24,12 @@ struct ProfileOverviewView: View {
     
     var body: some View {
         VStack {
+            if viewModel.state.isLoading {
+                ProgressView()
+            } else if let user = viewModel.state.user {
+                Text(user.name + "Account👤")
+            }
+            
             Button("Show Onboarding") {
                 viewModel.onIntent(.presentOnboarding(message: nil))
             }

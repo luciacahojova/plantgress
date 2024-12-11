@@ -8,6 +8,6 @@
 import Foundation
 
 public protocol UserRepository {
-    func getUser() -> User
+    func getUser(id: String) async throws -> User
     func createUser(_ user: User) async throws
 }

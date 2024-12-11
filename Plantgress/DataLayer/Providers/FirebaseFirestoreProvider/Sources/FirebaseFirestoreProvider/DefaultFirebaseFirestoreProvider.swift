@@ -9,34 +9,143 @@ import FirebaseFirestore
 import SharedDomain
 import Utilities
 
+import FirebaseFirestore
+
 public struct DefaultFirebaseFirestoreProvider: FirebaseFirestoreProvider {
     public init() {}
-    
-    public func getUser(id: String) async throws -> User {
+
+    public func create<T: Encodable>(
+        path: String,
+        id: String,
+        data: T
+    ) async throws {
+        print("➡️ CREATE: \(path)/\(id)")
+        
         let db = Firestore.firestore()
+        let docRef = db.collection(path).document(id)
         
-        let usersCollectionReference = db.collection(FirestoreConstants.usersCollection)
-        let querySnapshot = try await usersCollectionReference
-            .whereField("id", isEqualTo: id)
-            .getDocuments()
-        
-        guard let document = querySnapshot.documents.first else {
-            throw UserError.notFound
+        do {
+            try docRef.setData(from: data)
+            
+            print("🟢 \(path)/\(id): created \(data)")
+        } catch let error {
+            print("❌ \(path)/\(id): \(error.localizedDescription)")
+            throw error
         }
-        
-        return try document.data(as: User.self)
     }
-    
-    public func createUser(_ user: User) async throws {
+
+    public func get<T: Decodable>(
+        path: String,
+        id: String,
+        as type: T.Type
+    ) async throws -> T {
+        print("➡️ GET: \(path)/\(id)")
+        
         let db = Firestore.firestore()
+        let docRef = db.collection(path).document(id)
         
-        let userEncoded = try Firestore.Encoder().encode(user)
-        let documentReference = db.collection(FirestoreConstants.usersCollection).document(user.id)
+        do {
+            let snapshot = try await docRef.getDocument()
+            let document = try snapshot.data(as: T.self)
+            
+            print("🟢 \(path)/\(id): \(document)")
+            return document
+        } catch let error {
+            print("❌ \(path)/\(id): \(error.localizedDescription)")
+            throw error
+        }
+    }
+
+    public func get<T: Decodable>(
+        path: String,
+        filters: [FirestoreFilter] = [],
+        orderBy: [FirestoreOrder]? = nil,
+        limit: Int? = nil,
+        as type: T.Type
+    ) async throws -> [T] {
+        print("➡️ GET: \(path)")
         
-        do  {
-            try await documentReference.setData(userEncoded)
-        } catch {
-            throw UserError.default
+        let db = Firestore.firestore()
+        let collectionRef = db.collection(path)
+        var query: Query = collectionRef
+
+        // Apply filters
+        for filter in filters {
+            switch filter.operator {
+            case .isEqualTo:
+                query = query.whereField(filter.field, isEqualTo: filter.value)
+            case .isNotEqualTo:
+                query = query.whereField(filter.field, isNotEqualTo: filter.value)
+            case .isGreaterThan:
+                query = query.whereField(filter.field, isGreaterThan: filter.value)
+            case .isLessThan:
+                query = query.whereField(filter.field, isLessThan: filter.value)
+            case .isGreaterThanOrEqualTo:
+                query = query.whereField(filter.field, isGreaterThanOrEqualTo: filter.value)
+            case .isLessThanOrEqualTo:
+                query = query.whereField(filter.field, isLessThanOrEqualTo: filter.value)
+            }
+        }
+
+        // Apply ordering
+        if let orderBy {
+            for order in orderBy {
+                query = query.order(by: order.field, descending: order.descending)
+            }
+        }
+
+        // Apply limit
+        if let limit {
+            query = query.limit(to: limit)
+        }
+
+        do {
+            // Fetch and decode documents
+            let snapshot = try await query.getDocuments()
+            let documents = try snapshot.documents.map { try $0.data(as: T.self) }
+            
+            print("🟢 \(path): \(documents)")
+            return documents
+        } catch let error {
+            print("❌ \(path): \(error.localizedDescription)")
+            throw error
+        }
+    }
+
+    public func update<T: Encodable>(
+        path: String,
+        id: String,
+        data: T
+    ) async throws {
+        print("➡️ UPDATE: \(path)/\(id)")
+        let db = Firestore.firestore()
+        let docRef = db.collection(path).document(id)
+        
+        do {
+            try docRef.setData(from: data, merge: true)
+            
+            print("🟢 \(path)/\(id): updated \(data)")
+        } catch let error {
+            print("❌ \(path)/\(id): \(error.localizedDescription)")
+            throw error
+        }
+    }
+
+    public func delete(
+        path: String,
+        id: String
+    ) async throws {
+        print("➡️ DELETE: \(path)/\(id)")
+        let db = Firestore.firestore()
+        let docRef = db.collection(path).document(id)
+        
+        do {
+            try await docRef.delete()
+            
+            print("🟢 \(path)/\(id): deleted")
+        } catch let error {
+            print("❌ \(path)/\(id):  \(error.localizedDescription)")
+            throw error
         }
     }
 }

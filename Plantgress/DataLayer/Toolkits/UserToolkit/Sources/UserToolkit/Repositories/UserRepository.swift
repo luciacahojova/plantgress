@@ -7,6 +7,7 @@
 
 import FirebaseFirestoreProvider
 import SharedDomain
+import Utilities
 
 public struct UserRepositoryImpl: UserRepository {
     
@@ -16,16 +17,19 @@ public struct UserRepositoryImpl: UserRepository {
         self.firebaseFirestoreProvider = firebaseFirestoreProvider
     }
     
-    public func getUser() -> User { // TODO
-        User(
-            id: "",
-            email: "",
-            name: "",
-            surname: ""
+    public func getUser(id: String) async throws -> User {
+        try await self.firebaseFirestoreProvider.get(
+            path: DatabaseConstants.usersCollection,
+            id: id,
+            as: User.self
         )
     }
     
     public func createUser(_ user: User) async throws {
-        try await self.firebaseFirestoreProvider.createUser(user)
+        try await firebaseFirestoreProvider.update(
+            path: DatabaseConstants.usersCollection,
+            id: user.id,
+            data: user
+        )
     }
 }

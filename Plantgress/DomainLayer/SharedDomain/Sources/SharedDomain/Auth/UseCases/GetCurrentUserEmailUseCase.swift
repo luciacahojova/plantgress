@@ -1,5 +1,5 @@
 //
-//  GetUserEmailUseCase.swift
+//  GetCurrentUsersEmailUseCase.swift
 //  SharedDomain
 //
 //  Created by Lucia Cahojova on 10.12.2024.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-public protocol GetUserEmailUseCase {
+public protocol GetCurrentUsersEmailUseCase {
     func execute() -> String?
 }
 
-public struct GetUserEmailUseCaseImpl: GetUserEmailUseCase {
+public struct GetCurrentUsersEmailUseCaseImpl: GetCurrentUsersEmailUseCase {
     
     private let authRepository: AuthRepository
     

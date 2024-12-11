@@ -95,6 +95,10 @@ public struct DefaultFirebaseAuthProvider: FirebaseAuthProvider {
         Auth.auth().currentUser?.email
     }
     
+    public func getUserId() -> String? {
+        Auth.auth().getUserID()
+    }
+    
     public func sendPasswordReset(email: String) async throws {
         try await Auth.auth().sendPasswordReset(withEmail: email)
     }

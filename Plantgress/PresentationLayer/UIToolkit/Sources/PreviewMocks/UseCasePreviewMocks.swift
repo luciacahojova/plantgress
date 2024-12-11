@@ -35,8 +35,12 @@ class ValidatePasswordUseCasePreviewMock: ValidatePasswordUseCase {
     func execute(password: String) throws {}
 }
 
-class GetUserEmailUseCasePreviewMock: GetUserEmailUseCase {
-    func execute() -> String? {return nil }
+class GetCurrentUsersEmailUseCasePreviewMock: GetCurrentUsersEmailUseCase {
+    func execute() -> String? { return nil }
+}
+
+class GetCurrentUserUseCasePreviewMock: GetCurrentUserUseCase {
+    func execute() -> User { return User(id: "", email: "", name: "", surname: "") } // TODO: .mock
 }
 
 class SendPasswordResetUseCasePreviewMock: SendPasswordResetUseCase {

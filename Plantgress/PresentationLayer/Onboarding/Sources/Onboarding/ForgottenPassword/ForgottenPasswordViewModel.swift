@@ -12,7 +12,7 @@ import UIToolkit
 
 final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObject {
     
-    @Injected private var getUserEmailUseCase: GetUserEmailUseCase
+    @Injected private var getCurrentUsersEmailUseCase: GetCurrentUsersEmailUseCase
     @Injected private var sendPasswordResetUseCase: SendPasswordResetUseCase
     
     // MARK: - Dependencies
@@ -39,7 +39,7 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
     override func onAppear() {
         super.onAppear()
         
-        if let email = getUserEmailUseCase.execute() {
+        if let email = getCurrentUsersEmailUseCase.execute() {
             state.email = email
         }
     }

@@ -5,10 +5,14 @@
 //  Created by Lucia Cahojova on 04.12.2024.
 //
 
+import Resolver
+import SharedDomain
 import SwiftUI
 import UIToolkit
 
 final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject {
+    
+    @Injected private var getCurrentUserUseCase: GetCurrentUserUseCase
     
     // MARK: - Dependencies
     
@@ -27,6 +31,20 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     
     override func onAppear() {
         super.onAppear()
+        
+        defer { state.isLoading = false }
+        let useCase = getCurrentUserUseCase
+        
+        executeTask(
+            Task {
+                do {
+                    state.user = try await useCase.execute()
+                    // TODO: Add user to keychain after login. if loading the user from keychain fails, load him from firestore
+                } catch {
+                    print("ERORR")
+                }
+            }
+        )
     }
     
     // MARK: - State
@@ -34,7 +52,8 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     @Published private(set) var state: State = State()
 
     struct State {
-        
+        var isLoading: Bool = true
+        var user: User? = nil // TODO: .mock?
     }
     
     // MARK: - Intent
