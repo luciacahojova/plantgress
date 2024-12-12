@@ -54,19 +54,25 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
 
     struct State {
         var isLoading: Bool = true
+        
         var user: User? = nil
+        
         var errorMessage: String?
+        
+        var alertData: AlertData?
     }
     
     // MARK: - Intent
     enum Intent {
         case presentOnboarding(message: String?)
+        case alertDataChanged(AlertData?)
         case logoutUser
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
         case .presentOnboarding(let message): presentOnboarding(message: message)
+        case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .logoutUser: logoutUser()
         }
     }
@@ -76,11 +82,40 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     }
     
     private func logoutUser() {
+        state.alertData = .init(
+            title: "Logout",
+            message: "Are you sure you want to log out?",
+            primaryAction: .init(
+                title: "Cancel",
+                style: .cancel,
+                completion: { [weak self] in
+                    self?.dismissAlert()
+                }
+            ),
+            secondaryAction: .init(
+                title: "Log Out",
+                style: .destructive,
+                completion: { [weak self] in
+                    self?.confirmUserLogout()
+                }
+            )
+        )
+    }
+    
+    private func confirmUserLogout() {
         do {
             try logOutUserUseCase.execute()
             flowController?.handleFlow(ProfileFlow.presentOnboarding(message: nil))
         } catch {
             state.errorMessage = Strings.defaultErrorMessage
         }
+    }
+    
+    private func alertDataChanged(_ alertData: AlertData?) {
+        state.alertData = alertData
+    }
+    
+    private func dismissAlert() {
+        state.alertData = nil
     }
 }

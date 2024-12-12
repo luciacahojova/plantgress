@@ -22,7 +22,7 @@ struct ProfileOverviewView: View {
     
     // MARK: - Body
     
-    var body: some View { // TODO: Alert
+    var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: Constants.Spacing.xxxLarge) {
                 Button("Show Onboarding") {
@@ -43,6 +43,12 @@ struct ProfileOverviewView: View {
         .padding(.horizontal)
         .padding(.top, Constants.Spacing.large)
         .padding(.bottom, Constants.Spacing.xxLarge)
+        .alert(item: Binding<AlertData?>(
+            get: { viewModel.state.alertData },
+            set: { alertData in
+                viewModel.onIntent(.alertDataChanged(alertData))
+            }
+        )) { alert in .init(alert) }
         .lifecycle(viewModel)
     }
 }
