@@ -34,5 +34,16 @@
 "email_not_registered_error_message" = "Email is not registered.";
 "wrong_password_error_message" = "Wrong password.";
 
+// MARK: Profil
+"profile_title" = "Profil";
+"logout_button" = "Odhlásiť sa";
+"logout_alert_title" = "Odhlásenie";
+"logout_alert_message" = "Ste si istí, že sa chcete odhlásiť?";
+
+// MARK: Objavovanie
+"explore_title" = "Objaviť";
+
 // MARK: General
 "dismiss_button" = "Zrušiť";
+"cancel_button" = "Zrušiť";
+"close_button" = "Zavrieť";

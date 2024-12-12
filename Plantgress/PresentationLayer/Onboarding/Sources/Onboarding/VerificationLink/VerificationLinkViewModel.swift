@@ -54,7 +54,6 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
         var isLoginButtonDisabled: Bool {
             errorMessage != nil
         }
-        
         var isResendVerificationButtonLoading: Bool = false
         
         var navigationBarHeight: CGFloat = 0

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Resolver
 import UIToolkit
 
 struct ProfileOverviewView: View {
@@ -24,12 +25,19 @@ struct ProfileOverviewView: View {
     
     var body: some View {
         ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading, spacing: Constants.Spacing.xxxLarge) {
-                Button("Show Onboarding") {
-                    viewModel.onIntent(.presentOnboarding(message: nil))
+            VStack(spacing: Constants.Spacing.xxxLarge) {
+                VStack(spacing: Constants.Spacing.large) {
+                    // TODO: Custom list
+                    
+                    if let errorMessage = viewModel.state.errorMessage {
+                        Text(errorMessage)
+                            .font(Fonts.captionMedium)
+                            .foregroundStyle(Color.red)
+                            .multilineTextAlignment(.center)
+                    }
                 }
                 
-                Button("Log Out") {
+                Button(Strings.logoutButton) {
                     viewModel.onIntent(.logoutUser)
                 }
                 .buttonStyle(
@@ -54,9 +62,11 @@ struct ProfileOverviewView: View {
 }
 
 #Preview {
+    Resolver.registerUseCasesForPreviews()
+    
     let vm = ProfileOverviewViewModel(flowController: nil)
     
-    ProfileOverviewView(
+    return ProfileOverviewView(
         viewModel: vm
     )
 }

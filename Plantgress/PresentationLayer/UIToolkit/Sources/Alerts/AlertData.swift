@@ -20,7 +20,7 @@ public struct AlertData: Equatable, Identifiable {
     public init(
         title: String,
         message: String? = nil,
-        primaryAction: AlertAction = AlertAction(title: "Close", style: .default), // TODO: String
+        primaryAction: AlertAction = AlertAction(title: Strings.closeButton, style: .default),
         secondaryAction: AlertAction? = nil
     ) {
         self.title = title

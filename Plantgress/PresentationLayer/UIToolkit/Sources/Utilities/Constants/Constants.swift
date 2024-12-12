@@ -37,7 +37,7 @@ public struct Constants {
         public static let mediumLarge: CGFloat = 16
         
         /**
-         * Spacing of 32
+         * Spacing of 24
          */
         public static let large: CGFloat = 24
         

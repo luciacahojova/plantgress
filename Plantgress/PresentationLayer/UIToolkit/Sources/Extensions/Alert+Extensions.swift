@@ -24,7 +24,6 @@ public extension Alert {
                 dismissButton: .init(data.primaryAction)
             )
         }
-
     }
 }
 

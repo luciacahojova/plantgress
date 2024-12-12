@@ -34,5 +34,16 @@
 "email_not_registered_error_message" = "Email is not registered.";
 "wrong_password_error_message" = "Wrong password.";
 
+// MARK: Profile
+"profile_title" = "Profile";
+"logout_button" = "Log Out";
+"logout_alert_title" = "Logout";
+"logout_alert_message" = "Are you sure you want to log out?";
+
+// MARK: Explore
+"explore_title" = "Explore";
+
 // MARK: General
 "dismiss_button" = "Dismiss";
+"cancel_button" = "Cancel";
+"close_button" = "Close";

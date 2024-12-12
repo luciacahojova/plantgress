@@ -16,7 +16,10 @@ public final class ExploreFlowController: FlowController {
     
     public override func setup() -> UIViewController {
         let view = ExploreOverviewView()
-        let vc = HostingController(rootView: view)
+        let vc = HostingController(
+            rootView: view,
+            title: Strings.exploreTitle
+        )
         
         return vc
     }

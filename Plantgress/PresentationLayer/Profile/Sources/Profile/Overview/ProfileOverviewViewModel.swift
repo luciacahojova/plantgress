@@ -42,7 +42,7 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
                 do {
                     state.user = try await useCase.execute()
                 } catch {
-                    print("ERORR")
+                    state.errorMessage = Strings.defaultErrorMessage
                 }
             }
         )
@@ -54,11 +54,8 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
 
     struct State {
         var isLoading: Bool = true
-        
         var user: User? = nil
-        
-        var errorMessage: String?
-        
+        var errorMessage: String? = "Something went wrong."
         var alertData: AlertData?
     }
     
@@ -83,17 +80,17 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     
     private func logoutUser() {
         state.alertData = .init(
-            title: "Logout",
-            message: "Are you sure you want to log out?",
+            title: Strings.logoutAlertTitle,
+            message: Strings.logoutAlertMessage,
             primaryAction: .init(
-                title: "Cancel",
+                title: Strings.cancelButton,
                 style: .cancel,
                 completion: { [weak self] in
                     self?.dismissAlert()
                 }
             ),
             secondaryAction: .init(
-                title: "Log Out",
+                title: Strings.logoutButton,
                 style: .destructive,
                 completion: { [weak self] in
                     self?.confirmUserLogout()

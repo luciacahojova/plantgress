@@ -14,6 +14,10 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum Strings {
+  /// Cancel
+  public static let cancelButton = Strings.tr("Localizable", "cancel_button", fallback: "Cancel")
+  /// Close
+  public static let closeButton = Strings.tr("Localizable", "close_button", fallback: "Close")
   /// Something went wrong.
   public static let defaultErrorMessage = Strings.tr("Localizable", "default_error_message", fallback: "Something went wrong.")
   /// Dismiss
@@ -28,6 +32,8 @@ public enum Strings {
   public static let emailNotVerifiedErrorMessage = Strings.tr("Localizable", "email_not_verified_error_message", fallback: "Your email address is not verified.")
   /// Email verification link has been resent.
   public static let emailVerificationResentSnackbarMessage = Strings.tr("Localizable", "email_verification_resent_snackbar_message", fallback: "Email verification link has been resent.")
+  /// Explore
+  public static let exploreTitle = Strings.tr("Localizable", "explore_title", fallback: "Explore")
   /// Forgotten password
   public static let forgottenPasswordTitle = Strings.tr("Localizable", "forgotten_password_title", fallback: "Forgotten password")
   /// Please enter a valid email address.
@@ -38,6 +44,12 @@ public enum Strings {
   public static let loginSendVerificationLinkButton = Strings.tr("Localizable", "login_send_verification_link_button", fallback: "Send verification link")
   /// Log In
   public static let loginTitle = Strings.tr("Localizable", "login_title", fallback: "Log In")
+  /// Are you sure you want to log out?
+  public static let logoutAlertMessage = Strings.tr("Localizable", "logout_alert_message", fallback: "Are you sure you want to log out?")
+  /// Logout
+  public static let logoutAlertTitle = Strings.tr("Localizable", "logout_alert_title", fallback: "Logout")
+  /// Log Out
+  public static let logoutButton = Strings.tr("Localizable", "logout_button", fallback: "Log Out")
   /// Email
   public static let onboardingEmailPlaceholder = Strings.tr("Localizable", "onboarding_email_placeholder", fallback: "Email")
   /// Log In
@@ -56,6 +68,8 @@ public enum Strings {
   public static let passwordResetMessage = Strings.tr("Localizable", "password_reset_message", fallback: "A reset link will be sent to the provided email address. If it doesn’t arrive within a few minutes, check the email address or resend the link.")
   /// Passwords do not match.
   public static let passwordsDontMatchErrorMessage = Strings.tr("Localizable", "passwords_dont_match_error_message", fallback: "Passwords do not match.")
+  /// Profile
+  public static let profileTitle = Strings.tr("Localizable", "profile_title", fallback: "Profile")
   /// Register
   public static let registrationTitle = Strings.tr("Localizable", "registration_title", fallback: "Register")
   /// Resend verification link
