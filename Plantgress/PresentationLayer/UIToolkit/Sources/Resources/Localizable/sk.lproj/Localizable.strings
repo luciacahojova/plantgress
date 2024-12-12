@@ -43,6 +43,9 @@
 // MARK: Objavovanie
 "explore_title" = "Objaviť";
 
+// MARK: Plants
+"plants_title" = "Rastliny";
+
 // MARK: General
 "dismiss_button" = "Zrušiť";
 "cancel_button" = "Zrušiť";

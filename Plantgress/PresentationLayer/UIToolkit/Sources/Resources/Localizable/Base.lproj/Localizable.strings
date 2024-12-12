@@ -43,6 +43,9 @@
 // MARK: Explore
 "explore_title" = "Explore";
 
+// MARK: Plants
+"plants_title" = "Plants";
+
 // MARK: General
 "dismiss_button" = "Dismiss";
 "cancel_button" = "Cancel";

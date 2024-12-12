@@ -35,6 +35,7 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
         super.onAppear()
         defer { state.isLoading = false }
         
+        // TODO: Handle logout via delegate when user does not exist
         state.user = try? getCurrentUserLocallyUseCase.execute()
         let useCase = getCurrentUserRemotelyUseCase
         executeTask(
@@ -55,7 +56,7 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     struct State {
         var isLoading: Bool = true
         var user: User? = nil
-        var errorMessage: String? = "Something went wrong."
+        var errorMessage: String? 
         var alertData: AlertData?
     }
     

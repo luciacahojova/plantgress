@@ -68,6 +68,8 @@ public enum Strings {
   public static let passwordResetMessage = Strings.tr("Localizable", "password_reset_message", fallback: "A reset link will be sent to the provided email address. If it doesn’t arrive within a few minutes, check the email address or resend the link.")
   /// Passwords do not match.
   public static let passwordsDontMatchErrorMessage = Strings.tr("Localizable", "passwords_dont_match_error_message", fallback: "Passwords do not match.")
+  /// Plants
+  public static let plantsTitle = Strings.tr("Localizable", "plants_title", fallback: "Plants")
   /// Profile
   public static let profileTitle = Strings.tr("Localizable", "profile_title", fallback: "Profile")
   /// Register

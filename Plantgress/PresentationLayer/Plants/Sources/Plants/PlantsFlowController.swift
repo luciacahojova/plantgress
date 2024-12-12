@@ -18,7 +18,7 @@ public final class PlantsFlowController: FlowController {
         let view = PlantsOverviewView()
         let vc = HostingController(
             rootView: view,
-            title: "Plants"
+            title: Strings.plantsTitle
         )
         
         return vc
