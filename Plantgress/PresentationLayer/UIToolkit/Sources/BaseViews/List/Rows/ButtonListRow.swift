@@ -43,7 +43,7 @@ public struct ButtonListRow: View {
     public var body: some View {
         VStack(spacing: 0) {
             Button(action: action) {
-                HStack(spacing: Constants.Spacing.xMedium) {
+                HStack(spacing: Constants.List.spacing) {
                     if let leadingIcon {
                         leadingIcon
                             .renderingMode(.template)
@@ -56,7 +56,7 @@ public struct ButtonListRow: View {
                     
                     Spacer()
                     
-                    HStack(spacing: Constants.Spacing.small) {
+                    HStack(spacing: Constants.List.trailingIconTextSpacing) {
                         if let text {
                             Text(text)
                         }
@@ -71,14 +71,17 @@ public struct ButtonListRow: View {
                     }
                     .foregroundStyle(Colors.secondaryText)
                 }
-                .padding(.leading, rowLevel == .primary ? Constants.Spacing.mediumLarge : Constants.Spacing.xxLarge)
-                .padding(.trailing, Constants.Spacing.xMedium)
+                .padding(.trailing, Constants.List.trailingPadding)
+                .padding(
+                    .leading,
+                    rowLevel == .primary ? Constants.List.leadingPaddingPrimary : Constants.List.leadingPaddingSecondary
+                )
                 .frame(height: Constants.Frame.primaryButtonHeight)
             }
             
             if !isLast {
                 Divider()
-                    .padding(.leading, rowLevel == .primary ? 0 : Constants.Spacing.xxLarge)
+                    .padding(.leading, rowLevel == .primary ? 0 : Constants.List.leadingPaddingSecondary)
             }
         }
         .font(Fonts.bodyRegular)

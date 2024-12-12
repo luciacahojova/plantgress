@@ -36,7 +36,7 @@ public struct CustomListRow<Content: View>: View {
 
     public var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: Constants.Spacing.xMedium) {
+            HStack(spacing: Constants.List.spacing) {
                 if let icon {
                     icon
                         .renderingMode(.template)
@@ -51,13 +51,16 @@ public struct CustomListRow<Content: View>: View {
                 
                 content
             }
-            .padding(.leading, rowLevel == .primary ? Constants.Spacing.mediumLarge : Constants.Spacing.xxLarge)
-            .padding(.trailing, Constants.Spacing.xMedium)
+            .padding(.trailing, Constants.List.trailingPadding)
+            .padding(
+                .leading,
+                rowLevel == .primary ? Constants.List.leadingPaddingPrimary : Constants.List.leadingPaddingSecondary
+            )
             .frame(height: Constants.Frame.primaryButtonHeight)
             
             if !isLast {
                 Divider()
-                    .padding(.leading, rowLevel == .primary ? 0 : Constants.Spacing.xxLarge)
+                    .padding(.leading, rowLevel == .primary ? 0 : Constants.List.leadingPaddingSecondary)
             }
         }
         .font(Fonts.bodyRegular)

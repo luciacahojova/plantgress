@@ -131,7 +131,7 @@ public struct Constants {
         /**
          * Main HStack spacing of size 12
          */
-        public static let spacing: CGFloat = 12
+        public static let spacing: CGFloat = 8
         
         /**
          * Spacing between trailing text and icon of size 4
@@ -139,14 +139,14 @@ public struct Constants {
         public static let trailingIconTextSpacing: CGFloat = 4
         
         /**
-         * Leading padding for primary row of size 16
+         * Leading padding for primary row of size 12
          */
-        public static let leadingPaddingPrimary: CGFloat = 16
+        public static let leadingPaddingPrimary: CGFloat = 12
         
         /**
-         * Leading padding for secondary row of size 36
+         * Leading padding for secondary row of size 40
          */
-        public static let leadingPaddingSecondary: CGFloat = 36
+        public static let leadingPaddingSecondary: CGFloat = 40
         
         /**
          * Trailing padding of size 12

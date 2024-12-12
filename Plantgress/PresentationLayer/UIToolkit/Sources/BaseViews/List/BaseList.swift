@@ -37,7 +37,7 @@ public struct BaseList<Content: View>: View {
                 content
             }
             .background(backgoundColor)
-            .cornerRadius(Constants.CornerRadius.xLarge)
+            .cornerRadius(Constants.List.cornerRadius)
         }
     }
 }

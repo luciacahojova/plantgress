@@ -36,7 +36,7 @@ public struct CalendarListRow: View {
     
     public var body: some View { // TODO: Custom color
         VStack(spacing: 0) {
-            HStack(spacing: Constants.Spacing.xMedium) {
+            HStack(spacing: Constants.List.spacing) {
                 icon
                     .renderingMode(.template)
                     .resizable()
@@ -60,16 +60,16 @@ public struct CalendarListRow: View {
                 .cornerRadius(Constants.CornerRadius.small)
 
             }
+            .padding(.trailing, Constants.List.trailingPadding)
             .padding(
                 .leading,
-                rowLever == .primary ? Constants.Spacing.mediumLarge : Constants.Spacing.xxLarge
+                rowLever == .primary ? Constants.List.leadingPaddingPrimary : Constants.List.leadingPaddingSecondary
             )
-            .padding(.trailing, Constants.Spacing.xMedium)
             .frame(height: Constants.Frame.primaryButtonHeight)
             
             if !isLast {
                 Divider()
-                    .padding(.leading, rowLever == .primary ? 0 : Constants.Spacing.xxLarge)
+                    .padding(.leading, rowLever == .primary ? 0 : Constants.List.leadingPaddingSecondary)
             }
         }
         .font(Fonts.bodyRegular)
