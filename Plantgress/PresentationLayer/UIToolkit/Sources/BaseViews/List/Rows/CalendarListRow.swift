@@ -34,7 +34,7 @@ public struct CalendarListRow: View {
         self.title = isDate ? "Start" : "Time" // TODO: Strings
     }
     
-    public var body: some View { // TODO: Custom color
+    public var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: Constants.List.spacing) {
                 icon
@@ -47,18 +47,10 @@ public struct CalendarListRow: View {
                 
                 Spacer()
                 
-                DatePicker(
-                    "",
-                    selection: $date,
-                    displayedComponents: [datePickerComponents]
+                BaseDatePicker(
+                    date: $date,
+                    datePickerComponents: datePickerComponents
                 )
-                .labelsHidden()
-                .tint(Colors.primaryText)
-                .datePickerStyle(.automatic)
-                .colorMultiply(Colors.primaryText)
-                .background(Color.black.opacity(0.2))
-                .cornerRadius(Constants.CornerRadius.small)
-
             }
             .padding(.trailing, Constants.List.trailingPadding)
             .padding(
@@ -95,3 +87,5 @@ public struct CalendarListRow: View {
     .background(Colors.secondaryBackground)
     .colorScheme(.dark)
 }
+
+

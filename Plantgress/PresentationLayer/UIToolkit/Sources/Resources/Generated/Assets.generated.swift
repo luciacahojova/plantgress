@@ -36,6 +36,7 @@ public enum Asset {
   public enum Colors {
     public static let blue = ColorAsset(name: "blue")
     public static let coral = ColorAsset(name: "coral")
+    public static let gray = ColorAsset(name: "gray")
     public static let green = ColorAsset(name: "green")
     public static let orange = ColorAsset(name: "orange")
     public static let pink = ColorAsset(name: "pink")

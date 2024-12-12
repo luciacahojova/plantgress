@@ -52,11 +52,40 @@ public struct BaseList<Content: View>: View {
             icon: Asset.Icons.drop.image
         )
         
+        ToggleListRow(
+            isToggleOn: .constant(false),
+            title: "Watering",
+            rowLevel: .primary,
+            isLast: false,
+            icon: Asset.Icons.drop.image
+        )
+        
         CalendarListRow(
             date: .constant(.now),
-            datePickerComponents: .hourAndMinute,
+            datePickerComponents: .date,
             rowLever: .secondary,
-            isLast: false
+            isLast: true
+        )
+    }
+    .padding()
+    .background(Colors.primaryBackground)
+    .colorScheme(.dark)
+    
+    BaseList(title: "Title") {
+        ToggleListRow(
+            isToggleOn: .constant(true),
+            title: "Watering",
+            rowLevel: .primary,
+            isLast: false,
+            icon: Asset.Icons.drop.image
+        )
+        
+        ToggleListRow(
+            isToggleOn: .constant(false),
+            title: "Watering",
+            rowLevel: .primary,
+            isLast: false,
+            icon: Asset.Icons.drop.image
         )
         
         CalendarListRow(

@@ -49,9 +49,9 @@ struct ToggleListRow: View {
                 Toggle(isOn: $isToggleOn) {}
                     .tint(Colors.primaryText)
                     .toggleStyle(
-                        BaseToggleStyle( // TODO: Custom color
-                            onColor: Colors.primaryText,
-                            offColor: .gray
+                        BaseToggleStyle(
+                            onColor: Colors.green,
+                            offColor: Colors.gray
                         )
                     )
             }
