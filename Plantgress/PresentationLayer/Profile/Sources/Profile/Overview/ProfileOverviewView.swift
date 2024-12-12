@@ -27,7 +27,43 @@ struct ProfileOverviewView: View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: Constants.Spacing.xxxLarge) {
                 VStack(spacing: Constants.Spacing.large) {
-                    // TODO: Custom list
+                    BaseList(title: "Account") {
+                        ButtonListRow(
+                            title: "Change Email",
+                            isLast: false,
+                            trailingIcon: Asset.Icons.chevronRight.image,
+                            action: {
+                                // TODO: Flow controller action
+                            }
+                        )
+                        
+                        ButtonListRow(
+                            title: "Change Name",
+                            isLast: false,
+                            trailingIcon: Asset.Icons.chevronRight.image,
+                            action: {
+                                // TODO: Flow controller action
+                            }
+                        )
+                        
+                        ButtonListRow(
+                            title: "Change Password",
+                            isLast: false,
+                            trailingIcon: Asset.Icons.chevronRight.image,
+                            action: {
+                                // TODO: Flow controller action
+                            }
+                        )
+                        
+                        ButtonListRow(
+                            title: "Delete Account",
+                            foregroundColor: Colors.red,
+                            isLast: true,
+                            action: {
+                                // TODO: Flow controller action
+                            }
+                        )
+                    }
                     
                     if let errorMessage = viewModel.state.errorMessage {
                         Text(errorMessage)
@@ -57,6 +93,7 @@ struct ProfileOverviewView: View {
                 viewModel.onIntent(.alertDataChanged(alertData))
             }
         )) { alert in .init(alert) }
+        .background(Colors.primaryBackground) // TODO: Delete
         .lifecycle(viewModel)
     }
 }
