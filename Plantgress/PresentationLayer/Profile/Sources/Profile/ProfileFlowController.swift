@@ -10,6 +10,9 @@ import UIKit
 
 enum ProfileFlow: Flow {
     case presentOnboarding(message: String?)
+    case showChangeEmail
+    case showChangeName
+    case showChangePassword
 }
 
 public protocol ProfileFlowControllerDelegate: AnyObject {
@@ -29,7 +32,7 @@ public final class ProfileFlowController: FlowController {
         )
         let vc = HostingController(
             rootView: view,
-            title: "Account"
+            title: "Profile" // TODO: String
         )
         
         return vc
@@ -39,10 +42,25 @@ public final class ProfileFlowController: FlowController {
         guard let flow = flow as? ProfileFlow else { return }
         switch flow {
         case .presentOnboarding(let message): presentOnboarding(message: message)
+        case .showChangeEmail: showChangeEmail()
+        case .showChangeName: showChangeName()
+        case .showChangePassword: showChangePassword()
         }
     }
     
     private func presentOnboarding(message: String?) {
         delegate?.presentOnboarding(message: message)
+    }
+    
+    private func showChangeEmail() {
+        #warning("TODO: Add impelmentation")
+    }
+    
+    private func showChangeName() {
+        #warning("TODO: Add impelmentation")
+    }
+    
+    private func showChangePassword() {
+        #warning("TODO: Add impelmentation")
     }
 }

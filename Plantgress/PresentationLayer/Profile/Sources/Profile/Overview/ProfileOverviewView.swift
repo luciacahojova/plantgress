@@ -32,36 +32,29 @@ struct ProfileOverviewView: View {
                             title: "Change Email",
                             isLast: false,
                             trailingIcon: Asset.Icons.chevronRight.image,
-                            action: {
-                                // TODO: Flow controller action
-                            }
+                            action: { viewModel.onIntent(.showChangeEmail) }
                         )
                         
                         ButtonListRow(
                             title: "Change Name",
                             isLast: false,
                             trailingIcon: Asset.Icons.chevronRight.image,
-                            action: {
-                                // TODO: Flow controller action
-                            }
+                            action: { viewModel.onIntent(.showChangeName) }
                         )
                         
                         ButtonListRow(
                             title: "Change Password",
                             isLast: false,
                             trailingIcon: Asset.Icons.chevronRight.image,
-                            action: {
-                                // TODO: Flow controller action
-                            }
+                            action: { viewModel.onIntent(.showChangePassword) }
                         )
                         
                         ButtonListRow(
                             title: "Delete Account",
+                            titleFont: Fonts.bodySemibold,
                             foregroundColor: Colors.red,
                             isLast: true,
-                            action: {
-                                // TODO: Flow controller action
-                            }
+                            action: { viewModel.onIntent(.deleteUser) }
                         )
                     }
                     

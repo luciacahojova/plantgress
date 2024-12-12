@@ -63,15 +63,23 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     // MARK: - Intent
     enum Intent {
         case presentOnboarding(message: String?)
+        case showChangeEmail
+        case showChangeName
+        case showChangePassword
         case alertDataChanged(AlertData?)
         case logoutUser
+        case deleteUser
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
         case .presentOnboarding(let message): presentOnboarding(message: message)
+        case .showChangeEmail: showChangeEmail()
+        case .showChangeName: showChangeName()
+        case .showChangePassword: showChangePassword()
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .logoutUser: logoutUser()
+        case .deleteUser: deleteUser()
         }
     }
     
@@ -100,6 +108,27 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
         )
     }
     
+    private func deleteUser() {
+        state.alertData = .init(
+            title: "Delete Accout", // TODO: Strings
+            message: "Are you sure you want to permanently delete your account?",
+            primaryAction: .init(
+                title: Strings.cancelButton,
+                style: .cancel,
+                completion: { [weak self] in
+                    self?.dismissAlert()
+                }
+            ),
+            secondaryAction: .init(
+                title: "Delete",
+                style: .destructive,
+                completion: { [weak self] in
+                    self?.confirmAccountDelete()
+                }
+            )
+        )
+    }
+    
     private func confirmUserLogout() {
         do {
             try logOutUserUseCase.execute()
@@ -109,11 +138,27 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
         }
     }
     
+    private func confirmAccountDelete() {
+        // TODO: Delete account UC
+    }
+    
     private func alertDataChanged(_ alertData: AlertData?) {
         state.alertData = alertData
     }
     
     private func dismissAlert() {
         state.alertData = nil
+    }
+    
+    private func showChangeEmail() {
+        flowController?.handleFlow(ProfileFlow.showChangeEmail)
+    }
+    
+    private func showChangeName() {
+        flowController?.handleFlow(ProfileFlow.showChangeName)
+    }
+    
+    private func showChangePassword() {
+        flowController?.handleFlow(ProfileFlow.showChangePassword)
     }
 }

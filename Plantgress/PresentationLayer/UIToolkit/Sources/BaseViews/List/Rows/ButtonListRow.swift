@@ -10,6 +10,7 @@ import SwiftUI
 public struct ButtonListRow: View {
     
     private let title: String
+    private let titleFont: Font
     private let rowLevel: RowLevel
     private let isLast: Bool
     private let foregroundColor: Color
@@ -22,6 +23,7 @@ public struct ButtonListRow: View {
     
     public init(
         title: String,
+        titleFont: Font = Fonts.bodyRegular,
         foregroundColor: Color = Colors.primaryText,
         rowLevel: RowLevel = .primary,
         isLast: Bool,
@@ -31,6 +33,7 @@ public struct ButtonListRow: View {
         action: @escaping () -> Void
     ) {
         self.title = title
+        self.titleFont = titleFont
         self.foregroundColor = foregroundColor
         self.rowLevel = rowLevel
         self.isLast = isLast
@@ -53,6 +56,7 @@ public struct ButtonListRow: View {
                     }
                     
                     Text(title)
+                        .font(titleFont)
                     
                     Spacer()
                     
@@ -69,7 +73,6 @@ public struct ButtonListRow: View {
                                 .frame(width: Constants.IconSize.small)
                         }
                     }
-                    .foregroundStyle(Colors.secondaryText)
                 }
                 .padding(.trailing, Constants.List.trailingPadding)
                 .padding(

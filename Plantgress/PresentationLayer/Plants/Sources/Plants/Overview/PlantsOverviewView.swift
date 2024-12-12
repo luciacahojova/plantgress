@@ -28,6 +28,7 @@ struct PlantsOverviewView: View {
             }
             .padding(.horizontal)
         }
+        .foregroundStyle(Colors.primaryText)
     }
 }
 
