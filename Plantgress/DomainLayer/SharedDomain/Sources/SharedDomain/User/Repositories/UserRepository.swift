@@ -14,4 +14,5 @@ public protocol UserRepository {
     func createUser(_ user: User) async throws
     func saveUserLocally(user: User) throws
     func deleteCurrentUserLocally() throws
+    func deleteUser(userId: String) async throws
 }

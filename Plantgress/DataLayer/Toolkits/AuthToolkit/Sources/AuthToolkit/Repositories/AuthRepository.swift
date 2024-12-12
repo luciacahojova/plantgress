@@ -45,6 +45,10 @@ public struct AuthRepositoryImpl: AuthRepository {
         firebaseAuthProvider.getUserId()
     }
     
+    public func deleteUser() {
+        firebaseAuthProvider.deleteUser()
+    }
+    
     public func sendPasswordReset(email: String) async throws {
         try await firebaseAuthProvider.sendPasswordReset(email: email)
     }

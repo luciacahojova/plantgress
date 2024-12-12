@@ -54,3 +54,7 @@ class SendPasswordResetUseCasePreviewMock: SendPasswordResetUseCase {
 class LogOutUserUseCasePreviewMock: LogOutUserUseCase {
     func execute() throws {}
 }
+
+class DeleteUserUseCasePreviewMock: DeleteUserUseCase {
+    func execute(userId: String) async throws {}
+}

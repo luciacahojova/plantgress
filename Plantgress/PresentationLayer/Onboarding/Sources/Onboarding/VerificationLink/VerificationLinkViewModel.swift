@@ -89,10 +89,10 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
     private func resendLink() {
         state.isResendVerificationButtonLoading = true
         state.errorMessage = nil
-        defer { state.isResendVerificationButtonLoading = false }
         
         executeTask(
             Task {
+                defer { state.isResendVerificationButtonLoading = false }
                 do {
                     try await sendEmailVerificationUseCase.execute()
                     state.snackbarData = .init(

@@ -88,10 +88,10 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func logInUser() {
         state.isLoginButtonLoading = true
-        defer { state.isLoginButtonLoading = false }
         
         executeTask(
             Task {
+                defer { state.isLoginButtonLoading = false }
                 do {
                     try await logInUserUseCase.execute(
                         credentials: LoginCredentials(
@@ -101,7 +101,7 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
                     )
                     
                     flowController?.handleFlow(OnboardingFlow.setupMain)
-                } catch AuthError.invalidEmail {
+                } catch AuthError.invalidEmail, AuthError.userNotFound {
                     state.emailErrorMessage = Strings.emailNotRegisteredErrorMessage
                     return
                 } catch AuthError.wrongPassword {
@@ -134,15 +134,17 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func sendEmailVerification() {
         state.isEmailVerificationButtonLoading = true
-        defer { state.isEmailVerificationButtonLoading = false }
         
         executeTask(
             Task {
+                defer { state.isEmailVerificationButtonLoading = false }
                 do {
                     try await sendEmailVerificationUseCase.execute()
                     flowController?.handleFlow(OnboardingFlow.showVerificationLink)
                 } catch AuthError.tooManyRequests {
                     state.errorMessage = Strings.tooManyRequestsErrorMessage
+                } catch AuthError.userNotFound {
+                    state.errorMessage = Strings.emailNotRegisteredErrorMessage
                 } catch {
                     state.errorMessage = Strings.defaultErrorMessage
                 }

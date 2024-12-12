@@ -15,6 +15,7 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     @Injected private var getCurrentUserRemotelyUseCase: GetCurrentUserRemotelyUseCase
     @Injected private var getCurrentUserLocallyUseCase: GetCurrentUserLocallyUseCase
     @Injected private var logOutUserUseCase: LogOutUserUseCase
+    @Injected private var deleteUserUseCase: DeleteUserUseCase
     
     // MARK: - Dependencies
     
@@ -55,8 +56,13 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
 
     struct State {
         var isLoading: Bool = true
+        var isDisabled: Bool {
+            isLoading || isDeleteAccountButtonLoading
+        }
+        var isDeleteAccountButtonLoading: Bool = false
         var user: User? = nil
-        var errorMessage: String? 
+        
+        var errorMessage: String?
         var alertData: AlertData?
     }
     
@@ -139,7 +145,25 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     }
     
     private func confirmAccountDelete() {
-        // TODO: Delete account UC
+        guard let userId = state.user?.id else {
+            state.errorMessage = Strings.defaultErrorMessage // TODO: Handle logout
+            return
+        }
+        state.isDeleteAccountButtonLoading = true
+        
+        let useCase = deleteUserUseCase
+        executeTask(
+            Task {
+                defer { state.isDeleteAccountButtonLoading = false }
+                
+                do {
+                    try await useCase.execute(userId: userId)
+                    flowController?.handleFlow(ProfileFlow.presentOnboarding(message: nil))
+                } catch {
+                    state.errorMessage = Strings.defaultErrorMessage
+                }
+            }
+        )
     }
     
     private func alertDataChanged(_ alertData: AlertData?) {

@@ -54,7 +54,7 @@ struct ProfileOverviewView: View {
                             titleFont: Fonts.bodySemibold,
                             foregroundColor: Colors.red,
                             isLast: true,
-                            action: { viewModel.onIntent(.deleteUser) }
+                            action: { viewModel.onIntent(.deleteUser) } // TODO: Handle loading?
                         )
                     }
                     
@@ -77,6 +77,7 @@ struct ProfileOverviewView: View {
                 )
             }
         }
+        .disabled(viewModel.state.isDisabled)
         .padding(.horizontal)
         .padding(.top, Constants.Spacing.large)
         .padding(.bottom, Constants.Spacing.xxLarge)

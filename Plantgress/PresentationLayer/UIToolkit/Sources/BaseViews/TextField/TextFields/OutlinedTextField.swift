@@ -41,7 +41,7 @@ public struct OutlinedTextField: View {
                     )
                 )
                 .frame(maxWidth: .infinity)
-                .keyboardType(keyboardType)
+                .keyboardType(keyboardType) // TODO: Interceptor, delete all button
             
             if let errorMessage {
                 Text(errorMessage)

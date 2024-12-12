@@ -58,6 +58,15 @@ public struct UserRepositoryImpl: UserRepository {
         try keychainProvider.delete(.user)
     }
     
+    public func deleteUser(userId: String) async throws {
+        try await firebaseFirestoreProvider.delete(
+            path: DatabaseConstants.usersCollection,
+            id: userId
+        )
+        
+        try? keychainProvider.delete(.user)
+    }
+    
     public func isUserLoggedIn() -> Bool {
         do {
             let userJsonString = try keychainProvider.read(.user)

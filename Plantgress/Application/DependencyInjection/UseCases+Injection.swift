@@ -23,5 +23,6 @@ public extension Resolver {
         register { GetCurrentUserLocallyUseCaseImpl(userRepository: resolve()) as GetCurrentUserLocallyUseCase }
         register { SendPasswordResetUseCaseImpl(authRepository: resolve()) as SendPasswordResetUseCase }
         register { LogOutUserUseCaseImpl(userRepository: resolve()) as LogOutUserUseCase }
+        register { DeleteUserUseCaseImpl(authRepository: resolve(), userRepository: resolve()) as DeleteUserUseCase }
     }
 }

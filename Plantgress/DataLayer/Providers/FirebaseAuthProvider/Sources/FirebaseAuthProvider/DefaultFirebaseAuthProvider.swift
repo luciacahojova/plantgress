@@ -51,6 +51,8 @@ public struct DefaultFirebaseAuthProvider: FirebaseAuthProvider {
             }
             
             switch authErrorCode {
+            case .userNotFound:
+                throw AuthError.userNotFound
             case .tooManyRequests:
                 throw AuthError.tooManyRequests
             default:
@@ -72,6 +74,8 @@ public struct DefaultFirebaseAuthProvider: FirebaseAuthProvider {
             switch authErrorCode {
             case  .invalidCredential:
                 throw AuthError.invalidEmail
+            case  .userNotFound:
+                throw AuthError.userNotFound
             case .wrongPassword:
                 throw AuthError.wrongPassword
             case .unverifiedEmail:
@@ -94,7 +98,24 @@ public struct DefaultFirebaseAuthProvider: FirebaseAuthProvider {
         Auth.auth().getUserID()
     }
     
+    public func deleteUser() {
+        Auth.auth().currentUser?.delete()
+    }
+    
     public func sendPasswordReset(email: String) async throws {
-        try await Auth.auth().sendPasswordReset(withEmail: email)
+        do {
+            try await Auth.auth().sendPasswordReset(withEmail: email)
+        } catch let error as NSError {
+            guard let authErrorCode = AuthErrorCode.init(rawValue: error._code) else {
+                throw AuthError.default
+            }
+            
+            switch authErrorCode {
+            case  .userNotFound:
+                throw AuthError.userNotFound
+            default:
+                throw AuthError.default
+            }
+        }
     }
 }

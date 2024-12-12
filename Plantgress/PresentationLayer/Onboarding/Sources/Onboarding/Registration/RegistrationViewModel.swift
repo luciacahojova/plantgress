@@ -86,11 +86,11 @@ final class RegistrationViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func registerUser() {
         state.isRegisterButtonLoading = true
-        defer { state.isRegisterButtonLoading = false }
         guard areCredentialsValid() else { return }
         
         executeTask(
             Task {
+                defer { state.isRegisterButtonLoading = false }
                 do {
                     try await registerUserUseCase.execute(
                         credentials: RegistrationCredentials(

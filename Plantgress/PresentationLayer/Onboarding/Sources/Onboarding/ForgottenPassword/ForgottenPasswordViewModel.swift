@@ -99,13 +99,16 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
     
     private func sendResetPasswordLink() {
         state.isResetPasswordButtonLoading = true
-        defer { state.isResetPasswordButtonLoading = false }
         
         executeTask(
             Task {
+                defer { state.isResetPasswordButtonLoading = false }
+                
                 do {
                     try await sendPasswordResetUseCase.execute(email: state.email)
                     state.snackbarData = .init(message: Strings.resetPasswordSnackbarMessage)
+                } catch AuthError.userNotFound {
+                    state.errorMessage = Strings.emailNotRegisteredErrorMessage
                 } catch {
                     state.errorMessage = Strings.defaultErrorMessage
                 }
