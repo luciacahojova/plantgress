@@ -54,7 +54,7 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
 
     struct State {
         var isLoading: Bool = true
-        var user: User? = nil // TODO: .mock?
+        var user: User? = nil
         var errorMessage: String?
     }
     

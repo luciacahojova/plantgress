@@ -40,11 +40,11 @@ class GetCurrentUsersEmailUseCasePreviewMock: GetCurrentUsersEmailUseCase {
 }
 
 class GetCurrentUserRemotelyUseCasePreviewMock: GetCurrentUserRemotelyUseCase {
-    func execute() -> User { return User(id: "", email: "", name: "", surname: "") } // TODO: .mock
+    func execute() -> User { return .mock }
 }
 
 class GetCurrentUserLocallyUseCasePreviewMock: GetCurrentUserLocallyUseCase {
-    func execute() -> User { return User(id: "", email: "", name: "", surname: "") } // TODO: .mock
+    func execute() -> User { return .mock }
 }
 
 class SendPasswordResetUseCasePreviewMock: SendPasswordResetUseCase {
