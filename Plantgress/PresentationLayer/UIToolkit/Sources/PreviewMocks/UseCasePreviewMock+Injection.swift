@@ -22,5 +22,6 @@ public extension Resolver {
         register { GetCurrentUserRemotelyUseCasePreviewMock() as GetCurrentUserRemotelyUseCase }
         register { GetCurrentUserLocallyUseCasePreviewMock() as GetCurrentUserLocallyUseCase }
         register { SendPasswordResetUseCasePreviewMock() as SendPasswordResetUseCase }
+        register { LogOutUserUseCasePreviewMock() as LogOutUserUseCase }
     }
 }

@@ -13,13 +13,13 @@ public protocol IsUserLoggedInUseCase {
 
 public struct IsUserLoggedInUseCaseImpl: IsUserLoggedInUseCase {
     
-    private let authRepository: AuthRepository
+    private let userRepository: UserRepository
     
-    public init(authRepository: AuthRepository) {
-        self.authRepository = authRepository
+    public init(userRepository: UserRepository) {
+        self.userRepository = userRepository
     }
     
     public func execute() -> Bool {
-        return authRepository.isUserLoggedIn()
+        return userRepository.isUserLoggedIn()
     }
 }

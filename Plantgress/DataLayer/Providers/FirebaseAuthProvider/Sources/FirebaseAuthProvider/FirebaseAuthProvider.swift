@@ -8,7 +8,6 @@
 import SharedDomain
 
 public protocol FirebaseAuthProvider {
-    func isUserLoggedIn() -> Bool
     func isEmailVerified() -> Bool
     func registerUser(credentials: RegistrationCredentials) async throws -> String
     func sendEmailVerification() async throws

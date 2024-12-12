@@ -11,7 +11,7 @@ import SharedDomain
 public extension Resolver {
     static func registerUseCases() {
         // Authentication
-        register { IsUserLoggedInUseCaseImpl(authRepository: resolve()) as IsUserLoggedInUseCase }
+        register { IsUserLoggedInUseCaseImpl(userRepository: resolve()) as IsUserLoggedInUseCase }
         register { IsEmailVerifiedUseCaseImpl(authRepository: resolve()) as IsEmailVerifiedUseCase }
         register { RegisterUserUseCaseImpl(authRepository: resolve(), userRepository: resolve()) as RegisterUserUseCase }
         register { LogInUserUseCaseImpl(authRepository: resolve(), userRepository: resolve()) as LogInUserUseCase }
@@ -22,5 +22,6 @@ public extension Resolver {
         register { GetCurrentUserRemotelyUseCaseImpl(authRepository: resolve(), userRepository: resolve()) as GetCurrentUserRemotelyUseCase }
         register { GetCurrentUserLocallyUseCaseImpl(userRepository: resolve()) as GetCurrentUserLocallyUseCase }
         register { SendPasswordResetUseCaseImpl(authRepository: resolve()) as SendPasswordResetUseCase }
+        register { LogOutUserUseCaseImpl(userRepository: resolve()) as LogOutUserUseCase }
     }
 }

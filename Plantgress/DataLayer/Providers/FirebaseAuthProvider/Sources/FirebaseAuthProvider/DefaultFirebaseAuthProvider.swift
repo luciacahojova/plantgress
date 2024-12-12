@@ -11,11 +11,6 @@ import SharedDomain
 public struct DefaultFirebaseAuthProvider: FirebaseAuthProvider {
     public init() {}
     
-    public func isUserLoggedIn() -> Bool {
-        guard let user = Auth.auth().currentUser else { return false }
-        return user.emailVerified()
-    }
-    
     public func isEmailVerified() -> Bool {
         guard let user = Auth.auth().currentUser else { return false }
         return user.emailVerified()

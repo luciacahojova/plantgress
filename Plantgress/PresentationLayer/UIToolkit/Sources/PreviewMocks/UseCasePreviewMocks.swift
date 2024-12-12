@@ -50,3 +50,7 @@ class GetCurrentUserLocallyUseCasePreviewMock: GetCurrentUserLocallyUseCase {
 class SendPasswordResetUseCasePreviewMock: SendPasswordResetUseCase {
     func execute(email: String) {}
 }
+
+class LogOutUserUseCasePreviewMock: LogOutUserUseCase {
+    func execute() throws {}
+}

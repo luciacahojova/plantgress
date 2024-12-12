@@ -41,6 +41,7 @@ public enum Icons {
 
 public enum Colors {
     public static let green = Asset.Colors.green.color
+    public static let white = Asset.Colors.white.color
     public static let yellow = Asset.Colors.yellow.color
     public static let orange = Asset.Colors.orange.color
     public static let blue = Asset.Colors.blue.color

@@ -22,18 +22,27 @@ struct ProfileOverviewView: View {
     
     // MARK: - Body
     
-    var body: some View {
-        VStack {
-            if viewModel.state.isLoading {
-                ProgressView()
-            } else if let user = viewModel.state.user {
-                Text(user.name + "Account👤")
-            }
-            
-            Button("Show Onboarding") {
-                viewModel.onIntent(.presentOnboarding(message: nil))
+    var body: some View { // TODO: Alert
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading, spacing: Constants.Spacing.xxxLarge) {
+                Button("Show Onboarding") {
+                    viewModel.onIntent(.presentOnboarding(message: nil))
+                }
+                
+                Button("Log Out") {
+                    viewModel.onIntent(.logoutUser)
+                }
+                .buttonStyle(
+                    PrimaryButtonStyle(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.red
+                    )
+                )
             }
         }
+        .padding(.horizontal)
+        .padding(.top, Constants.Spacing.large)
+        .padding(.bottom, Constants.Spacing.xxLarge)
         .lifecycle(viewModel)
     }
 }

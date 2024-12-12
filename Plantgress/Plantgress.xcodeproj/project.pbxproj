@@ -49,6 +49,7 @@
 		24A561782CFE4758003C5C84 /* Plantgress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Plantgress.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24A561882CFE4759003C5C84 /* PlantgressTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlantgressTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		24A561922CFE4759003C5C84 /* PlantgressUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlantgressUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		24FECB052D0AF98F00999950 /* Plantgress.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Plantgress.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -165,6 +166,7 @@
 		24A5616F2CFE4758003C5C84 = {
 			isa = PBXGroup;
 			children = (
+				24FECB052D0AF98F00999950 /* Plantgress.entitlements */,
 				24A5617A2CFE4758003C5C84 /* Application */,
 				24A561B62CFE4CB3003C5C84 /* PresentationLayer */,
 				24A561B72CFE4CBC003C5C84 /* DomainLayer */,
@@ -518,6 +520,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Plantgress.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PresentationLayer/UIToolkit/Sources/Resources/Assets\"";
@@ -551,6 +554,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Plantgress.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PresentationLayer/UIToolkit/Sources/Resources/Assets\"";

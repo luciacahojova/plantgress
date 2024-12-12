@@ -17,10 +17,6 @@ public struct AuthRepositoryImpl: AuthRepository {
         self.firebaseAuthProvider = firebaseAuthProvider
     }
     
-    public func isUserLoggedIn() -> Bool {
-        firebaseAuthProvider.isUserLoggedIn()
-    }
-    
     public func isEmailVerified() -> Bool {
         firebaseAuthProvider.isEmailVerified()
     }

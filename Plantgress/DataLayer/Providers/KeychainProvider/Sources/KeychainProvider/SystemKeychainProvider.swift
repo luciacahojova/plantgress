@@ -51,7 +51,7 @@ public struct SystemKeychainProvider: KeychainProvider {
             print("🔐 DELETE: \(key.rawValue) removed")
         } catch {
             print("❗️ DELETE: Failed to remove \(key.rawValue) - \(error.localizedDescription)")
-            throw error
+            throw KeychainError.default
         }
     }
     
@@ -61,7 +61,7 @@ public struct SystemKeychainProvider: KeychainProvider {
                 try delete(key)
             } catch {
                 print("❗️ DELETE ALL: Failed to remove \(key.rawValue) - \(error.localizedDescription)")
-                throw error
+                throw KeychainError.default
             }
         }
         print("🔐  DELETE ALL: All keys removed")
@@ -74,7 +74,7 @@ public struct SystemKeychainProvider: KeychainProvider {
                 try delete(key)
             } catch {
                 print("❗️ DELETE ALL EXCEPT: Failed to remove \(key.rawValue) - \(error.localizedDescription)")
-                throw error
+                throw KeychainError.default
             }
         }
         print("🔐  DELETE ALL EXCEPT: Removed all keys except specified")

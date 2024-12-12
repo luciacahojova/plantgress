@@ -6,6 +6,8 @@
 //
 
 public enum KeychainError: Error {
+    case `default`
+    
     case invalidBundleIdentifier
     case valueForKeyNotFound
 }
