@@ -39,7 +39,11 @@ class GetCurrentUsersEmailUseCasePreviewMock: GetCurrentUsersEmailUseCase {
     func execute() -> String? { return nil }
 }
 
-class GetCurrentUserUseCasePreviewMock: GetCurrentUserUseCase {
+class GetCurrentUserRemotelyUseCasePreviewMock: GetCurrentUserRemotelyUseCase {
+    func execute() -> User { return User(id: "", email: "", name: "", surname: "") } // TODO: .mock
+}
+
+class GetCurrentUserLocallyUseCasePreviewMock: GetCurrentUserLocallyUseCase {
     func execute() -> User { return User(id: "", email: "", name: "", surname: "") } // TODO: .mock
 }
 

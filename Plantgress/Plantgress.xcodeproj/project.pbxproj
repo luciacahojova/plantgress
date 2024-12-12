@@ -24,6 +24,8 @@
 		24FECAF92D09953500999950 /* UserToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAF82D09953500999950 /* UserToolkit */; };
 		24FECAFB2D09953A00999950 /* ImagesToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAFA2D09953A00999950 /* ImagesToolkit */; };
 		24FECAFE2D09F91100999950 /* Utilities in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAFD2D09F91100999950 /* Utilities */; };
+		24FECB022D0AE3BD00999950 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECB012D0AE3BD00999950 /* KeychainAccess */; };
+		24FECB042D0AE5C300999950 /* KeychainProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECB032D0AE5C300999950 /* KeychainProvider */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,7 @@
 				Providers/FirebaseAuthProvider,
 				Providers/FirebaseFirestoreProvider,
 				Providers/FirebaseStorageProvider,
+				Providers/KeychainProvider,
 				Toolkits/AuthToolkit,
 				Toolkits/ImagesToolkit,
 				Toolkits/UserToolkit,
@@ -121,7 +124,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				24FECAEB2D0622C000999950 /* FirebaseStorageProvider in Frameworks */,
+				24FECB042D0AE5C300999950 /* KeychainProvider in Frameworks */,
 				24FECAE92D0622B300999950 /* FirebaseFirestoreProvider in Frameworks */,
+				24FECB022D0AE3BD00999950 /* KeychainAccess in Frameworks */,
 				24A561BF2CFE4F13003C5C84 /* Onboarding in Frameworks */,
 				24FECAD72D06023700999950 /* FirebaseAuth in Frameworks */,
 				24FECAE72D0622B300999950 /* FirebaseAuthProvider in Frameworks */,
@@ -226,6 +231,8 @@
 				24FECAF82D09953500999950 /* UserToolkit */,
 				24FECAFA2D09953A00999950 /* ImagesToolkit */,
 				24FECAFD2D09F91100999950 /* Utilities */,
+				24FECB012D0AE3BD00999950 /* KeychainAccess */,
+				24FECB032D0AE5C300999950 /* KeychainProvider */,
 			);
 			productName = Plantgress;
 			productReference = 24A561782CFE4758003C5C84 /* Plantgress.app */;
@@ -308,6 +315,7 @@
 				242FB64F2D03238300EAD725 /* XCRemoteSwiftPackageReference "SwiftGenPlugin" */,
 				24FECAD52D06023700999950 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				24FECAF02D062B5300999950 /* XCRemoteSwiftPackageReference "Resolver" */,
+				24FECB002D0AE3BD00999950 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 24A561792CFE4758003C5C84 /* Products */;
@@ -708,6 +716,14 @@
 				minimumVersion = 1.5.1;
 			};
 		};
+		24FECB002D0AE3BD00999950 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -782,6 +798,15 @@
 		24FECAFD2D09F91100999950 /* Utilities */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Utilities;
+		};
+		24FECB012D0AE3BD00999950 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24FECB002D0AE3BD00999950 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+		24FECB032D0AE5C300999950 /* KeychainProvider */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KeychainProvider;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -12,7 +12,8 @@ import UIToolkit
 
 final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject {
     
-    @Injected private var getCurrentUserUseCase: GetCurrentUserUseCase
+    @Injected private var getCurrentUserRemotelyUseCase: GetCurrentUserRemotelyUseCase
+    @Injected private var getCurrentUserLocallyUseCase: GetCurrentUserLocallyUseCase
     
     // MARK: - Dependencies
     
@@ -31,15 +32,14 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     
     override func onAppear() {
         super.onAppear()
-        
         defer { state.isLoading = false }
-        let useCase = getCurrentUserUseCase
         
+        state.user = try? getCurrentUserLocallyUseCase.execute()
+        let useCase = getCurrentUserRemotelyUseCase
         executeTask(
             Task {
                 do {
                     state.user = try await useCase.execute()
-                    // TODO: Add user to keychain after login. if loading the user from keychain fails, load him from firestore
                 } catch {
                     print("ERORR")
                 }

@@ -29,7 +29,7 @@ public final class ProfileFlowController: FlowController {
         )
         let vc = HostingController(
             rootView: view,
-            title: "Profile" // TODO: Add UC to get user's name
+            title: "Account"
         )
         
         return vc

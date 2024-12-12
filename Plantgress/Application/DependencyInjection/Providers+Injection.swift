@@ -8,6 +8,7 @@
 import FirebaseAuthProvider
 import FirebaseFirestoreProvider
 import FirebaseStorageProvider
+import KeychainProvider
 import Resolver
 
 public extension Resolver {
@@ -18,6 +19,8 @@ public extension Resolver {
         register { DefaultFirebaseFirestoreProvider() as FirebaseFirestoreProvider }
         
         register { DefaultFirebaseStorageProvider() as FirebaseStorageProvider }
+        
+        register { SystemKeychainProvider() as KeychainProvider }
         
     }
 }

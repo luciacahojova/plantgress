@@ -16,7 +16,7 @@ public extension Resolver {
         
         register { AuthRepositoryImpl(firebaseAuthProvider: resolve()) as AuthRepository }
         
-        register { UserRepositoryImpl(firebaseFirestoreProvider: resolve()) as UserRepository }
+        register { UserRepositoryImpl(firebaseFirestoreProvider: resolve(), keychainProvider: resolve()) as UserRepository }
         
         register { ImagesRepositoryImpl(firebaseStorageProvider: resolve()) as ImagesRepository }
         

@@ -1,5 +1,5 @@
 //
-//  GetCurrentUserUseCase.swift
+//  GetCurrentUserRemotelyUseCase.swift
 //  SharedDomain
 //
 //  Created by Lucia Cahojova on 11.12.2024.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-public protocol GetCurrentUserUseCase {
+public protocol GetCurrentUserRemotelyUseCase {
     func execute() async throws -> User
 }
 
-public struct GetCurrentUserUseCaseImpl: GetCurrentUserUseCase {
+public struct GetCurrentUserRemotelyUseCaseImpl: GetCurrentUserRemotelyUseCase {
     
     private let authRepository: AuthRepository
     private let userRepository: UserRepository
@@ -29,6 +29,6 @@ public struct GetCurrentUserUseCaseImpl: GetCurrentUserUseCase {
             throw UserError.notFound
         }
         
-        return try await userRepository.getUser(id: userId)
+        return try await userRepository.getRemoteUser(id: userId)
     }
 }

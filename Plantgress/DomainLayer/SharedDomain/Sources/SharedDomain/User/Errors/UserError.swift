@@ -11,4 +11,6 @@ public enum UserError: Error {
     case `default`
     
     case notFound
+    
+    case persistenceError
 }

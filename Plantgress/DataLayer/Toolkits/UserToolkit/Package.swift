@@ -15,6 +15,7 @@ let package = Package(
     dependencies: [
         .package(name: "SharedDomain", path: "../../../DomainLayer/SharedDomain"),
         .package(name: "FirebaseFirestoreProvider", path: "../../Providers/FirebaseFirestoreProvider"),
+        .package(name: "KeychainProvider", path: "../../Providers/KeychainProvider"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -24,6 +25,7 @@ let package = Package(
             dependencies: [
                 .product(name: "SharedDomain", package: "SharedDomain"),
                 .product(name: "FirebaseFirestoreProvider", package: "FirebaseFirestoreProvider"),
+                .product(name: "KeychainProvider", package: "KeychainProvider"),
             ]
         ),
         .testTarget(

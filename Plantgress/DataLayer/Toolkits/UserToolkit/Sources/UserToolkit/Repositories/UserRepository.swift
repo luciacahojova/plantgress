@@ -6,18 +6,25 @@
 //
 
 import FirebaseFirestoreProvider
+import KeychainProvider
 import SharedDomain
 import Utilities
+import Foundation
 
 public struct UserRepositoryImpl: UserRepository {
     
     private let firebaseFirestoreProvider: FirebaseFirestoreProvider
+    private let keychainProvider: KeychainProvider
     
-    public init(firebaseFirestoreProvider: FirebaseFirestoreProvider) {
+    public init(
+        firebaseFirestoreProvider: FirebaseFirestoreProvider,
+        keychainProvider: KeychainProvider
+    ) {
         self.firebaseFirestoreProvider = firebaseFirestoreProvider
+        self.keychainProvider = keychainProvider
     }
     
-    public func getUser(id: String) async throws -> User {
+    public func getRemoteUser(id: String) async throws -> User {
         try await self.firebaseFirestoreProvider.get(
             path: DatabaseConstants.usersCollection,
             id: id,
@@ -25,6 +32,20 @@ public struct UserRepositoryImpl: UserRepository {
         )
     }
     
+    public func getLocalUser() throws -> User {
+        let userJsonString = try keychainProvider.read(.user)
+        guard let userJson = userJsonString.data(using: .utf8) else { throw UserError.persistenceError }
+        let user = try JSONDecoder().decode(User.self, from: userJson)
+        
+        return user
+    }
+    
+    public func saveUserLocally(user: User) throws {
+        let userJson = try JSONEncoder().encode(user)
+        guard let userJsonString = String(data: userJson, encoding: .utf8) else { throw UserError.persistenceError }
+        try keychainProvider.update(.user, value: userJsonString)
+    }
+
     public func createUser(_ user: User) async throws {
         try await firebaseFirestoreProvider.update(
             path: DatabaseConstants.usersCollection,
