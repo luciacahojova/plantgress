@@ -31,7 +31,7 @@ public struct CalendarListRow: View {
         
         let isDate = datePickerComponents == .date
         self.icon = isDate ? Asset.Icons.calendar.image : Asset.Icons.clock.image
-        self.title = isDate ? "Start" : "Time" // TODO: Strings
+        self.title = isDate ? Strings.taskStart : Strings.taskTime
     }
     
     public var body: some View {

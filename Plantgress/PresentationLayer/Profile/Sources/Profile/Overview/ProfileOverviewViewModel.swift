@@ -110,8 +110,8 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     
     private func deleteUser() {
         state.alertData = .init(
-            title: "Delete Accout", // TODO: Strings
-            message: "Are you sure you want to permanently delete your account?",
+            title: Strings.deleteAccountAlertTitle,
+            message: Strings.deleteAccountAlertMessage,
             primaryAction: .init(
                 title: Strings.cancelButton,
                 style: .cancel,
@@ -120,7 +120,7 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
                 }
             ),
             secondaryAction: .init(
-                title: "Delete",
+                title: Strings.deleteButton,
                 style: .destructive,
                 completion: { [weak self] in
                     self?.confirmAccountDelete()

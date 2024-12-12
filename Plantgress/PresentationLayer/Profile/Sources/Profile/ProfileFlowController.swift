@@ -32,7 +32,7 @@ public final class ProfileFlowController: FlowController {
         )
         let vc = HostingController(
             rootView: view,
-            title: "Profile" // TODO: String
+            title: Strings.profileTitle
         )
         
         return vc

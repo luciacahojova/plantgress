@@ -27,30 +27,30 @@ struct ProfileOverviewView: View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: Constants.Spacing.xxxLarge) {
                 VStack(spacing: Constants.Spacing.large) {
-                    BaseList(title: "Account") {
+                    BaseList(title: Strings.accountTitle) {
                         ButtonListRow(
-                            title: "Change Email",
+                            title: Strings.changeEmailButton,
                             isLast: false,
                             trailingIcon: Asset.Icons.chevronRight.image,
                             action: { viewModel.onIntent(.showChangeEmail) }
                         )
                         
                         ButtonListRow(
-                            title: "Change Name",
+                            title: Strings.changeNameButton,
                             isLast: false,
                             trailingIcon: Asset.Icons.chevronRight.image,
                             action: { viewModel.onIntent(.showChangeName) }
                         )
                         
                         ButtonListRow(
-                            title: "Change Password",
+                            title: Strings.changePasswordButton,
                             isLast: false,
                             trailingIcon: Asset.Icons.chevronRight.image,
                             action: { viewModel.onIntent(.showChangePassword) }
                         )
                         
                         ButtonListRow(
-                            title: "Delete Account",
+                            title: Strings.deleteAccountButton,
                             titleFont: Fonts.bodySemibold,
                             foregroundColor: Colors.red,
                             isLast: true,
@@ -86,7 +86,6 @@ struct ProfileOverviewView: View {
                 viewModel.onIntent(.alertDataChanged(alertData))
             }
         )) { alert in .init(alert) }
-        .background(Colors.primaryBackground) // TODO: Delete
         .lifecycle(viewModel)
     }
 }

@@ -14,12 +14,28 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum Strings {
+  /// Account
+  public static let accountTitle = Strings.tr("Localizable", "account_title", fallback: "Account")
   /// Cancel
   public static let cancelButton = Strings.tr("Localizable", "cancel_button", fallback: "Cancel")
+  /// Change Email
+  public static let changeEmailButton = Strings.tr("Localizable", "change_email_button", fallback: "Change Email")
+  /// Change Name
+  public static let changeNameButton = Strings.tr("Localizable", "change_name_button", fallback: "Change Name")
+  /// Change Password
+  public static let changePasswordButton = Strings.tr("Localizable", "change_password_button", fallback: "Change Password")
   /// Close
   public static let closeButton = Strings.tr("Localizable", "close_button", fallback: "Close")
   /// Something went wrong.
   public static let defaultErrorMessage = Strings.tr("Localizable", "default_error_message", fallback: "Something went wrong.")
+  /// Are you sure you want to permanently delete your account?
+  public static let deleteAccountAlertMessage = Strings.tr("Localizable", "delete_account_alert_message", fallback: "Are you sure you want to permanently delete your account?")
+  /// Delete Account
+  public static let deleteAccountAlertTitle = Strings.tr("Localizable", "delete_account_alert_title", fallback: "Delete Account")
+  /// Delete Account
+  public static let deleteAccountButton = Strings.tr("Localizable", "delete_account_button", fallback: "Delete Account")
+  /// Delete
+  public static let deleteButton = Strings.tr("Localizable", "delete_button", fallback: "Delete")
   /// Dismiss
   public static let dismissButton = Strings.tr("Localizable", "dismiss_button", fallback: "Dismiss")
   /// Email is already in use.
@@ -80,6 +96,12 @@ public enum Strings {
   public static let resetPasswordButtom = Strings.tr("Localizable", "reset_password_buttom", fallback: "Send password reset")
   /// Password reset link has been sent.
   public static let resetPasswordSnackbarMessage = Strings.tr("Localizable", "reset_password_snackbar_message", fallback: "Password reset link has been sent.")
+  /// Start
+  public static let taskStart = Strings.tr("Localizable", "task_start", fallback: "Start")
+  /// Time
+  public static let taskTime = Strings.tr("Localizable", "task_time", fallback: "Time")
+  /// Tasks
+  public static let tasksTitle = Strings.tr("Localizable", "tasks_title", fallback: "Tasks")
   /// Too many requests.
   public static let tooManyRequestsErrorMessage = Strings.tr("Localizable", "too_many_requests_error_message", fallback: "Too many requests.")
   /// A verification link has been sent to your email address. It may take a few minutes to arrive. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.

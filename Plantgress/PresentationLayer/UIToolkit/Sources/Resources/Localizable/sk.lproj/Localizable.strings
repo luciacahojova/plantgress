@@ -34,19 +34,35 @@
 "email_not_registered_error_message" = "Email is not registered.";
 "wrong_password_error_message" = "Wrong password.";
 
-// MARK: Profil
+// MARK: Profile
 "profile_title" = "Profil";
+
+"account_title" = "Účet";
+"change_email_button" = "Zmeniť email";
+"change_name_button" = "Zmeniť meno";
+"change_password_button" = "Zmeniť heslo";
+
 "logout_button" = "Odhlásiť sa";
 "logout_alert_title" = "Odhlásenie";
-"logout_alert_message" = "Ste si istí, že sa chcete odhlásiť?";
+"logout_alert_message" = "Ste si istý, že sa chcete odhlásiť?";
 
-// MARK: Objavovanie
-"explore_title" = "Objaviť";
+"delete_account_button" = "Zmazať účet";
+"delete_account_alert_title" = "Zmazanie účtu";
+"delete_account_alert_message" = "Ste si istý, že chcete natrvalo zmazať svoj účet?";
+
+// MARK: Explore
+"explore_title" = "Objavujte";
 
 // MARK: Plants
 "plants_title" = "Rastliny";
 
+// MARK: Tasks
+"tasks_title" = "Úlohy";
+"task_start" = "Začiatok";
+"task_time" = "Čas";
+
 // MARK: General
-"dismiss_button" = "Zrušiť";
+"dismiss_button" = "Zatvoriť";
 "cancel_button" = "Zrušiť";
 "close_button" = "Zavrieť";
+"delete_button" = "Zmazať";
