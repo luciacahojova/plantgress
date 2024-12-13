@@ -48,7 +48,8 @@ struct ForgottenPasswordView: View {
                             set: { email in viewModel.onIntent(.emailChanged(email)) }
                         ),
                         placeholder: Strings.onboardingEmailPlaceholder,
-                        errorMessage: viewModel.state.emailErrorMessage
+                        errorMessage: viewModel.state.emailErrorMessage,
+                        deleteTextAction: { viewModel.onIntent(.emailChanged("")) }
                     )
                     
                     Text(Strings.passwordResetMessage)

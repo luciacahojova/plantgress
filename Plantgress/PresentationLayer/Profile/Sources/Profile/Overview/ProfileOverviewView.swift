@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Resolver
 import UIToolkit
 
 struct ProfileOverviewView: View {
@@ -23,19 +24,79 @@ struct ProfileOverviewView: View {
     // MARK: - Body
     
     var body: some View {
-        VStack {
-            Button("Show Onboarding") {
-                viewModel.onIntent(.presentOnboarding(message: nil))
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: Constants.Spacing.xxxLarge) {
+                VStack(spacing: Constants.Spacing.large) {
+                    BaseList(title: Strings.accountTitle) {
+                        ButtonListRow(
+                            title: Strings.changeEmailButton,
+                            isLast: false,
+                            trailingIcon: Asset.Icons.chevronRight.image,
+                            action: { viewModel.onIntent(.showChangeEmail) }
+                        )
+                        
+                        ButtonListRow(
+                            title: Strings.changeNameButton,
+                            isLast: false,
+                            trailingIcon: Asset.Icons.chevronRight.image,
+                            action: { viewModel.onIntent(.showChangeName) }
+                        )
+                        
+                        ButtonListRow(
+                            title: Strings.changePasswordButton,
+                            isLast: false,
+                            trailingIcon: Asset.Icons.chevronRight.image,
+                            action: { viewModel.onIntent(.showChangePassword) }
+                        )
+                        
+                        ButtonListRow(
+                            title: Strings.deleteAccountButton,
+                            titleFont: Fonts.bodySemibold,
+                            foregroundColor: Colors.red,
+                            isLast: true,
+                            action: { viewModel.onIntent(.deleteUser) } // TODO: Handle loading? - skeleton?
+                        )
+                    }
+                    
+                    if let errorMessage = viewModel.state.errorMessage {
+                        Text(errorMessage)
+                            .font(Fonts.captionMedium)
+                            .foregroundStyle(Color.red)
+                            .multilineTextAlignment(.center)
+                    }
+                }
+                
+                Button(Strings.logoutButton) {
+                    viewModel.onIntent(.logoutUser)
+                }
+                .buttonStyle(
+                    PrimaryButtonStyle(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.red
+                    )
+                )
             }
         }
+        .disabled(viewModel.state.isDisabled)
+        .padding(.horizontal)
+        .padding(.top, Constants.Spacing.large)
+        .padding(.bottom, Constants.Spacing.xxLarge)
+        .alert(item: Binding<AlertData?>(
+            get: { viewModel.state.alertData },
+            set: { alertData in
+                viewModel.onIntent(.alertDataChanged(alertData))
+            }
+        )) { alert in .init(alert) }
         .lifecycle(viewModel)
     }
 }
 
 #Preview {
+    Resolver.registerUseCasesForPreviews()
+    
     let vm = ProfileOverviewViewModel(flowController: nil)
     
-    ProfileOverviewView(
+    return ProfileOverviewView(
         viewModel: vm
     )
 }

@@ -18,7 +18,13 @@ public extension Resolver {
         register { SendEmailVerificationUseCasePreviewMock() as SendEmailVerificationUseCase }
         register { ValidateEmailUseCasePreviewMock() as ValidateEmailUseCase }
         register { ValidatePasswordUseCasePreviewMock() as ValidatePasswordUseCase }
-        register { GetUserEmailUseCasePreviewMock() as GetUserEmailUseCase }
+        register { GetCurrentUsersEmailUseCasePreviewMock() as GetCurrentUsersEmailUseCase }
+        register { GetCurrentUserRemotelyUseCasePreviewMock() as GetCurrentUserRemotelyUseCase }
+        register { GetCurrentUserLocallyUseCasePreviewMock() as GetCurrentUserLocallyUseCase }
         register { SendPasswordResetUseCasePreviewMock() as SendPasswordResetUseCase }
+        register { LogOutUserUseCasePreviewMock() as LogOutUserUseCase }
+        register { DeleteUserUseCasePreviewMock() as DeleteUserUseCase }
+        register { SaveCurrentUserEmailUseCasePreviewMock() as SaveCurrentUserEmailUseCase }
+        register { DeleteCurrentUserEmailUseCasePreviewMock() as DeleteCurrentUserEmailUseCase }
     }
 }

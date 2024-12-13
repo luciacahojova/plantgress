@@ -16,6 +16,7 @@ final class AppFlowController: FlowController, OnboardingFlowControllerDelegate,
     // MARK: - Dependencies
     
     @Injected private var isUserLoggedInUseCase: IsUserLoggedInUseCase
+    @Injected private var logOutUserUseCase: LogOutUserUseCase
     
     // MARK: - Flow handling
     
@@ -84,8 +85,10 @@ final class AppFlowController: FlowController, OnboardingFlowControllerDelegate,
     
     public func handleLogout() {
         Task {
+            try self.logOutUserUseCase.execute()
+            
             self.presentOnboarding(
-                message: "To continue, you must log in again.",
+                message: Strings.loginContinuteMessage,
                 animated: true,
                 completion: nil
             )

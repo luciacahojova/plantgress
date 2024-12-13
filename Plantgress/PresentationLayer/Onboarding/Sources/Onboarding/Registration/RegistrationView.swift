@@ -32,7 +32,8 @@ struct RegistrationView: View {
                         set: { email in viewModel.onIntent(.emailChanged(email)) }
                     ),
                     placeholder: Strings.onboardingEmailPlaceholder,
-                    errorMessage: viewModel.state.emailErrorMessage
+                    errorMessage: viewModel.state.emailErrorMessage,
+                    deleteTextAction: { viewModel.onIntent(.emailChanged("")) }
                 )
                 
                 OutlinedTextField(
@@ -41,7 +42,8 @@ struct RegistrationView: View {
                         set: { name in viewModel.onIntent(.nameChanged(name)) }
                     ),
                     placeholder: Strings.onboardingNamePlaceholder,
-                    errorMessage: viewModel.state.nameErrorMessage
+                    errorMessage: viewModel.state.nameErrorMessage,
+                    deleteTextAction: { viewModel.onIntent(.nameChanged("")) }
                 )
                 
                 OutlinedTextField(
@@ -50,7 +52,8 @@ struct RegistrationView: View {
                         set: { surname in viewModel.onIntent(.surnameChanged(surname)) }
                     ),
                     placeholder: Strings.onboardingSurnamePlaceholder,
-                    errorMessage: viewModel.state.surnameErrorMessage
+                    errorMessage: viewModel.state.surnameErrorMessage,
+                    deleteTextAction: { viewModel.onIntent(.surnameChanged("")) }
                 )
                 
                 SecureOulinedTextField(

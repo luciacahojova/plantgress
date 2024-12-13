@@ -37,7 +37,7 @@ public struct Constants {
         public static let mediumLarge: CGFloat = 16
         
         /**
-         * Spacing of 32
+         * Spacing of 24
          */
         public static let large: CGFloat = 24
         
@@ -65,9 +65,9 @@ public struct Constants {
     // MARK: - Icon Sizes
     public enum IconSize {
         /**
-         * Icon size of 16
+         * Icon size of 20
          */
-        public static let small: CGFloat = 18
+        public static let small: CGFloat = 20
 
         /**
          * Icon size of 32
@@ -111,13 +111,46 @@ public struct Constants {
         public static let large: CGFloat = 16
         
         /**
-         * CornerRadius of size 16
+         * CornerRadius of size 24
          */
         public static let xLarge: CGFloat = 24
         
         /**
-         * CornerRadius of size 16
+         * CornerRadius of size 50
          */
         public static let xxxLarge: CGFloat = 50
+    }
+    
+    // MARK: - List
+    public enum List {
+        /**
+         * Corner radius of size 16
+         */
+        public static let cornerRadius: CGFloat = 16
+        
+        /**
+         * Main HStack spacing of size 12
+         */
+        public static let spacing: CGFloat = 8
+        
+        /**
+         * Spacing between trailing text and icon of size 4
+         */
+        public static let trailingIconTextSpacing: CGFloat = 4
+        
+        /**
+         * Leading padding for primary row of size 12
+         */
+        public static let leadingPaddingPrimary: CGFloat = 12
+        
+        /**
+         * Leading padding for secondary row of size 40
+         */
+        public static let leadingPaddingSecondary: CGFloat = 40
+        
+        /**
+         * Trailing padding of size 12
+         */
+        public static let trailingPadding: CGFloat = 12
     }
 }

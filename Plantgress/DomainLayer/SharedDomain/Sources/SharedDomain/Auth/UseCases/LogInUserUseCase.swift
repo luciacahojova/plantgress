@@ -12,12 +12,27 @@ public protocol LogInUserUseCase {
 public struct LogInUserUseCaseImpl: LogInUserUseCase {
     
     private let authRepository: AuthRepository
+    private let userRepository: UserRepository
     
-    public init(authRepository: AuthRepository) {
+    public init(
+        authRepository: AuthRepository,
+        userRepository: UserRepository
+    ) {
         self.authRepository = authRepository
+        self.userRepository = userRepository
     }
     
     public func execute(credentials: LoginCredentials) async throws {
+        try? userRepository.saveUserEmailLocally(email: credentials.email)
+        
         try await authRepository.logInUser(credentials: credentials)
+        
+        guard let userId = authRepository.getUserId() else {
+            throw UserError.notFound
+        }
+        
+        let user = try await userRepository.getRemoteUser(id: userId)
+        
+        try userRepository.saveUserLocally(user: user)
     }
 }

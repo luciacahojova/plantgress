@@ -10,10 +10,15 @@ import UIKit
 
 enum ProfileFlow: Flow {
     case presentOnboarding(message: String?)
+    case showChangeEmail
+    case showChangeName
+    case showChangePassword
+    case handleLogout
 }
 
 public protocol ProfileFlowControllerDelegate: AnyObject {
     func presentOnboarding(message: String?)
+    func handleLogout()
 }
 
 public final class ProfileFlowController: FlowController {
@@ -27,7 +32,10 @@ public final class ProfileFlowController: FlowController {
         let view = ProfileOverviewView(
             viewModel: vm
         )
-        let vc = HostingController(rootView: view)
+        let vc = HostingController(
+            rootView: view,
+            title: Strings.profileTitle
+        )
         
         return vc
     }
@@ -36,10 +44,30 @@ public final class ProfileFlowController: FlowController {
         guard let flow = flow as? ProfileFlow else { return }
         switch flow {
         case .presentOnboarding(let message): presentOnboarding(message: message)
+        case .showChangeEmail: showChangeEmail()
+        case .showChangeName: showChangeName()
+        case .showChangePassword: showChangePassword()
+        case .handleLogout: handleLogout()
         }
     }
     
     private func presentOnboarding(message: String?) {
         delegate?.presentOnboarding(message: message)
+    }
+    
+    private func handleLogout() {
+        delegate?.handleLogout()
+    }
+    
+    private func showChangeEmail() {
+        #warning("TODO: Add impelmentation")
+    }
+    
+    private func showChangeName() {
+        #warning("TODO: Add impelmentation")
+    }
+    
+    private func showChangePassword() {
+        #warning("TODO: Add impelmentation")
     }
 }

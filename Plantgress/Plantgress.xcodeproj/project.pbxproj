@@ -21,6 +21,11 @@
 		24FECAEB2D0622C000999950 /* FirebaseStorageProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAEA2D0622C000999950 /* FirebaseStorageProvider */; };
 		24FECAEF2D06250F00999950 /* AuthToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAEE2D06250F00999950 /* AuthToolkit */; };
 		24FECAF22D062B5300999950 /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAF12D062B5300999950 /* Resolver */; };
+		24FECAF92D09953500999950 /* UserToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAF82D09953500999950 /* UserToolkit */; };
+		24FECAFB2D09953A00999950 /* ImagesToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAFA2D09953A00999950 /* ImagesToolkit */; };
+		24FECAFE2D09F91100999950 /* Utilities in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECAFD2D09F91100999950 /* Utilities */; };
+		24FECB022D0AE3BD00999950 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECB012D0AE3BD00999950 /* KeychainAccess */; };
+		24FECB042D0AE5C300999950 /* KeychainProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 24FECB032D0AE5C300999950 /* KeychainProvider */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +49,7 @@
 		24A561782CFE4758003C5C84 /* Plantgress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Plantgress.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24A561882CFE4759003C5C84 /* PlantgressTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlantgressTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		24A561922CFE4759003C5C84 /* PlantgressUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlantgressUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		24FECB052D0AF98F00999950 /* Plantgress.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Plantgress.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -62,6 +68,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				SharedDomain,
+				Utilities,
 			);
 			target = 24A561772CFE4758003C5C84 /* Plantgress */;
 		};
@@ -71,7 +78,10 @@
 				Providers/FirebaseAuthProvider,
 				Providers/FirebaseFirestoreProvider,
 				Providers/FirebaseStorageProvider,
+				Providers/KeychainProvider,
 				Toolkits/AuthToolkit,
+				Toolkits/ImagesToolkit,
+				Toolkits/UserToolkit,
 			);
 			target = 24A561772CFE4758003C5C84 /* Plantgress */;
 		};
@@ -115,14 +125,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				24FECAEB2D0622C000999950 /* FirebaseStorageProvider in Frameworks */,
+				24FECB042D0AE5C300999950 /* KeychainProvider in Frameworks */,
 				24FECAE92D0622B300999950 /* FirebaseFirestoreProvider in Frameworks */,
+				24FECB022D0AE3BD00999950 /* KeychainAccess in Frameworks */,
 				24A561BF2CFE4F13003C5C84 /* Onboarding in Frameworks */,
 				24FECAD72D06023700999950 /* FirebaseAuth in Frameworks */,
 				24FECAE72D0622B300999950 /* FirebaseAuthProvider in Frameworks */,
+				24FECAF92D09953500999950 /* UserToolkit in Frameworks */,
 				24CDAEF72CFF6FB70082CC98 /* UIToolkit in Frameworks */,
 				24FECAEF2D06250F00999950 /* AuthToolkit in Frameworks */,
 				24CDAF252CFF9F410082CC98 /* Explore in Frameworks */,
+				24FECAFB2D09953A00999950 /* ImagesToolkit in Frameworks */,
 				24FECADF2D061E8000999950 /* SharedDomain in Frameworks */,
+				24FECAFE2D09F91100999950 /* Utilities in Frameworks */,
 				24CDAF282CFFA03F0082CC98 /* Profile in Frameworks */,
 				24FECADB2D06023700999950 /* FirebaseStorage in Frameworks */,
 				24CDAF1F2CFF9BFE0082CC98 /* Plants in Frameworks */,
@@ -151,6 +166,7 @@
 		24A5616F2CFE4758003C5C84 = {
 			isa = PBXGroup;
 			children = (
+				24FECB052D0AF98F00999950 /* Plantgress.entitlements */,
 				24A5617A2CFE4758003C5C84 /* Application */,
 				24A561B62CFE4CB3003C5C84 /* PresentationLayer */,
 				24A561B72CFE4CBC003C5C84 /* DomainLayer */,
@@ -214,6 +230,11 @@
 				24FECAEA2D0622C000999950 /* FirebaseStorageProvider */,
 				24FECAEE2D06250F00999950 /* AuthToolkit */,
 				24FECAF12D062B5300999950 /* Resolver */,
+				24FECAF82D09953500999950 /* UserToolkit */,
+				24FECAFA2D09953A00999950 /* ImagesToolkit */,
+				24FECAFD2D09F91100999950 /* Utilities */,
+				24FECB012D0AE3BD00999950 /* KeychainAccess */,
+				24FECB032D0AE5C300999950 /* KeychainProvider */,
 			);
 			productName = Plantgress;
 			productReference = 24A561782CFE4758003C5C84 /* Plantgress.app */;
@@ -296,6 +317,7 @@
 				242FB64F2D03238300EAD725 /* XCRemoteSwiftPackageReference "SwiftGenPlugin" */,
 				24FECAD52D06023700999950 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				24FECAF02D062B5300999950 /* XCRemoteSwiftPackageReference "Resolver" */,
+				24FECB002D0AE3BD00999950 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 24A561792CFE4758003C5C84 /* Products */;
@@ -498,6 +520,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Plantgress.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PresentationLayer/UIToolkit/Sources/Resources/Assets\"";
@@ -531,6 +554,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Plantgress.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PresentationLayer/UIToolkit/Sources/Resources/Assets\"";
@@ -696,6 +720,14 @@
 				minimumVersion = 1.5.1;
 			};
 		};
+		24FECB002D0AE3BD00999950 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -758,6 +790,27 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 24FECAF02D062B5300999950 /* XCRemoteSwiftPackageReference "Resolver" */;
 			productName = Resolver;
+		};
+		24FECAF82D09953500999950 /* UserToolkit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UserToolkit;
+		};
+		24FECAFA2D09953A00999950 /* ImagesToolkit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ImagesToolkit;
+		};
+		24FECAFD2D09F91100999950 /* Utilities */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Utilities;
+		};
+		24FECB012D0AE3BD00999950 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24FECB002D0AE3BD00999950 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+		24FECB032D0AE5C300999950 /* KeychainProvider */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KeychainProvider;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -34,5 +34,37 @@
 "email_not_registered_error_message" = "Email is not registered.";
 "wrong_password_error_message" = "Wrong password.";
 
+// MARK: Profile
+"profile_title" = "Profile";
+
+"account_title" = "Account";
+"change_email_button" = "Change Email";
+"change_name_button" = "Change Name";
+"change_password_button" = "Change Password";
+
+"logout_button" = "Log Out";
+"logout_alert_title" = "Logout";
+"logout_alert_message" = "Are you sure you want to log out?";
+
+"delete_account_button" = "Delete Account";
+"delete_account_alert_title" = "Delete Account";
+"delete_account_alert_message" = "Are you sure you want to permanently delete your account?";
+
+"login_continute_message" = "To continue, you must log in again.";
+
+// MARK: Explore
+"explore_title" = "Explore";
+
+// MARK: Plants
+"plants_title" = "Plants";
+
+// MARK: Tasks
+"tasks_title" = "Tasks";
+"task_start" = "Start";
+"task_time" = "Time";
+
 // MARK: General
 "dismiss_button" = "Dismiss";
+"cancel_button" = "Cancel";
+"close_button" = "Close";
+"delete_button" = "Delete";

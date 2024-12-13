@@ -15,25 +15,20 @@ struct PlantsOverviewView: View {
     var body: some View {
         ScrollView {
             VStack {
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
-                Text(Strings.loginTitle)
+                Text(Strings.plantsTitle)
+                Text(Strings.plantsTitle)
+                Text(Strings.plantsTitle)
+                Text(Strings.plantsTitle)
+                Text(Strings.plantsTitle)
+                Text(Strings.plantsTitle)
+                Text(Strings.plantsTitle)
+                Text(Strings.plantsTitle)
+                Text(Strings.plantsTitle)
+                Text(Strings.plantsTitle)
             }
+            .padding(.horizontal)
         }
+        .foregroundStyle(Colors.primaryText)
     }
 }
 

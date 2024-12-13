@@ -14,7 +14,8 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     @Injected private var sendEmailVerificationUseCase: SendEmailVerificationUseCase
     @Injected private var logInUserUseCase: LogInUserUseCase
-    @Injected private var getUserEmailUseCase: GetUserEmailUseCase
+    @Injected private var getCurrentUsersEmailUseCase: GetCurrentUsersEmailUseCase
+    @Injected private var deleteCurrentUserEmailUseCase: DeleteCurrentUserEmailUseCase
     
     // MARK: - Dependencies
     
@@ -34,7 +35,7 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     override func onAppear() {
         super.onAppear()
         
-        if let email = getUserEmailUseCase.execute() {
+        if let email = getCurrentUsersEmailUseCase.execute() {
             state.email = email
         }
     }
@@ -88,10 +89,10 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func logInUser() {
         state.isLoginButtonLoading = true
-        defer { state.isLoginButtonLoading = false }
         
         executeTask(
             Task {
+                defer { state.isLoginButtonLoading = false }
                 do {
                     try await logInUserUseCase.execute(
                         credentials: LoginCredentials(
@@ -101,7 +102,7 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
                     )
                     
                     flowController?.handleFlow(OnboardingFlow.setupMain)
-                } catch AuthError.invalidEmail {
+                } catch AuthError.invalidEmail, AuthError.userNotFound {
                     state.emailErrorMessage = Strings.emailNotRegisteredErrorMessage
                     return
                 } catch AuthError.wrongPassword {
@@ -110,6 +111,10 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
                     return
                 } catch AuthError.emailNotVerified {
                     state.emailErrorMessage = Strings.emailNotVerifiedErrorMessage
+                    state.isEmailVerificationButtonVisible = true
+                    return
+                } catch AuthError.invalidEmailFormat {
+                    state.emailErrorMessage = Strings.invalidEmailFormatErrorMessage
                     state.isEmailVerificationButtonVisible = true
                     return
                 } catch {
@@ -124,6 +129,10 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
         state.errorMessage = nil
         state.emailErrorMessage = nil
         state.email = email
+        
+        if email.isBlank {
+            deleteCurrentUserEmailUseCase.execute()
+        }
     }
     
     private func passwordChanged(_ password: String) {
@@ -134,15 +143,17 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func sendEmailVerification() {
         state.isEmailVerificationButtonLoading = true
-        defer { state.isEmailVerificationButtonLoading = false }
         
         executeTask(
             Task {
+                defer { state.isEmailVerificationButtonLoading = false }
                 do {
                     try await sendEmailVerificationUseCase.execute()
                     flowController?.handleFlow(OnboardingFlow.showVerificationLink)
                 } catch AuthError.tooManyRequests {
                     state.errorMessage = Strings.tooManyRequestsErrorMessage
+                } catch AuthError.userNotFound {
+                    state.errorMessage = Strings.emailNotRegisteredErrorMessage
                 } catch {
                     state.errorMessage = Strings.defaultErrorMessage
                 }

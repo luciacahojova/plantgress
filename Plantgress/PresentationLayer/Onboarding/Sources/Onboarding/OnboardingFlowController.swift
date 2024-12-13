@@ -20,6 +20,7 @@ enum OnboardingFlow: Flow {
 
 public protocol OnboardingFlowControllerDelegate: AnyObject {
     func setupMain()
+    func handleLogout()
 }
 
 public final class OnboardingFlowController: FlowController {
@@ -38,7 +39,8 @@ public final class OnboardingFlowController: FlowController {
     
     override public func setup() -> UIViewController {
         let viewModel = OnboardingOverviewViewModel(
-            flowController: self
+            flowController: self,
+            message: message
         )
         let view = OnboardingOverviewView(viewModel: viewModel)
         let vc = HostingController(

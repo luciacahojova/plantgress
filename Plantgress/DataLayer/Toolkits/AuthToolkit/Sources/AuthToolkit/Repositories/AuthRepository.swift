@@ -17,15 +17,11 @@ public struct AuthRepositoryImpl: AuthRepository {
         self.firebaseAuthProvider = firebaseAuthProvider
     }
     
-    public func isUserLoggedIn() -> Bool {
-        firebaseAuthProvider.isUserLoggedIn()
-    }
-    
     public func isEmailVerified() -> Bool {
         firebaseAuthProvider.isEmailVerified()
     }
     
-    public func registerUser(credentials: RegistrationCredentials) async throws {
+    public func registerUser(credentials: RegistrationCredentials) async throws -> String {
         try await firebaseAuthProvider.registerUser(credentials: credentials)
     }
     
@@ -43,6 +39,14 @@ public struct AuthRepositoryImpl: AuthRepository {
     
     public func getUserEmail() -> String? {
         firebaseAuthProvider.getUserEmail()
+    }
+    
+    public func getUserId() -> String? {
+        firebaseAuthProvider.getUserId()
+    }
+    
+    public func deleteUser() {
+        firebaseAuthProvider.deleteUser()
     }
     
     public func sendPasswordReset(email: String) async throws {

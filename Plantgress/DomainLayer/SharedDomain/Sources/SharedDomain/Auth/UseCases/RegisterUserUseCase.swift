@@ -12,12 +12,28 @@ public protocol RegisterUserUseCase {
 public struct RegisterUserUseCaseImpl: RegisterUserUseCase {
     
     private let authRepository: AuthRepository
+    private let userRepository: UserRepository
     
-    public init(authRepository: AuthRepository) {
+    public init(
+        authRepository: AuthRepository,
+        userRepository: UserRepository
+    ) {
         self.authRepository = authRepository
+        self.userRepository = userRepository
     }
     
     public func execute(credentials: RegistrationCredentials) async throws {
-        try await authRepository.registerUser(credentials: credentials)
+        try? userRepository.saveUserEmailLocally(email: credentials.email)
+        
+        let userId = try await authRepository.registerUser(credentials: credentials)
+        
+        let user = User(
+            id: userId,
+            email: credentials.email,
+            name: credentials.name,
+            surname: credentials.surname
+        )
+        
+        try await userRepository.createUser(user)
     }
 }

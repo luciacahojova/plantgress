@@ -41,6 +41,8 @@ public enum Icons {
 
 public enum Colors {
     public static let green = Asset.Colors.green.color
+    public static let gray = Asset.Colors.gray.color
+    public static let white = Asset.Colors.white.color
     public static let yellow = Asset.Colors.yellow.color
     public static let orange = Asset.Colors.orange.color
     public static let blue = Asset.Colors.blue.color
@@ -79,6 +81,8 @@ public enum Fonts {
     public static let subheadlineSemibold: Font = .custom(relativeTo: .subheadline, size: 15, weight: .semibold)
     public static let subheadlineBold: Font = .custom(relativeTo: .subheadline, size: 15, weight: .bold)
 
+    public static let calloutRegular: Font = .custom(relativeTo: .footnote, size: 13, weight: .regular)
+    public static let calloutMedium: Font = .custom(relativeTo: .footnote, size: 13, weight: .medium)
     public static let calloutSemibold: Font = .custom(relativeTo: .footnote, size: 13, weight: .semibold)
 
     public static let captionMedium: Font = .custom(relativeTo: .caption2, size: 11, weight: .medium)

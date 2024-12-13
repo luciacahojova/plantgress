@@ -5,10 +5,6 @@
 //  Created by Lucia Cahojova on 08.12.2024.
 //
 
-public struct DefaultFirebaseStorageProvider {
+public struct DefaultFirebaseStorageProvider: FirebaseStorageProvider {
     public init() {}
-}
-
-extension DefaultFirebaseStorageProvider: FirebaseStorageProvider {
-    
 }

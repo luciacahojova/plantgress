@@ -12,8 +12,9 @@ import UIToolkit
 
 final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObject {
     
-    @Injected private var getUserEmailUseCase: GetUserEmailUseCase
+    @Injected private var getCurrentUsersEmailUseCase: GetCurrentUsersEmailUseCase
     @Injected private var sendPasswordResetUseCase: SendPasswordResetUseCase
+    @Injected private var deleteCurrentUserEmailUseCase: DeleteCurrentUserEmailUseCase
     
     // MARK: - Dependencies
     
@@ -39,7 +40,7 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
     override func onAppear() {
         super.onAppear()
         
-        if let email = getUserEmailUseCase.execute() {
+        if let email = getCurrentUsersEmailUseCase.execute() {
             state.email = email
         }
     }
@@ -87,6 +88,10 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
         state.errorMessage = nil
         state.emailErrorMessage = nil
         state.email = email
+        
+        if email.isBlank {
+            deleteCurrentUserEmailUseCase.execute()
+        }
     }
     
     private func snackbarDataChanged(_ snackbarData: SnackbarData?) {
@@ -99,13 +104,16 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
     
     private func sendResetPasswordLink() {
         state.isResetPasswordButtonLoading = true
-        defer { state.isResetPasswordButtonLoading = false }
         
         executeTask(
             Task {
+                defer { state.isResetPasswordButtonLoading = false }
+                
                 do {
                     try await sendPasswordResetUseCase.execute(email: state.email)
                     state.snackbarData = .init(message: Strings.resetPasswordSnackbarMessage)
+                } catch AuthError.userNotFound {
+                    state.errorMessage = Strings.emailNotRegisteredErrorMessage
                 } catch {
                     state.errorMessage = Strings.defaultErrorMessage
                 }

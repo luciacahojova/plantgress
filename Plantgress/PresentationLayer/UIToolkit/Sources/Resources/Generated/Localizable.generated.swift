@@ -14,8 +14,28 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum Strings {
+  /// Account
+  public static let accountTitle = Strings.tr("Localizable", "account_title", fallback: "Account")
+  /// Cancel
+  public static let cancelButton = Strings.tr("Localizable", "cancel_button", fallback: "Cancel")
+  /// Change Email
+  public static let changeEmailButton = Strings.tr("Localizable", "change_email_button", fallback: "Change Email")
+  /// Change Name
+  public static let changeNameButton = Strings.tr("Localizable", "change_name_button", fallback: "Change Name")
+  /// Change Password
+  public static let changePasswordButton = Strings.tr("Localizable", "change_password_button", fallback: "Change Password")
+  /// Close
+  public static let closeButton = Strings.tr("Localizable", "close_button", fallback: "Close")
   /// Something went wrong.
   public static let defaultErrorMessage = Strings.tr("Localizable", "default_error_message", fallback: "Something went wrong.")
+  /// Are you sure you want to permanently delete your account?
+  public static let deleteAccountAlertMessage = Strings.tr("Localizable", "delete_account_alert_message", fallback: "Are you sure you want to permanently delete your account?")
+  /// Delete Account
+  public static let deleteAccountAlertTitle = Strings.tr("Localizable", "delete_account_alert_title", fallback: "Delete Account")
+  /// Delete Account
+  public static let deleteAccountButton = Strings.tr("Localizable", "delete_account_button", fallback: "Delete Account")
+  /// Delete
+  public static let deleteButton = Strings.tr("Localizable", "delete_button", fallback: "Delete")
   /// Dismiss
   public static let dismissButton = Strings.tr("Localizable", "dismiss_button", fallback: "Dismiss")
   /// Email is already in use.
@@ -28,16 +48,26 @@ public enum Strings {
   public static let emailNotVerifiedErrorMessage = Strings.tr("Localizable", "email_not_verified_error_message", fallback: "Your email address is not verified.")
   /// Email verification link has been resent.
   public static let emailVerificationResentSnackbarMessage = Strings.tr("Localizable", "email_verification_resent_snackbar_message", fallback: "Email verification link has been resent.")
+  /// Explore
+  public static let exploreTitle = Strings.tr("Localizable", "explore_title", fallback: "Explore")
   /// Forgotten password
   public static let forgottenPasswordTitle = Strings.tr("Localizable", "forgotten_password_title", fallback: "Forgotten password")
   /// Please enter a valid email address.
   public static let invalidEmailFormatErrorMessage = Strings.tr("Localizable", "invalid_email_format_error_message", fallback: "Please enter a valid email address.")
   /// Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.
   public static let invalidPasswordFormatErrorMessage = Strings.tr("Localizable", "invalid_password_format_error_message", fallback: "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.")
+  /// To continue, you must log in again.
+  public static let loginContinuteMessage = Strings.tr("Localizable", "login_continute_message", fallback: "To continue, you must log in again.")
   /// Send verification link
   public static let loginSendVerificationLinkButton = Strings.tr("Localizable", "login_send_verification_link_button", fallback: "Send verification link")
   /// Log In
   public static let loginTitle = Strings.tr("Localizable", "login_title", fallback: "Log In")
+  /// Are you sure you want to log out?
+  public static let logoutAlertMessage = Strings.tr("Localizable", "logout_alert_message", fallback: "Are you sure you want to log out?")
+  /// Logout
+  public static let logoutAlertTitle = Strings.tr("Localizable", "logout_alert_title", fallback: "Logout")
+  /// Log Out
+  public static let logoutButton = Strings.tr("Localizable", "logout_button", fallback: "Log Out")
   /// Email
   public static let onboardingEmailPlaceholder = Strings.tr("Localizable", "onboarding_email_placeholder", fallback: "Email")
   /// Log In
@@ -56,6 +86,10 @@ public enum Strings {
   public static let passwordResetMessage = Strings.tr("Localizable", "password_reset_message", fallback: "A reset link will be sent to the provided email address. If it doesn’t arrive within a few minutes, check the email address or resend the link.")
   /// Passwords do not match.
   public static let passwordsDontMatchErrorMessage = Strings.tr("Localizable", "passwords_dont_match_error_message", fallback: "Passwords do not match.")
+  /// Plants
+  public static let plantsTitle = Strings.tr("Localizable", "plants_title", fallback: "Plants")
+  /// Profile
+  public static let profileTitle = Strings.tr("Localizable", "profile_title", fallback: "Profile")
   /// Register
   public static let registrationTitle = Strings.tr("Localizable", "registration_title", fallback: "Register")
   /// Resend verification link
@@ -64,6 +98,12 @@ public enum Strings {
   public static let resetPasswordButtom = Strings.tr("Localizable", "reset_password_buttom", fallback: "Send password reset")
   /// Password reset link has been sent.
   public static let resetPasswordSnackbarMessage = Strings.tr("Localizable", "reset_password_snackbar_message", fallback: "Password reset link has been sent.")
+  /// Start
+  public static let taskStart = Strings.tr("Localizable", "task_start", fallback: "Start")
+  /// Time
+  public static let taskTime = Strings.tr("Localizable", "task_time", fallback: "Time")
+  /// Tasks
+  public static let tasksTitle = Strings.tr("Localizable", "tasks_title", fallback: "Tasks")
   /// Too many requests.
   public static let tooManyRequestsErrorMessage = Strings.tr("Localizable", "too_many_requests_error_message", fallback: "Too many requests.")
   /// A verification link has been sent to your email address. It may take a few minutes to arrive. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.

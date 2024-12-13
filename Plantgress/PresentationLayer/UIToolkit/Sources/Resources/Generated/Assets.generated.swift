@@ -36,6 +36,7 @@ public enum Asset {
   public enum Colors {
     public static let blue = ColorAsset(name: "blue")
     public static let coral = ColorAsset(name: "coral")
+    public static let gray = ColorAsset(name: "gray")
     public static let green = ColorAsset(name: "green")
     public static let orange = ColorAsset(name: "orange")
     public static let pink = ColorAsset(name: "pink")
@@ -47,6 +48,7 @@ public enum Asset {
     public static let secondaryButton = ColorAsset(name: "secondaryButton")
     public static let secondaryText = ColorAsset(name: "secondaryText")
     public static let tertiaryText = ColorAsset(name: "tertiaryText")
+    public static let white = ColorAsset(name: "white")
     public static let yellow = ColorAsset(name: "yellow")
   }
   public enum Icons {
