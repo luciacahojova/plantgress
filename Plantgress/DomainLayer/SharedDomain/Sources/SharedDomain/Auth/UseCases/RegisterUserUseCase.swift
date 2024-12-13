@@ -23,6 +23,8 @@ public struct RegisterUserUseCaseImpl: RegisterUserUseCase {
     }
     
     public func execute(credentials: RegistrationCredentials) async throws {
+        try? userRepository.saveUserEmailLocally(email: credentials.email)
+        
         let userId = try await authRepository.registerUser(credentials: credentials)
         
         let user = User(

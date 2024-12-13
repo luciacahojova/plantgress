@@ -155,7 +155,6 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
         executeTask(
             Task {
                 defer { state.isDeleteAccountButtonLoading = false }
-                
                 do {
                     try await useCase.execute(userId: userId)
                     flowController?.handleFlow(ProfileFlow.presentOnboarding(message: nil))

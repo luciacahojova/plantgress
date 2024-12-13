@@ -21,5 +21,6 @@ public struct LogOutUserUseCaseImpl: LogOutUserUseCase {
     
     public func execute() throws {
         try userRepository.deleteCurrentUserLocally()
+        try? userRepository.deleteUserEmailLocally()
     }
 }

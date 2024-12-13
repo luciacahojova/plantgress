@@ -15,6 +15,7 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
     @Injected private var sendEmailVerificationUseCase: SendEmailVerificationUseCase
     @Injected private var logInUserUseCase: LogInUserUseCase
     @Injected private var getCurrentUsersEmailUseCase: GetCurrentUsersEmailUseCase
+    @Injected private var deleteCurrentUserEmailUseCase: DeleteCurrentUserEmailUseCase
     
     // MARK: - Dependencies
     
@@ -112,6 +113,10 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
                     state.emailErrorMessage = Strings.emailNotVerifiedErrorMessage
                     state.isEmailVerificationButtonVisible = true
                     return
+                } catch AuthError.invalidEmailFormat {
+                    state.emailErrorMessage = Strings.invalidEmailFormatErrorMessage
+                    state.isEmailVerificationButtonVisible = true
+                    return
                 } catch {
                     state.errorMessage = Strings.defaultErrorMessage
                 }
@@ -124,6 +129,10 @@ final class LoginViewModel: BaseViewModel, ViewModel, ObservableObject {
         state.errorMessage = nil
         state.emailErrorMessage = nil
         state.email = email
+        
+        if email.isBlank {
+            deleteCurrentUserEmailUseCase.execute()
+        }
     }
     
     private func passwordChanged(_ password: String) {

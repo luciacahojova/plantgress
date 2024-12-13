@@ -23,6 +23,8 @@ public struct LogInUserUseCaseImpl: LogInUserUseCase {
     }
     
     public func execute(credentials: LoginCredentials) async throws {
+        try? userRepository.saveUserEmailLocally(email: credentials.email)
+        
         try await authRepository.logInUser(credentials: credentials)
         
         guard let userId = authRepository.getUserId() else {

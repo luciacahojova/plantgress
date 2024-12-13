@@ -26,13 +26,14 @@ struct LoginView: View {
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: Constants.Spacing.medium) {
-                OutlinedTextField( // TODO: Update keychain email when user tries to log in, add done to keyboard, handle user does not exist
+                OutlinedTextField(
                     text: Binding<String>(
                         get: { viewModel.state.email },
                         set: { email in viewModel.onIntent(.emailChanged(email)) }
                     ),
                     placeholder: Strings.onboardingEmailPlaceholder,
-                    errorMessage: viewModel.state.emailErrorMessage
+                    errorMessage: viewModel.state.emailErrorMessage,
+                    deleteTextAction: { viewModel.onIntent(.emailChanged("")) }
                 )
                 
                 SecureOulinedTextField(

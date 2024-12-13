@@ -80,6 +80,8 @@ public struct DefaultFirebaseAuthProvider: FirebaseAuthProvider {
                 throw AuthError.wrongPassword
             case .unverifiedEmail:
                 throw AuthError.emailNotVerified
+            case .invalidEmail:
+                throw AuthError.invalidEmailFormat
             default:
                 throw AuthError.default
             }

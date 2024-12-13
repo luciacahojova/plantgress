@@ -10,6 +10,7 @@ import Foundation
 public enum KeychainCoding: String, CaseIterable {
     case hasUserSeenAppPromo
     case user
+    case userEmail
 }
 
 public protocol KeychainProvider {

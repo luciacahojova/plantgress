@@ -24,5 +24,7 @@ public extension Resolver {
         register { SendPasswordResetUseCasePreviewMock() as SendPasswordResetUseCase }
         register { LogOutUserUseCasePreviewMock() as LogOutUserUseCase }
         register { DeleteUserUseCasePreviewMock() as DeleteUserUseCase }
+        register { SaveCurrentUserEmailUseCasePreviewMock() as SaveCurrentUserEmailUseCase }
+        register { DeleteCurrentUserEmailUseCasePreviewMock() as DeleteCurrentUserEmailUseCase }
     }
 }

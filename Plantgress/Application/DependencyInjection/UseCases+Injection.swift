@@ -18,11 +18,14 @@ public extension Resolver {
         register { SendEmailVerificationUseCaseImpl(authRepository: resolve()) as SendEmailVerificationUseCase }
         register { ValidateEmailUseCaseImpl() as ValidateEmailUseCase }
         register { ValidatePasswordUseCaseImpl() as ValidatePasswordUseCase }
-        register { GetCurrentUsersEmailUseCaseImpl(authRepository: resolve()) as GetCurrentUsersEmailUseCase }
+        register { GetCurrentUsersEmailUseCaseImpl(userRepository: resolve()) as GetCurrentUsersEmailUseCase }
         register { GetCurrentUserRemotelyUseCaseImpl(authRepository: resolve(), userRepository: resolve()) as GetCurrentUserRemotelyUseCase }
         register { GetCurrentUserLocallyUseCaseImpl(userRepository: resolve()) as GetCurrentUserLocallyUseCase }
-        register { SendPasswordResetUseCaseImpl(authRepository: resolve()) as SendPasswordResetUseCase }
+        register { SendPasswordResetUseCaseImpl(authRepository: resolve(), userRepository: resolve()) as SendPasswordResetUseCase }
         register { LogOutUserUseCaseImpl(userRepository: resolve()) as LogOutUserUseCase }
         register { DeleteUserUseCaseImpl(authRepository: resolve(), userRepository: resolve()) as DeleteUserUseCase }
+        register { SaveCurrentUserEmailUseCaseImpl(userRepository: resolve()) as SaveCurrentUserEmailUseCase }
+        register { DeleteCurrentUserEmailUseCaseImpl(userRepository: resolve()) as DeleteCurrentUserEmailUseCase }
+        
     }
 }

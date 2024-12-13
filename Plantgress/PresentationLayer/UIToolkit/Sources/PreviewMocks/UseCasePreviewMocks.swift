@@ -58,3 +58,11 @@ class LogOutUserUseCasePreviewMock: LogOutUserUseCase {
 class DeleteUserUseCasePreviewMock: DeleteUserUseCase {
     func execute(userId: String) async throws {}
 }
+
+class SaveCurrentUserEmailUseCasePreviewMock: SaveCurrentUserEmailUseCase {
+    func execute(email: String) {}
+}
+
+class DeleteCurrentUserEmailUseCasePreviewMock: DeleteCurrentUserEmailUseCase {
+    func execute() {}
+}

@@ -13,13 +13,13 @@ public protocol GetCurrentUsersEmailUseCase {
 
 public struct GetCurrentUsersEmailUseCaseImpl: GetCurrentUsersEmailUseCase {
     
-    private let authRepository: AuthRepository
+    private let userRepository: UserRepository
     
-    public init(authRepository: AuthRepository) {
-        self.authRepository = authRepository
+    public init(userRepository: UserRepository) {
+        self.userRepository = userRepository
     }
     
     public func execute() -> String? {
-        return authRepository.getUserEmail()
+        return try? userRepository.getUserEmailLocally()
     }
 }

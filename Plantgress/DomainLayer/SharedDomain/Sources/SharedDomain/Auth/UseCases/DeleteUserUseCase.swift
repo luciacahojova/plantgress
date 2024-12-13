@@ -27,5 +27,6 @@ public struct DeleteUserUseCaseImpl: DeleteUserUseCase {
     public func execute(userId: String) async throws {
         authRepository.deleteUser()
         try await userRepository.deleteUser(userId: userId)
+        try? userRepository.deleteUserEmailLocally()
     }
 }

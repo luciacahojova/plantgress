@@ -78,4 +78,16 @@ public struct UserRepositoryImpl: UserRepository {
             return false
         }
     }
+    
+    public func getUserEmailLocally() throws -> String {
+        try keychainProvider.read(.userEmail)
+    }
+    
+    public func saveUserEmailLocally(email: String) throws {
+        try keychainProvider.update(.userEmail, value: email)
+    }
+    
+    public func deleteUserEmailLocally() throws {
+        try keychainProvider.delete(.userEmail)
+    }
 }

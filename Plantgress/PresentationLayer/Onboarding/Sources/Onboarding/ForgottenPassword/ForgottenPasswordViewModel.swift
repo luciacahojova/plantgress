@@ -14,6 +14,7 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
     
     @Injected private var getCurrentUsersEmailUseCase: GetCurrentUsersEmailUseCase
     @Injected private var sendPasswordResetUseCase: SendPasswordResetUseCase
+    @Injected private var deleteCurrentUserEmailUseCase: DeleteCurrentUserEmailUseCase
     
     // MARK: - Dependencies
     
@@ -87,6 +88,10 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
         state.errorMessage = nil
         state.emailErrorMessage = nil
         state.email = email
+        
+        if email.isBlank {
+            deleteCurrentUserEmailUseCase.execute()
+        }
     }
     
     private func snackbarDataChanged(_ snackbarData: SnackbarData?) {

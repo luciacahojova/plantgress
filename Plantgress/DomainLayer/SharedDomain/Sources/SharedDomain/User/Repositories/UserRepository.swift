@@ -9,6 +9,9 @@ import Foundation
 
 public protocol UserRepository {
     func isUserLoggedIn() -> Bool
+    func getUserEmailLocally() throws -> String
+    func deleteUserEmailLocally() throws
+    func saveUserEmailLocally(email: String) throws
     func getRemoteUser(id: String) async throws -> User
     func getLocalUser() throws -> User
     func createUser(_ user: User) async throws
