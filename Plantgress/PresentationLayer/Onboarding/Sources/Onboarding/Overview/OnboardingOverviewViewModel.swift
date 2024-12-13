@@ -17,10 +17,17 @@ final class OnboardingOverviewViewModel: BaseViewModel, ViewModel, ObservableObj
     // MARK: - Init
 
     init(
-        flowController: FlowController?
+        flowController: FlowController?,
+        message: String? = nil
     ) {
         self.flowController = flowController
         super.init()
+        
+        if let message {
+            state.alertData = .init(
+                title: message
+            )
+        }
     }
     
     // MARK: - Lifecycle
@@ -34,20 +41,30 @@ final class OnboardingOverviewViewModel: BaseViewModel, ViewModel, ObservableObj
     @Published private(set) var state: State = State()
 
     struct State {
-        
+        var alertData: AlertData?
     }
     
     // MARK: - Intent
     enum Intent {
         case showLogin
         case showRegistration
+        case alertDataChanged(AlertData?)
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
         case .showLogin: showLogin()
         case .showRegistration: showRegistration()
+        case .alertDataChanged(let alertData): alertDataChanged(alertData)
         }
+    }
+    
+    private func alertDataChanged(_ alertData: AlertData?) {
+        state.alertData = alertData
+    }
+    
+    private func dismissAlert() {
+        state.alertData = nil
     }
     
     private func showLogin() {

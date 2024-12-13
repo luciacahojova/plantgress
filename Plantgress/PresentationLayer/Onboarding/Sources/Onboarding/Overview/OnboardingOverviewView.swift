@@ -56,6 +56,12 @@ struct OnboardingOverviewView: View {
             }
         }
         .edgesIgnoringSafeArea(.all)
+        .alert(item: Binding<AlertData?>(
+            get: { viewModel.state.alertData },
+            set: { alertData in
+                viewModel.onIntent(.alertDataChanged(alertData))
+            }
+        )) { alert in .init(alert) }
         .lifecycle(viewModel)
     }
 }

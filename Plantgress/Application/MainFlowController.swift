@@ -23,10 +23,10 @@ protocol MainFlowControllerDelegate: AnyObject {
         animated: Bool,
         completion: (() -> Void)?
     )
+    func handleLogout()
 }
 
 final class MainFlowController: FlowController, ProfileFlowControllerDelegate {
-    
     weak var delegate: MainFlowControllerDelegate?
     
     override func setup() -> UIViewController {
@@ -83,6 +83,10 @@ final class MainFlowController: FlowController, ProfileFlowControllerDelegate {
             self?.navigationController.viewControllers = []
             self?.stopFlow()
         }
+    }
+    
+    func handleLogout() {
+        delegate?.handleLogout()
     }
     
     @discardableResult private func switchTab(_ index: MainTab) -> FlowController? {

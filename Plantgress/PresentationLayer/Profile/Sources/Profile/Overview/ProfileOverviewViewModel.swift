@@ -36,7 +36,6 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
         super.onAppear()
         defer { state.isLoading = false }
         
-        // TODO: Handle logout via delegate when user does not exist
         state.user = try? getCurrentUserLocallyUseCase.execute()
         let useCase = getCurrentUserRemotelyUseCase
         executeTask(
@@ -44,7 +43,7 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
                 do {
                     state.user = try await useCase.execute()
                 } catch {
-                    state.errorMessage = Strings.defaultErrorMessage
+                    flowController?.handleFlow(ProfileFlow.handleLogout)
                 }
             }
         )
@@ -68,7 +67,6 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     
     // MARK: - Intent
     enum Intent {
-        case presentOnboarding(message: String?)
         case showChangeEmail
         case showChangeName
         case showChangePassword
@@ -79,7 +77,6 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
 
     func onIntent(_ intent: Intent) {
         switch intent {
-        case .presentOnboarding(let message): presentOnboarding(message: message)
         case .showChangeEmail: showChangeEmail()
         case .showChangeName: showChangeName()
         case .showChangePassword: showChangePassword()
@@ -87,10 +84,6 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
         case .logoutUser: logoutUser()
         case .deleteUser: deleteUser()
         }
-    }
-    
-    private func presentOnboarding(message: String?) {
-        flowController?.handleFlow(ProfileFlow.presentOnboarding(message: message))
     }
     
     private func logoutUser() {
@@ -146,7 +139,7 @@ final class ProfileOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     
     private func confirmAccountDelete() {
         guard let userId = state.user?.id else {
-            state.errorMessage = Strings.defaultErrorMessage // TODO: Handle logout
+            state.errorMessage = Strings.defaultErrorMessage
             return
         }
         state.isDeleteAccountButtonLoading = true

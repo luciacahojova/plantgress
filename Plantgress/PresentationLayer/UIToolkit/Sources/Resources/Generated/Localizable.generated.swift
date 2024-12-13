@@ -56,6 +56,8 @@ public enum Strings {
   public static let invalidEmailFormatErrorMessage = Strings.tr("Localizable", "invalid_email_format_error_message", fallback: "Please enter a valid email address.")
   /// Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.
   public static let invalidPasswordFormatErrorMessage = Strings.tr("Localizable", "invalid_password_format_error_message", fallback: "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.")
+  /// To continue, you must log in again.
+  public static let loginContinuteMessage = Strings.tr("Localizable", "login_continute_message", fallback: "To continue, you must log in again.")
   /// Send verification link
   public static let loginSendVerificationLinkButton = Strings.tr("Localizable", "login_send_verification_link_button", fallback: "Send verification link")
   /// Log In

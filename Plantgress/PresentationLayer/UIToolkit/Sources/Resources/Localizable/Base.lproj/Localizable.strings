@@ -50,6 +50,8 @@
 "delete_account_alert_title" = "Delete Account";
 "delete_account_alert_message" = "Are you sure you want to permanently delete your account?";
 
+"login_continute_message" = "To continue, you must log in again.";
+
 // MARK: Explore
 "explore_title" = "Explore";
 

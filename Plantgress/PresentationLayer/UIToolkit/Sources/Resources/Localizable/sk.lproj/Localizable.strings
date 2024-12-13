@@ -50,6 +50,8 @@
 "delete_account_alert_title" = "Zmazanie účtu";
 "delete_account_alert_message" = "Ste si istý, že chcete natrvalo zmazať svoj účet?";
 
+"login_continute_message" = "Pre pokračovanie sa musíte znovu prihlásiť.";
+
 // MARK: Explore
 "explore_title" = "Objavujte";
 

@@ -13,10 +13,12 @@ enum ProfileFlow: Flow {
     case showChangeEmail
     case showChangeName
     case showChangePassword
+    case handleLogout
 }
 
 public protocol ProfileFlowControllerDelegate: AnyObject {
     func presentOnboarding(message: String?)
+    func handleLogout()
 }
 
 public final class ProfileFlowController: FlowController {
@@ -45,11 +47,16 @@ public final class ProfileFlowController: FlowController {
         case .showChangeEmail: showChangeEmail()
         case .showChangeName: showChangeName()
         case .showChangePassword: showChangePassword()
+        case .handleLogout: handleLogout()
         }
     }
     
     private func presentOnboarding(message: String?) {
         delegate?.presentOnboarding(message: message)
+    }
+    
+    private func handleLogout() {
+        delegate?.handleLogout()
     }
     
     private func showChangeEmail() {
