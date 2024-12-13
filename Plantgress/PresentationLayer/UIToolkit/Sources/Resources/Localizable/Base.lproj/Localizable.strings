@@ -58,6 +58,10 @@
 // MARK: Plants
 "plants_title" = "Plants";
 
+"plants_title_with_emoji" = "Plants 🪴";
+"rooms_title_with_emoji" = "Rooms 🏡";
+"tasks_title_with_emoji" = "Tasks 📝";
+
 // MARK: Tasks
 "tasks_title" = "Tasks";
 "task_start" = "Start";

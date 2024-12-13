@@ -91,6 +91,10 @@ public struct Constants {
          * Frame of size 40
          */
         public static let primaryButtonHeight: CGFloat = 40
+        /**
+         * Frame of size 44
+         */
+        public static let primarySectionPickerHeight: CGFloat = 44
     }
     
     // MARK: - CornerRadiuses

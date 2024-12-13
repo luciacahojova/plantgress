@@ -15,7 +15,12 @@ enum PlantsFlow: Flow {
 public final class PlantsFlowController: FlowController {
     
     public override func setup() -> UIViewController {
-        let view = PlantsOverviewView()
+        let vm = PlantsOverviewViewModel(
+            flowController: self
+        )
+        let view = PlantsOverviewView(
+            viewModel: vm
+        )
         let vc = HostingController(
             rootView: view,
             title: Strings.plantsTitle

@@ -28,4 +28,12 @@ public extension View {
             )
         )
     }
+    
+    func animationEffect(isSelected: Bool, id: String, in namespace: Namespace.ID) -> some View {
+        modifier(AnimationEffect(isSelected: isSelected, id: id, namespace: namespace))
+    }
+    
+    func pickerTextStyle(isSelected: Bool) -> some View {
+        modifier(PickerStyle(isSelected: isSelected))
+    }
 }

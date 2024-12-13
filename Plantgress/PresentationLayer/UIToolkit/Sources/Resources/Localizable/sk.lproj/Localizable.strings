@@ -58,6 +58,10 @@
 // MARK: Plants
 "plants_title" = "Rastliny";
 
+"plants_title_with_emoji" = "Rastliny 🪴";
+"rooms_title_with_emoji" = "Miestnosti 🏡";
+"tasks_title_with_emoji" = "Úlohy 📝";
+
 // MARK: Tasks
 "tasks_title" = "Úlohy";
 "task_start" = "Začiatok";

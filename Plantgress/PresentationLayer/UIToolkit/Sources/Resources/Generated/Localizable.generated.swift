@@ -88,6 +88,8 @@ public enum Strings {
   public static let passwordsDontMatchErrorMessage = Strings.tr("Localizable", "passwords_dont_match_error_message", fallback: "Passwords do not match.")
   /// Plants
   public static let plantsTitle = Strings.tr("Localizable", "plants_title", fallback: "Plants")
+  /// Plants 🪴
+  public static let plantsTitleWithEmoji = Strings.tr("Localizable", "plants_title_with_emoji", fallback: "Plants 🪴")
   /// Profile
   public static let profileTitle = Strings.tr("Localizable", "profile_title", fallback: "Profile")
   /// Register
@@ -98,12 +100,16 @@ public enum Strings {
   public static let resetPasswordButtom = Strings.tr("Localizable", "reset_password_buttom", fallback: "Send password reset")
   /// Password reset link has been sent.
   public static let resetPasswordSnackbarMessage = Strings.tr("Localizable", "reset_password_snackbar_message", fallback: "Password reset link has been sent.")
+  /// Rooms 🏡
+  public static let roomsTitleWithEmoji = Strings.tr("Localizable", "rooms_title_with_emoji", fallback: "Rooms 🏡")
   /// Start
   public static let taskStart = Strings.tr("Localizable", "task_start", fallback: "Start")
   /// Time
   public static let taskTime = Strings.tr("Localizable", "task_time", fallback: "Time")
   /// Tasks
   public static let tasksTitle = Strings.tr("Localizable", "tasks_title", fallback: "Tasks")
+  /// Tasks 📝
+  public static let tasksTitleWithEmoji = Strings.tr("Localizable", "tasks_title_with_emoji", fallback: "Tasks 📝")
   /// Too many requests.
   public static let tooManyRequestsErrorMessage = Strings.tr("Localizable", "too_many_requests_error_message", fallback: "Too many requests.")
   /// A verification link has been sent to your email address. It may take a few minutes to arrive. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.
