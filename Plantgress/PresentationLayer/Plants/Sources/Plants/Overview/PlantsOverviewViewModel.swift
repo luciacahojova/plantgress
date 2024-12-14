@@ -9,6 +9,7 @@ import Foundation
 import SharedDomain
 import UIToolkit
 import UIKit
+import SwiftUI
 
 final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject {
     
@@ -29,6 +30,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     override func onAppear() {
         super.onAppear()
+        
+        updateTitle()
     }
     
     // MARK: - Tab selection
@@ -50,7 +53,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         var sectionTitle: String {
             switch self {
             case .plants: Strings.plantsTitle
-            case .rooms: "Rooms" //Strings.roomsTitle
+            case .rooms: Strings.roomsTitle
             case .tasks: Strings.tasksTitle
             }
         }
@@ -72,15 +75,22 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     // MARK: - Intent
     enum Intent {
+        case plusButtonTapped
+        
         case showPlantDetail(plantId: String)
+        case showRoomDetail(roomId: String)
+        
         case alertDataChanged(AlertData?)
         case snackbarDataChanged(SnackbarData?)
+        
         case selectedSectionChanged(SectionPickerOption)
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
+        case .plusButtonTapped: plusButtonTapped()
         case .showPlantDetail(let plantId): showPlantDetail(plantId)
+        case .showRoomDetail(let roomId): showRoomDetail(roomId)
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .selectedSectionChanged(let selectedSection): selectedSectionChanged(selectedSection)
@@ -89,6 +99,17 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     private func alertDataChanged(_ alertData: AlertData?) {
         state.alertData = alertData
+    }
+    
+    private func plusButtonTapped() {
+        switch selectedSection {
+        case .plants:
+            #warning("TODO: Handle flow")
+        case .rooms:
+            #warning("TODO: Handle flow")
+        case .tasks:
+            #warning("TODO: Handle flow")
+        }
     }
     
     private func snackbarDataChanged(_ snackbarData: SnackbarData?) {
@@ -104,10 +125,15 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     }
     
     private func showPlantDetail(_ plantId: String) {
+        
+    }
+    
+    private func showRoomDetail(_ roomId: String) {
         #warning("TODO: Handle flow")
     }
         
     private func updateTitle() {
         flowController?.navigationController.viewControllers.first?.title = selectedSection.title
+        self.flowController?.navigationController.tabBarItem.title = nil
     }
 }

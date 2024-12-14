@@ -25,7 +25,7 @@ struct PlantsOverviewView: View {
     
     var body: some View {
         ScrollView {
-            VStack {
+            VStack(spacing: Constants.Spacing.xLarge) {
                 SectionPicker(
                     selectedOption: Binding<PlantsOverviewViewModel.SectionPickerOption> (
                         get: { viewModel.selectedSection },
@@ -38,18 +38,25 @@ struct PlantsOverviewView: View {
                     Text(option.sectionTitle)
                 }
                 
-                Text(Strings.plantsTitle)
-                Text(Strings.plantsTitle)
-                Text(Strings.plantsTitle)
-                Text(Strings.plantsTitle)
-                Text(Strings.plantsTitle)
-                Text(Strings.plantsTitle)
-                Text(Strings.plantsTitle)
-                Text(Strings.plantsTitle)
-                Text(Strings.plantsTitle)
-                Text(Strings.plantsTitle)
+                VStack(spacing: Constants.Spacing.large) {
+                    switch viewModel.selectedSection {
+                    case .plants:
+                        Text("Plant")
+                        Text("Plant")
+                        Text("Plant")
+                    case .rooms:
+                        Text("Room")
+                        Text("Room")
+                        Text("Room")
+                    case .tasks:
+                        Text("Task")
+                        Text("Task")
+                        Text("Task")
+                    }
+                }
+                    
             }
-            .padding(.horizontal)
+            .padding()
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

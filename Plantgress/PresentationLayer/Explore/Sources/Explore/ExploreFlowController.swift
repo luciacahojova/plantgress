@@ -18,7 +18,7 @@ public final class ExploreFlowController: FlowController {
         let view = ExploreOverviewView()
         let vc = HostingController(
             rootView: view,
-            title: Strings.exploreTitle
+            title: Strings.exploreTitleWithEmoji
         )
         
         return vc

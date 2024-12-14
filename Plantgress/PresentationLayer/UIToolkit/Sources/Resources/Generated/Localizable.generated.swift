@@ -50,6 +50,8 @@ public enum Strings {
   public static let emailVerificationResentSnackbarMessage = Strings.tr("Localizable", "email_verification_resent_snackbar_message", fallback: "Email verification link has been resent.")
   /// Explore
   public static let exploreTitle = Strings.tr("Localizable", "explore_title", fallback: "Explore")
+  /// Extra Tools 🔨
+  public static let exploreTitleWithEmoji = Strings.tr("Localizable", "explore_title_with_emoji", fallback: "Extra Tools 🔨")
   /// Forgotten password
   public static let forgottenPasswordTitle = Strings.tr("Localizable", "forgotten_password_title", fallback: "Forgotten password")
   /// Please enter a valid email address.
@@ -100,6 +102,8 @@ public enum Strings {
   public static let resetPasswordButtom = Strings.tr("Localizable", "reset_password_buttom", fallback: "Send password reset")
   /// Password reset link has been sent.
   public static let resetPasswordSnackbarMessage = Strings.tr("Localizable", "reset_password_snackbar_message", fallback: "Password reset link has been sent.")
+  /// Rooms
+  public static let roomsTitle = Strings.tr("Localizable", "rooms_title", fallback: "Rooms")
   /// Rooms 🏡
   public static let roomsTitleWithEmoji = Strings.tr("Localizable", "rooms_title_with_emoji", fallback: "Rooms 🏡")
   /// Start

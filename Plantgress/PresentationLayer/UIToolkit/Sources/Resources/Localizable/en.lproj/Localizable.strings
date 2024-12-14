@@ -54,6 +54,7 @@
 
 // MARK: Explore
 "explore_title" = "Explore";
+"explore_title_with_emoji" = "Extra Tools 🔨";
 
 // MARK: Plants
 "plants_title" = "Plants";
@@ -66,6 +67,9 @@
 "tasks_title" = "Tasks";
 "task_start" = "Start";
 "task_time" = "Time";
+
+// MARK: Rooms
+"rooms_title" = "Rooms";
 
 // MARK: General
 "dismiss_button" = "Dismiss";

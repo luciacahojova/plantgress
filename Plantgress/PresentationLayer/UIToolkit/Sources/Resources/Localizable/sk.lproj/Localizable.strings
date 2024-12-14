@@ -54,6 +54,7 @@
 
 // MARK: Explore
 "explore_title" = "Objavujte";
+"explore_title_with_emoji" = "Extra Funkcie 🔨";
 
 // MARK: Plants
 "plants_title" = "Rastliny";
@@ -66,6 +67,9 @@
 "tasks_title" = "Úlohy";
 "task_start" = "Začiatok";
 "task_time" = "Čas";
+
+// MARK: Rooms
+"rooms_title" = "Miestnosti";
 
 // MARK: General
 "dismiss_button" = "Zatvoriť";
