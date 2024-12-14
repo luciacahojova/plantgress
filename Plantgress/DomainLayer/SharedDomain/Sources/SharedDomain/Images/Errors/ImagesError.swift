@@ -8,5 +8,8 @@
 import Foundation
 
 public enum ImagesError: Error {
+    case `default`
     
+    case downloadFailed
+    case uploadFailed
 }

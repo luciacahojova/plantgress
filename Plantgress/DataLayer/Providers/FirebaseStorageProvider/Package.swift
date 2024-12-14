@@ -14,6 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "SharedDomain", path: "../../../DomainLayer/SharedDomain"),
+        .package(name: "Utilities", path: "../../../DomainLayer/Utilities"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "11.6.0")),
     ],
     targets: [
@@ -22,6 +23,7 @@ let package = Package(
         .target(
             name: "FirebaseStorageProvider",
             dependencies: [
+                .product(name: "Utilities", package: "Utilities"),
                 .product(name: "SharedDomain", package: "SharedDomain"),
                 .product(name: "FirebaseStorage", package: "firebase-ios-sdk"),
             ]
