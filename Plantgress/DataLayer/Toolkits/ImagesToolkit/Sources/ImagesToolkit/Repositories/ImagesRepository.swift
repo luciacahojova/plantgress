@@ -19,8 +19,8 @@ public struct ImagesRepositoryImpl: ImagesRepository {
         self.firebaseStorageProvider = firebaseStorageProvider
     }
     
-    public func uploadImage(userId: UUID, imageName: String, imageData: Data) async throws -> URL {
-        let imagePath = DatabaseConstants.imagePath(userId: userId.uuidString, imageName: imageName)
+    public func uploadImage(userId: String, imageId: String, imageData: Data) async throws -> URL {
+        let imagePath = DatabaseConstants.imagePath(userId: userId, imageId: imageId)
         
         return try await firebaseStorageProvider.upload(
             path: imagePath,
@@ -43,8 +43,8 @@ public struct ImagesRepositoryImpl: ImagesRepository {
         return Image(uiImage: uiImage)
     }
     
-    public func delete(userId: UUID, imageName: String) async throws {
-        let imagePath = DatabaseConstants.imagePath(userId: userId.uuidString, imageName: imageName)
+    public func delete(userId: String, imageId: String) async throws {
+        let imagePath = DatabaseConstants.imagePath(userId: userId, imageId: imageId)
         
         try await firebaseStorageProvider.delete(path: imagePath)
     }

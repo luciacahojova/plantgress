@@ -25,6 +25,8 @@ public extension Resolver {
         register { LogOutUserUseCasePreviewMock() as LogOutUserUseCase }
         register { DeleteUserUseCasePreviewMock() as DeleteUserUseCase }
         register { SaveCurrentUserEmailUseCasePreviewMock() as SaveCurrentUserEmailUseCase }
+        
         register { DeleteCurrentUserEmailUseCasePreviewMock() as DeleteCurrentUserEmailUseCase }
+        register { UploadImageUseCasePreviewMock() as UploadImageUseCase }
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import Resolver
+import SharedDomain
 import SwiftUI
 import UIToolkit
 
@@ -24,7 +25,7 @@ struct PlantsOverviewView: View {
     // MARK: - Body
     
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack(spacing: Constants.Spacing.xLarge) {
                 SectionPicker(
                     selectedOption: Binding<PlantsOverviewViewModel.SectionPickerOption> (
@@ -60,7 +61,6 @@ struct PlantsOverviewView: View {
                         Text("Task")
                     }
                 }
-                    
             }
             .padding()
         }

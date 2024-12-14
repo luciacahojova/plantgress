@@ -9,9 +9,9 @@ import Foundation
 import SharedDomain
 
 public extension Plant {
-    static var mock: Plant {
+    static func mock(id: UUID) -> Plant {
         Plant(
-            id: UUID(),
+            id: id,
             name: "Monstera",
             images: .mock,
             settings: .mock
@@ -21,6 +21,6 @@ public extension Plant {
 
 public extension [Plant] {
     static var mock: [Plant] {
-        (0...3).map { _ in .mock }
+        (0...3).map { _ in .mock(id: UUID()) }
     }
 }

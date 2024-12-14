@@ -6,6 +6,7 @@
 //
 
 import SharedDomain
+import Foundation
 
 class LogInUserUseCasePreviewMock: LogInUserUseCase {
     func execute(credentials: LoginCredentials) {}
@@ -65,4 +66,14 @@ class SaveCurrentUserEmailUseCasePreviewMock: SaveCurrentUserEmailUseCase {
 
 class DeleteCurrentUserEmailUseCasePreviewMock: DeleteCurrentUserEmailUseCase {
     func execute() {}
+}
+
+class UploadImageUseCasePreviewMock: UploadImageUseCase {
+    func execute(userId: String, imageId: String, imageData: Data) async throws -> URL {
+        guard let url = URL(string: "") else {
+            throw ImagesError.invalidUrl
+        }
+        
+        return url
+    }
 }

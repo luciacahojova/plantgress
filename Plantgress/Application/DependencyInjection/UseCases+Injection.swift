@@ -27,5 +27,8 @@ public extension Resolver {
         register { SaveCurrentUserEmailUseCaseImpl(userRepository: resolve()) as SaveCurrentUserEmailUseCase }
         register { DeleteCurrentUserEmailUseCaseImpl(userRepository: resolve()) as DeleteCurrentUserEmailUseCase }
         
+        // Images
+        register { UploadImageUseCaseImpl(imagesRepository: resolve()) as UploadImageUseCase }
+
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 public protocol ImagesRepository {
-    func uploadImage(userId: UUID, imageName: String, imageData: Data) async throws -> URL
+    func uploadImage(userId: String, imageId: String, imageData: Data) async throws -> URL
     func downloadImage(urlString: String) async throws -> Image
-    func delete(userId: UUID, imageName: String) async throws
+    func delete(userId: String, imageId: String) async throws
 }

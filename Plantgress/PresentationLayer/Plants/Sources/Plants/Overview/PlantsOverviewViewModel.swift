@@ -6,12 +6,15 @@
 //
 
 import Foundation
+import Resolver
 import SharedDomain
 import UIToolkit
 import UIKit
 import SwiftUI
 
 final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject {
+    
+    @Injected private var uploadImageUseCase: UploadImageUseCase
     
     // MARK: - Dependencies
     
@@ -80,6 +83,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case showPlantDetail(plantId: String)
         case showRoomDetail(roomId: String)
         
+        case uploadImage
+        
         case alertDataChanged(AlertData?)
         case snackbarDataChanged(SnackbarData?)
         
@@ -91,6 +96,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case .plusButtonTapped: plusButtonTapped()
         case .showPlantDetail(let plantId): showPlantDetail(plantId)
         case .showRoomDetail(let roomId): showRoomDetail(roomId)
+        case .uploadImage: uploadImage() // TODO: Delete
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .selectedSectionChanged(let selectedSection): selectedSectionChanged(selectedSection)
@@ -110,6 +116,29 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case .tasks:
             #warning("TODO: Handle flow")
         }
+    }
+    
+    private func uploadImage() {
+        let useCase = uploadImageUseCase
+        executeTask(
+            Task {
+                do {
+                    print("UPLOADING")
+                    guard let data = Asset.Images.primaryOnboardingBackground.uiImage.jpegData(compressionQuality: 0.9) else {
+                        throw ImagesError.invalidUrl
+                    }
+                    
+                    let url = try await useCase.execute(
+                        userId: "aaaa",
+                        imageId: "aaaaaaaa",
+                        imageData: data
+                    )
+                    print("New url: \(url)")
+                } catch {
+                    print("ERROR: \(error.localizedDescription)")
+                }
+            }
+        )
     }
     
     private func snackbarDataChanged(_ snackbarData: SnackbarData?) {

@@ -34,6 +34,7 @@ struct PlantRow: View {
                     .frame(height: 215)
                     .clipped()
                     .cornerRadius(Constants.CornerRadius.large)
+                    .allowsHitTesting(false)
                 
                 Button {
                     trackPlantProgressAction(plant.id)
@@ -51,9 +52,9 @@ struct PlantRow: View {
                     .padding(.horizontal, Constants.Spacing.xMedium)
                     .background(Colors.secondaryBackground)
                     .cornerRadius(Constants.CornerRadius.xxxLarge)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 }
                 .padding(Constants.Spacing.medium)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
             }
             
             VStack(spacing: Constants.Spacing.xMedium) {
@@ -82,7 +83,7 @@ struct PlantRow: View {
 #Preview {
     ScrollView {
         PlantRow(
-            plant: .mock,
+            plant: .mock(id: UUID()),
             trackPlantProgressAction: { _ in },
             trackTaskAction: { _ in }
         )
