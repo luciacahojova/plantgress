@@ -41,9 +41,15 @@ struct PlantsOverviewView: View {
                 VStack(spacing: Constants.Spacing.large) {
                     switch viewModel.selectedSection {
                     case .plants:
-                        Text("Plant")
-                        Text("Plant")
-                        Text("Plant")
+                        PlantList(
+                            plants: .mock, // TODO: Actual data
+                            trackPlantProgressAction: { plantId in
+                                // TODO: Image picker
+                            },
+                            trackTaskAction: { taskType in
+                                // TODO: Add task + show snackbar
+                            }
+                        )
                     case .rooms:
                         Text("Room")
                         Text("Room")

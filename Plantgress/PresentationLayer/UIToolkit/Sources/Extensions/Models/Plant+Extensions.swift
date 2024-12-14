@@ -13,6 +13,7 @@ public extension Plant {
         Plant(
             id: UUID(),
             name: "Monstera",
+            images: .mock,
             settings: .mock
         )
     }
@@ -20,6 +21,6 @@ public extension Plant {
 
 public extension [Plant] {
     static var mock: [Plant] {
-        (0..<3).map { _ in .mock }
+        (0...3).map { _ in .mock }
     }
 }

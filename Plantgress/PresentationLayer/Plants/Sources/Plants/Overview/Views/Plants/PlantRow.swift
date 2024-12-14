@@ -12,12 +12,12 @@ import UIToolkit
 struct PlantRow: View {
     
     private let plant: Plant
-    private let trackPlantProgressAction: () -> Void
+    private let trackPlantProgressAction: (UUID) -> Void
     private let trackTaskAction: (TaskType) -> Void
     
     init(
         plant: Plant,
-        trackPlantProgressAction: @escaping () -> Void,
+        trackPlantProgressAction: @escaping (UUID) -> Void,
         trackTaskAction: @escaping (TaskType) -> Void
     ) {
         self.plant = plant
@@ -35,7 +35,9 @@ struct PlantRow: View {
                     .clipped()
                     .cornerRadius(Constants.CornerRadius.large)
                 
-                Button(action: trackPlantProgressAction) {
+                Button {
+                    trackPlantProgressAction(plant.id)
+                } label: {
                     HStack(spacing: Constants.Spacing.small) {
                         Text("Track") // TODO: String
                             .font(Fonts.bodyBold)
@@ -81,7 +83,7 @@ struct PlantRow: View {
     ScrollView {
         PlantRow(
             plant: .mock,
-            trackPlantProgressAction: {},
+            trackPlantProgressAction: { _ in },
             trackTaskAction: { _ in }
         )
     }
