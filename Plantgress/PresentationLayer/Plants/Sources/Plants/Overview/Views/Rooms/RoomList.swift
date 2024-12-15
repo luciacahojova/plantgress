@@ -23,7 +23,7 @@ struct RoomList: View {
     }
     
     var body: some View {
-        VStack(spacing: Constants.Spacing.large) {
+        LazyVStack(spacing: Constants.Spacing.large) {
             ForEach(rooms, id: \.id) { room in
                 RoomRow(
                     room: room,

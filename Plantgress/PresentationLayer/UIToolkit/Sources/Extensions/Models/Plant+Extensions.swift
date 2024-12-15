@@ -21,6 +21,6 @@ public extension Plant {
 
 public extension [Plant] {
     static var mock: [Plant] {
-        (0...3).map { _ in .mock(id: UUID()) }
+        (0...1).map { _ in .mock(id: UUID()) }
     }
 }

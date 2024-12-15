@@ -41,4 +41,15 @@ public extension TaskType {
         case .propagation: return "Propagate"
         }
     }
+    
+    static func title(for type: TaskType) -> String {
+        switch type {
+        case .watering: return "Watering" // TODO: Strings
+        case .pestInspection: return "Pest Inspection"
+        case .fertilizing: return "Fertilizing"
+        case .cleaning: return "Cleaning"
+        case .repotting: return "Repotting"
+        case .propagation: return "Propagating"
+        }
+    }
 }

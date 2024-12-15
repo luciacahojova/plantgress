@@ -37,6 +37,9 @@ public enum Icons {
     public static let leaf = Asset.Icons.leaf.image
     public static let user = Asset.Icons.user.image
     public static let trash = Asset.Icons.trash.image
+    public static let placeholder = Asset.Icons.placeholder.image
+    public static let edit = Asset.Icons.edit.image
+    public static let check = Asset.Icons.check.image
 }
 
 public enum Colors {

@@ -68,6 +68,10 @@ public struct Constants {
          * Icon size of 20
          */
         public static let small: CGFloat = 20
+        /**
+         * Icon size of 28
+         */
+        public static let xMedium: CGFloat = 28
 
         /**
          * Icon size of 32
@@ -78,6 +82,11 @@ public struct Constants {
          * Icon size of 40
          */
         public static let large: CGFloat = 40
+
+        /**
+         * Icon size of 80
+         */
+        public static let xLarge: CGFloat = 80
 
         /**
          * Icon size of 200

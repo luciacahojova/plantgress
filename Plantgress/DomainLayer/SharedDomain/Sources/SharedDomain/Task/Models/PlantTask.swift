@@ -8,21 +8,27 @@
 import Foundation
 
 public struct PlantTask: Codable {
-    public let plantId: String
+    public let id: UUID
+    public let plantId: UUID
     public let plantName: String
+    public let imageUrl: String
     public let taskType: TaskType
     public let dueDate: Date
     public let isCompleted: Bool
     
     public init(
-        plantId: String,
+        id: UUID,
+        plantId: UUID,
         plantName: String,
+        imageUrl: String,
         taskType: TaskType,
         dueDate: Date,
         isCompleted: Bool
     ) {
+        self.id = id
         self.plantId = plantId
         self.plantName = plantName
+        self.imageUrl = imageUrl
         self.taskType = taskType
         self.dueDate = dueDate
         self.isCompleted = isCompleted

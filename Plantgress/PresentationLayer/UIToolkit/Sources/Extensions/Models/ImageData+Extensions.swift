@@ -13,13 +13,13 @@ public extension ImageData {
         ImageData(
             id: id,
             date: Date(),
-            urlString: "https://picsum.photos/200/300"
+            urlString: "https://fastly.picsum.photos/id/248/3872/2592.jpg?hmac=_F3LsKQyGyWnwQJogUtsd_wyx2YDYnYZ6VZmSMBCxNI"
         )
     }
 }
 
 public extension [ImageData] {
     static var mock: [ImageData] {
-        [0...3].map { _ in .mock(id: UUID()) }
+        [0...1].map { _ in .mock(id: UUID()) }
     }
 }

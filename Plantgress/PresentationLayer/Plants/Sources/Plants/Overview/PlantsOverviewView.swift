@@ -10,15 +10,12 @@ import SharedDomain
 import SwiftUI
 import UIToolkit
 
-struct PlantsOverviewView: View {
+struct PlantsOverviewView: View { // TODO: Loading
     
     // MARK: - Stored properties
     
     @ObservedObject private var viewModel: PlantsOverviewViewModel
     
-//    @State private var isCameraPickerPresented = false
-//    @State private var isImagePickerPresented = false
-//    @State private var isImageSheetPresented = false
     private let images: [UIImage] = []
 
     // MARK: - Init
@@ -65,9 +62,18 @@ struct PlantsOverviewView: View {
                             }
                         )
                     case .tasks:
-                        Text("Task")
-                        Text("Task")
-                        Text("Task")
+                        TaskList(
+                            tasks: .mock, // TODO: Actual data
+                            editTaskAction: { taskId in
+                                
+                            },
+                            deleteTaskAction: { taskId in
+                                
+                            },
+                            completeTaskAction: { taskId in
+                                
+                            }
+                        )
                     }
                 }
             }

@@ -42,6 +42,8 @@ public struct ImagesRepositoryImpl: ImagesRepository {
             }
             
             guard let uiImage = UIImage(data: data) else { return nil }
+            
+            print("🏞️ Image loaded")
             return Image(uiImage: uiImage)
         } catch {
             return nil

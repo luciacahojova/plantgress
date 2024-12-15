@@ -5,6 +5,7 @@
 //  Created by Lucia Cahojova on 14.12.2024.
 //
 
+import Resolver
 import SharedDomain
 import SwiftUI
 import UIToolkit
@@ -28,13 +29,14 @@ struct PlantRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.Spacing.medium) {
             ZStack {
-                Asset.Images.primaryOnboardingBackground.image // TODO: Actual image
-                    .resizable()
-                    .scaledToFill()
-                    .frame(height: 215)
-                    .clipped()
-                    .cornerRadius(Constants.CornerRadius.large)
-                    .allowsHitTesting(false)
+                RemoteImage(
+                    urlString: plant.images.first?.urlString,
+                    contentMode: .fill
+                )
+                .frame(height: 215)
+                .clipped()
+                .cornerRadius(Constants.CornerRadius.large)
+                .allowsHitTesting(false)
                 
                 Button {
                     trackPlantProgressAction(plant.id)
@@ -83,7 +85,9 @@ struct PlantRow: View {
 }
 
 #Preview {
-    ScrollView {
+    Resolver.registerUseCasesForPreviews()
+    
+    return ScrollView {
         PlantRow(
             plant: .mock(id: UUID()),
             trackPlantProgressAction: { _ in },

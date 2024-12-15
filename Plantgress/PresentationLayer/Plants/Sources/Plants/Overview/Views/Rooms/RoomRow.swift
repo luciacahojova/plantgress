@@ -21,6 +21,12 @@ struct RoomRow: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.Spacing.medium) {
+//            DynamicImagesView(
+//                urlStrings: room.imageUrls,
+//                height: 150
+//            )
+//            .cornerRadius(Constants.CornerRadius.large)
+//            .allowsHitTesting(false)
             RemoteImage(
                 urlString: room.imageUrls.first,
                 contentMode: .fill

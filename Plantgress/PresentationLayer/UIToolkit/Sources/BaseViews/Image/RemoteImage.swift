@@ -10,39 +10,40 @@ import SharedDomain
 import SwiftUI
 
 public struct RemoteImage: View {
-    
-    @Injected private var downloadImageUseCase: DownloadImageUseCase
-    
-    @State private var image: Image?
     private let urlString: String?
-    private let placeholder: Image
     private let contentMode: ContentMode
+    private let height: CGFloat?
     
     public init(
         urlString: String?,
-        placeholder: Image = Asset.Icons.alarmClock.image, // TODO: placeholder
-        contentMode: ContentMode = .fit
+        contentMode: ContentMode = .fit,
+        height: CGFloat? = nil
     ) {
         self.urlString = urlString
-        self.placeholder = placeholder
         self.contentMode = contentMode
+        self.height = height
     }
-    
+
     public var body: some View {
-        VStack {
-            if let image {
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: contentMode)
-            } else {
-                Text("Placeholder")
+        if let urlString, let url = URL(string: urlString) {
+            AsyncImage(url: url) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: self.contentMode)
+                        .frame(height: self.height)
+                        .clipped()
+                case .failure:
+                    Colors.secondaryBackground
+                case .empty:
+                    ProgressView()
+                @unknown default:
+                    Colors.secondaryBackground
+                }
             }
-        }
-        .onAppear {
-            Task {
-                guard let urlString else { return }
-                image = await downloadImageUseCase.execute(urlString: urlString)
-            }
+        } else {
+            Colors.secondaryBackground
         }
     }
 }

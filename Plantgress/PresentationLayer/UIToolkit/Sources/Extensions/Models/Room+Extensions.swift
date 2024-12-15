@@ -24,6 +24,6 @@ public extension Room {
 
 public extension [Room] {
     static var mock: [Room] {
-        (0...3).map { _ in .mock(id: UUID()) }
+        (0...1).map { _ in .mock(id: UUID()) }
     }
 }

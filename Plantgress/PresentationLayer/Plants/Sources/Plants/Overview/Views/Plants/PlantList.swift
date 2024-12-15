@@ -26,7 +26,7 @@ struct PlantList: View {
     }
     
     var body: some View {
-        VStack(spacing: Constants.Spacing.large) {
+        LazyVStack(spacing: Constants.Spacing.large) {
             ForEach(plants, id: \.id) { plant in
                 PlantRow(
                     plant: plant,
