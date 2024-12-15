@@ -61,7 +61,7 @@ public struct SectionPicker<SelectionValue, Content>: View where SelectionValue:
 }
 
 #Preview {
-    @Previewable @State var selectedValue: String = "Plants" // TODO: Section
+    @State var selectedValue: String = "Plants" // TODO: Section
     
     return SectionPicker(
         selectedOption: $selectedValue,

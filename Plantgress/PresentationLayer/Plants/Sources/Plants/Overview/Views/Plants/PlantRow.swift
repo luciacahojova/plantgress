@@ -41,7 +41,7 @@ struct PlantRow: View {
                 } label: {
                     HStack(spacing: Constants.Spacing.small) {
                         Text("Track") // TODO: String
-                            .font(Fonts.bodyBold)
+                            .font(Fonts.bodyMedium)
                         
                         Asset.Icons.cameraPlus.image
                             .resizable()

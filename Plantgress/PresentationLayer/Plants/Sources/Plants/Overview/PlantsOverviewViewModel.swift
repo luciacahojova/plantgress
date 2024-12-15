@@ -15,11 +15,11 @@ import SwiftUI
 final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     @Injected private var uploadImageUseCase: UploadImageUseCase
+    @Injected private var getCurrentUserLocallyUseCase: GetCurrentUserLocallyUseCase
     
     // MARK: - Dependencies
     
     private weak var flowController: FlowController?
-    
     // MARK: - Init
 
     init(
@@ -35,10 +35,10 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         super.onAppear()
         
         updateTitle()
+        loadData()
     }
     
     // MARK: - Tab selection
-    
     
     enum SectionPickerOption: CaseIterable {
         case plants
@@ -72,8 +72,18 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     }
 
     struct State {
+        var userId: String?
+        
+        var images: [UIImage] = []
+        
+        var selectedPlantId: UUID?
+        
         var alertData: AlertData?
         var snackbarData: SnackbarData?
+        
+        var isCameraPickerPresented = false
+        var isImagePickerPresented = false
+        var isImageSheetPresented = false
     }
     
     // MARK: - Intent
@@ -83,7 +93,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case showPlantDetail(plantId: String)
         case showRoomDetail(roomId: String)
         
-        case uploadImage
+        case uploadImage(UIImage?)
+        case uploadImages([UIImage])
         
         case alertDataChanged(AlertData?)
         case snackbarDataChanged(SnackbarData?)
@@ -96,7 +107,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case .plusButtonTapped: plusButtonTapped()
         case .showPlantDetail(let plantId): showPlantDetail(plantId)
         case .showRoomDetail(let roomId): showRoomDetail(roomId)
-        case .uploadImage: uploadImage() // TODO: Delete
+        case .uploadImage(let image): uploadImage(image)
+        case .uploadImages(let images): uploadImages(images)
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .selectedSectionChanged(let selectedSection): selectedSectionChanged(selectedSection)
@@ -118,27 +130,43 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         }
     }
     
-    private func uploadImage() {
-        let useCase = uploadImageUseCase
-        executeTask(
-            Task {
-                do {
-                    print("UPLOADING")
-                    guard let data = Asset.Images.primaryOnboardingBackground.uiImage.jpegData(compressionQuality: 0.9) else {
-                        throw ImagesError.invalidUrl
+    private func uploadImages(_ images: [UIImage]) {
+        let uploadImageUseCase = uploadImageUseCase
+        for image in images {
+            executeTask(
+                Task {
+                    defer { state.selectedPlantId = nil }
+                    
+                    guard let data = image.jpegData(compressionQuality: 1),
+                          let userId = state.userId else {
+                        // TODO: Failed snackbar
+                        return
                     }
                     
-                    let url = try await useCase.execute(
-                        userId: "aaaa",
-                        imageId: "aaaaaaaa",
-                        imageData: data
-                    )
-                    print("New url: \(url)")
-                } catch {
-                    print("ERROR: \(error.localizedDescription)")
+                    do {
+                        let url = try await uploadImageUseCase.execute(
+                            userId: userId,
+                            imageId: UUID().uuidString,
+                            imageData: data
+                        )
+                        
+                        print("New url: \(url)")
+                    } catch {
+                        // TODO: Failed snackbar
+                        print("ERROR: \(error.localizedDescription)")
+                    }
                 }
-            }
-        )
+            )
+        }
+    }
+    
+    private func uploadImage(_ image: UIImage?) {
+        guard let image else {
+            // TODO: Failed snackbar
+            return
+        }
+        
+        uploadImages([image])
     }
     
     private func snackbarDataChanged(_ snackbarData: SnackbarData?) {
@@ -154,11 +182,18 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     }
     
     private func showPlantDetail(_ plantId: String) {
-        
+        #warning("TODO: Handle flow")
     }
     
     private func showRoomDetail(_ roomId: String) {
         #warning("TODO: Handle flow")
+    }
+    
+    private func loadData() {
+        guard let user = try? getCurrentUserLocallyUseCase.execute() else {
+            return
+        }
+        state.userId = user.id
     }
         
     private func updateTitle() {
