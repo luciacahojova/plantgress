@@ -134,8 +134,23 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                     try await hasCameraAccessUseCase.execute()
                     state.isCameraPickerPresented.toggle()
                 } catch {
-                    // alert
-                    print("No access")
+                    state.alertData = .init(
+                        title: "No Camera access", // TODO: Strings
+                        message: "To continue, grant access to your camera in Settings",
+                        primaryAction: .init(
+                            title: Strings.cancelButton,
+                            style: .cancel,
+                            completion: { [weak self] in
+                                self?.dismissAlert()
+                            }
+                        ),
+                        secondaryAction: .init(
+                            title: "Settings",
+                            completion: { [weak self] in
+                                self?.flowController?.handleFlow(PlantsFlow.openSettings)
+                            }
+                        )
+                    )
                 }
             }
         )
@@ -153,8 +168,23 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                     try await hasPhotoLibraryAccessUseCase.execute()
                     state.isImagePickerPresented.toggle()
                 } catch {
-                    // alert
-                    print("No access")
+                    state.alertData = .init(
+                        title: "No Photos access", // TODO: Strings
+                        message: "To continue, grant access to Photos in Settings",
+                        primaryAction: .init(
+                            title: Strings.cancelButton,
+                            style: .cancel,
+                            completion: { [weak self] in
+                                self?.dismissAlert()
+                            }
+                        ),
+                        secondaryAction: .init(
+                            title: "Settings",
+                            completion: { [weak self] in
+                                self?.flowController?.handleFlow(PlantsFlow.openSettings)
+                            }
+                        )
+                    )
                 }
             }
         )
@@ -177,6 +207,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     private func uploadImages(_ images: [UIImage]) {
         let uploadImageUseCase = uploadImageUseCase
+        
         for image in images {
             executeTask(
                 Task {
@@ -184,7 +215,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                     
                     guard let data = image.jpegData(compressionQuality: 1),
                           let userId = state.userId else {
-                        // TODO: Failed snackbar
+                        setFailedToUploadImageSnackbar()
                         return
                     }
                     
@@ -197,8 +228,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                         
                         print("New url: \(url)")
                     } catch {
-                        // TODO: Failed snackbar
-                        print("ERROR: \(error.localizedDescription)")
+                        setFailedToUploadImageSnackbar()
                     }
                 }
             )
@@ -207,7 +237,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     private func uploadImage(_ image: UIImage?) {
         guard let image else {
-            // TODO: Failed snackbar
+            setFailedToUploadImageSnackbar()
             return
         }
         
@@ -248,5 +278,15 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     private func updateTitle() {
         flowController?.navigationController.viewControllers.first?.title = selectedSection.title
         self.flowController?.navigationController.tabBarItem.title = nil
+    }
+    
+    private func setFailedToUploadImageSnackbar() {
+        state.snackbarData = .init(
+            message: "Failed to upload image",
+            bottomPadding: Constants.Spacing.mediumLarge,
+            alignment: .bottom,
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.red
+        )
     }
 }

@@ -9,9 +9,6 @@ import Resolver
 import SharedDomain
 import SwiftUI
 import UIToolkit
-import AVFoundation // TODO: Delete
-import Photos
-import PhotosUI
 
 struct PlantsOverviewView: View {
     

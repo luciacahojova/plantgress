@@ -9,6 +9,16 @@ import Foundation
 import SwiftUICore
 
 public struct SnackbarData {
+    let icon: Image?
+    let message: String
+    let duration: Double
+    let bottomPadding: CGFloat
+    let alignment: Alignment
+    let foregroundColor: Color
+    let backgroundColor: Color
+    let actionText: String?
+    let action: (() -> Void)?
+    
     public init(
         icon: Image? = nil,
         message: String,
@@ -30,14 +40,4 @@ public struct SnackbarData {
         self.actionText = actionText
         self.action = action
     }
-    
-    let icon: Image?
-    let message: String
-    let duration: Double
-    let bottomPadding: CGFloat
-    let alignment: Alignment
-    let foregroundColor: Color
-    let backgroundColor: Color
-    let actionText: String?
-    let action: (() -> Void)?
 }
