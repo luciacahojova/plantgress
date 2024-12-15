@@ -5,8 +5,9 @@
 //  Created by Lucia Cahojova on 09.12.2024.
 //
 
-import SharedDomain
 import Foundation
+import SharedDomain
+import SwiftUI
 
 class LogInUserUseCasePreviewMock: LogInUserUseCase {
     func execute(credentials: LoginCredentials) {}
@@ -75,6 +76,27 @@ class UploadImageUseCasePreviewMock: UploadImageUseCase {
         }
         
         return url
+    }
+}
+
+class DownloadImageUseCasePreviewMock: DownloadImageUseCase {
+    func execute(urlString: String) async -> Image? {
+        do {
+            guard let url = URL(string: urlString) else { return nil }
+            let cache = URLCache.shared
+            let urlRequest = URLRequest(url: url)
+            
+            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+            
+            if cache.cachedResponse(for: urlRequest) == nil {
+                cache.storeCachedResponse(CachedURLResponse(response: response, data: data), for: urlRequest)
+            }
+            
+            guard let uiImage = UIImage(data: data) else { return nil }
+            return Image(uiImage: uiImage)
+        } catch {
+            return nil
+        }
     }
 }
 

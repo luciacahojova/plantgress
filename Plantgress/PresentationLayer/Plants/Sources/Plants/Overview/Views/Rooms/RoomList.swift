@@ -35,8 +35,10 @@ struct RoomList: View {
 }
 
 #Preview {
-    RoomList(
-        rooms: .mock,
-        trackTaskAction: { _, _ in }
-    )
+    ScrollView(showsIndicators: false) {
+        RoomList(
+            rooms: .mock,
+            trackTaskAction: { _, _ in }
+        )
+    }
 }

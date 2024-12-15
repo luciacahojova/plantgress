@@ -5,6 +5,7 @@
 //  Created by Lucia Cahojova on 14.12.2024.
 //
 
+import Resolver
 import SharedDomain
 import SwiftUI
 import UIToolkit
@@ -20,13 +21,14 @@ struct RoomRow: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.Spacing.medium) {
-            Asset.Images.primaryOnboardingBackground.image // TODO: Actual image
-                .resizable()
-                .scaledToFill()
-                .frame(height: 150)
-                .clipped()
-                .cornerRadius(Constants.CornerRadius.large)
-                .allowsHitTesting(false)
+            RemoteImage(
+                urlString: room.imageUrls.first,
+                contentMode: .fill
+            )
+            .frame(height: 150)
+            .clipped()
+            .cornerRadius(Constants.CornerRadius.large)
+            .allowsHitTesting(false)
             
             VStack(spacing: Constants.Spacing.xMedium) {
                 Text(room.name)
@@ -52,9 +54,14 @@ struct RoomRow: View {
 }
 
 #Preview {
-    RoomRow(
-        room: .mock(id: UUID()),
-        trackTaskAction: { _, _ in }
-    )
-    .colorScheme(.dark)
+    Resolver.registerUseCasesForPreviews()
+    
+    return ScrollView(showsIndicators: false) {
+        RoomRow(
+            room: .mock(id: UUID()),
+            trackTaskAction: { _, _ in }
+        )
+    }
+    .background(Colors.primaryBackground)
+    .colorScheme(.light)
 }

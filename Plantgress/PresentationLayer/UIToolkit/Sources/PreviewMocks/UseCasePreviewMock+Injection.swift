@@ -25,9 +25,11 @@ public extension Resolver {
         register { LogOutUserUseCasePreviewMock() as LogOutUserUseCase }
         register { DeleteUserUseCasePreviewMock() as DeleteUserUseCase }
         register { SaveCurrentUserEmailUseCasePreviewMock() as SaveCurrentUserEmailUseCase }
-        
         register { DeleteCurrentUserEmailUseCasePreviewMock() as DeleteCurrentUserEmailUseCase }
+        
+        // Images
         register { UploadImageUseCasePreviewMock() as UploadImageUseCase }
+        register { DownloadImageUseCasePreviewMock() as DownloadImageUseCase }
         register { HasCameraAccessUseCasePreviewMock() as HasCameraAccessUseCase }
         register { HasPhotoLibraryAccessUseCasePreviewMock() as HasPhotoLibraryAccessUseCase }
     }

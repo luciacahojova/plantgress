@@ -14,9 +14,9 @@ public extension Room {
             id: id,
             name: "Living room",
             imageUrls: [
-                "https://picsum.photos/id/1/300/300",
-                "https://picsum.photos/id/1/300/300",
-                "https://picsum.photos/id/1/300/300"
+                "https://fastly.picsum.photos/id/248/3872/2592.jpg?hmac=_F3LsKQyGyWnwQJogUtsd_wyx2YDYnYZ6VZmSMBCxNI",
+                "https://fastly.picsum.photos/id/248/3872/2592.jpg?hmac=_F3LsKQyGyWnwQJogUtsd_wyx2YDYnYZ6VZmSMBCxNI",
+                "https://fastly.picsum.photos/id/248/3872/2592.jpg?hmac=_F3LsKQyGyWnwQJogUtsd_wyx2YDYnYZ6VZmSMBCxNI"
             ]
         )
     }
