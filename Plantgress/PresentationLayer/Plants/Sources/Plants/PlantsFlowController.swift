@@ -9,7 +9,7 @@ import UIToolkit
 import UIKit
 
 enum PlantsFlow: Flow {
-    
+    case openSettings
 }
 
 public final class PlantsFlowController: FlowController {
@@ -32,7 +32,13 @@ public final class PlantsFlowController: FlowController {
     public override func handleFlow(_ flow: Flow) {
         guard let flow = flow as? PlantsFlow else { return }
         switch flow {
-            
+        case .openSettings: openSettings()
+        }
+    }
+    
+    private func openSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url)
         }
     }
 }

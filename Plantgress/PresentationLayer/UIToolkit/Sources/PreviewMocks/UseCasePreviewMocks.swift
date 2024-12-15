@@ -77,3 +77,11 @@ class UploadImageUseCasePreviewMock: UploadImageUseCase {
         return url
     }
 }
+
+class HasPhotoLibraryAccessUseCasePreviewMock: HasPhotoLibraryAccessUseCase {
+    func execute() {}
+}
+
+class HasCameraAccessUseCasePreviewMock: HasCameraAccessUseCase {
+    func execute() {}
+}

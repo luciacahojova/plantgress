@@ -16,6 +16,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     @Injected private var uploadImageUseCase: UploadImageUseCase
     @Injected private var getCurrentUserLocallyUseCase: GetCurrentUserLocallyUseCase
+    @Injected private var hasCameraAccessUseCase: HasCameraAccessUseCase
+    @Injected private var hasPhotoLibraryAccessUseCase: HasPhotoLibraryAccessUseCase
     
     // MARK: - Dependencies
     
@@ -88,6 +90,10 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     // MARK: - Intent
     enum Intent {
+        case toggleImageActionSheet
+        case toggleCameraPicker
+        case toggleImagePicker
+        
         case plusButtonTapped
         
         case showPlantDetail(plantId: String)
@@ -100,10 +106,14 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case snackbarDataChanged(SnackbarData?)
         
         case selectedSectionChanged(SectionPickerOption)
+        case selectedPlantIdChanged(UUID)
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
+        case .toggleImageActionSheet: toggleImageActionSheet()
+        case .toggleCameraPicker: toggleCameraPicker()
+        case .toggleImagePicker: toggleImagePicker()
         case .plusButtonTapped: plusButtonTapped()
         case .showPlantDetail(let plantId): showPlantDetail(plantId)
         case .showRoomDetail(let roomId): showRoomDetail(roomId)
@@ -112,7 +122,42 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .selectedSectionChanged(let selectedSection): selectedSectionChanged(selectedSection)
+        case .selectedPlantIdChanged(let id): selectedPlantIdChanged(id)
         }
+    }
+    
+    private func toggleCameraPicker() {
+        let hasCameraAccessUseCase = hasCameraAccessUseCase
+        executeTask(
+            Task {
+                do {
+                    try await hasCameraAccessUseCase.execute()
+                    state.isCameraPickerPresented.toggle()
+                } catch {
+                    // alert
+                    print("No access")
+                }
+            }
+        )
+    }
+    
+    private func toggleImageActionSheet() {
+        state.isImageSheetPresented.toggle()
+    }
+    
+    private func toggleImagePicker() {
+        let hasPhotoLibraryAccessUseCase = hasPhotoLibraryAccessUseCase
+        executeTask(
+            Task {
+                do {
+                    try await hasPhotoLibraryAccessUseCase.execute()
+                    state.isImagePickerPresented.toggle()
+                } catch {
+                    // alert
+                    print("No access")
+                }
+            }
+        )
     }
     
     private func alertDataChanged(_ alertData: AlertData?) {
@@ -175,6 +220,10 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     private func selectedSectionChanged(_ selectedSection: SectionPickerOption) {
         self.selectedSection = selectedSection
+    }
+    
+    private func selectedPlantIdChanged(_ id: UUID) {
+        state.selectedPlantId = id
     }
     
     private func dismissAlert() {

@@ -19,9 +19,9 @@ struct PlantsOverviewView: View {
     
     @ObservedObject private var viewModel: PlantsOverviewViewModel
     
-    @State private var isCameraPickerPresented = false
-    @State private var isImagePickerPresented = false
-    @State private var isImageSheetPresented = false
+//    @State private var isCameraPickerPresented = false
+//    @State private var isImagePickerPresented = false
+//    @State private var isImageSheetPresented = false
     private let images: [UIImage] = []
 
     // MARK: - Init
@@ -53,10 +53,11 @@ struct PlantsOverviewView: View {
                         PlantList(
                             plants: .mock, // TODO: Actual data
                             trackPlantProgressAction: { plantId in
-                                isImageSheetPresented = true
+                                viewModel.onIntent(.selectedPlantIdChanged(plantId))
+                                viewModel.onIntent(.toggleImageActionSheet)
                             },
-                            trackTaskAction: { taskType in
-                                // TODO: Add task + show snackbar
+                            trackTaskAction: { taskType in // TODO: Add plant id
+                                // TODO: Trask task + show snackbar
                             }
                         )
                     case .rooms:
@@ -96,53 +97,24 @@ struct PlantsOverviewView: View {
                 set: { snackbarData in viewModel.onIntent(.snackbarDataChanged(snackbarData)) }
             )
         )
-        .actionSheet(isPresented: $isImageSheetPresented) {
+        .actionSheet(isPresented: Binding<Bool>(
+            get: { viewModel.state.isImageSheetPresented },
+            set: { _ in viewModel.onIntent(.toggleImageActionSheet) }
+        )) {
             ImagePickerActionSheet(
                 cameraAction: {
-                    self.isCameraPickerPresented.toggle()
-                    
-                    
-                    
-                    
-                    
+                    viewModel.onIntent(.toggleCameraPicker)
                 },
                 libraryAction: {
-                    self.isImagePickerPresented.toggle()
-//                    let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-//                        switch status {
-//                        case .authorized:
-//                            print("Authorized")
-//                            self.isImagePickerPresented.toggle()
-//                        case .notDetermined:
-//                           PHPhotoLibrary.requestAuthorization(for: .readWrite) { authStatus in
-//                               switch authStatus {
-//                               case .notDetermined:
-//                                   print("DenotDeterminednied")
-//                               case .restricted:
-//                                   print("restricted")
-//                               case .denied:
-//                                   print("denied")
-//                               case .authorized:
-//                                   print("authorized")
-//                               case .limited:
-//                                   print("limited")
-//                               @unknown default:
-//                                   print("default")
-//                               }
-//                           }
-//                        case .restricted, .denied:
-//                            print("Denied")
-//                        case .limited:
-//                            print("Limited")
-//                        @unknown default:
-//                            print("Default")
-//                        }
-//                    
+                    viewModel.onIntent(.toggleImagePicker)
                 }
             )
             .actionSheet
         }
-        .sheet(isPresented: $isImagePickerPresented) {
+        .sheet(isPresented: Binding<Bool>(
+            get: { viewModel.state.isImagePickerPresented },
+            set: { _ in viewModel.onIntent(.toggleImagePicker) }
+        )) {
             ImagePicker(
                 images: Binding<[UIImage]>(
                     get: { images },
@@ -153,17 +125,13 @@ struct PlantsOverviewView: View {
             )
             .edgesIgnoringSafeArea(.bottom)
         }
-        .fullScreenCover(isPresented: $isCameraPickerPresented) {
+        .fullScreenCover(isPresented: Binding<Bool>(
+            get: { viewModel.state.isCameraPickerPresented },
+            set: { _ in viewModel.onIntent(.toggleCameraPicker) }
+        )) {
             CameraPicker(
                 selectedImage: { image in
                     viewModel.onIntent(.uploadImage(image))
-//                    if let image, let data = image.jpegData(compressionQuality: 0.2) {
-//                        viewModel.onIntent(.uploadImage(data: data))
-//                    } else {
-//                        print("No data")
-//                    }
-//                    guard let image = image?.fixOrientation(), let imageData = image.jpegData(compressionQuality: 0.2) else { return }
-                    // TODO: Intent
                 }
             )
             .ignoresSafeArea(edges: .all)

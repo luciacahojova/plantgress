@@ -14,4 +14,7 @@ public enum ImagesError: Error {
     
     case downloadFailed
     case uploadFailed
+    
+    case cameraAccessNotGranted
+    case libraryAccessNotGranted
 }

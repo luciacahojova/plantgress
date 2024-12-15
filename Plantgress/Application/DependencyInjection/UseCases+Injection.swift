@@ -29,6 +29,8 @@ public extension Resolver {
         
         // Images
         register { UploadImageUseCaseImpl(imagesRepository: resolve()) as UploadImageUseCase }
+        register { HasCameraAccessUseCaseImpl() as HasCameraAccessUseCase }
+        register { HasPhotoLibraryAccessUseCaseImpl() as HasPhotoLibraryAccessUseCase }
 
     }
 }
