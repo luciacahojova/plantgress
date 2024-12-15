@@ -90,14 +90,17 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     // MARK: - Intent
     enum Intent {
+        case trackTaskForRoom(roomId: UUID, taskType: TaskType)
+        case trackTaskForPlant(plantId: UUID, taskType: TaskType)
+        
         case toggleImageActionSheet
         case toggleCameraPicker
         case toggleImagePicker
         
         case plusButtonTapped
         
-        case showPlantDetail(plantId: String)
-        case showRoomDetail(roomId: String)
+        case showPlantDetail(plantId: UUID)
+        case showRoomDetail(roomId: UUID)
         
         case uploadImage(UIImage?)
         case uploadImages([UIImage])
@@ -111,6 +114,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
 
     func onIntent(_ intent: Intent) {
         switch intent {
+        case let .trackTaskForRoom(roomId, taskType): trackTaskForRoom(roomId: roomId, taskType: taskType)
+        case let .trackTaskForPlant(plantId, taskType): trackTaskForPlant(plantId: plantId, taskType: taskType)
         case .toggleImageActionSheet: toggleImageActionSheet()
         case .toggleCameraPicker: toggleCameraPicker()
         case .toggleImagePicker: toggleImagePicker()
@@ -124,6 +129,14 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case .selectedSectionChanged(let selectedSection): selectedSectionChanged(selectedSection)
         case .selectedPlantIdChanged(let id): selectedPlantIdChanged(id)
         }
+    }
+    
+    private func trackTaskForRoom(roomId: UUID, taskType: TaskType) {
+        #warning("TODO: Add UC")
+    }
+    
+    private func trackTaskForPlant(plantId: UUID, taskType: TaskType) {
+        #warning("TODO: Add UC")
     }
     
     private func toggleCameraPicker() {
@@ -197,11 +210,32 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     private func plusButtonTapped() {
         switch selectedSection {
         case .plants:
-            #warning("TODO: Handle flow")
+            flowController?.handleFlow(
+                PlantsFlow.showAddPlant(
+                    editingId: nil,
+                    onShouldRefresh: {
+                        #warning("TODO: Add refresh")
+                    }
+                )
+            )
         case .rooms:
-            #warning("TODO: Handle flow")
+            flowController?.handleFlow(
+                PlantsFlow.showAddRoom(
+                    editingId: nil,
+                    onShouldRefresh: {
+                        #warning("TODO: Add refresh")
+                    }
+                )
+            )
         case .tasks:
-            #warning("TODO: Handle flow")
+            flowController?.handleFlow(
+                PlantsFlow.presentAddTask(
+                    editingId: nil,
+                    onShouldRefresh: {
+                        #warning("TODO: Add refresh")
+                    }
+                )
+            )
         }
     }
     
@@ -260,12 +294,12 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         state.alertData = nil
     }
     
-    private func showPlantDetail(_ plantId: String) {
-        #warning("TODO: Handle flow")
+    private func showPlantDetail(_ plantId: UUID) {
+        flowController?.handleFlow(PlantsFlow.showPlantDetail(plantId))
     }
     
-    private func showRoomDetail(_ roomId: String) {
-        #warning("TODO: Handle flow")
+    private func showRoomDetail(_ roomId: UUID) {
+        flowController?.handleFlow(PlantsFlow.showRoomDetail(roomId))
     }
     
     private func loadData() {

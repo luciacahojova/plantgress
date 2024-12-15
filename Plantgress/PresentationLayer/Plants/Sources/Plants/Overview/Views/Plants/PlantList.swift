@@ -13,12 +13,12 @@ struct PlantList: View {
     
     private let plants: [Plant]
     private let trackPlantProgressAction: (UUID) -> Void
-    private let trackTaskAction: (TaskType) -> Void
+    private let trackTaskAction: (UUID, TaskType) -> Void
     
     init(
         plants: [Plant],
         trackPlantProgressAction: @escaping (UUID) -> Void,
-        trackTaskAction: @escaping (TaskType) -> Void
+        trackTaskAction: @escaping (UUID, TaskType) -> Void
     ) {
         self.plants = plants
         self.trackPlantProgressAction = trackPlantProgressAction
@@ -39,9 +39,11 @@ struct PlantList: View {
 }
 
 #Preview {
-    PlantList(
-        plants: .mock,
-        trackPlantProgressAction: { _ in },
-        trackTaskAction: { _ in }
-    )
+    ScrollView(showsIndicators: false) {
+        PlantList(
+            plants: .mock,
+            trackPlantProgressAction: { _ in },
+            trackTaskAction: { _, _ in }
+        )
+    }
 }

@@ -53,14 +53,17 @@ struct PlantsOverviewView: View {
                                 viewModel.onIntent(.selectedPlantIdChanged(plantId))
                                 viewModel.onIntent(.toggleImageActionSheet)
                             },
-                            trackTaskAction: { taskType in // TODO: Add plant id
-                                // TODO: Trask task + show snackbar
+                            trackTaskAction: { plantId, taskType in
+                                viewModel.onIntent(.trackTaskForPlant(plantId: plantId, taskType: taskType))
                             }
                         )
                     case .rooms:
-                        Text("Room")
-                        Text("Room")
-                        Text("Room")
+                        RoomList(
+                            rooms: .mock, // TODO: Actual data
+                            trackTaskAction: { roomId, taskType in
+                                viewModel.onIntent(.trackTaskForRoom(roomId: roomId, taskType: taskType))
+                            }
+                        )
                     case .tasks:
                         Text("Task")
                         Text("Task")

@@ -13,12 +13,12 @@ struct PlantRow: View {
     
     private let plant: Plant
     private let trackPlantProgressAction: (UUID) -> Void
-    private let trackTaskAction: (TaskType) -> Void
+    private let trackTaskAction: (UUID, TaskType) -> Void
     
     init(
         plant: Plant,
         trackPlantProgressAction: @escaping (UUID) -> Void,
-        trackTaskAction: @escaping (TaskType) -> Void
+        trackTaskAction: @escaping (UUID, TaskType) -> Void
     ) {
         self.plant = plant
         self.trackPlantProgressAction = trackPlantProgressAction
@@ -28,7 +28,7 @@ struct PlantRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.Spacing.medium) {
             ZStack {
-                Asset.Images.primaryOnboardingBackground.image
+                Asset.Images.primaryOnboardingBackground.image // TODO: Actual image
                     .resizable()
                     .scaledToFill()
                     .frame(height: 215)
@@ -68,7 +68,9 @@ struct PlantRow: View {
                 if !plant.settings.tasksConfiguartions.isEmpty {
                     TaskQuickActionList(
                         taskConfigurations: plant.settings.tasksConfiguartions,
-                        action: trackTaskAction
+                        action: { taskType in
+                            trackTaskAction(plant.id, taskType)
+                        }
                     )
                 }
             }
@@ -85,7 +87,7 @@ struct PlantRow: View {
         PlantRow(
             plant: .mock(id: UUID()),
             trackPlantProgressAction: { _ in },
-            trackTaskAction: { _ in }
+            trackTaskAction: { _, _ in }
         )
     }
     .background(Colors.primaryBackground)

@@ -20,4 +20,16 @@ public extension [TaskConfiguration] {
             )
         }
     }
+    
+    static var `default`: [TaskConfiguration] {
+        TaskType.allCases.map { taskType in
+            return TaskConfiguration(
+                taskType: taskType,
+                isTracked: true,
+                hasNotifications: false,
+                startDate: Date(),
+                periods: []
+            )
+        }
+    }
 }

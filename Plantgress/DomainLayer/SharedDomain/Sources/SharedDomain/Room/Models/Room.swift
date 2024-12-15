@@ -10,6 +10,15 @@ import Foundation
 public struct Room: Codable {
     public let id: UUID
     public let name: String
-    public let plantIds: [UUID]
     public let imageUrls: [String]
+    
+    public init(
+        id: UUID,
+        name: String,
+        imageUrls: [String]
+    ) {
+        self.id = id
+        self.name = name
+        self.imageUrls = imageUrls
+    }
 }

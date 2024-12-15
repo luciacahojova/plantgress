@@ -10,6 +10,11 @@ import UIKit
 
 enum PlantsFlow: Flow {
     case openSettings
+    case showPlantDetail(UUID)
+    case showRoomDetail(UUID)
+    case showAddPlant(editingId: UUID?, onShouldRefresh: () -> Void)
+    case showAddRoom(editingId: UUID?, onShouldRefresh: () -> Void)
+    case presentAddTask(editingId: UUID?, onShouldRefresh: () -> Void)
 }
 
 public final class PlantsFlowController: FlowController {
@@ -33,6 +38,11 @@ public final class PlantsFlowController: FlowController {
         guard let flow = flow as? PlantsFlow else { return }
         switch flow {
         case .openSettings: openSettings()
+        case .showPlantDetail(let plantId): showPlantDetail(plantId)
+        case .showRoomDetail(let roomId): showRoomDetail(roomId)
+        case let .showAddPlant(editingId, onShouldRefresh): showAddPlant(editingId: editingId, onShouldRefresh: onShouldRefresh)
+        case let .showAddRoom(editingId, onShouldRefresh): showAddRoom(editingId: editingId, onShouldRefresh: onShouldRefresh)
+        case let .presentAddTask(editingId, onShouldRefresh): presentAddTask(editingId: editingId, onShouldRefresh: onShouldRefresh)
         }
     }
     
@@ -40,5 +50,34 @@ public final class PlantsFlowController: FlowController {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(url)
         }
+    }
+    
+    private func showPlantDetail(_ plantId: UUID) {
+        
+    }
+    
+    private func showRoomDetail(_ roomId: UUID) {
+        
+    }
+    
+    private func showAddPlant(
+        editingId: UUID?,
+        onShouldRefresh: @escaping () -> Void
+    ) {
+        #warning("TODO: Add implementation")
+    }
+    
+    private func showAddRoom(
+        editingId: UUID?,
+        onShouldRefresh: @escaping () -> Void
+    ) {
+        #warning("TODO: Add implementation")
+    }
+    
+    private func presentAddTask(
+        editingId: UUID?,
+        onShouldRefresh: @escaping () -> Void
+    ) {
+        #warning("TODO: Add implementation")
     }
 }
