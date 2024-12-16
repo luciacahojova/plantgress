@@ -48,9 +48,7 @@ public struct SectionPicker<SelectionValue, Content>: View where SelectionValue:
                             .pickerTextStyle(isSelected: isSelected)
                     }
                     .onTapGesture {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            selectedOption = option
-                        }
+                        selectedOption = option
                     }
                 }
             }

@@ -12,14 +12,27 @@ import UIToolkit
 struct RoomList: View {
     
     private let rooms: [Room]
-    private let trackTaskAction: (UUID, TaskType) -> Void
+    private let completeTaskAction: (UUID, TaskType) -> Void
+    
+    private let isLoading: Bool
     
     init(
         rooms: [Room],
-        trackTaskAction: @escaping (UUID, TaskType) -> Void
+        completeTaskAction: @escaping (UUID, TaskType) -> Void
     ) {
         self.rooms = rooms
-        self.trackTaskAction = trackTaskAction
+        self.completeTaskAction = completeTaskAction
+        self.isLoading = false
+    }
+    
+    private init() {
+        self.rooms = .mock
+        self.completeTaskAction = { _, _ in}
+        self.isLoading = true
+    }
+    
+    static var skeleton: RoomList {
+        self.init()
     }
     
     var body: some View {
@@ -27,10 +40,11 @@ struct RoomList: View {
             ForEach(rooms, id: \.id) { room in
                 RoomRow(
                     room: room,
-                    trackTaskAction: trackTaskAction
+                    completeTaskAction: completeTaskAction
                 )
             }
         }
+        .skeleton(isLoading)
     }
 }
 
@@ -38,7 +52,7 @@ struct RoomList: View {
     ScrollView(showsIndicators: false) {
         RoomList(
             rooms: .mock,
-            trackTaskAction: { _, _ in }
+            completeTaskAction: { _, _ in }
         )
     }
 }

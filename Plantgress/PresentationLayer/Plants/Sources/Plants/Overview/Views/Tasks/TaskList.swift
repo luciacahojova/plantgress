@@ -18,6 +18,8 @@ struct TaskList: View {
     private let deleteTaskAction: (UUID) -> Void
     private let completeTaskAction: (UUID) -> Void
     
+    private let isLoading: Bool
+    
     init(
         tasks: [PlantTask],
         editTaskAction: @escaping (UUID) -> Void,
@@ -28,6 +30,19 @@ struct TaskList: View {
         self.editTaskAction = editTaskAction
         self.deleteTaskAction = deleteTaskAction
         self.completeTaskAction = completeTaskAction
+        self.isLoading = false
+    }
+    
+    private init() {
+        self.tasks = .mock
+        self.editTaskAction = { _ in }
+        self.deleteTaskAction = { _ in }
+        self.completeTaskAction = { _ in }
+        self.isLoading = true
+    }
+    
+    static var skeleton: TaskList {
+        self.init()
     }
     
     var body: some View {
@@ -41,6 +56,7 @@ struct TaskList: View {
                 )
             }
         }
+        .skeleton(isLoading)
     }
 }
 
@@ -53,4 +69,5 @@ struct TaskList: View {
         deleteTaskAction: { _ in },
         completeTaskAction: { _ in }
     )
+    .preferredColorScheme(.dark)
 }

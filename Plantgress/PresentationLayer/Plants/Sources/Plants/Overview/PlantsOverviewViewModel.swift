@@ -90,8 +90,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     // MARK: - Intent
     enum Intent {
-        case trackTaskForRoom(roomId: UUID, taskType: TaskType)
-        case trackTaskForPlant(plantId: UUID, taskType: TaskType)
+        case completeTaskForRoom(roomId: UUID, taskType: TaskType)
+        case completeTaskForPlant(plantId: UUID, taskType: TaskType)
         
         case toggleImageActionSheet
         case toggleCameraPicker
@@ -114,8 +114,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
 
     func onIntent(_ intent: Intent) {
         switch intent {
-        case let .trackTaskForRoom(roomId, taskType): trackTaskForRoom(roomId: roomId, taskType: taskType)
-        case let .trackTaskForPlant(plantId, taskType): trackTaskForPlant(plantId: plantId, taskType: taskType)
+        case let .completeTaskForRoom(roomId, taskType): completeTaskForRoom(roomId: roomId, taskType: taskType)
+        case let .completeTaskForPlant(plantId, taskType): completeTaskForPlant(plantId: plantId, taskType: taskType)
         case .toggleImageActionSheet: toggleImageActionSheet()
         case .toggleCameraPicker: toggleCameraPicker()
         case .toggleImagePicker: toggleImagePicker()
@@ -131,11 +131,11 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         }
     }
     
-    private func trackTaskForRoom(roomId: UUID, taskType: TaskType) {
+    private func completeTaskForRoom(roomId: UUID, taskType: TaskType) {
         #warning("TODO: Add UC")
     }
     
-    private func trackTaskForPlant(plantId: UUID, taskType: TaskType) {
+    private func completeTaskForPlant(plantId: UUID, taskType: TaskType) {
         #warning("TODO: Add UC")
     }
     

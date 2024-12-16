@@ -17,6 +17,7 @@ struct PlantsOverviewView: View { // TODO: Loading
     @ObservedObject private var viewModel: PlantsOverviewViewModel
     
     private let images: [UIImage] = []
+    @State private var width: CGFloat? = nil
 
     // MARK: - Init
     
@@ -42,38 +43,49 @@ struct PlantsOverviewView: View { // TODO: Loading
                 }
                 
                 VStack(spacing: Constants.Spacing.large) {
-                    switch viewModel.selectedSection {
-                    case .plants:
-                        PlantList(
-                            plants: .mock, // TODO: Actual data
-                            trackPlantProgressAction: { plantId in
-                                viewModel.onIntent(.selectedPlantIdChanged(plantId))
-                                viewModel.onIntent(.toggleImageActionSheet)
-                            },
-                            trackTaskAction: { plantId, taskType in
-                                viewModel.onIntent(.trackTaskForPlant(plantId: plantId, taskType: taskType))
-                            }
-                        )
-                    case .rooms:
-                        RoomList(
-                            rooms: .mock, // TODO: Actual data
-                            trackTaskAction: { roomId, taskType in
-                                viewModel.onIntent(.trackTaskForRoom(roomId: roomId, taskType: taskType))
-                            }
-                        )
-                    case .tasks:
-                        TaskList(
-                            tasks: .mock, // TODO: Actual data
-                            editTaskAction: { taskId in
-                                
-                            },
-                            deleteTaskAction: { taskId in
-                                
-                            },
-                            completeTaskAction: { taskId in
-                                
-                            }
-                        )
+                    if true { // TODO: isLoading
+                        switch viewModel.selectedSection {
+                        case .plants:
+                            PlantList.skeleton
+                        case .rooms:
+                            RoomList.skeleton
+                        case .tasks:
+                            TaskList.skeleton
+                        }
+                    } else {
+                        switch viewModel.selectedSection {
+                        case .plants:
+                            PlantList(
+                                plants: .mock, // TODO: Actual data
+                                trackPlantProgressAction: { plantId in
+                                    viewModel.onIntent(.selectedPlantIdChanged(plantId))
+                                    viewModel.onIntent(.toggleImageActionSheet)
+                                },
+                                completeTaskAction: { plantId, taskType in
+                                    viewModel.onIntent(.completeTaskForPlant(plantId: plantId, taskType: taskType)) // TODO: Complete
+                                }
+                            )
+                        case .rooms:
+                            RoomList(
+                                rooms: .mock, // TODO: Actual data
+                                completeTaskAction: { roomId, taskType in
+                                    viewModel.onIntent(.completeTaskForRoom(roomId: roomId, taskType: taskType))
+                                }
+                            )
+                        case .tasks:
+                            TaskList(
+                                tasks: .mock, // TODO: Actual data
+                                editTaskAction: { taskId in
+                                    
+                                },
+                                deleteTaskAction: { taskId in
+                                    
+                                },
+                                completeTaskAction: { taskId in
+                                    
+                                }
+                            )
+                        }
                     }
                 }
             }

@@ -12,29 +12,25 @@ import UIToolkit
 
 struct RoomRow: View {
     private let room: Room
-    private let trackTaskAction: (UUID, TaskType) -> Void
+    private let completeTaskAction: (UUID, TaskType) -> Void
     
-    init(room: Room, trackTaskAction: @escaping (UUID, TaskType) -> Void) {
+    init(
+        room: Room,
+        completeTaskAction: @escaping (UUID, TaskType) -> Void
+    ) {
         self.room = room
-        self.trackTaskAction = trackTaskAction
+        self.completeTaskAction = completeTaskAction
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.Spacing.medium) {
-//            DynamicImagesView(
-//                urlStrings: room.imageUrls,
-//                height: 150
-//            )
-//            .cornerRadius(Constants.CornerRadius.large)
-//            .allowsHitTesting(false)
-            RemoteImage(
-                urlString: room.imageUrls.first,
-                contentMode: .fill
+            DynamicImagesView(
+                urlStrings: room.imageUrls
             )
-            .frame(height: 150)
-            .clipped()
-            .cornerRadius(Constants.CornerRadius.large)
             .allowsHitTesting(false)
+            .frame(height: 150)
+            .cornerRadius(Constants.CornerRadius.large)
+            .contentShape(Rectangle())
             
             VStack(spacing: Constants.Spacing.xMedium) {
                 Text(room.name)
@@ -47,7 +43,7 @@ struct RoomRow: View {
                 TaskQuickActionList(
                     taskConfigurations: .default,
                     action: { taskType in
-                        trackTaskAction(room.id, taskType)
+                        completeTaskAction(room.id, taskType)
                     }
                 )
             }
@@ -62,12 +58,11 @@ struct RoomRow: View {
 #Preview {
     Resolver.registerUseCasesForPreviews()
     
-    return ScrollView(showsIndicators: false) {
-        RoomRow(
-            room: .mock(id: UUID()),
-            trackTaskAction: { _, _ in }
-        )
-    }
+    return RoomRow(
+        room: .mock(id: UUID()),
+        completeTaskAction: { _, _ in }
+    )
+    .padding()
     .background(Colors.primaryBackground)
     .colorScheme(.light)
 }

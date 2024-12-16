@@ -14,16 +14,16 @@ struct PlantRow: View {
     
     private let plant: Plant
     private let trackPlantProgressAction: (UUID) -> Void
-    private let trackTaskAction: (UUID, TaskType) -> Void
+    private let completeTaskAction: (UUID, TaskType) -> Void
     
     init(
         plant: Plant,
         trackPlantProgressAction: @escaping (UUID) -> Void,
-        trackTaskAction: @escaping (UUID, TaskType) -> Void
+        completeTaskAction: @escaping (UUID, TaskType) -> Void
     ) {
         self.plant = plant
         self.trackPlantProgressAction = trackPlantProgressAction
-        self.trackTaskAction = trackTaskAction
+        self.completeTaskAction = completeTaskAction
     }
     
     var body: some View {
@@ -71,7 +71,7 @@ struct PlantRow: View {
                     TaskQuickActionList(
                         taskConfigurations: plant.settings.tasksConfiguartions,
                         action: { taskType in
-                            trackTaskAction(plant.id, taskType)
+                            completeTaskAction(plant.id, taskType)
                         }
                     )
                 }
@@ -87,11 +87,11 @@ struct PlantRow: View {
 #Preview {
     Resolver.registerUseCasesForPreviews()
     
-    return ScrollView {
+    return ScrollView(showsIndicators: false) {
         PlantRow(
             plant: .mock(id: UUID()),
             trackPlantProgressAction: { _ in },
-            trackTaskAction: { _, _ in }
+            completeTaskAction: { _, _ in }
         )
     }
     .background(Colors.primaryBackground)

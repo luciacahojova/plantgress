@@ -10,40 +10,33 @@ import SwiftUI
 import UIToolkit
 
 struct DynamicImagesView: View {
-    
     private let urlStrings: [String]
-    private let height: CGFloat
+    private let secondImageWidth: CGFloat
     
     init(
-        urlStrings: [String],
-        height: CGFloat
+        urlStrings: [String]
     ) {
         self.urlStrings = urlStrings
-        self.height = height
+        self.secondImageWidth = .random(in: 170...200)
     }
     
     var body: some View {
-        let columns: [GridItem] = getDynamicColumns()
-        
-        LazyVGrid(columns: columns, spacing: 0) {
-            ForEach(Array(urlStrings.enumerated()), id: \.offset) { _, urlString in
-                RemoteImage(urlString: urlString, contentMode: .fill)
-                    .frame(height: height)
+        HStack(spacing: 0) {
+            if let firstImageUrl =  urlStrings.first {
+                RemoteImage(urlString: firstImageUrl, contentMode: .fill)
+                    .clipped()
+            }
+            
+            if let secondImageUrl = urlStrings.last {
+                RemoteImage(urlString: secondImageUrl, contentMode: .fill)
+                    .frame(width: secondImageWidth)
                     .clipped()
             }
         }
-        .frame(height: height)
-    }
-    
-    private func getDynamicColumns() -> [GridItem] {
-        switch urlStrings.count {
-        case 1:
-            return [GridItem(.flexible(), spacing: 0)]
-        case 2:
-            return [GridItem(.flexible(), spacing: 0), GridItem(.flexible(), spacing: 0)]
-        default:
-            return [GridItem(.flexible(), spacing: 0), GridItem(.flexible(), spacing: 0), GridItem(.flexible(), spacing: 0)]
-        }
+        // Workaround because without specifying the width the images stretched too much
+        // The value should match the padding on the RoomList
+        .frame(width: UIScreen.main.bounds.size.width - Constants.Spacing.mediumLarge*2)
+        .clipped()
     }
 }
 
@@ -54,8 +47,8 @@ struct DynamicImagesView: View {
         urlStrings: [
             "https://fastly.picsum.photos/id/248/3872/2592.jpg?hmac=_F3LsKQyGyWnwQJogUtsd_wyx2YDYnYZ6VZmSMBCxNI",
             "https://fastly.picsum.photos/id/248/3872/2592.jpg?hmac=_F3LsKQyGyWnwQJogUtsd_wyx2YDYnYZ6VZmSMBCxNI"
-        ],
-        height: 215
+        ]
     )
+    .frame(height: 150)
     .padding()
 }
