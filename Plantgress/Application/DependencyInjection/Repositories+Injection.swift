@@ -9,6 +9,7 @@ import AuthToolkit
 import ImagesToolkit
 import PlantToolkit
 import Resolver
+import RoomToolkit
 import SharedDomain
 import UserToolkit
 
@@ -22,6 +23,8 @@ public extension Resolver {
         register { ImagesRepositoryImpl(firebaseStorageProvider: resolve()) as ImagesRepository }
         
         register { PlantRepositoryImpl(firebaseFirestoreProvider: resolve()) as PlantRepository }
+        
+        register { RoomRepositoryImpl(firebaseFirestoreProvider: resolve()) as RoomRepository }
         
     }
 }

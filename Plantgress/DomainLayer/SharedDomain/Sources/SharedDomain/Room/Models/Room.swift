@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Room: Codable {
+public struct Room: Codable, Sendable {
     public let id: UUID
     public let name: String
     public let imageUrls: [String]
@@ -15,7 +15,7 @@ public struct Room: Codable {
     public init(
         id: UUID,
         name: String,
-        imageUrls: [String]
+        imageUrls: [String] = []
     ) {
         self.id = id
         self.name = name

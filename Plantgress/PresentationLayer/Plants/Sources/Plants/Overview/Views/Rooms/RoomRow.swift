@@ -24,13 +24,15 @@ struct RoomRow: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.Spacing.medium) {
-            DynamicImagesView(
-                urlStrings: room.imageUrls
-            )
-            .allowsHitTesting(false)
-            .frame(height: 150)
-            .cornerRadius(Constants.CornerRadius.large)
-            .contentShape(Rectangle())
+            if !room.imageUrls.isEmpty {
+                DynamicImagesView(
+                    urlStrings: room.imageUrls
+                )
+                .allowsHitTesting(false)
+                .frame(height: 150)
+                .cornerRadius(Constants.CornerRadius.large)
+                .contentShape(Rectangle())
+            }
             
             VStack(spacing: Constants.Spacing.xMedium) {
                 Text(room.name)

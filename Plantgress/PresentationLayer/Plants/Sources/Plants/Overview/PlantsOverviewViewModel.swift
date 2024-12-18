@@ -19,8 +19,10 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     @Injected private var hasCameraAccessUseCase: HasCameraAccessUseCase
     @Injected private var hasPhotoLibraryAccessUseCase: HasPhotoLibraryAccessUseCase
     @Injected private var createPlantUseCase: CreatePlantUseCase // TODO: Delete
+    @Injected private var movePlantToRoomUseCase: MovePlantToRoomUseCase // TODO: Delete
     @Injected private var updatePlantUseCase: UpdatePlantUseCase
     @Injected private var getAllPlantsUseCase: GetAllPlantsUseCase
+    @Injected private var getAllRoomsUseCase: GetAllRoomsUseCase
     @Injected private var updatePlantImagesUseCase: UpdatePlantImagesUseCase
     
     // MARK: - Dependencies
@@ -147,26 +149,6 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     private func completeTaskForRoom(roomId: UUID, taskType: TaskType) {
         #warning("TODO: Add UC")
-        let createPlantUseCase = createPlantUseCase // TODO: Delete
-        
-        executeTask(
-            Task {
-                do {
-                    try await createPlantUseCase.execute(
-                        plant: Plant(
-                            id: UUID(),
-                            name: "Ficus",
-                            roomId: nil,
-                            images: [],
-                            settings: .mock
-                        )
-                    )
-                } catch {
-                    print("ERROR: \(error)")
-                }
-            }
-        )
-        
     }
     
     private func completeTaskForPlant(plantId: UUID, taskType: TaskType) {
@@ -303,6 +285,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                             plantId: selectedPlantId,
                             newImages: newImageData
                         )
+                        
+                        state.snackbarData = .init(message: "Progess saved!") // TODO: String
                     } catch {
                         setFailedToUploadImageSnackbar()
                     }
@@ -352,18 +336,23 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         state.userId = user.id
         
         let getAllPlantsUseCase = getAllPlantsUseCase
+        let getAllRoomsUseCase = getAllRoomsUseCase
         executeTask(
             Task {
                 defer { state.isLoading = false }
                 
                 switch selectedSection {
-                case .rooms:
-                    print("Rooms") // TODO: Fetch rooms
                 case .plants:
                     do {
                         state.plants = try await getAllPlantsUseCase.execute()
                     } catch {
-                        state.errorMessage = "Failed to load plants."
+                        state.errorMessage = "Failed to load plants." // TODO: String
+                    }
+                case .rooms:
+                    do {
+                        state.rooms = try await getAllRoomsUseCase.execute()
+                    } catch {
+                        state.errorMessage = "Failed to load rooms." // TODO: String
                     }
                 case .tasks:
                     print("Tasks") // TODO: Fetch tasks

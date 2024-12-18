@@ -27,7 +27,7 @@ struct DynamicImagesView: View {
                     .clipped()
             }
             
-            if let secondImageUrl = urlStrings.last {
+            if urlStrings.count > 1, let secondImageUrl = urlStrings.last {
                 RemoteImage(urlString: secondImageUrl, contentMode: .fill)
                     .frame(width: secondImageWidth)
                     .clipped()

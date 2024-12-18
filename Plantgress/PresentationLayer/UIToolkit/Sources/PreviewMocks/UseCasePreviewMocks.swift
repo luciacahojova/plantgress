@@ -135,3 +135,37 @@ class GetAllPlantsUseCasePreviewMock: GetAllPlantsUseCase {
 class UpdatePlantImagesUseCasePreviewMock: UpdatePlantImagesUseCase {
     func execute(plantId: UUID, newImages: [ImageData]) async throws {}
 }
+
+class CreateRoomUseCasePreviewMock: CreateRoomUseCase {
+    func execute(room: Room, plants: [Plant]) async throws {}
+}
+
+class AddPlantsToRoomUseCasePreviewMock: AddPlantsToRoomUseCase {
+    func execute(roomId: UUID, plantIds: [UUID]) async throws {}
+}
+
+class GetRoomUseCasePreviewMock: GetRoomUseCase {
+    func execute(roomId: UUID) async throws -> Room {
+        return .mock(id: roomId)
+    }
+}
+
+class GetPlantsForRoomUseCasePreviewMock: GetPlantsForRoomUseCase {
+    func execute(roomId: UUID) async throws -> [Plant] {
+        return .mock
+    }
+}
+
+class GetAllRoomsUseCasePreviewMock: GetAllRoomsUseCase {
+    func execute() async throws -> [Room] {
+        return .mock
+    }
+}
+
+class RemovePlantFromRoomUseCasePreviewMock: RemovePlantFromRoomUseCase {
+    func execute(plantId: UUID, roomId: UUID) async throws {}
+}
+
+class MovePlantToRoomUseCasePreviewMock: MovePlantToRoomUseCase {
+    func execute(plantId: UUID, fromRoomId: UUID, toRoomId: UUID) async throws {}
+}

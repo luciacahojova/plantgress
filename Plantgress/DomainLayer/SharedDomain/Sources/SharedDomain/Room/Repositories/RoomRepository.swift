@@ -8,6 +8,11 @@
 import Foundation
 
 public protocol RoomRepository {
-    func createRoom(_ room: Room) async throws
-    func updateRoom(_ plant: Plant) async throws
+    func createRoom(room: Room, plants: [Plant]) async throws
+    func addPlantToRoom(roomId: UUID, plantId: UUID) async throws
+    func getRoom(roomId: UUID) async throws -> Room
+    func getPlantsForRoom(roomId: UUID) async throws -> [Plant]
+    func getAllRooms() async throws -> [Room]
+    func removePlantFromRoom(plantId: UUID, roomId: UUID) async throws
+    func movePlantToRoom(plantId: UUID, fromRoomId: UUID, toRoomId: UUID) async throws
 }
