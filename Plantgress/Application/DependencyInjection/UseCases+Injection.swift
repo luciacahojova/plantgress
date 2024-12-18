@@ -33,5 +33,14 @@ public extension Resolver {
         register { HasCameraAccessUseCaseImpl() as HasCameraAccessUseCase }
         register { HasPhotoLibraryAccessUseCaseImpl() as HasPhotoLibraryAccessUseCase }
 
+        // Plants
+        register { CreatePlantUseCaseImpl(plantRepository: resolve()) as CreatePlantUseCase }
+        register { UpdatePlantUseCaseImpl(plantRepository: resolve()) as UpdatePlantUseCase }
+        register { GetPlantUseCaseImpl(plantRepository: resolve()) as GetPlantUseCase }
+        register { DeletePlantUseCaseImpl(plantRepository: resolve()) as DeletePlantUseCase }
+        register { GetAllPlantsUseCaseImpl(plantRepository: resolve()) as GetAllPlantsUseCase }
+        register { UpdatePlantImagesUseCaseImpl(plantRepository: resolve()) as UpdatePlantImagesUseCase }
+
+        // Rooms
     }
 }

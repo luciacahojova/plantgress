@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ProgressTaskConfiguration: Codable {
+public struct ProgressTaskConfiguration: Codable, Sendable {
     public let isTracked: Bool
     public let hasAlert: Bool
     public let startDate: Date

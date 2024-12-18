@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum TaskType: String, CaseIterable, Codable, Identifiable {
+public enum TaskType: String, CaseIterable, Codable, Identifiable, Sendable {
     case watering
     case pestInspection
     case fertilizing

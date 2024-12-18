@@ -12,7 +12,7 @@ public extension Resolver {
     static func registerUseCasesForPreviews() {
         // Authentication
         register { LogInUserUseCasePreviewMock() as LogInUserUseCase }
-        register { RegisterUserUseCaseImplePreviewMock() as RegisterUserUseCase }
+        register { RegisterUserUseCasePreviewMock() as RegisterUserUseCase }
         register { IsUserLoggedInUseCasePreviewMock() as IsUserLoggedInUseCase }
         register { IsEmailVerifiedUseCasePreviewMock() as IsEmailVerifiedUseCase }
         register { SendEmailVerificationUseCasePreviewMock() as SendEmailVerificationUseCase }
@@ -32,5 +32,13 @@ public extension Resolver {
         register { DownloadImageUseCasePreviewMock() as DownloadImageUseCase }
         register { HasCameraAccessUseCasePreviewMock() as HasCameraAccessUseCase }
         register { HasPhotoLibraryAccessUseCasePreviewMock() as HasPhotoLibraryAccessUseCase }
+        
+        // Plants
+        register { CreatePlantUseCasePreviewMock() as CreatePlantUseCase }
+        register { UpdatePlantUseCasePreviewMock() as UpdatePlantUseCase }
+        register { GetPlantUseCasePreviewMock() as GetPlantUseCase }
+        register { DeletePlantUseCasePreviewMock() as DeletePlantUseCase }
+        register { GetAllPlantsUseCasePreviewMock() as GetAllPlantsUseCase }
+
     }
 }

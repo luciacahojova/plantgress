@@ -43,7 +43,7 @@ struct PlantsOverviewView: View { // TODO: Loading
                 }
                 
                 VStack(spacing: Constants.Spacing.large) {
-                    if true { // TODO: isLoading
+                    if viewModel.state.isLoading {
                         switch viewModel.selectedSection {
                         case .plants:
                             PlantList.skeleton
@@ -52,22 +52,30 @@ struct PlantsOverviewView: View { // TODO: Loading
                         case .tasks:
                             TaskList.skeleton
                         }
+                    } else if let errorMessage = viewModel.state.errorMessage {
+                        BaseErrorContentView(
+                            errorMessage: errorMessage,
+                            refreshAction: {
+                                viewModel.onIntent(.refresh)
+                            },
+                            fixedTopPadding: 100
+                        )
                     } else {
                         switch viewModel.selectedSection {
                         case .plants:
                             PlantList(
-                                plants: .mock, // TODO: Actual data
+                                plants: viewModel.state.plants,
                                 trackPlantProgressAction: { plantId in
                                     viewModel.onIntent(.selectedPlantIdChanged(plantId))
                                     viewModel.onIntent(.toggleImageActionSheet)
                                 },
                                 completeTaskAction: { plantId, taskType in
-                                    viewModel.onIntent(.completeTaskForPlant(plantId: plantId, taskType: taskType)) // TODO: Complete
+                                    viewModel.onIntent(.completeTaskForPlant(plantId: plantId, taskType: taskType))
                                 }
                             )
                         case .rooms:
                             RoomList(
-                                rooms: .mock, // TODO: Actual data
+                                rooms: viewModel.state.rooms,
                                 completeTaskAction: { roomId, taskType in
                                     viewModel.onIntent(.completeTaskForRoom(roomId: roomId, taskType: taskType))
                                 }
@@ -89,7 +97,8 @@ struct PlantsOverviewView: View { // TODO: Loading
                     }
                 }
             }
-            .padding()
+            .padding([.top, .horizontal])
+            .padding(.bottom, Constants.Spacing.xLarge)
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

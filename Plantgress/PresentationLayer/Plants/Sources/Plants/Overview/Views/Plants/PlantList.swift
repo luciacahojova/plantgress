@@ -41,12 +41,19 @@ struct PlantList: View {
     
     var body: some View {
         LazyVStack(spacing: Constants.Spacing.large) {
-            ForEach(plants, id: \.id) { plant in
-                PlantRow(
-                    plant: plant,
-                    trackPlantProgressAction: trackPlantProgressAction,
-                    completeTaskAction: completeTaskAction
+            if plants.isEmpty {
+                BaseEmptyContentView(
+                    message: "Your plant collection is empty", // TODO: String
+                    fixedTopPadding: 100
                 )
+            } else {
+                ForEach(plants, id: \.id) { plant in
+                    PlantRow(
+                        plant: plant,
+                        trackPlantProgressAction: trackPlantProgressAction,
+                        completeTaskAction: completeTaskAction
+                    )
+                }
             }
         }
         .skeleton(isLoading)

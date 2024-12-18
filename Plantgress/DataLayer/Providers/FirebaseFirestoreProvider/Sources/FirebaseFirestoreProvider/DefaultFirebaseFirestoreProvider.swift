@@ -111,6 +111,27 @@ public struct DefaultFirebaseFirestoreProvider: FirebaseFirestoreProvider {
             throw error
         }
     }
+    
+    public func getAll<T: Decodable>(
+        path: String,
+        as type: T.Type
+    ) async throws -> [T] {
+        print("➡️ GET ALL: \(path)")
+        
+        let db = Firestore.firestore()
+        let collectionRef = db.collection(path)
+        
+        do {
+            let snapshot = try await collectionRef.getDocuments()
+            let documents = try snapshot.documents.map { try $0.data(as: T.self) }
+            
+            print("🟢 \(path): \(documents.count) documents fetched")
+            return documents
+        } catch let error {
+            print("❌ \(path): \(error.localizedDescription)")
+            throw error
+        }
+    }
 
     public func update<T: Encodable>(
         path: String,

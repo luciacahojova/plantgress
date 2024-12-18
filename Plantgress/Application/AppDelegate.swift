@@ -24,6 +24,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         // Configue Firebae
         FirebaseApp.configure()
         
+        // Configure cache
+        configureCache()
+        
         // Register Resolver dependencies
         Resolver.registerProviders()
         Resolver.registerRepositories()
@@ -41,5 +44,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         flowController?.start()
         
         return true
+    }
+    
+    private func configureCache() {
+        URLCache.shared.memoryCapacity = 10_000_000
+        URLCache.shared.diskCapacity = 1_000_000_000
     }
 }

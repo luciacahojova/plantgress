@@ -35,17 +35,28 @@ public struct ImagesRepositoryImpl: ImagesRepository {
             let cache = URLCache.shared
             let urlRequest = URLRequest(url: url)
             
+            // Step 1: Check the cache first
+            if let cachedResponse = cache.cachedResponse(for: urlRequest) {
+                if let uiImage = UIImage(data: cachedResponse.data) {
+                    print("🏞️ Image loaded from cache")
+                    return Image(uiImage: uiImage)
+                }
+            }
+            
+            // Step 2: Fetch the image from the network
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
             
-            if cache.cachedResponse(for: urlRequest) == nil {
-                cache.storeCachedResponse(CachedURLResponse(response: response, data: data), for: urlRequest)
-            }
+            // Step 3: Cache the response
+            let cachedResponse = CachedURLResponse(response: response, data: data)
+            cache.storeCachedResponse(cachedResponse, for: urlRequest)
             
             guard let uiImage = UIImage(data: data) else { return nil }
             
-            print("🏞️ Image loaded")
+            print("🏞️ Image loaded from network")
             return Image(uiImage: uiImage)
+            
         } catch {
+            print("❌ Failed to download image: \(error.localizedDescription)")
             return nil
         }
     }

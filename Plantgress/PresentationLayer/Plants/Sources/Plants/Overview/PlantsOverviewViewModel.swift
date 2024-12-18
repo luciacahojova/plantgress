@@ -18,6 +18,10 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     @Injected private var getCurrentUserLocallyUseCase: GetCurrentUserLocallyUseCase
     @Injected private var hasCameraAccessUseCase: HasCameraAccessUseCase
     @Injected private var hasPhotoLibraryAccessUseCase: HasPhotoLibraryAccessUseCase
+    @Injected private var createPlantUseCase: CreatePlantUseCase // TODO: Delete
+    @Injected private var updatePlantUseCase: UpdatePlantUseCase
+    @Injected private var getAllPlantsUseCase: GetAllPlantsUseCase
+    @Injected private var updatePlantImagesUseCase: UpdatePlantImagesUseCase
     
     // MARK: - Dependencies
     
@@ -70,18 +74,25 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     @Published private(set) var selectedSection: SectionPickerOption = .plants {
         didSet {
             updateTitle()
+            loadData()
         }
     }
 
     struct State {
+        var isLoading: Bool = false
+        
         var userId: String?
         
         var images: [UIImage] = []
+        
+        var rooms: [Room] = []
+        var plants: [Plant] = []
         
         var selectedPlantId: UUID?
         
         var alertData: AlertData?
         var snackbarData: SnackbarData?
+        var errorMessage: String?
         
         var isCameraPickerPresented = false
         var isImagePickerPresented = false
@@ -110,6 +121,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         
         case selectedSectionChanged(SectionPickerOption)
         case selectedPlantIdChanged(UUID)
+        
+        case refresh
     }
 
     func onIntent(_ intent: Intent) {
@@ -128,11 +141,32 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .selectedSectionChanged(let selectedSection): selectedSectionChanged(selectedSection)
         case .selectedPlantIdChanged(let id): selectedPlantIdChanged(id)
+        case .refresh: loadData()
         }
     }
     
     private func completeTaskForRoom(roomId: UUID, taskType: TaskType) {
         #warning("TODO: Add UC")
+        let createPlantUseCase = createPlantUseCase // TODO: Delete
+        
+        executeTask(
+            Task {
+                do {
+                    try await createPlantUseCase.execute(
+                        plant: Plant(
+                            id: UUID(),
+                            name: "Ficus",
+                            roomId: nil,
+                            images: [],
+                            settings: .mock
+                        )
+                    )
+                } catch {
+                    print("ERROR: \(error)")
+                }
+            }
+        )
+        
     }
     
     private func completeTaskForPlant(plantId: UUID, taskType: TaskType) {
@@ -241,32 +275,40 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     private func uploadImages(_ images: [UIImage]) {
         let uploadImageUseCase = uploadImageUseCase
+        let updatePlantImagesUseCase = updatePlantImagesUseCase
+
+        guard let selectedPlantId = state.selectedPlantId else { return}
         
-        for image in images {
-            executeTask(
-                Task {
-                    defer { state.selectedPlantId = nil }
-                    
-                    guard let data = image.jpegData(compressionQuality: 1),
-                          let userId = state.userId else {
-                        setFailedToUploadImageSnackbar()
-                        return
-                    }
-                    
+        executeTask(
+            Task {
+                defer { state.selectedPlantId = nil }
+                var newImageData: [ImageData] = []
+                
+                for image in images {
                     do {
+                        guard let data = image.jpegData(compressionQuality: 1), let userId = state.userId else {
+                            continue
+                        }
+                        
                         let url = try await uploadImageUseCase.execute(
                             userId: userId,
                             imageId: UUID().uuidString,
                             imageData: data
                         )
                         
-                        print("New url: \(url)")
+                        let newImage = ImageData(id: UUID(), date: Date(), urlString: url.absoluteString)
+                        newImageData.append(newImage)
+                        
+                        try await updatePlantImagesUseCase.execute(
+                            plantId: selectedPlantId,
+                            newImages: newImageData
+                        )
                     } catch {
                         setFailedToUploadImageSnackbar()
                     }
                 }
-            )
-        }
+            }
+        )
     }
     
     private func uploadImage(_ image: UIImage?) {
@@ -303,10 +345,31 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     }
     
     private func loadData() {
+        state.isLoading = true
         guard let user = try? getCurrentUserLocallyUseCase.execute() else {
             return
         }
         state.userId = user.id
+        
+        let getAllPlantsUseCase = getAllPlantsUseCase
+        executeTask(
+            Task {
+                defer { state.isLoading = false }
+                
+                switch selectedSection {
+                case .rooms:
+                    print("Rooms") // TODO: Fetch rooms
+                case .plants:
+                    do {
+                        state.plants = try await getAllPlantsUseCase.execute()
+                    } catch {
+                        state.errorMessage = "Failed to load plants."
+                    }
+                case .tasks:
+                    print("Tasks") // TODO: Fetch tasks
+                }
+            }
+        )
     }
         
     private func updateTitle() {

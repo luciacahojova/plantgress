@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PlantSettings: Codable {
+public struct PlantSettings: Codable, Sendable {
     public let progressTracking: ProgressTaskConfiguration
     public let tasksConfiguartions: [TaskConfiguration]
     

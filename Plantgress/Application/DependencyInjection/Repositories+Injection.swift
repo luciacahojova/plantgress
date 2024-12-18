@@ -7,6 +7,7 @@
 
 import AuthToolkit
 import ImagesToolkit
+import PlantToolkit
 import Resolver
 import SharedDomain
 import UserToolkit
@@ -19,6 +20,8 @@ public extension Resolver {
         register { UserRepositoryImpl(firebaseFirestoreProvider: resolve(), keychainProvider: resolve()) as UserRepository }
         
         register { ImagesRepositoryImpl(firebaseStorageProvider: resolve()) as ImagesRepository }
+        
+        register { PlantRepositoryImpl(firebaseFirestoreProvider: resolve()) as PlantRepository }
         
     }
 }

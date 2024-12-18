@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct TaskConfiguration: Codable {
+public struct TaskConfiguration: Codable, Sendable {
     public let taskType: TaskType
     public let isTracked: Bool
     public let hasNotifications: Bool

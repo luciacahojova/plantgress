@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ImageData: Codable {
+public struct ImageData: Codable, Sendable {
     public let id: UUID
     public let date: Date
     public let urlString: String

@@ -47,13 +47,20 @@ struct TaskList: View {
     
     var body: some View {
         LazyVStack(spacing: Constants.Spacing.large) {
-            ForEach(tasks, id: \.id) { task in
-                TaskRow(
-                    task: task,
-                    editTaskAction: editTaskAction,
-                    deleteTaskAction: deleteTaskAction,
-                    completeTaskAction: completeTaskAction
+            if tasks.isEmpty {
+                BaseEmptyContentView(
+                    message: "You have no tracked tasks.", // TODO: String
+                    fixedTopPadding: 100
                 )
+            } else {
+                ForEach(tasks, id: \.id) { task in
+                    TaskRow(
+                        task: task,
+                        editTaskAction: editTaskAction,
+                        deleteTaskAction: deleteTaskAction,
+                        completeTaskAction: completeTaskAction
+                    )
+                }
             }
         }
         .skeleton(isLoading)

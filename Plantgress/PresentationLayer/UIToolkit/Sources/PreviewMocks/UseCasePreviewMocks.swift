@@ -13,7 +13,7 @@ class LogInUserUseCasePreviewMock: LogInUserUseCase {
     func execute(credentials: LoginCredentials) {}
 }
 
-class RegisterUserUseCaseImplePreviewMock: RegisterUserUseCase {
+class RegisterUserUseCasePreviewMock: RegisterUserUseCase {
     func execute(credentials: RegistrationCredentials) {}
 }
 
@@ -106,4 +106,32 @@ class HasPhotoLibraryAccessUseCasePreviewMock: HasPhotoLibraryAccessUseCase {
 
 class HasCameraAccessUseCasePreviewMock: HasCameraAccessUseCase {
     func execute() {}
+}
+
+class CreatePlantUseCasePreviewMock: CreatePlantUseCase {
+    func execute(plant: Plant) async throws {}
+}
+
+class UpdatePlantUseCasePreviewMock: UpdatePlantUseCase {
+    func execute(plant: Plant) async throws {}
+}
+
+class GetPlantUseCasePreviewMock: GetPlantUseCase {
+    func execute(id: UUID) async throws -> Plant {
+        .mock(id: id)
+    }
+}
+
+class DeletePlantUseCasePreviewMock: DeletePlantUseCase {
+    func execute(id: UUID) async throws {}
+}
+
+class GetAllPlantsUseCasePreviewMock: GetAllPlantsUseCase {
+    func execute() async throws -> [Plant] {
+        return .mock
+    }
+}
+
+class UpdatePlantImagesUseCasePreviewMock: UpdatePlantImagesUseCase {
+    func execute(plantId: UUID, newImages: [ImageData]) async throws {}
 }

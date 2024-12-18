@@ -37,11 +37,18 @@ struct RoomList: View {
     
     var body: some View {
         LazyVStack(spacing: Constants.Spacing.large) {
-            ForEach(rooms, id: \.id) { room in
-                RoomRow(
-                    room: room,
-                    completeTaskAction: completeTaskAction
+            if rooms.isEmpty {
+                BaseEmptyContentView(
+                    message: "You have no rooms", // TODO: String
+                    fixedTopPadding: 100
                 )
+            } else {
+                ForEach(rooms, id: \.id) { room in
+                    RoomRow(
+                        room: room,
+                        completeTaskAction: completeTaskAction
+                    )
+                }
             }
         }
         .skeleton(isLoading)

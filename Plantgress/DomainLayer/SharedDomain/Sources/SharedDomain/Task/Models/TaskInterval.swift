@@ -7,13 +7,13 @@
 
 import Foundation
 
-public enum TaskInterval: Codable {
+public enum TaskInterval: Codable, Sendable {
     case daily(interval: Int) // Every X days
     case weekly(interval: Int, weekdays: [Int]) // Every X weeks on specific weekdays
     case monthly(interval: Int, months: [Int]) // Every X days in specific months
     case yearly(dates: [SpecificDate]) // Specific dates across years
 
-    public struct SpecificDate: Codable {
+    public struct SpecificDate: Codable, Sendable {
         
         let day: Int // Day of the month
         let month: Int // Month of the year (1 = January, 12 = December)

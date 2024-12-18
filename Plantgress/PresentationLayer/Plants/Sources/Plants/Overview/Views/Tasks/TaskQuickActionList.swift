@@ -36,8 +36,8 @@ struct TaskQuickActionList: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: Constants.IconSize.small)
-                                    .clipShape(Circle())
                                     .padding(Constants.Spacing.medium)
+                                    .clipShape(Circle())
                                     .background {
                                         Circle()
                                             .fill(TaskType.color(for: configuration.taskType))

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct TaskPeriod: Codable {
+public struct TaskPeriod: Codable, Sendable {
     public let name: String // Name for the period, e.g. Period 1
     public let notificationId: String?
     public let interval: TaskInterval // Encapsulates the type and details of the period

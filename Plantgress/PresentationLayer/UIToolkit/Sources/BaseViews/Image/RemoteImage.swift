@@ -10,10 +10,15 @@ import SharedDomain
 import SwiftUI
 
 public struct RemoteImage: View {
+    
+    @Injected private var downloadImageUseCase: DownloadImageUseCase
+    
+    @State private var image: Image?
+    
     private let urlString: String?
     private let contentMode: ContentMode
     private let height: CGFloat?
-    
+
     public init(
         urlString: String?,
         contentMode: ContentMode = .fit,
@@ -25,28 +30,39 @@ public struct RemoteImage: View {
     }
 
     public var body: some View {
-        if let urlString, let url = URL(string: urlString) {
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: self.contentMode)
-                        .frame(height: self.height)
-                        .clipped()
-                case .failure:
-                    Colors.secondaryBackground
-                case .empty:
-                    ProgressView()
-                @unknown default:
-                    Colors.secondaryBackground
-                }
+        VStack {
+            if let image {
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: self.contentMode)
+                    .frame(height: self.height)
+                    .clipped()
+            } else if let urlString {
+                ProgressView()
+                    .tint(Colors.primaryText)
+                    .onAppear {
+                        Task {
+                            image = await downloadImageUseCase.execute(urlString: urlString)
+                        }
+                    }
+            } else {
+                placeholder
             }
-        } else {
-            Colors.secondaryBackground
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Colors.green)
+    }
+
+    private var placeholder: some View {
+        Icons.placeholder
+            .renderingMode(.template)
+            .resizable()
+            .scaledToFit()
+            .frame(width: Constants.IconSize.large)
+            .foregroundStyle(Colors.secondaryText)
     }
 }
+
 
 #Preview {
     Resolver.registerUseCasesForPreviews()

@@ -13,6 +13,7 @@ public extension Plant {
         Plant(
             id: id,
             name: "Monstera",
+            roomId: nil,
             images: .mock,
             settings: .mock
         )

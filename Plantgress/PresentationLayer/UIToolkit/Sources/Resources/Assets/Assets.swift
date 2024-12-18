@@ -40,6 +40,8 @@ public enum Icons {
     public static let placeholder = Asset.Icons.placeholder.image
     public static let edit = Asset.Icons.edit.image
     public static let check = Asset.Icons.check.image
+    public static let refresh = Asset.Icons.refresh.image
+    public static let faceSmile = Asset.Icons.faceSmile.image
 }
 
 public enum Colors {
