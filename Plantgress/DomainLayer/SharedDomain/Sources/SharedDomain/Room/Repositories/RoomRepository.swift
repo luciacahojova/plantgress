@@ -15,4 +15,5 @@ public protocol RoomRepository {
     func getAllRooms() async throws -> [Room]
     func removePlantFromRoom(plantId: UUID, roomId: UUID) async throws
     func movePlantToRoom(plantId: UUID, fromRoomId: UUID, toRoomId: UUID) async throws
+    func updateRoomPreviewImages(roomId: UUID) async throws
 }

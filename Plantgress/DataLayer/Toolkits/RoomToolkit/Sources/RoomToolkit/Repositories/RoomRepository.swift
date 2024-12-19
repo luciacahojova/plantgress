@@ -77,7 +77,7 @@ public struct RoomRepositoryImpl: RoomRepository {
         )
     }
 
-    private func updateRoomPreviewImages(roomId: UUID) async throws {
+    public func updateRoomPreviewImages(roomId: UUID) async throws {
         // Step 1: Fetch the first two plants for the room
         let plants = try await firebaseFirestoreProvider.get(
             path: DatabaseConstants.plantsCollection,

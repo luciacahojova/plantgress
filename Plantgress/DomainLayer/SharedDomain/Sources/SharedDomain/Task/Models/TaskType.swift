@@ -14,6 +14,7 @@ public enum TaskType: String, CaseIterable, Codable, Identifiable, Sendable {
     case cleaning
     case repotting
     case propagation
+    case progressTracking
     
     public var id: String {
         self.rawValue

@@ -54,7 +54,7 @@ public extension Resolver {
         register { CompleteTaskUseCasePreviewMock() as CompleteTaskUseCase }
         register { GetUpcomingTasksForAllPlantsUseCasePreviewMock() as GetUpcomingTasksForAllPlantsUseCase }
         register { GetUpcomingTasksForPlantUseCasePreviewMock() as GetUpcomingTasksForPlantUseCase }
-        register { GetUpcomingProgressTasksForPlantUseCasePreviewMock() as GetUpcomingProgressTasksForPlantUseCase }
-        register { GetUpcomingProgressTasksForAllPlantsUseCasePreviewMock() as GetUpcomingProgressTasksForAllPlantsUseCase }
+        register { GetCompletedTasksForPlantUseCasePreviewMock() as GetCompletedTasksForPlantUseCase }
+        register { GetCompletedTasksForAllPlantsUseCasePreviewMock() as GetCompletedTasksForAllPlantsUseCase }
     }
 }

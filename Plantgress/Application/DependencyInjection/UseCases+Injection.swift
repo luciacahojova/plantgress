@@ -34,7 +34,7 @@ public extension Resolver {
         register { HasPhotoLibraryAccessUseCaseImpl() as HasPhotoLibraryAccessUseCase }
 
         // Plants
-        register { CreatePlantUseCaseImpl(plantRepository: resolve()) as CreatePlantUseCase }
+        register { CreatePlantUseCaseImpl(plantRepository: resolve(), roomRepository: resolve()) as CreatePlantUseCase }
         register { UpdatePlantUseCaseImpl(plantRepository: resolve()) as UpdatePlantUseCase }
         register { GetPlantUseCaseImpl(plantRepository: resolve()) as GetPlantUseCase }
         register { DeletePlantUseCaseImpl(plantRepository: resolve()) as DeletePlantUseCase }
@@ -55,8 +55,8 @@ public extension Resolver {
         register { CompleteTaskUseCaseImpl(taskRepository: resolve()) as CompleteTaskUseCase }
         register { GetUpcomingTasksForAllPlantsUseCaseImpl(taskRepository: resolve()) as GetUpcomingTasksForAllPlantsUseCase }
         register { GetUpcomingTasksForPlantUseCaseImpl(taskRepository: resolve()) as GetUpcomingTasksForPlantUseCase }
-        register { GetUpcomingProgressTasksForPlantUseCaseImpl(taskRepository: resolve()) as GetUpcomingProgressTasksForPlantUseCase }
-        register { GetUpcomingProgressTasksForAllPlantsUseCaseImpl(taskRepository: resolve()) as GetUpcomingProgressTasksForAllPlantsUseCase }
+        register { GetCompletedTasksForPlantUseCaseImpl(taskRepository: resolve()) as GetCompletedTasksForPlantUseCase }
+        register { GetCompletedTasksForAllPlantsUseCaseImpl(taskRepository: resolve()) as GetCompletedTasksForAllPlantsUseCase }
         
     }
 }

@@ -175,7 +175,7 @@ class SynchronizeNotificationsForAllPlantsUseCasePreviewMock: SynchronizeNotific
 }
 
 class CompleteTaskUseCasePreviewMock: CompleteTaskUseCase {
-    func execute(for plant: Plant, taskType: TaskType, periodId: UUID, completionDate: Date) async throws {}
+    func execute(for plant: Plant, taskType: TaskType, completionDate: Date) async throws {}
 }
 
 class GetUpcomingTasksForAllPlantsUseCasePreviewMock: GetUpcomingTasksForAllPlantsUseCase {
@@ -190,14 +190,14 @@ class GetUpcomingTasksForPlantUseCasePreviewMock: GetUpcomingTasksForPlantUseCas
     }
 }
 
-class GetUpcomingProgressTasksForPlantUseCasePreviewMock: GetUpcomingProgressTasksForPlantUseCase {
-    func execute(for plant: SharedDomain.Plant, days: Int) -> [ProgressTask] {
+class GetCompletedTasksForAllPlantsUseCasePreviewMock: GetCompletedTasksForAllPlantsUseCase {
+    func execute(for plantIds: [UUID]) async throws -> [PlantTask] {
         []
     }
 }
 
-class GetUpcomingProgressTasksForAllPlantsUseCasePreviewMock: GetUpcomingProgressTasksForAllPlantsUseCase {
-    func execute(for plants: [SharedDomain.Plant], days: Int) -> [ProgressTask] {
-        []
+class GetCompletedTasksForPlantUseCasePreviewMock: GetCompletedTasksForPlantUseCase {
+    func execute(for plantId: UUID) async throws -> [PlantTask] {
+        .mock
     }
 }

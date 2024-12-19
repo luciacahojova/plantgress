@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol CompleteTaskUseCase {
-    func execute(for plant: Plant, taskType: TaskType, periodId: UUID, completionDate: Date) async throws
+    func execute(for plant: Plant, taskType: TaskType, completionDate: Date) async throws
 }
 
 public struct CompleteTaskUseCaseImpl: CompleteTaskUseCase {
@@ -18,14 +18,11 @@ public struct CompleteTaskUseCaseImpl: CompleteTaskUseCase {
         self.taskRepository = taskRepository
     }
 
-    public func execute(for plant: Plant, taskType: TaskType, periodId: UUID, completionDate: Date) async throws {
+    public func execute(for plant: Plant, taskType: TaskType, completionDate: Date) async throws {
         try await taskRepository.completeTask(
             for: plant,
             taskType: taskType,
-            periodId: periodId,
             completionDate: completionDate
         )
-        
-        // TODO: Add task to firebase
     }
 }

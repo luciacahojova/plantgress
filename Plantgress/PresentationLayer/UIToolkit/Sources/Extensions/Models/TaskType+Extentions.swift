@@ -17,6 +17,7 @@ public extension TaskType {
         case .cleaning: Colors.green
         case .repotting: Colors.orange
         case .propagation: Colors.pink
+        case .progressTracking: Colors.purple
         }
     }
     
@@ -28,6 +29,7 @@ public extension TaskType {
         case .cleaning: return Asset.Icons.stars.image
         case .repotting: return Asset.Icons.bag.image
         case .propagation: return Asset.Icons.scissors.image
+        case .progressTracking: return Asset.Icons.cameraPlus.image
         }
     }
     
@@ -39,6 +41,7 @@ public extension TaskType {
         case .cleaning: return "Clean"
         case .repotting: return "Repot"
         case .propagation: return "Propagate"
+        case .progressTracking: return "Track progress"
         }
     }
     
@@ -50,6 +53,7 @@ public extension TaskType {
         case .cleaning: return "Cleaning"
         case .repotting: return "Repotting"
         case .propagation: return "Propagating"
+        case .progressTracking: return "Progress Tracking"
         }
     }
 }

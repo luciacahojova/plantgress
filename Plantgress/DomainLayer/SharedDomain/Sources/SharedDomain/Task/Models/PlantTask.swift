@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PlantTask: Codable, TaskItem {
+public struct PlantTask: Codable, Sendable {
     public let id: UUID
     public let plantId: UUID
     public let plantName: String

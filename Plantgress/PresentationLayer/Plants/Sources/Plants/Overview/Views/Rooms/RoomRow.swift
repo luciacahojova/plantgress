@@ -50,6 +50,7 @@ struct RoomRow: View {
                 )
             }
             .padding(.bottom)
+            .padding(.top, room.imageUrls.isEmpty ? Constants.Spacing.mediumLarge : 0)
         }
         .foregroundStyle(Colors.primaryText)
         .background(Colors.secondaryBackground)

@@ -69,8 +69,8 @@ struct PlantsOverviewView: View { // TODO: Loading
                                     viewModel.onIntent(.selectedPlantIdChanged(plantId))
                                     viewModel.onIntent(.toggleImageActionSheet)
                                 },
-                                completeTaskAction: { plantId, taskType in
-                                    viewModel.onIntent(.completeTaskForPlant(plantId: plantId, taskType: taskType))
+                                completeTaskAction: { plant, taskType in
+                                    viewModel.onIntent(.completeTaskForPlant(plant: plant, taskType: taskType))
                                 }
                             )
                         case .rooms:

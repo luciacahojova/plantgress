@@ -9,4 +9,5 @@ import Foundation
 
 public enum TaskError: Error {
     case taskOrPeriodNotFound
+    case taskTypeNotFound
 }

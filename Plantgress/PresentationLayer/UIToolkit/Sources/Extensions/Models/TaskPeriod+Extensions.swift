@@ -27,6 +27,8 @@ public extension [TaskPeriod] { // TODO: Delete
             return [TaskPeriod(id: UUID(), name: "Period 1", interval: .yearly(dates: [.init(day: 1, month: 4)]))]
         case .propagation:
             return [TaskPeriod(id: UUID(), name: "Period 1", interval: .yearly(dates: [.init(day: 1, month: 3)]))]
+        case .progressTracking:
+            return [TaskPeriod(id: UUID(), name: "Period 1", interval: .weekly(interval: 3, weekday: 1))]
         }
     }
 }

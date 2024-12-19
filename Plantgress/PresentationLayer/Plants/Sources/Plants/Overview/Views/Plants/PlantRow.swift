@@ -14,12 +14,12 @@ struct PlantRow: View {
     
     private let plant: Plant
     private let trackPlantProgressAction: (UUID) -> Void
-    private let completeTaskAction: (UUID, TaskType) -> Void
+    private let completeTaskAction: (Plant, TaskType) -> Void
     
     init(
         plant: Plant,
         trackPlantProgressAction: @escaping (UUID) -> Void,
-        completeTaskAction: @escaping (UUID, TaskType) -> Void
+        completeTaskAction: @escaping (Plant, TaskType) -> Void
     ) {
         self.plant = plant
         self.trackPlantProgressAction = trackPlantProgressAction
@@ -71,7 +71,7 @@ struct PlantRow: View {
                     TaskQuickActionList(
                         taskConfigurations: plant.settings.tasksConfiguartions,
                         action: { taskType in
-                            completeTaskAction(plant.id, taskType)
+                            completeTaskAction(plant, taskType)
                         }
                     )
                 }

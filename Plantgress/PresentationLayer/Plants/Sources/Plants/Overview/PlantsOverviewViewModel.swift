@@ -20,13 +20,15 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     @Injected private var hasCameraAccessUseCase: HasCameraAccessUseCase
     @Injected private var hasPhotoLibraryAccessUseCase: HasPhotoLibraryAccessUseCase
     @Injected private var createPlantUseCase: CreatePlantUseCase // TODO: Delete
+    @Injected private var createRoomUseCase: CreateRoomUseCase // TODO: Delete
     @Injected private var movePlantToRoomUseCase: MovePlantToRoomUseCase // TODO: Delete
     @Injected private var updatePlantUseCase: UpdatePlantUseCase
     @Injected private var getAllPlantsUseCase: GetAllPlantsUseCase
     @Injected private var getAllRoomsUseCase: GetAllRoomsUseCase
     @Injected private var getUpcomingTasksForAllPlantsUseCase: GetUpcomingTasksForAllPlantsUseCase
-    @Injected private var getUpcomingProgressTasksForAllPlantsUseCase: GetUpcomingProgressTasksForAllPlantsUseCase
+    @Injected private var getCompletedTasksForAllPlantsUseCase: GetCompletedTasksForAllPlantsUseCase
     @Injected private var updatePlantImagesUseCase: UpdatePlantImagesUseCase
+    @Injected private var completeTaskUseCase: CompleteTaskUseCase
     
     // MARK: - Dependencies
     
@@ -90,10 +92,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         
         var images: [UIImage] = []
         
-        var upcomingTasks: [TaskItem] = []
-        var completedTasks: [TaskItem] = []
-//        var upcomingTasks: [PlantTask] = []
-//        var completedTasks: [PlantTask] = []
+        var upcomingTasks: [PlantTask] = []
+        var completedTasks: [PlantTask] = []
         var rooms: [Room] = []
         var plants: [Plant] = []
         
@@ -111,7 +111,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     // MARK: - Intent
     enum Intent {
         case completeTaskForRoom(roomId: UUID, taskType: TaskType)
-        case completeTaskForPlant(plantId: UUID, taskType: TaskType)
+        case completeTaskForPlant(plant: Plant, taskType: TaskType)
         
         case toggleImageActionSheet
         case toggleCameraPicker
@@ -137,7 +137,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     func onIntent(_ intent: Intent) {
         switch intent {
         case let .completeTaskForRoom(roomId, taskType): completeTaskForRoom(roomId: roomId, taskType: taskType)
-        case let .completeTaskForPlant(plantId, taskType): completeTaskForPlant(plantId: plantId, taskType: taskType)
+        case let .completeTaskForPlant(plant, taskType): completeTaskForPlant(plant: plant, taskType: taskType)
         case .toggleImageActionSheet: toggleImageActionSheet()
         case .toggleCameraPicker: toggleCameraPicker()
         case .toggleImagePicker: toggleImagePicker()
@@ -158,8 +158,17 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         #warning("TODO: Add UC")
     }
     
-    private func completeTaskForPlant(plantId: UUID, taskType: TaskType) {
-        #warning("TODO: Add UC")
+    private func completeTaskForPlant(plant: Plant, taskType: TaskType) {
+        let completeTaskUseCase = completeTaskUseCase
+        executeTask(
+            Task {
+                do {
+                    try await completeTaskUseCase.execute(for: plant, taskType: taskType, completionDate: Date())
+                } catch {
+                    print("ERROR completing task.")
+                }
+            }
+        )
     }
     
     private func toggleCameraPicker() {
@@ -231,6 +240,29 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     }
     
     private func plusButtonTapped() {
+        let createPlantUseCase = createPlantUseCase
+        let createRoomUseCase = createRoomUseCase
+        
+        executeTask(
+            Task {
+                do {
+                    try await createPlantUseCase.execute(
+                        plant: Plant(
+                            id: UUID(),
+                            name: "Monster",
+                            roomId: state.rooms.last?.id,
+                            images: .mock,
+                            settings: PlantSettings(tasksConfiguartions: .default)
+                        )
+                    )
+                } catch {
+                    print("FAILED TO CREATE ROOM")
+                }
+            }
+        ) // TODO: Delete
+        
+        
+        
         switch selectedSection {
         case .plants:
             flowController?.handleFlow(
@@ -344,6 +376,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         
         let getAllPlantsUseCase = getAllPlantsUseCase
         let getAllRoomsUseCase = getAllRoomsUseCase
+        let getCompletedTasksForAllPlantsUseCase = getCompletedTasksForAllPlantsUseCase
         executeTask(
             Task {
                 defer { state.isLoading = false }
@@ -363,18 +396,13 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                     }
                 case .tasks:
                     do {
-                        let upcomingPlantTasks: [PlantTask] = getUpcomingTasksForAllPlantsUseCase.execute(
+                        state.upcomingTasks = getUpcomingTasksForAllPlantsUseCase.execute(
                             for: state.plants,
-                            days: 14
+                            days: 7
                         )
-
-                        let upcomingProgressTasks: [ProgressTask] = getUpcomingProgressTasksForAllPlantsUseCase.execute(
-                            for: state.plants,
-                            days: 14
+                        state.completedTasks = try await getCompletedTasksForAllPlantsUseCase.execute(
+                            for: state.plants.map { $0.id }
                         )
-                        
-                        // TODO: Fix fetching twice?
-                        state.upcomingTasks = upcomingPlantTasks + upcomingProgressTasks
                         
                         // TODO: Past tasks
                     } catch {
@@ -398,5 +426,17 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
             foregroundColor: Colors.white,
             backgroundColor: Colors.red
         )
+    }
+    
+    private func loadPlants() {
+        
+    }
+    
+    private func loadRooms() {
+        
+    }
+    
+    private func loadTasks() {
+        
     }
 }

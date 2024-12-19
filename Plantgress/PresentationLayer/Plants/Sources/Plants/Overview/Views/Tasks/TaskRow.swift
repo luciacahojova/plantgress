@@ -12,14 +12,14 @@ import UIToolkit
 
 struct TaskRow: View {
     
-    private let task: TaskItem
+    private let task: PlantTask
     
     private let editTaskAction: (UUID) -> Void
     private let deleteTaskAction: (UUID) -> Void
     private let completeTaskAction: (UUID) -> Void
     
     init(
-        task: TaskItem,
+        task: PlantTask,
         editTaskAction: @escaping (UUID) -> Void,
         deleteTaskAction: @escaping (UUID) -> Void,
         completeTaskAction: @escaping (UUID) -> Void
@@ -47,23 +47,27 @@ struct TaskRow: View {
                         .font(Fonts.bodySemibold)
                         .foregroundColor(Colors.secondaryText)
                     
-                    if let task = task as? PlantTask {
-                        Text(TaskType.title(for: task.taskType))
-                            .font(Fonts.titleSemibold)
-                    } else if let task = task as? ProgressTask {
-                        Text("Progress Tracking")
-                            .font(Fonts.titleSemibold)
-                    }
-                    
+                    Text(TaskType.title(for: task.taskType))
+                        .font(Fonts.titleSemibold)
                 }
                 
-                Text("in 10 days") // TODO: String
-                    .font(Fonts.subheadlineMedium)
-                    .padding(.horizontal, Constants.Spacing.xMedium)
-                    .padding(.vertical, Constants.Spacing.xSmall)
-                    .background(Colors.secondaryText)
-                    .foregroundStyle(Colors.white)
-                    .cornerRadius(Constants.CornerRadius.xxxLarge)
+                if !task.isCompleted {
+                    Text("in \(task.daysUntilDue()) days") // TODO: String, handle TODAY
+                        .font(Fonts.subheadlineMedium)
+                        .padding(.horizontal, Constants.Spacing.xMedium)
+                        .padding(.vertical, Constants.Spacing.xSmall)
+                        .background(Colors.secondaryText)
+                        .foregroundStyle(Colors.white)
+                        .cornerRadius(Constants.CornerRadius.xxxLarge)
+                } else {
+                    Text("Completed") // TODO: String, handle TODAY
+                        .font(Fonts.subheadlineMedium)
+                        .padding(.horizontal, Constants.Spacing.xMedium)
+                        .padding(.vertical, Constants.Spacing.xSmall)
+                        .background(Colors.secondaryText)
+                        .foregroundStyle(Colors.white)
+                        .cornerRadius(Constants.CornerRadius.xxxLarge)
+                }
             }
             
             Spacer()
@@ -90,20 +94,16 @@ struct TaskRow: View {
                     RoundedIcon(icon: Icons.dotsHorizontal)
                 }
                 
-                Button {
-                    // TODO
-                } label: {
-                    RoundedIcon(
-                        icon: Icons.check,
-                        isFilled: task.isCompleted,
-                        foregroundColor: {
-                            if let plantTask = task as? PlantTask {
-                                return TaskType.color(for: plantTask.taskType)
-                            } else {
-                                return Colors.purple
-                            }
-                        }()
-                    )
+                if !task.isCompleted {
+                    Button {
+                        // TODO: todo check if its in progress and open sheet
+                    } label: {
+                        RoundedIcon(
+                            icon: Icons.check,
+                            isFilled: task.isCompleted,
+                            foregroundColor: TaskType.color(for: task.taskType)
+                        )
+                    }
                 }
             }
         }
@@ -120,7 +120,7 @@ struct TaskRow: View {
     Resolver.registerUseCasesForPreviews()
     
     return TaskRow(
-        task: PlantTask.mock,
+        task: .mock(id: UUID()),
         editTaskAction: { _ in },
         deleteTaskAction: { _ in },
         completeTaskAction: { _ in }

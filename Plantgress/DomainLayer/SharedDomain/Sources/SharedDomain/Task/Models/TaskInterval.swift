@@ -9,7 +9,7 @@ import Foundation
 
 public enum TaskInterval: Codable, Sendable {
     case daily(interval: Int) // Every X days
-    case weekly(interval: Int, weekdays: [Int]) // Every X weeks on specific weekdays
+    case weekly(interval: Int, weekday: Int) // Every X weeks on specific weekday
     case monthly(interval: Int, months: [Int]) // Every X days in specific months
     case yearly(dates: [SpecificDate]) // Specific dates across years
 
@@ -27,7 +27,7 @@ public enum TaskInterval: Codable, Sendable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case type, interval, weekdays, months, dates
+        case type, interval, weekday, months, dates
     }
 
     private enum PeriodType: String, Codable {
@@ -41,10 +41,10 @@ public enum TaskInterval: Codable, Sendable {
         case .daily(let interval):
             try container.encode(PeriodType.daily, forKey: .type)
             try container.encode(interval, forKey: .interval)
-        case .weekly(let interval, let weekdays):
+        case .weekly(let interval, let weekday):
             try container.encode(PeriodType.weekly, forKey: .type)
             try container.encode(interval, forKey: .interval)
-            try container.encode(weekdays, forKey: .weekdays)
+            try container.encode(weekday, forKey: .weekday)
         case .monthly(let interval, let months):
             try container.encode(PeriodType.monthly, forKey: .type)
             try container.encode(interval, forKey: .interval)
@@ -66,8 +66,8 @@ public enum TaskInterval: Codable, Sendable {
             self = .daily(interval: interval)
         case .weekly:
             let interval = try container.decode(Int.self, forKey: .interval)
-            let weekdays = try container.decode([Int].self, forKey: .weekdays)
-            self = .weekly(interval: interval, weekdays: weekdays)
+            let weekday = try container.decode(Int.self, forKey: .weekday)
+            self = .weekly(interval: interval, weekday: weekday)
         case .monthly:
             let interval = try container.decode(Int.self, forKey: .interval)
             let months = try container.decode([Int].self, forKey: .months)

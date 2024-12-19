@@ -8,11 +8,11 @@
 import Foundation
 
 public protocol TaskRepository {
-    func synchronizeAllNotifications(for plants: [Plant]) async throws
-    func synchronizeNotifications(for plant: Plant) async throws
-    func completeTask(for plant: Plant, taskType: TaskType, periodId: UUID, completionDate: Date) async throws
-    func getUpcomingTasks(for plants: [Plant], days: Int) -> [PlantTask]
+    func completeTask(for plant: Plant, taskType: TaskType, completionDate: Date) async throws
     func getUpcomingTasks(for plant: Plant, days: Int) -> [PlantTask]
-    func getUpcomingProgressTasks(for plant: Plant, days: Int) -> [ProgressTask]
-    func getUpcomingProgressTasks(for plants: [Plant], days: Int) -> [ProgressTask]
+    func getUpcomingTasks(for plants: [Plant], days: Int) -> [PlantTask]
+    func getCompletedTasks(for plantId: UUID) async throws -> [PlantTask]
+    func getCompletedTasks(for plantIds: [UUID]) async throws -> [PlantTask]
+    func synchronizeNotifications(for plant: Plant) async throws
+    func synchronizeAllNotifications(for plants: [Plant]) async throws
 }

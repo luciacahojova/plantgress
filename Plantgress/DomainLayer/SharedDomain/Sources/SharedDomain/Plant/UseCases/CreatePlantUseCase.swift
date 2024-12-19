@@ -14,14 +14,20 @@ public protocol CreatePlantUseCase {
 public struct CreatePlantUseCaseImpl: CreatePlantUseCase {
     
     private let plantRepository: PlantRepository
+    private let roomRepository: RoomRepository
     
     public init(
-        plantRepository: PlantRepository
+        plantRepository: PlantRepository,
+        roomRepository: RoomRepository
     ) {
         self.plantRepository = plantRepository
+        self.roomRepository = roomRepository
     }
     
     public func execute(plant: Plant) async throws {
         try await plantRepository.createPlant(plant)
+        
+        guard let roomId = plant.roomId else { return }
+        try await roomRepository.updateRoomPreviewImages(roomId: roomId)
     }
 }

@@ -12,8 +12,8 @@ import UIToolkit
 
 struct TaskList: View {
     
-    private let upcomingTasks: [TaskItem]
-    private let completedTasks: [TaskItem]
+    private let upcomingTasks: [PlantTask]
+    private let completedTasks: [PlantTask]
     
     private let editTaskAction: (UUID) -> Void
     private let deleteTaskAction: (UUID) -> Void
@@ -22,8 +22,8 @@ struct TaskList: View {
     private let isLoading: Bool
     
     init(
-        upcomingTasks: [TaskItem],
-        completedTasks: [TaskItem],
+        upcomingTasks: [PlantTask],
+        completedTasks: [PlantTask],
         editTaskAction: @escaping (UUID) -> Void,
         deleteTaskAction: @escaping (UUID) -> Void,
         completeTaskAction: @escaping (UUID) -> Void
@@ -57,8 +57,8 @@ struct TaskList: View {
                     fixedTopPadding: 100
                 )
             } else {
-                VStack(alignment: .leading, spacing: Constants.Spacing.small) {
-                    if !upcomingTasks.isEmpty {
+                if !upcomingTasks.isEmpty {
+                    VStack(alignment: .leading, spacing: Constants.Spacing.small) {
                         Text("Upcoming Tasks") // TODO: String
                             .textCase(.uppercase)
                             .padding(.leading, Constants.Spacing.medium)
@@ -76,8 +76,10 @@ struct TaskList: View {
                             }
                         }
                     }
-                    
-                    if !completedTasks.isEmpty {
+                }
+                
+                if !completedTasks.isEmpty {
+                    VStack(alignment: .leading, spacing: Constants.Spacing.small) {
                         Text("Completed Tasks") // TODO: String
                             .textCase(.uppercase)
                             .padding(.leading, Constants.Spacing.medium)

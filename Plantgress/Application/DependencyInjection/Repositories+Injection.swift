@@ -27,7 +27,7 @@ public extension Resolver {
         
         register { RoomRepositoryImpl(firebaseFirestoreProvider: resolve()) as RoomRepository }
         
-        register { TaskRepositoryImpl() as TaskRepository }
+        register { TaskRepositoryImpl(firebaseFirestoreProvider: resolve()) as TaskRepository }
         
     }
 }

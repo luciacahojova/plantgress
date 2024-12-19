@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ProgressTask: Codable, TaskItem {
+public struct ProgressTask: Codable {
     public let id: UUID
     public let plantId: UUID
     public let plantName: String

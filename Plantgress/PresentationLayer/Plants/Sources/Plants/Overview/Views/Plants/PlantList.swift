@@ -13,14 +13,14 @@ struct PlantList: View {
     
     private let plants: [Plant]
     private let trackPlantProgressAction: (UUID) -> Void
-    private let completeTaskAction: (UUID, TaskType) -> Void
+    private let completeTaskAction: (Plant, TaskType) -> Void
     
     private let isLoading: Bool
     
     init(
         plants: [Plant],
         trackPlantProgressAction: @escaping (UUID) -> Void,
-        completeTaskAction: @escaping (UUID, TaskType) -> Void
+        completeTaskAction: @escaping (Plant, TaskType) -> Void
     ) {
         self.plants = plants
         self.trackPlantProgressAction = trackPlantProgressAction

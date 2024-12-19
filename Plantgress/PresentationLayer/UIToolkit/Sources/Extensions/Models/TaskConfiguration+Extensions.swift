@@ -22,13 +22,15 @@ public extension [TaskConfiguration] {
     }
     
     static var `default`: [TaskConfiguration] {
-        TaskType.allCases.map { taskType in
-            return TaskConfiguration(
+        TaskType.allCases.filter { $0 != .progressTracking }.map { taskType in
+            TaskConfiguration(
                 taskType: taskType,
                 isTracked: true,
-                hasNotifications: false,
+                hasNotifications: true,
                 startDate: Date(),
-                periods: []
+                periods: [
+                    TaskPeriod(id: UUID(), name: "Period 1", interval: .daily(interval: 3))
+                ]
             )
         }
     }
