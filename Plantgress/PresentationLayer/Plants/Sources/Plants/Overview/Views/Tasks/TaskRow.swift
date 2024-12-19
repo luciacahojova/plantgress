@@ -52,47 +52,19 @@ struct TaskRow: View {
                 }
                 
                 if !task.isCompleted {
-                    Text("in \(task.daysUntilDue()) days") // TODO: String, handle TODAY
-                        .font(Fonts.subheadlineMedium)
-                        .padding(.horizontal, Constants.Spacing.xMedium)
-                        .padding(.vertical, Constants.Spacing.xSmall)
-                        .background(Colors.secondaryText)
-                        .foregroundStyle(Colors.white)
-                        .cornerRadius(Constants.CornerRadius.xxxLarge)
-                } else {
-                    Text("Completed") // TODO: String, handle TODAY
-                        .font(Fonts.subheadlineMedium)
-                        .padding(.horizontal, Constants.Spacing.xMedium)
-                        .padding(.vertical, Constants.Spacing.xSmall)
-                        .background(Colors.secondaryText)
-                        .foregroundStyle(Colors.white)
-                        .cornerRadius(Constants.CornerRadius.xxxLarge)
+                    TaskDateChip(text: "in \(task.daysUntilDue()) days") // TODO: String
+                } else if let completionDate = task.completionDate {
+                    TaskDateChip(text: "Completed on \(completionDate)") // TODO: String, handle TODAY
                 }
             }
             
             Spacer()
             
             VStack(spacing: Constants.Spacing.medium) {
-                Menu {
-                    MenuLabelButton(
-                        text: "Delete", // TODO: String
-                        role: .destructive,
-                        icon: Icons.trash,
-                        action: {
-                            deleteTaskAction(task)
-                        }
-                    )
-                    
-                    MenuLabelButton(
-                        text: "Edit", // TODO: String
-                        icon: Icons.edit,
-                        action: {
-                            editTaskAction(task.id)
-                        }
-                    )
-                } label: {
-                    RoundedIcon(icon: Icons.dotsHorizontal)
-                }
+                PlantTaskMenu(
+                    deleteTaskAction: { deleteTaskAction(task) },
+                    editTaskAction: { editTaskAction(task.id) }
+                )
                 
                 if !task.isCompleted {
                     Button {
@@ -107,6 +79,7 @@ struct TaskRow: View {
                 }
             }
         }
+        .animation(.easeIn(duration: 0.25), value: task.isCompleted)
         .frame(maxWidth: .infinity)
         .padding([.leading, .vertical], Constants.Spacing.medium)
         .padding(.trailing)

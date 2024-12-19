@@ -17,6 +17,7 @@ public extension PlantTask {
             imageUrl: "https://fastly.picsum.photos/id/248/3872/2592.jpg?hmac=_F3LsKQyGyWnwQJogUtsd_wyx2YDYnYZ6VZmSMBCxNI",
             taskType: .watering,
             dueDate: Date(),
+            completionDate: nil,
             isCompleted: false
         )
     }

@@ -59,11 +59,7 @@ struct TaskList: View {
             } else {
                 if !upcomingTasks.isEmpty {
                     VStack(alignment: .leading, spacing: Constants.Spacing.small) {
-                        Text("Upcoming Tasks") // TODO: String
-                            .textCase(.uppercase)
-                            .padding(.leading, Constants.Spacing.medium)
-                            .font(Fonts.calloutSemibold)
-                            .foregroundStyle(Colors.secondaryText)
+                        sectionTitle("Upcoming Tasks") // TODO: String
                         
                         VStack(spacing: Constants.Spacing.medium) {
                             ForEach(upcomingTasks, id: \.id) { task in
@@ -76,15 +72,12 @@ struct TaskList: View {
                             }
                         }
                     }
+                    .animation(.easeIn(duration: 0.25), value: upcomingTasks)
                 }
                 
                 if !completedTasks.isEmpty {
                     VStack(alignment: .leading, spacing: Constants.Spacing.small) {
-                        Text("Completed Tasks") // TODO: String
-                            .textCase(.uppercase)
-                            .padding(.leading, Constants.Spacing.medium)
-                            .font(Fonts.calloutSemibold)
-                            .foregroundStyle(Colors.secondaryText)
+                        sectionTitle("Completed Tasks") // TODO: String
                         
                         VStack(spacing: Constants.Spacing.medium) {
                             ForEach(completedTasks, id: \.id) { task in
@@ -97,10 +90,19 @@ struct TaskList: View {
                             }
                         }
                     }
+                    .animation(.easeIn(duration: 0.25), value: completedTasks)
                 }
             }
         }
         .skeleton(isLoading)
+    }
+    
+    public func sectionTitle(_ title: String) -> some View {
+        Text(title)
+            .textCase(.uppercase)
+            .padding(.leading, Constants.Spacing.medium)
+            .font(Fonts.calloutSemibold)
+            .foregroundStyle(Colors.secondaryText)
     }
 }
 

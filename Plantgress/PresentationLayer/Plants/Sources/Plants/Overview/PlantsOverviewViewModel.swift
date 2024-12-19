@@ -177,6 +177,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
             Task {
                 do {
                     try await deleteTaskUseCase.execute(task: plantTask)
+                    loadData()
                 } catch {
                     print("Failed to delete task.")
                 }
@@ -194,6 +195,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                         taskType: taskType,
                         completionDate: Date()
                     )
+                    loadData()
                 } catch {
                     print("ERROR completing task for room.") // TODO: Snack
                 }
@@ -207,6 +209,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
             Task {
                 do {
                     try await completeTaskUseCase.execute(for: plant, taskType: taskType, completionDate: Date())
+                    loadData()
                 } catch {
                     print("ERROR completing task for plant.")  // TODO: Snack
                 }

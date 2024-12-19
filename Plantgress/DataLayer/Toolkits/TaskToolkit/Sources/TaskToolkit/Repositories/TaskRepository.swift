@@ -40,6 +40,7 @@ public struct TaskRepositoryImpl: TaskRepository {
             imageUrl: plant.images.first?.urlString ?? "",
             taskType: taskType,
             dueDate: completionDate,
+            completionDate: Date(),
             isCompleted: true
         )
         
@@ -150,6 +151,7 @@ public struct TaskRepositoryImpl: TaskRepository {
                         imageUrl: plant.images.first?.urlString ?? "",
                         taskType: taskConfig.taskType,
                         dueDate: $0,
+                        completionDate: nil,
                         isCompleted: false
                     )
                 })

@@ -7,13 +7,14 @@
 
 import Foundation
 
-public struct PlantTask: Codable, Sendable {
+public struct PlantTask: Codable, Sendable, Equatable {
     public let id: UUID
     public let plantId: UUID
     public let plantName: String
     public let imageUrl: String
     public let taskType: TaskType
     public let dueDate: Date
+    public let completionDate: Date?
     public let isCompleted: Bool
     
     public init(
@@ -23,6 +24,7 @@ public struct PlantTask: Codable, Sendable {
         imageUrl: String,
         taskType: TaskType,
         dueDate: Date,
+        completionDate: Date?,
         isCompleted: Bool
     ) {
         self.id = id
@@ -31,6 +33,7 @@ public struct PlantTask: Codable, Sendable {
         self.imageUrl = imageUrl
         self.taskType = taskType
         self.dueDate = dueDate
+        self.completionDate = completionDate
         self.isCompleted = isCompleted
     }
 }
