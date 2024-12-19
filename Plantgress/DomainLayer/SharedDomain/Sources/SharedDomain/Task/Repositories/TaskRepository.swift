@@ -15,4 +15,5 @@ public protocol TaskRepository {
     func getCompletedTasks(for plantIds: [UUID]) async throws -> [PlantTask]
     func synchronizeNotifications(for plant: Plant) async throws
     func synchronizeAllNotifications(for plants: [Plant]) async throws
+    func deleteTask(_ task: PlantTask) async throws
 }

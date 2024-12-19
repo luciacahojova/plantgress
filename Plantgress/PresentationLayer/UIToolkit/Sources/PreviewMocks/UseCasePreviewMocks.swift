@@ -201,3 +201,15 @@ class GetCompletedTasksForPlantUseCasePreviewMock: GetCompletedTasksForPlantUseC
         .mock
     }
 }
+
+class HasNotificationAccessUseCasePreviewMock: HasNotificationAccessUseCase {
+    func execute() async throws {}
+}
+
+class DeleteTaskUseCasePreviewMock: DeleteTaskUseCase {
+    func execute(task: PlantTask) async throws {}
+}
+
+class CompleteTaskForRoomUseCasePreviewMock: CompleteTaskForRoomUseCase {
+    func execute(roomId: UUID, taskType: SharedDomain.TaskType, completionDate: Date) async throws {}
+}

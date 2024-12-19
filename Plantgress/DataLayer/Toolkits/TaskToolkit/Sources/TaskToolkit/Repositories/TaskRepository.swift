@@ -20,23 +20,17 @@ public struct TaskRepositoryImpl: TaskRepository {
     }
 
     public func completeTask(for plant: Plant, taskType: TaskType, completionDate: Date) async throws {
-        // Find the task configuration
         guard let taskConfig = plant.settings.tasksConfiguartions.first(where: { $0.taskType == taskType }) else {
             throw TaskError.taskTypeNotFound
         }
 
-        // Determine the ongoing period
-        let ongoingPeriod = taskConfig.periods.first(where: { isInPeriod(completionDate, interval: $0.interval) })
-        
-        if let period = ongoingPeriod {
-            // Remove the outdated notification for the completed task
-            let completedNotificationId = generateNotificationId(plantId: plant.id, taskType: taskType, periodId: period.id)
-            removeNotification(id: completedNotificationId)
+        // Remove outdated notification for the completed task
+        let notificationId = generateNotificationId(plantId: plant.id, taskType: taskType)
+        removeNotification(id: notificationId)
 
-            // Calculate and update the next due date for this period
-            let nextDueDate = calculateNextDueDate(startDate: completionDate, interval: period.interval)
-            updateNotification(id: completedNotificationId, dueDate: nextDueDate)
-        }
+        // Calculate and update the next due date
+        let nextDueDate = calculateNextDueDate(startDate: completionDate, interval: taskConfig.periods.first?.interval ?? .daily(interval: 7))
+        updateNotification(id: notificationId, dueDate: nextDueDate)
 
         // Store the completed task in Firestore
         let completedTask = PlantTask(
@@ -55,7 +49,6 @@ public struct TaskRepositoryImpl: TaskRepository {
             data: completedTask
         )
     }
-
 
     public func getUpcomingTasks(for plant: Plant, days: Int) -> [PlantTask] {
         return calculateTasks(for: plant, days: days).sorted { $0.dueDate < $1.dueDate }
@@ -98,10 +91,11 @@ public struct TaskRepositoryImpl: TaskRepository {
         for taskConfig in plant.settings.tasksConfiguartions where taskConfig.isTracked {
             for period in taskConfig.periods {
                 let nextDueDate = calculateNextDueDate(startDate: taskConfig.startDate, interval: period.interval)
-                let notificationId = generateNotificationId(plantId: plant.id, taskType: taskConfig.taskType, periodId: period.id)
+                let notificationId = generateNotificationId(plantId: plant.id, taskType: taskConfig.taskType)
                 updateNotification(id: notificationId, dueDate: nextDueDate)
             }
         }
+        
         try await cleanUpStaleNotifications(for: plant)
     }
 
@@ -110,6 +104,26 @@ public struct TaskRepositoryImpl: TaskRepository {
             try await synchronizeNotifications(for: plant)
         }
     }
+    
+    public func deleteTask(_ task: PlantTask) async throws {
+        if !task.isCompleted {
+            // Remove the notification associated with the task
+            let notificationId = generateNotificationId(
+                plantId: task.plantId,
+                taskType: task.taskType
+            )
+            removeNotification(id: notificationId)
+            print("✅ Upcoming task deleted and notification removed for: \(notificationId)")
+        } else {
+            // Delete the past task from Firebase
+            try await firebaseFirestoreProvider.delete(
+                path: DatabaseConstants.taskPath(plantId: task.plantId.uuidString),
+                id: task.id.uuidString
+            )
+            print("✅ Past task deleted from Firebase for: \(task.id)")
+        }
+    }
+
 
     private func fetchPlant(plantId: UUID) async throws -> Plant {
         try await firebaseFirestoreProvider.get(
@@ -168,7 +182,7 @@ public struct TaskRepositoryImpl: TaskRepository {
             let nextWeek = calendar.date(byAdding: .weekOfYear, value: interval, to: startDate)!
             return calendar.nextDate(after: nextWeek, matching: weekdayComponent, matchingPolicy: .nextTime) ?? nextWeek
             
-        case .monthly(let interval, let months):
+        case .monthly(_, let months):
             return months.compactMap {
                 calendar.nextDate(after: startDate, matching: DateComponents(month: $0), matchingPolicy: .nextTime)
             }.first ?? startDate
@@ -184,11 +198,9 @@ public struct TaskRepositoryImpl: TaskRepository {
         let currentNotificationIds = await getPendingNotificationIds()
         
         let validNotificationIds = plant.settings.tasksConfiguartions.flatMap { taskConfig in
-            taskConfig.periods.map { period in
-                generateNotificationId(plantId: plant.id, taskType: taskConfig.taskType, periodId: period.id)
-            }
+            generateNotificationId(plantId: plant.id, taskType: taskConfig.taskType)
         }
-
+        
         for notificationId in currentNotificationIds where !validNotificationIds.contains(notificationId) {
             removeNotification(id: notificationId)
         }
@@ -224,8 +236,8 @@ public struct TaskRepositoryImpl: TaskRepository {
         return requests.map { $0.identifier }
     }
 
-    private func generateNotificationId(plantId: UUID, taskType: TaskType, periodId: UUID) -> String {
-        return "\(plantId.uuidString)_\(taskType.rawValue)_\(periodId.uuidString)"
+    private func generateNotificationId(plantId: UUID, taskType: TaskType) -> String {
+        return "\(plantId.uuidString)_\(taskType.rawValue)"
     }
     
     private func isInPeriod(_ date: Date, interval: TaskInterval) -> Bool {
@@ -234,7 +246,7 @@ public struct TaskRepositoryImpl: TaskRepository {
         switch interval {
         case .daily:
             return true
-        case .monthly(let interval, let months):
+        case .monthly(_, let months):
             let currentMonth = calendar.component(.month, from: date)
             return months.contains(currentMonth)
         case .yearly, .weekly:

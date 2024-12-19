@@ -15,14 +15,14 @@ struct TaskRow: View {
     private let task: PlantTask
     
     private let editTaskAction: (UUID) -> Void
-    private let deleteTaskAction: (UUID) -> Void
-    private let completeTaskAction: (UUID) -> Void
+    private let deleteTaskAction: (PlantTask) -> Void
+    private let completeTaskAction: (PlantTask) -> Void
     
     init(
         task: PlantTask,
         editTaskAction: @escaping (UUID) -> Void,
-        deleteTaskAction: @escaping (UUID) -> Void,
-        completeTaskAction: @escaping (UUID) -> Void
+        deleteTaskAction: @escaping (PlantTask) -> Void,
+        completeTaskAction: @escaping (PlantTask) -> Void
     ) {
         self.task = task
         self.editTaskAction = editTaskAction
@@ -79,7 +79,7 @@ struct TaskRow: View {
                         role: .destructive,
                         icon: Icons.trash,
                         action: {
-                            deleteTaskAction(task.id)
+                            deleteTaskAction(task)
                         }
                     )
                     
@@ -96,7 +96,7 @@ struct TaskRow: View {
                 
                 if !task.isCompleted {
                     Button {
-                        // TODO: todo check if its in progress and open sheet
+                        completeTaskAction(task)
                     } label: {
                         RoundedIcon(
                             icon: Icons.check,

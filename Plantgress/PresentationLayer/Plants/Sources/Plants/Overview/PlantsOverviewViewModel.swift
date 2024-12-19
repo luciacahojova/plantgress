@@ -15,20 +15,23 @@ import SwiftUI
 // TODO: Synchronize notifications
 final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject {
     
-    @Injected private var uploadImageUseCase: UploadImageUseCase
     @Injected private var getCurrentUserLocallyUseCase: GetCurrentUserLocallyUseCase
+    
     @Injected private var hasCameraAccessUseCase: HasCameraAccessUseCase
     @Injected private var hasPhotoLibraryAccessUseCase: HasPhotoLibraryAccessUseCase
-    @Injected private var createPlantUseCase: CreatePlantUseCase // TODO: Delete
-    @Injected private var createRoomUseCase: CreateRoomUseCase // TODO: Delete
-    @Injected private var movePlantToRoomUseCase: MovePlantToRoomUseCase // TODO: Delete
+    
     @Injected private var updatePlantUseCase: UpdatePlantUseCase
     @Injected private var getAllPlantsUseCase: GetAllPlantsUseCase
+    @Injected private var uploadImageUseCase: UploadImageUseCase
+    @Injected private var updatePlantImagesUseCase: UpdatePlantImagesUseCase
+    
     @Injected private var getAllRoomsUseCase: GetAllRoomsUseCase
+    
     @Injected private var getUpcomingTasksForAllPlantsUseCase: GetUpcomingTasksForAllPlantsUseCase
     @Injected private var getCompletedTasksForAllPlantsUseCase: GetCompletedTasksForAllPlantsUseCase
-    @Injected private var updatePlantImagesUseCase: UpdatePlantImagesUseCase
     @Injected private var completeTaskUseCase: CompleteTaskUseCase
+    @Injected private var completeTaskForRoomUseCase: CompleteTaskForRoomUseCase
+    @Injected private var deleteTaskUseCase: DeleteTaskUseCase
     
     // MARK: - Dependencies
     
@@ -48,6 +51,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         super.onAppear()
         
         updateTitle()
+        loadUser()
         loadData()
     }
     
@@ -112,6 +116,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     enum Intent {
         case completeTaskForRoom(roomId: UUID, taskType: TaskType)
         case completeTaskForPlant(plant: Plant, taskType: TaskType)
+        case completeTask(PlantTask)
+        case deleteTask(PlantTask)
         
         case toggleImageActionSheet
         case toggleCameraPicker
@@ -138,6 +144,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         switch intent {
         case let .completeTaskForRoom(roomId, taskType): completeTaskForRoom(roomId: roomId, taskType: taskType)
         case let .completeTaskForPlant(plant, taskType): completeTaskForPlant(plant: plant, taskType: taskType)
+        case .completeTask(let plantTask): completeTask(plantTask)
+        case .deleteTask(let plantTask): deleteTask(plantTask)
         case .toggleImageActionSheet: toggleImageActionSheet()
         case .toggleCameraPicker: toggleCameraPicker()
         case .toggleImagePicker: toggleImagePicker()
@@ -154,8 +162,43 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         }
     }
     
+    private func completeTask(_ plantTask: PlantTask) {
+        guard let plant = state.plants.first(where: { $0.id == plantTask.plantId }) else {
+            return
+        }
+        
+        completeTaskForPlant(plant: plant, taskType: plantTask.taskType)
+    }
+    
+    private func deleteTask(_ plantTask: PlantTask) {
+        let deleteTaskUseCase = deleteTaskUseCase
+        
+        executeTask(
+            Task {
+                do {
+                    try await deleteTaskUseCase.execute(task: plantTask)
+                } catch {
+                    print("Failed to delete task.")
+                }
+            }
+        )
+    }
+    
     private func completeTaskForRoom(roomId: UUID, taskType: TaskType) {
-        #warning("TODO: Add UC")
+        let completeTaskForRoomUseCase = completeTaskForRoomUseCase
+        executeTask(
+            Task {
+                do {
+                    try await completeTaskForRoomUseCase.execute(
+                        roomId: roomId,
+                        taskType: taskType,
+                        completionDate: Date()
+                    )
+                } catch {
+                    print("ERROR completing task for room.") // TODO: Snack
+                }
+            }
+        )
     }
     
     private func completeTaskForPlant(plant: Plant, taskType: TaskType) {
@@ -165,7 +208,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                 do {
                     try await completeTaskUseCase.execute(for: plant, taskType: taskType, completionDate: Date())
                 } catch {
-                    print("ERROR completing task.")
+                    print("ERROR completing task for plant.")  // TODO: Snack
                 }
             }
         )
@@ -240,55 +283,26 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     }
     
     private func plusButtonTapped() {
-        let createPlantUseCase = createPlantUseCase
-        let createRoomUseCase = createRoomUseCase
-        
-        executeTask(
-            Task {
-                do {
-                    try await createPlantUseCase.execute(
-                        plant: Plant(
-                            id: UUID(),
-                            name: "Monster",
-                            roomId: state.rooms.last?.id,
-                            images: .mock,
-                            settings: PlantSettings(tasksConfiguartions: .default)
-                        )
-                    )
-                } catch {
-                    print("FAILED TO CREATE ROOM")
-                }
-            }
-        ) // TODO: Delete
-        
-        
-        
         switch selectedSection {
         case .plants:
             flowController?.handleFlow(
                 PlantsFlow.showAddPlant(
                     editingId: nil,
-                    onShouldRefresh: {
-                        #warning("TODO: Add refresh")
-                    }
+                    onShouldRefresh: { self.loadData() }
                 )
             )
         case .rooms:
             flowController?.handleFlow(
                 PlantsFlow.showAddRoom(
                     editingId: nil,
-                    onShouldRefresh: {
-                        #warning("TODO: Add refresh")
-                    }
+                    onShouldRefresh: { self.loadData() }
                 )
             )
         case .tasks:
             flowController?.handleFlow(
                 PlantsFlow.presentAddTask(
                     editingId: nil,
-                    onShouldRefresh: {
-                        #warning("TODO: Add refresh")
-                    }
+                    onShouldRefresh: { self.loadData() }
                 )
             )
         }
@@ -369,10 +383,6 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     private func loadData() {
         state.isLoading = true
-        guard let user = try? getCurrentUserLocallyUseCase.execute() else {
-            return
-        }
-        state.userId = user.id
         
         let getAllPlantsUseCase = getAllPlantsUseCase
         let getAllRoomsUseCase = getAllRoomsUseCase
@@ -400,11 +410,10 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                             for: state.plants,
                             days: 7
                         )
+                        
                         state.completedTasks = try await getCompletedTasksForAllPlantsUseCase.execute(
                             for: state.plants.map { $0.id }
                         )
-                        
-                        // TODO: Past tasks
                     } catch {
                         state.errorMessage = "Failed to fetch tasks." // TODO: String
                     }
@@ -428,15 +437,10 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         )
     }
     
-    private func loadPlants() {
-        
-    }
-    
-    private func loadRooms() {
-        
-    }
-    
-    private func loadTasks() {
-        
+    private func loadUser() {
+        guard let user = try? getCurrentUserLocallyUseCase.execute() else {
+            return
+        }
+        state.userId = user.id
     }
 }

@@ -85,13 +85,17 @@ struct PlantsOverviewView: View { // TODO: Loading
                                 upcomingTasks: viewModel.state.upcomingTasks,
                                 completedTasks: viewModel.state.completedTasks, 
                                 editTaskAction: { taskId in
-                                    
+                                    // TODO: Add edit task
                                 },
-                                deleteTaskAction: { taskId in
-                                    
+                                deleteTaskAction: { plantTask in
+                                    viewModel.onIntent(.deleteTask(plantTask))
                                 },
-                                completeTaskAction: { taskId in
-                                    
+                                completeTaskAction: { plantTask in
+                                    if plantTask.taskType == .progressTracking {
+                                        viewModel.onIntent(.toggleImageActionSheet)
+                                    } else {
+                                        viewModel.onIntent(.completeTask(plantTask))
+                                    }
                                 }
                             )
                         }

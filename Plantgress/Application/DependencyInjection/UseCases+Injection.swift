@@ -53,10 +53,15 @@ public extension Resolver {
         // Tasks
         register { SynchronizeNotificationsForAllPlantsUseCaseImpl(taskRepository: resolve()) as SynchronizeNotificationsForAllPlantsUseCase }
         register { CompleteTaskUseCaseImpl(taskRepository: resolve()) as CompleteTaskUseCase }
+        register { CompleteTaskForRoomUseCaseImpl(taskRepository: resolve(), plantRepository: resolve()) as CompleteTaskForRoomUseCase }
+        register { DeleteTaskUseCaseImpl(taskRepository: resolve()) as DeleteTaskUseCase }
         register { GetUpcomingTasksForAllPlantsUseCaseImpl(taskRepository: resolve()) as GetUpcomingTasksForAllPlantsUseCase }
         register { GetUpcomingTasksForPlantUseCaseImpl(taskRepository: resolve()) as GetUpcomingTasksForPlantUseCase }
         register { GetCompletedTasksForPlantUseCaseImpl(taskRepository: resolve()) as GetCompletedTasksForPlantUseCase }
         register { GetCompletedTasksForAllPlantsUseCaseImpl(taskRepository: resolve()) as GetCompletedTasksForAllPlantsUseCase }
         
+        // Notifications
+        register { HasNotificationAccessUseCaseImpl() as HasNotificationAccessUseCase }
+    
     }
 }

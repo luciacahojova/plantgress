@@ -16,8 +16,8 @@ struct TaskList: View {
     private let completedTasks: [PlantTask]
     
     private let editTaskAction: (UUID) -> Void
-    private let deleteTaskAction: (UUID) -> Void
-    private let completeTaskAction: (UUID) -> Void
+    private let deleteTaskAction: (PlantTask) -> Void
+    private let completeTaskAction: (PlantTask) -> Void
     
     private let isLoading: Bool
     
@@ -25,8 +25,8 @@ struct TaskList: View {
         upcomingTasks: [PlantTask],
         completedTasks: [PlantTask],
         editTaskAction: @escaping (UUID) -> Void,
-        deleteTaskAction: @escaping (UUID) -> Void,
-        completeTaskAction: @escaping (UUID) -> Void
+        deleteTaskAction: @escaping (PlantTask) -> Void,
+        completeTaskAction: @escaping (PlantTask) -> Void
     ) {
         self.upcomingTasks = upcomingTasks
         self.completedTasks = completedTasks

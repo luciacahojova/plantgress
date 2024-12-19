@@ -52,9 +52,15 @@ public extension Resolver {
         // Tasks
         register { SynchronizeNotificationsForAllPlantsUseCasePreviewMock() as SynchronizeNotificationsForAllPlantsUseCase }
         register { CompleteTaskUseCasePreviewMock() as CompleteTaskUseCase }
+        register { CompleteTaskForRoomUseCasePreviewMock() as CompleteTaskForRoomUseCase }
+        register { DeleteTaskUseCasePreviewMock() as DeleteTaskUseCase }
         register { GetUpcomingTasksForAllPlantsUseCasePreviewMock() as GetUpcomingTasksForAllPlantsUseCase }
         register { GetUpcomingTasksForPlantUseCasePreviewMock() as GetUpcomingTasksForPlantUseCase }
         register { GetCompletedTasksForPlantUseCasePreviewMock() as GetCompletedTasksForPlantUseCase }
         register { GetCompletedTasksForAllPlantsUseCasePreviewMock() as GetCompletedTasksForAllPlantsUseCase }
+        
+        // Notifications
+        register { HasNotificationAccessUseCasePreviewMock() as HasNotificationAccessUseCase }
+        
     }
 }
