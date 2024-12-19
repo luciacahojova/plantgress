@@ -12,14 +12,14 @@ import UIToolkit
 
 struct TaskRow: View {
     
-    private let task: PlantTask
+    private let task: TaskItem
     
     private let editTaskAction: (UUID) -> Void
     private let deleteTaskAction: (UUID) -> Void
     private let completeTaskAction: (UUID) -> Void
     
     init(
-        task: PlantTask,
+        task: TaskItem,
         editTaskAction: @escaping (UUID) -> Void,
         deleteTaskAction: @escaping (UUID) -> Void,
         completeTaskAction: @escaping (UUID) -> Void
@@ -47,8 +47,14 @@ struct TaskRow: View {
                         .font(Fonts.bodySemibold)
                         .foregroundColor(Colors.secondaryText)
                     
-                    Text(TaskType.title(for: task.taskType))
-                        .font(Fonts.titleSemibold)
+                    if let task = task as? PlantTask {
+                        Text(TaskType.title(for: task.taskType))
+                            .font(Fonts.titleSemibold)
+                    } else if let task = task as? ProgressTask {
+                        Text("Progress Tracking")
+                            .font(Fonts.titleSemibold)
+                    }
+                    
                 }
                 
                 Text("in 10 days") // TODO: String
@@ -85,12 +91,18 @@ struct TaskRow: View {
                 }
                 
                 Button {
-                    
+                    // TODO
                 } label: {
                     RoundedIcon(
                         icon: Icons.check,
                         isFilled: task.isCompleted,
-                        foregroundColor: TaskType.color(for: task.taskType)
+                        foregroundColor: {
+                            if let plantTask = task as? PlantTask {
+                                return TaskType.color(for: plantTask.taskType)
+                            } else {
+                                return Colors.purple
+                            }
+                        }()
                     )
                 }
             }
@@ -108,7 +120,7 @@ struct TaskRow: View {
     Resolver.registerUseCasesForPreviews()
     
     return TaskRow(
-        task: .mock(id: UUID()),
+        task: PlantTask.mock,
         editTaskAction: { _ in },
         deleteTaskAction: { _ in },
         completeTaskAction: { _ in }

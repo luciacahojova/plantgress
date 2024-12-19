@@ -169,3 +169,35 @@ class RemovePlantFromRoomUseCasePreviewMock: RemovePlantFromRoomUseCase {
 class MovePlantToRoomUseCasePreviewMock: MovePlantToRoomUseCase {
     func execute(plantId: UUID, fromRoomId: UUID, toRoomId: UUID) async throws {}
 }
+
+class SynchronizeNotificationsForAllPlantsUseCasePreviewMock: SynchronizeNotificationsForAllPlantsUseCase {
+    func execute(for plants: [Plant]) async throws {}
+}
+
+class CompleteTaskUseCasePreviewMock: CompleteTaskUseCase {
+    func execute(for plant: Plant, taskType: TaskType, periodId: UUID, completionDate: Date) async throws {}
+}
+
+class GetUpcomingTasksForAllPlantsUseCasePreviewMock: GetUpcomingTasksForAllPlantsUseCase {
+    func execute(for plants: [Plant], days: Int) -> [PlantTask] {
+        return []
+    }
+}
+
+class GetUpcomingTasksForPlantUseCasePreviewMock: GetUpcomingTasksForPlantUseCase {
+    func execute(for plant: Plant, days: Int) -> [PlantTask] {
+        return []
+    }
+}
+
+class GetUpcomingProgressTasksForPlantUseCasePreviewMock: GetUpcomingProgressTasksForPlantUseCase {
+    func execute(for plant: SharedDomain.Plant, days: Int) -> [ProgressTask] {
+        []
+    }
+}
+
+class GetUpcomingProgressTasksForAllPlantsUseCasePreviewMock: GetUpcomingProgressTasksForAllPlantsUseCase {
+    func execute(for plants: [SharedDomain.Plant], days: Int) -> [ProgressTask] {
+        []
+    }
+}

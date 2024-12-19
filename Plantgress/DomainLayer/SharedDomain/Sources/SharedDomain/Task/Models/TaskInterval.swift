@@ -15,8 +15,8 @@ public enum TaskInterval: Codable, Sendable {
 
     public struct SpecificDate: Codable, Sendable {
         
-        let day: Int // Day of the month
-        let month: Int // Month of the year (1 = January, 12 = December)
+        public let day: Int // Day of the month
+        public let month: Int // Month of the year (1 = January, 12 = December)
 
         public init(day: Int, month: Int) {
             precondition(1...31 ~= day, "Day must be between 1 and 31")

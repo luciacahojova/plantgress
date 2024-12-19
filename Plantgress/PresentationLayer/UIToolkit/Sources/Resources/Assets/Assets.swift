@@ -52,6 +52,7 @@ public enum Colors {
     public static let orange = Asset.Colors.orange.color
     public static let blue = Asset.Colors.blue.color
     public static let pink = Asset.Colors.pink.color
+    public static let purple = Asset.Colors.purple.color
     public static let red = Asset.Colors.red.color
     public static let coral = Asset.Colors.coral.color
     public static let primaryText = Asset.Colors.primaryText.color

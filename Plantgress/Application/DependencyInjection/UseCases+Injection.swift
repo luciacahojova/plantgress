@@ -49,7 +49,14 @@ public extension Resolver {
         register { GetAllRoomsUseCaseImpl(roomRepository: resolve()) as GetAllRoomsUseCase }
         register { RemovePlantFromRoomUseCaseImpl(roomRepository: resolve()) as RemovePlantFromRoomUseCase }
         register { MovePlantToRoomUseCaseImpl(roomRepository: resolve()) as MovePlantToRoomUseCase }
-
+        
         // Tasks
+        register { SynchronizeNotificationsForAllPlantsUseCaseImpl(taskRepository: resolve()) as SynchronizeNotificationsForAllPlantsUseCase }
+        register { CompleteTaskUseCaseImpl(taskRepository: resolve()) as CompleteTaskUseCase }
+        register { GetUpcomingTasksForAllPlantsUseCaseImpl(taskRepository: resolve()) as GetUpcomingTasksForAllPlantsUseCase }
+        register { GetUpcomingTasksForPlantUseCaseImpl(taskRepository: resolve()) as GetUpcomingTasksForPlantUseCase }
+        register { GetUpcomingProgressTasksForPlantUseCaseImpl(taskRepository: resolve()) as GetUpcomingProgressTasksForPlantUseCase }
+        register { GetUpcomingProgressTasksForAllPlantsUseCaseImpl(taskRepository: resolve()) as GetUpcomingProgressTasksForAllPlantsUseCase }
+        
     }
 }

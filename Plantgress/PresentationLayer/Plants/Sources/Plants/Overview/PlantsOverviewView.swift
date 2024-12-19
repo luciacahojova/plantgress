@@ -82,7 +82,8 @@ struct PlantsOverviewView: View { // TODO: Loading
                             )
                         case .tasks:
                             TaskList(
-                                tasks: .mock, // TODO: Actual data
+                                upcomingTasks: viewModel.state.upcomingTasks,
+                                completedTasks: viewModel.state.completedTasks, 
                                 editTaskAction: { taskId in
                                     
                                 },

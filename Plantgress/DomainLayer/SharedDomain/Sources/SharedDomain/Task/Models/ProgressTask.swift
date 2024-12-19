@@ -1,18 +1,17 @@
 //
-//  PlantTask.swift
+//  ProgressTask.swift
 //  SharedDomain
 //
-//  Created by Lucia Cahojova on 14.12.2024.
+//  Created by Lucia Cahojova on 19.12.2024.
 //
 
 import Foundation
 
-public struct PlantTask: Codable, TaskItem {
+public struct ProgressTask: Codable, TaskItem {
     public let id: UUID
     public let plantId: UUID
     public let plantName: String
     public let imageUrl: String
-    public let taskType: TaskType
     public let dueDate: Date
     public let isCompleted: Bool
     
@@ -21,7 +20,6 @@ public struct PlantTask: Codable, TaskItem {
         plantId: UUID,
         plantName: String,
         imageUrl: String,
-        taskType: TaskType,
         dueDate: Date,
         isCompleted: Bool
     ) {
@@ -29,7 +27,6 @@ public struct PlantTask: Codable, TaskItem {
         self.plantId = plantId
         self.plantName = plantName
         self.imageUrl = imageUrl
-        self.taskType = taskType
         self.dueDate = dueDate
         self.isCompleted = isCompleted
     }

@@ -12,6 +12,7 @@ import UIToolkit
 import UIKit
 import SwiftUI
 
+// TODO: Synchronize notifications
 final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     @Injected private var uploadImageUseCase: UploadImageUseCase
@@ -23,6 +24,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     @Injected private var updatePlantUseCase: UpdatePlantUseCase
     @Injected private var getAllPlantsUseCase: GetAllPlantsUseCase
     @Injected private var getAllRoomsUseCase: GetAllRoomsUseCase
+    @Injected private var getUpcomingTasksForAllPlantsUseCase: GetUpcomingTasksForAllPlantsUseCase
+    @Injected private var getUpcomingProgressTasksForAllPlantsUseCase: GetUpcomingProgressTasksForAllPlantsUseCase
     @Injected private var updatePlantImagesUseCase: UpdatePlantImagesUseCase
     
     // MARK: - Dependencies
@@ -87,6 +90,10 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         
         var images: [UIImage] = []
         
+        var upcomingTasks: [TaskItem] = []
+        var completedTasks: [TaskItem] = []
+//        var upcomingTasks: [PlantTask] = []
+//        var completedTasks: [PlantTask] = []
         var rooms: [Room] = []
         var plants: [Plant] = []
         
@@ -355,7 +362,24 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                         state.errorMessage = "Failed to load rooms." // TODO: String
                     }
                 case .tasks:
-                    print("Tasks") // TODO: Fetch tasks
+                    do {
+                        let upcomingPlantTasks: [PlantTask] = getUpcomingTasksForAllPlantsUseCase.execute(
+                            for: state.plants,
+                            days: 14
+                        )
+
+                        let upcomingProgressTasks: [ProgressTask] = getUpcomingProgressTasksForAllPlantsUseCase.execute(
+                            for: state.plants,
+                            days: 14
+                        )
+                        
+                        // TODO: Fix fetching twice?
+                        state.upcomingTasks = upcomingPlantTasks + upcomingProgressTasks
+                        
+                        // TODO: Past tasks
+                    } catch {
+                        state.errorMessage = "Failed to fetch tasks." // TODO: String
+                    }
                 }
             }
         )

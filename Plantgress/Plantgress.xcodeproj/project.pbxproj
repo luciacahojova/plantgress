@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		244B08352D1327B900A4A692 /* PlantToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 244B08342D1327B900A4A692 /* PlantToolkit */; };
 		244B08382D1365EB00A4A692 /* RoomToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 244B08372D1365EB00A4A692 /* RoomToolkit */; };
+		244B083B2D142F7300A4A692 /* TaskToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 244B083A2D142F7300A4A692 /* TaskToolkit */; };
 		24A561BF2CFE4F13003C5C84 /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = 24A561BE2CFE4F13003C5C84 /* Onboarding */; };
 		24CDAEF72CFF6FB70082CC98 /* UIToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 24CDAEF62CFF6FB70082CC98 /* UIToolkit */; };
 		24CDAF1F2CFF9BFE0082CC98 /* Plants in Frameworks */ = {isa = PBXBuildFile; productRef = 24CDAF1E2CFF9BFE0082CC98 /* Plants */; };
@@ -85,6 +86,7 @@
 				Toolkits/ImagesToolkit,
 				Toolkits/PlantToolkit,
 				Toolkits/RoomToolkit,
+				Toolkits/TaskToolkit,
 				Toolkits/UserToolkit,
 			);
 			target = 24A561772CFE4758003C5C84 /* Plantgress */;
@@ -146,6 +148,7 @@
 				244B08382D1365EB00A4A692 /* RoomToolkit in Frameworks */,
 				24FECADB2D06023700999950 /* FirebaseStorage in Frameworks */,
 				24CDAF1F2CFF9BFE0082CC98 /* Plants in Frameworks */,
+				244B083B2D142F7300A4A692 /* TaskToolkit in Frameworks */,
 				244B08352D1327B900A4A692 /* PlantToolkit in Frameworks */,
 				24FECAF22D062B5300999950 /* Resolver in Frameworks */,
 				24FECAD92D06023700999950 /* FirebaseFirestore in Frameworks */,
@@ -243,6 +246,7 @@
 				24FECB032D0AE5C300999950 /* KeychainProvider */,
 				244B08342D1327B900A4A692 /* PlantToolkit */,
 				244B08372D1365EB00A4A692 /* RoomToolkit */,
+				244B083A2D142F7300A4A692 /* TaskToolkit */,
 			);
 			productName = Plantgress;
 			productReference = 24A561782CFE4758003C5C84 /* Plantgress.app */;
@@ -754,6 +758,10 @@
 		244B08372D1365EB00A4A692 /* RoomToolkit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RoomToolkit;
+		};
+		244B083A2D142F7300A4A692 /* TaskToolkit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TaskToolkit;
 		};
 		24A561BE2CFE4F13003C5C84 /* Onboarding */ = {
 			isa = XCSwiftPackageProductDependency;

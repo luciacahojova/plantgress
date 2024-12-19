@@ -11,6 +11,7 @@ import PlantToolkit
 import Resolver
 import RoomToolkit
 import SharedDomain
+import TaskToolkit
 import UserToolkit
 
 public extension Resolver {
@@ -25,6 +26,8 @@ public extension Resolver {
         register { PlantRepositoryImpl(firebaseFirestoreProvider: resolve()) as PlantRepository }
         
         register { RoomRepositoryImpl(firebaseFirestoreProvider: resolve()) as RoomRepository }
+        
+        register { TaskRepositoryImpl() as TaskRepository }
         
     }
 }

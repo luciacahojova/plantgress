@@ -43,6 +43,7 @@ public enum Asset {
     public static let primaryBackground = ColorAsset(name: "primaryBackground")
     public static let primaryButton = ColorAsset(name: "primaryButton")
     public static let primaryText = ColorAsset(name: "primaryText")
+    public static let purple = ColorAsset(name: "purple")
     public static let red = ColorAsset(name: "red")
     public static let secondaryBackground = ColorAsset(name: "secondaryBackground")
     public static let secondaryButton = ColorAsset(name: "secondaryButton")
