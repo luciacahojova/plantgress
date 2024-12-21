@@ -61,6 +61,7 @@ public extension Resolver {
         
         // Notifications
         register { HasNotificationAccessUseCasePreviewMock() as HasNotificationAccessUseCase }
+        register { ScheduleNextNotificationUseCasePreviewMock() as ScheduleNextNotificationUseCase }
         
     }
 }

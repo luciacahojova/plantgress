@@ -54,7 +54,7 @@ struct TaskRow: View {
                 if !task.isCompleted {
                     TaskDateChip(text: "in \(task.daysUntilDue()) days") // TODO: String
                 } else if let completionDate = task.completionDate {
-                    TaskDateChip(text: "Completed on \(completionDate)") // TODO: String, handle TODAY
+                    TaskDateChip(text: "Completed on \(completionDate.toString(formatter: Formatter.Date.ddMMyy))") // TODO: String, handle TODAY
                 }
             }
             

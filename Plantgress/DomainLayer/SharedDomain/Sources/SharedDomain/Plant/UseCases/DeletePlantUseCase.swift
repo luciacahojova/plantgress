@@ -14,14 +14,18 @@ public protocol DeletePlantUseCase {
 public struct DeletePlantUseCaseImpl: DeletePlantUseCase {
     
     private let plantRepository: PlantRepository
+    private let taskRepository: TaskRepository
     
     public init(
-        plantRepository: PlantRepository
+        plantRepository: PlantRepository,
+        taskRepository: TaskRepository
     ) {
         self.plantRepository = plantRepository
+        self.taskRepository = taskRepository
     }
     
     public func execute(id: UUID) async throws {
         try await plantRepository.deletePlant(id: id)
+        taskRepository.deleteNotifications(for: id)
     }
 }

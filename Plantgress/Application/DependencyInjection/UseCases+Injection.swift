@@ -34,10 +34,10 @@ public extension Resolver {
         register { HasPhotoLibraryAccessUseCaseImpl() as HasPhotoLibraryAccessUseCase }
 
         // Plants
-        register { CreatePlantUseCaseImpl(plantRepository: resolve(), roomRepository: resolve()) as CreatePlantUseCase }
-        register { UpdatePlantUseCaseImpl(plantRepository: resolve()) as UpdatePlantUseCase }
+        register { CreatePlantUseCaseImpl(plantRepository: resolve(), roomRepository: resolve(), taskRepository: resolve()) as CreatePlantUseCase }
+        register { UpdatePlantUseCaseImpl(plantRepository: resolve(), taskRepository: resolve()) as UpdatePlantUseCase }
         register { GetPlantUseCaseImpl(plantRepository: resolve()) as GetPlantUseCase }
-        register { DeletePlantUseCaseImpl(plantRepository: resolve()) as DeletePlantUseCase }
+        register { DeletePlantUseCaseImpl(plantRepository: resolve(), taskRepository: resolve()) as DeletePlantUseCase }
         register { GetAllPlantsUseCaseImpl(plantRepository: resolve()) as GetAllPlantsUseCase }
         register { UpdatePlantImagesUseCaseImpl(plantRepository: resolve()) as UpdatePlantImagesUseCase }
 
@@ -51,7 +51,7 @@ public extension Resolver {
         register { MovePlantToRoomUseCaseImpl(roomRepository: resolve()) as MovePlantToRoomUseCase }
         
         // Tasks
-        register { SynchronizeNotificationsForAllPlantsUseCaseImpl(taskRepository: resolve()) as SynchronizeNotificationsForAllPlantsUseCase }
+        register { SynchronizeNotificationsForAllPlantsUseCaseImpl(taskRepository: resolve(), plantRepository: resolve()) as SynchronizeNotificationsForAllPlantsUseCase }
         register { CompleteTaskUseCaseImpl(taskRepository: resolve()) as CompleteTaskUseCase }
         register { CompleteTaskForRoomUseCaseImpl(taskRepository: resolve(), plantRepository: resolve()) as CompleteTaskForRoomUseCase }
         register { DeleteTaskUseCaseImpl(taskRepository: resolve()) as DeleteTaskUseCase }
@@ -62,6 +62,7 @@ public extension Resolver {
         
         // Notifications
         register { HasNotificationAccessUseCaseImpl() as HasNotificationAccessUseCase }
+        register { ScheduleNextNotificationUseCaseImpl(taskRepository: resolve(), plantRepository: resolve()) as ScheduleNextNotificationUseCase }
     
     }
 }

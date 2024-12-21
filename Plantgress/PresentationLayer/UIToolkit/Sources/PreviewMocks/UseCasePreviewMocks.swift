@@ -171,7 +171,7 @@ class MovePlantToRoomUseCasePreviewMock: MovePlantToRoomUseCase {
 }
 
 class SynchronizeNotificationsForAllPlantsUseCasePreviewMock: SynchronizeNotificationsForAllPlantsUseCase {
-    func execute(for plants: [Plant]) async throws {}
+    func execute() async throws {}
 }
 
 class CompleteTaskUseCasePreviewMock: CompleteTaskUseCase {
@@ -212,4 +212,8 @@ class DeleteTaskUseCasePreviewMock: DeleteTaskUseCase {
 
 class CompleteTaskForRoomUseCasePreviewMock: CompleteTaskForRoomUseCase {
     func execute(roomId: UUID, taskType: SharedDomain.TaskType, completionDate: Date) async throws {}
+}
+
+class ScheduleNextNotificationUseCasePreviewMock: ScheduleNextNotificationUseCase {
+    func execute(notificationId: String) async throws {}
 }

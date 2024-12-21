@@ -11,26 +11,97 @@ import SharedDomain
 import UserNotifications
 import Utilities
 
-public struct TaskRepositoryImpl: TaskRepository {
-    
+public struct TaskRepositoryImpl: TaskRepository { // TODO: Add updating settings
     private let firebaseFirestoreProvider: FirebaseFirestoreProvider
 
     public init(firebaseFirestoreProvider: FirebaseFirestoreProvider) {
         self.firebaseFirestoreProvider = firebaseFirestoreProvider
     }
+    
+    public func getUpcomingTasks(for plant: Plant, days: Int) -> [PlantTask] {
+        let now = Date()
+        let endDate = Calendar.current.date(byAdding: .day, value: days, to: now)!
 
+        var upcomingTasks: [PlantTask] = []
+
+        for taskConfig in plant.settings.tasksConfiguartions where taskConfig.isTracked {
+            let nextDueDates = taskConfig.periods.compactMap {
+                calculateNextDueDate(startDate: taskConfig.startDate, interval: $0.interval)
+            }.filter { $0 <= endDate && $0 >= now }
+
+            upcomingTasks.append(contentsOf: nextDueDates.map { dueDate in
+                PlantTask(
+                    id: UUID(),
+                    plantId: plant.id,
+                    plantName: plant.name,
+                    imageUrl: plant.images.first?.urlString ?? "",
+                    taskType: taskConfig.taskType,
+                    dueDate: dueDate,
+                    completionDate: nil,
+                    isCompleted: false
+                )
+            })
+        }
+
+        return upcomingTasks.sorted { $0.dueDate < $1.dueDate }
+    }
+
+    public func getUpcomingTasks(for plants: [Plant], days: Int) -> [PlantTask] {
+        var allUpcomingTasks: [PlantTask] = []
+
+        for plant in plants {
+            allUpcomingTasks.append(contentsOf: getUpcomingTasks(for: plant, days: days))
+        }
+
+        return allUpcomingTasks.sorted { $0.dueDate < $1.dueDate }
+    }
+
+    public func getCompletedTasks(for plantId: UUID) async throws -> [PlantTask] {
+        return try await firebaseFirestoreProvider.getAll(
+            path: DatabaseConstants.taskPath(plantId: plantId.uuidString),
+            as: PlantTask.self
+        )
+    }
+
+    public func getCompletedTasks(for plantIds: [UUID]) async throws -> [PlantTask] {
+        var allCompletedTasks: [PlantTask] = []
+
+        for plantId in plantIds {
+            let completedTasks = try await getCompletedTasks(for: plantId)
+            allCompletedTasks.append(contentsOf: completedTasks)
+        }
+
+        return allCompletedTasks
+    }
+    
+    public func deleteTask(_ task: PlantTask) async throws {
+        if task.isCompleted {
+            // Delete the completed task from Firestore
+            try await firebaseFirestoreProvider.delete(
+                path: DatabaseConstants.taskPath(plantId: task.plantId.uuidString),
+                id: task.id.uuidString
+            )
+            print("✅ Completed task deleted from Firestore for task: \(task.id)")
+        } else {
+            // Remove the notification for the upcoming task
+            let notificationId = generateNotificationId(
+                plantId: task.plantId,
+                taskType: task.taskType
+            )
+            removeNotification(id: notificationId)
+            print("✅ Upcoming task notification removed for: \(notificationId)")
+        }
+    }
+    
     public func completeTask(for plant: Plant, taskType: TaskType, completionDate: Date) async throws {
+        // Find the task configuration for the given task type
         guard let taskConfig = plant.settings.tasksConfiguartions.first(where: { $0.taskType == taskType }) else {
             throw TaskError.taskTypeNotFound
         }
 
-        // Remove outdated notification for the completed task
+        // Remove the existing notification for this task
         let notificationId = generateNotificationId(plantId: plant.id, taskType: taskType)
         removeNotification(id: notificationId)
-
-        // Calculate and update the next due date
-        let nextDueDate = calculateNextDueDate(startDate: completionDate, interval: taskConfig.periods.first?.interval ?? .daily(interval: 7))
-        updateNotification(id: notificationId, dueDate: nextDueDate)
 
         // Store the completed task in Firestore
         let completedTask = PlantTask(
@@ -40,7 +111,7 @@ public struct TaskRepositoryImpl: TaskRepository {
             imageUrl: plant.images.first?.urlString ?? "",
             taskType: taskType,
             dueDate: completionDate,
-            completionDate: Date(),
+            completionDate: completionDate,
             isCompleted: true
         )
         
@@ -49,161 +120,110 @@ public struct TaskRepositoryImpl: TaskRepository {
             id: completedTask.id.uuidString,
             data: completedTask
         )
-    }
-
-    public func getUpcomingTasks(for plant: Plant, days: Int) -> [PlantTask] {
-        return calculateTasks(for: plant, days: days).sorted { $0.dueDate < $1.dueDate }
-    }
-
-    public func getUpcomingTasks(for plants: [Plant], days: Int) -> [PlantTask] {
-        var allTasks: [PlantTask] = []
         
-        for plant in plants {
-            allTasks.append(contentsOf: calculateTasks(for: plant, days: days))
+        // Find the next due date across all periods for this task type
+        guard let nextDueDate = taskConfig.periods
+            .map({ calculateNextDueDate(startDate: taskConfig.startDate, interval: $0.interval) })
+            .min() else { return }
+        
+        updateNotification(id: notificationId, dueDate: nextDueDate)
+    }
+    
+    public func deleteNotifications(for plantId: UUID) {
+        print("🗑️ Deleting notifications for plant: (\(plantId))")
+        
+        var notificationIds: [String] = []
+        
+        for taskType in TaskType.allCases {
+            notificationIds.append(generateNotificationId(plantId: plantId, taskType: taskType))
         }
-        
-        return allTasks.sorted { $0.dueDate < $1.dueDate }
-    }
 
-    public func getCompletedTasks(for plantId: UUID) async throws -> [PlantTask] {
-        try await firebaseFirestoreProvider.getAll(
-            path: DatabaseConstants.taskPath(plantId: plantId.uuidString),
-            as: PlantTask.self
-        )
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: notificationIds)
     }
-
-    public func getCompletedTasks(for plantIds: [UUID]) async throws -> [PlantTask] {
-        var allTasks: [PlantTask] = []
-        
-        for plantId in plantIds {
-            let plantTasks = try await firebaseFirestoreProvider.getAll(
-                path: DatabaseConstants.taskPath(plantId: plantId.uuidString),
-                as: PlantTask.self
-            )
-            
-            allTasks.append(contentsOf: plantTasks)
-        }
-        
-        return allTasks
-    }
-
-    public func synchronizeNotifications(for plant: Plant) async throws {
-        // Synchronize progress notifications
-        for taskConfig in plant.settings.tasksConfiguartions where taskConfig.isTracked {
-            for period in taskConfig.periods {
-                let nextDueDate = calculateNextDueDate(startDate: taskConfig.startDate, interval: period.interval)
-                let notificationId = generateNotificationId(plantId: plant.id, taskType: taskConfig.taskType)
-                updateNotification(id: notificationId, dueDate: nextDueDate)
-            }
-        }
-        
-        try await cleanUpStaleNotifications(for: plant)
-    }
-
+    
     public func synchronizeAllNotifications(for plants: [Plant]) async throws {
         for plant in plants {
             try await synchronizeNotifications(for: plant)
         }
-    }
-    
-    public func deleteTask(_ task: PlantTask) async throws {
-        if !task.isCompleted {
-            // Remove the notification associated with the task
-            let notificationId = generateNotificationId(
-                plantId: task.plantId,
-                taskType: task.taskType
-            )
-            removeNotification(id: notificationId)
-            print("✅ Upcoming task deleted and notification removed for: \(notificationId)")
-        } else {
-            // Delete the past task from Firebase
-            try await firebaseFirestoreProvider.delete(
-                path: DatabaseConstants.taskPath(plantId: task.plantId.uuidString),
-                id: task.id.uuidString
-            )
-            print("✅ Past task deleted from Firebase for: \(task.id)")
-        }
+        
+        await printPendingNotifications()
     }
 
+    public func synchronizeNotifications(for plant: Plant) async throws {
+        print("🔄 Synchronizing notifications for plant: \(plant.name) (\(plant.id))")
+        
+        // Iterate through each tracked task configuration
+        for taskConfig in plant.settings.tasksConfiguartions
+            where (taskConfig.isTracked && taskConfig.hasNotifications) {
+            
+            // Find the next due date across all periods for this task type
+            let nextDueDate = taskConfig.periods
+                .map { calculateNextDueDate(startDate: taskConfig.startDate, interval: $0.interval) }
+                .min() // Get the earliest due date
 
-    private func fetchPlant(plantId: UUID) async throws -> Plant {
-        try await firebaseFirestoreProvider.get(
-            path: DatabaseConstants.plantPath(plantId: plantId.uuidString),
-            id: plantId.uuidString,
-            as: Plant.self
-        )
-    }
-
-    private func calculateTasks(for plant: Plant, days: Int) -> [PlantTask] {
-        let now = Date()
-        let endDate = Calendar.current.date(byAdding: .day, value: days, to: now)!
-
-        var tasks: [PlantTask] = []
-
-        for taskConfig in plant.settings.tasksConfiguartions where taskConfig.isTracked {
-            for period in taskConfig.periods {
-                let dueDates = calculateDueDates(startDate: taskConfig.startDate, interval: period.interval, endDate: endDate)
-                tasks.append(contentsOf: dueDates.map {
-                    PlantTask(
-                        id: UUID(),
-                        plantId: plant.id,
-                        plantName: plant.name,
-                        imageUrl: plant.images.first?.urlString ?? "",
-                        taskType: taskConfig.taskType,
-                        dueDate: $0,
-                        completionDate: nil,
-                        isCompleted: false
-                    )
-                })
+            if let nextDueDate = nextDueDate {
+                let notificationId = generateNotificationId(plantId: plant.id, taskType: taskConfig.taskType)
+                print("📅 Next due date for \(taskConfig.taskType.rawValue): \(nextDueDate)")
+                
+                updateNotification(id: notificationId, dueDate: nextDueDate)
+            } else {
+                print("⚠️ No upcoming due dates found for \(taskConfig.taskType.rawValue)")
             }
         }
 
-        return tasks
+        // Clean up stale notifications specific to this plant
+        try await cleanUpStaleNotifications(for: plant)
     }
 
-    private func calculateDueDates(startDate: Date, interval: TaskInterval, endDate: Date) -> [Date] {
-        var dueDates: [Date] = []
-        var currentDate = startDate
-
-        while currentDate <= endDate {
-            dueDates.append(currentDate)
-            currentDate = calculateNextDueDate(startDate: currentDate, interval: interval)
+    public func scheduleNextNotification(for plant: Plant, taskType: TaskType, completionDate: Date) async throws {
+        // Find the task configuration for the given task type
+        guard let taskConfig = plant.settings.tasksConfiguartions.first(where: { $0.taskType == taskType }) else {
+            throw TaskError.taskTypeNotFound
         }
 
-        return dueDates
-    }
+        // Calculate the next due date based on the task's interval
+        guard let nextDueDate = taskConfig.periods
+            .map({ calculateNextDueDate(startDate: completionDate, interval: $0.interval) })
+            .min() else { return }
 
+        // Generate the notification ID
+        let notificationId = generateNotificationId(plantId: plant.id, taskType: taskType)
+
+        // Schedule the notification
+        updateNotification(id: notificationId, dueDate: nextDueDate)
+    }
+    
     private func calculateNextDueDate(startDate: Date, interval: TaskInterval) -> Date {
         let calendar = Calendar.current
         switch interval {
         case .daily(let interval):
             return calendar.date(byAdding: .day, value: interval, to: startDate)!
-            
         case .weekly(let interval, let weekday):
             let weekdayComponent = DateComponents(weekday: weekday)
             let nextWeek = calendar.date(byAdding: .weekOfYear, value: interval, to: startDate)!
             return calendar.nextDate(after: nextWeek, matching: weekdayComponent, matchingPolicy: .nextTime) ?? nextWeek
-            
         case .monthly(_, let months):
             return months.compactMap {
                 calendar.nextDate(after: startDate, matching: DateComponents(month: $0), matchingPolicy: .nextTime)
             }.first ?? startDate
-            
         case .yearly(let dates):
             return dates.compactMap {
                 calendar.nextDate(after: startDate, matching: DateComponents(month: $0.month, day: $0.day), matchingPolicy: .nextTime)
             }.first ?? startDate
         }
     }
-
+    
     private func cleanUpStaleNotifications(for plant: Plant) async throws {
         let currentNotificationIds = await getPendingNotificationIds()
-        
-        let validNotificationIds = plant.settings.tasksConfiguartions.flatMap { taskConfig in
+
+        // Filter pending notifications to those related to the plant
+        let plantNotificationIds = currentNotificationIds.filter { $0.contains(plant.id.uuidString) }
+
+        let validNotificationIds = plant.settings.tasksConfiguartions.map { taskConfig in
             generateNotificationId(plantId: plant.id, taskType: taskConfig.taskType)
         }
-        
-        for notificationId in currentNotificationIds where !validNotificationIds.contains(notificationId) {
+
+        for notificationId in plantNotificationIds where !validNotificationIds.contains(notificationId) {
             removeNotification(id: notificationId)
         }
     }
@@ -220,9 +240,12 @@ public struct TaskRepositoryImpl: TaskRepository {
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
 
+        // Remove existing notification before adding the updated one
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
+
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
-                print("❗️Failed to schedule notification: \(error.localizedDescription)")
+                print("❗️Failed to update notification: \(error.localizedDescription)")
             }
         }
     }
@@ -233,8 +256,6 @@ public struct TaskRepositoryImpl: TaskRepository {
 
     private func getPendingNotificationIds() async -> [String] {
         let requests = await UNUserNotificationCenter.current().pendingNotificationRequests()
-        
-        print("⏳ Pending notifications: \(requests.map { $0.identifier })")
         return requests.map { $0.identifier }
     }
 
@@ -242,17 +263,15 @@ public struct TaskRepositoryImpl: TaskRepository {
         return "\(plantId.uuidString)_\(taskType.rawValue)"
     }
     
-    private func isInPeriod(_ date: Date, interval: TaskInterval) -> Bool {
-        let calendar = Calendar.current
-
-        switch interval {
-        case .daily:
-            return true
-        case .monthly(_, let months):
-            let currentMonth = calendar.component(.month, from: date)
-            return months.contains(currentMonth)
-        case .yearly, .weekly:
-            return false
+    private func printPendingNotifications() async {
+        let requests = await UNUserNotificationCenter.current().pendingNotificationRequests()
+        for request in requests {
+            print("""
+            🔔 Notification: \(request.identifier)
+            Title: \(request.content.title)
+            Body: \(request.content.body)
+            Due Date: \(String(describing: (request.trigger as? UNCalendarNotificationTrigger)?.nextTriggerDate()))
+            """)
         }
     }
 }

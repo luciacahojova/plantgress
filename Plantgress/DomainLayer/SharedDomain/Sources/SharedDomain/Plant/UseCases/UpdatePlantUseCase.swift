@@ -14,14 +14,18 @@ public protocol UpdatePlantUseCase {
 public struct UpdatePlantUseCaseImpl: UpdatePlantUseCase {
     
     private let plantRepository: PlantRepository
+    private let taskRepository: TaskRepository
     
     public init(
-        plantRepository: PlantRepository
+        plantRepository: PlantRepository,
+        taskRepository: TaskRepository
     ) {
         self.plantRepository = plantRepository
+        self.taskRepository = taskRepository
     }
     
     public func execute(plant: Plant) async throws {
         try await plantRepository.updatePlant(plant)
+        try await taskRepository.synchronizeNotifications(for: plant)
     }
 }
