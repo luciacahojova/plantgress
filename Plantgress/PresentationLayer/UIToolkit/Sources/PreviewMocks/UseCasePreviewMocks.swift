@@ -210,6 +210,14 @@ class DeleteTaskUseCasePreviewMock: DeleteTaskUseCase {
     func execute(task: PlantTask) async throws {}
 }
 
+class DeleteTaskForRoomUseCasePreviewMock: DeleteTaskForRoomUseCase {
+    func execute(roomId: UUID, taskType: TaskType) async throws {}
+}
+
+class DeleteTaskForPlantUseCasePreviewMock: DeleteTaskForPlantUseCase {
+    func execute(plant: Plant, taskType: TaskType) async throws {}
+}
+
 class CompleteTaskForRoomUseCasePreviewMock: CompleteTaskForRoomUseCase {
     func execute(roomId: UUID, taskType: SharedDomain.TaskType, completionDate: Date) async throws {}
 }

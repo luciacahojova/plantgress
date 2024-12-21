@@ -23,7 +23,7 @@ public struct SnackbarData {
         icon: Image? = nil,
         message: String,
         duration: Double = 3.0,
-        bottomPadding: CGFloat = 0,
+        bottomPadding: CGFloat = Constants.Spacing.mediumLarge,
         alignment: Alignment = .bottom,
         foregroundColor: Color = Colors.primaryText,
         backgroundColor: Color = Colors.green,

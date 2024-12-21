@@ -10,7 +10,7 @@ import SharedDomain
 import SwiftUI
 import UIToolkit
 
-struct PlantsOverviewView: View { // TODO: Loading
+struct PlantsOverviewView: View {
     
     // MARK: - Stored properties
     
@@ -84,8 +84,8 @@ struct PlantsOverviewView: View { // TODO: Loading
                             TaskList(
                                 upcomingTasks: viewModel.state.upcomingTasks,
                                 completedTasks: viewModel.state.completedTasks, 
-                                editTaskAction: { taskId in
-                                    // TODO: Add edit task
+                                editTaskAction: { plantTask in
+                                    viewModel.onIntent(.editTask(plantTask))
                                 },
                                 deleteTaskAction: { plantTask in
                                     viewModel.onIntent(.deleteTask(plantTask))

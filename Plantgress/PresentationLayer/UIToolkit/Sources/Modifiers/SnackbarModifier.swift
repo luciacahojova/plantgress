@@ -32,7 +32,10 @@ public struct SnackbarModifier: ViewModifier {
                         if let action = snackbarData.action {
                             Divider()
                             
-                            Button(action: action) {
+                            Button {
+                                action()
+                                self.snackbarData = nil
+                            } label: {
                                 HStack(spacing: Constants.Spacing.small) {
                                     if let icon = snackbarData.icon {
                                         icon
@@ -61,7 +64,12 @@ public struct SnackbarModifier: ViewModifier {
                     .background(snackbarData.backgroundColor)
                     .cornerRadius(Constants.CornerRadius.xLarge)
                 }
-                .shadow(radius: 2)
+                .shadow(
+                    color: Colors.gray,
+                    radius: 4,
+                    x: 4,
+                    y: 4
+                )
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: snackbarData.alignment)
                 .padding(.bottom, snackbarData.bottomPadding)
                 .zIndex(1)

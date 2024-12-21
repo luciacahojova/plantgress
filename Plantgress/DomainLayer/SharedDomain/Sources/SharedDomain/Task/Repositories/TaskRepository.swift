@@ -19,5 +19,6 @@ public protocol TaskRepository {
 
     func completeTask(for plant: Plant, taskType: TaskType, completionDate: Date) async throws
     func deleteTask(_ task: PlantTask) async throws
+    func deleteTask(for plant: Plant, taskType: TaskType) async throws
     func deleteNotifications(for plantId: UUID)
 }

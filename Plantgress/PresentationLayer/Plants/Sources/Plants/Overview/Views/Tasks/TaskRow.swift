@@ -14,13 +14,13 @@ struct TaskRow: View {
     
     private let task: PlantTask
     
-    private let editTaskAction: (UUID) -> Void
+    private let editTaskAction: (PlantTask) -> Void
     private let deleteTaskAction: (PlantTask) -> Void
     private let completeTaskAction: (PlantTask) -> Void
     
     init(
         task: PlantTask,
-        editTaskAction: @escaping (UUID) -> Void,
+        editTaskAction: @escaping (PlantTask) -> Void,
         deleteTaskAction: @escaping (PlantTask) -> Void,
         completeTaskAction: @escaping (PlantTask) -> Void
     ) {
@@ -63,7 +63,7 @@ struct TaskRow: View {
             VStack(spacing: Constants.Spacing.medium) {
                 PlantTaskMenu(
                     deleteTaskAction: { deleteTaskAction(task) },
-                    editTaskAction: { editTaskAction(task.id) }
+                    editTaskAction: { editTaskAction(task) }
                 )
                 
                 if !task.isCompleted {

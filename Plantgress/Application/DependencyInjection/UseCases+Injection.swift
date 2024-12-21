@@ -55,6 +55,8 @@ public extension Resolver {
         register { CompleteTaskUseCaseImpl(taskRepository: resolve()) as CompleteTaskUseCase }
         register { CompleteTaskForRoomUseCaseImpl(taskRepository: resolve(), plantRepository: resolve()) as CompleteTaskForRoomUseCase }
         register { DeleteTaskUseCaseImpl(taskRepository: resolve()) as DeleteTaskUseCase }
+        register { DeleteTaskForRoomUseCaseImpl(taskRepository: resolve(), plantRepository: resolve()) as DeleteTaskForRoomUseCase }
+        register { DeleteTaskForPlantUseCaseImpl(taskRepository: resolve()) as DeleteTaskForPlantUseCase }
         register { GetUpcomingTasksForAllPlantsUseCaseImpl(taskRepository: resolve()) as GetUpcomingTasksForAllPlantsUseCase }
         register { GetUpcomingTasksForPlantUseCaseImpl(taskRepository: resolve()) as GetUpcomingTasksForPlantUseCase }
         register { GetCompletedTasksForPlantUseCaseImpl(taskRepository: resolve()) as GetCompletedTasksForPlantUseCase }

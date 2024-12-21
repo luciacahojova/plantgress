@@ -11,7 +11,7 @@ import SharedDomain
 import UserNotifications
 import Utilities
 
-public struct TaskRepositoryImpl: TaskRepository { // TODO: Add updating settings
+public struct TaskRepositoryImpl: TaskRepository {
     private let firebaseFirestoreProvider: FirebaseFirestoreProvider
 
     public init(firebaseFirestoreProvider: FirebaseFirestoreProvider) {
@@ -93,6 +93,18 @@ public struct TaskRepositoryImpl: TaskRepository { // TODO: Add updating setting
         }
     }
     
+    public func deleteTask(for plant: Plant, taskType: TaskType) async throws {
+        let completedTasks = try await getCompletedTasks(for: plant.id)
+        
+        if let lastTask = completedTasks.filter({ $0.taskType == taskType }).last {
+            try await firebaseFirestoreProvider.delete(
+                path: DatabaseConstants.taskPath(plantId: plant.id.uuidString),
+                id: lastTask.id.uuidString
+            )
+            print("✅ Deleted last completed task of type \(taskType) for plant \(plant.id)")
+        }
+    }
+    
     public func completeTask(for plant: Plant, taskType: TaskType, completionDate: Date) async throws {
         // Find the task configuration for the given task type
         guard let taskConfig = plant.settings.tasksConfiguartions.first(where: { $0.taskType == taskType }) else {
@@ -123,7 +135,7 @@ public struct TaskRepositoryImpl: TaskRepository { // TODO: Add updating setting
         
         // Find the next due date across all periods for this task type
         guard let nextDueDate = taskConfig.periods
-            .map({ calculateNextDueDate(startDate: taskConfig.startDate, interval: $0.interval) })
+            .map({ calculateNextDueDate(startDate: completionDate, interval: $0.interval) })
             .min() else { return }
         
         updateNotification(id: notificationId, dueDate: nextDueDate)

@@ -97,6 +97,7 @@ final class VerificationLinkViewModel: BaseViewModel, ViewModel, ObservableObjec
                     try await sendEmailVerificationUseCase.execute()
                     state.snackbarData = .init(
                         message: Strings.emailVerificationResentSnackbarMessage,
+                        bottomPadding: 0,
                         alignment: .center
                     )
                 } catch AuthError.emailAlreadyVerified {

@@ -12,7 +12,6 @@ import UIToolkit
 import UIKit
 import SwiftUI
 
-// TODO: Synchronize notifications
 final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     @Injected private var getCurrentUserLocallyUseCase: GetCurrentUserLocallyUseCase
@@ -32,6 +31,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     @Injected private var completeTaskUseCase: CompleteTaskUseCase
     @Injected private var completeTaskForRoomUseCase: CompleteTaskForRoomUseCase
     @Injected private var deleteTaskUseCase: DeleteTaskUseCase
+    @Injected private var deleteTaskForRoomUseCase: DeleteTaskForRoomUseCase
+    @Injected private var deleteTaskForPlantUseCase: DeleteTaskForPlantUseCase
     
     // MARK: - Dependencies
     
@@ -118,6 +119,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case completeTaskForPlant(plant: Plant, taskType: TaskType)
         case completeTask(PlantTask)
         case deleteTask(PlantTask)
+        case editTask(PlantTask)
         
         case toggleImageActionSheet
         case toggleCameraPicker
@@ -145,6 +147,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case let .completeTaskForRoom(roomId, taskType): completeTaskForRoom(roomId: roomId, taskType: taskType)
         case let .completeTaskForPlant(plant, taskType): completeTaskForPlant(plant: plant, taskType: taskType)
         case .completeTask(let plantTask): completeTask(plantTask)
+        case .editTask(let plantTask): editTask(plantTask)
         case .deleteTask(let plantTask): deleteTask(plantTask)
         case .toggleImageActionSheet: toggleImageActionSheet()
         case .toggleCameraPicker: toggleCameraPicker()
@@ -185,8 +188,18 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         )
     }
     
+    private func editTask(_ plantTask: PlantTask) {
+        if plantTask.isCompleted {
+            // TODO: Handle flow
+        } else {
+            // TODO: Handle flow
+        }
+    }
+    
     private func completeTaskForRoom(roomId: UUID, taskType: TaskType) {
         let completeTaskForRoomUseCase = completeTaskForRoomUseCase
+        let deleteTaskForRoomUseCase = deleteTaskForRoomUseCase
+        
         executeTask(
             Task {
                 do {
@@ -195,9 +208,18 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                         taskType: taskType,
                         completionDate: Date()
                     )
-                    loadData()
+                    
+                    state.snackbarData = .init(
+                        message: "\(TaskType.title(for: taskType)) completed",
+                        actionText: "Undo", // TODO: String
+                        action: {
+                            Task {
+                                try? await deleteTaskForRoomUseCase.execute(roomId: roomId, taskType: taskType)
+                            }
+                        }
+                    )
                 } catch {
-                    print("ERROR completing task for room.") // TODO: Snack
+                    state.snackbarData = .init(message: "Failed to complete task") // TODO: String
                 }
             }
         )
@@ -205,13 +227,24 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     private func completeTaskForPlant(plant: Plant, taskType: TaskType) {
         let completeTaskUseCase = completeTaskUseCase
+        let deleteTaskForPlantUseCase = deleteTaskForPlantUseCase
+        
         executeTask(
             Task {
                 do {
                     try await completeTaskUseCase.execute(for: plant, taskType: taskType, completionDate: Date())
-                    loadData()
+                    
+                    state.snackbarData = .init(
+                        message: "\(TaskType.title(for: taskType)) completed",
+                        actionText: "Undo",
+                        action: {
+                            Task {
+                                try? await deleteTaskForPlantUseCase.execute(plant: plant, taskType: taskType)
+                            }
+                        }
+                    )
                 } catch {
-                    print("ERROR completing task for plant.")  // TODO: Snack
+                    state.snackbarData = .init(message: "Failed to complete task") // TODO: String
                 }
             }
         )
@@ -344,7 +377,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                         
                         state.snackbarData = .init(message: "Progess saved!") // TODO: String
                     } catch {
-                        setFailedToUploadImageSnackbar()
+                        setFailedSnackbarData(message: "Failed to upload image") // TODO: String
                     }
                 }
             }
@@ -353,7 +386,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     private func uploadImage(_ image: UIImage?) {
         guard let image else {
-            setFailedToUploadImageSnackbar()
+            setFailedSnackbarData(message: "Failed to upload image") // TODO: String
             return
         }
         
@@ -394,21 +427,11 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
             Task {
                 defer { state.isLoading = false }
                 
-                switch selectedSection {
-                case .plants:
-                    do {
-                        state.plants = try await getAllPlantsUseCase.execute()
-                    } catch {
-                        state.errorMessage = "Failed to load plants." // TODO: String
-                    }
-                case .rooms:
-                    do {
-                        state.rooms = try await getAllRoomsUseCase.execute()
-                    } catch {
-                        state.errorMessage = "Failed to load rooms." // TODO: String
-                    }
-                case .tasks:
-                    do {
+                do {
+                    switch selectedSection {
+                    case .plants: state.plants = try await getAllPlantsUseCase.execute()
+                    case .rooms: state.rooms = try await getAllRoomsUseCase.execute()
+                    case .tasks:
                         state.upcomingTasks = getUpcomingTasksForAllPlantsUseCase.execute(
                             for: state.plants,
                             days: 7
@@ -417,9 +440,9 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                         state.completedTasks = try await getCompletedTasksForAllPlantsUseCase.execute(
                             for: state.plants.map { $0.id }
                         )
-                    } catch {
-                        state.errorMessage = "Failed to fetch tasks." // TODO: String
                     }
+                } catch {
+                    state.errorMessage = "Failed to load." // TODO: String
                 }
             }
         )
@@ -430,11 +453,9 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         self.flowController?.navigationController.tabBarItem.title = nil
     }
     
-    private func setFailedToUploadImageSnackbar() {
+    private func setFailedSnackbarData(message: String) {
         state.snackbarData = .init(
-            message: "Failed to upload image",
-            bottomPadding: Constants.Spacing.mediumLarge,
-            alignment: .bottom,
+            message: message,
             foregroundColor: Colors.white,
             backgroundColor: Colors.red
         )
