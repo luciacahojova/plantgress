@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol ScheduleNextNotificationUseCase {
-    func execute(notificationId: String) async throws
+    func execute(plantId: UUID, taskType: TaskType, dueDate: Date) async throws
 }
 
 public struct ScheduleNextNotificationUseCaseImpl: ScheduleNextNotificationUseCase {
@@ -24,21 +24,14 @@ public struct ScheduleNextNotificationUseCaseImpl: ScheduleNextNotificationUseCa
         self.plantRepository = plantRepository
     }
 
-    public func execute(notificationId: String) async throws {
-        // Parse the notification ID
-        let components = notificationId.split(separator: "_")
-        guard components.count == 2,
-              let plantId = UUID(uuidString: String(components[0])),
-              let taskType = TaskType(rawValue: String(components[1])) else {
-            throw TaskError.invalidNotificationId
-        }
-
+    public func execute(plantId: UUID, taskType: TaskType, dueDate: Date) async throws {
         // Fetch the plant from the database
         let plant = try await plantRepository.getPlant(id: plantId)
         
         try await taskRepository.scheduleNextNotification(
             for: plant,
             taskType: taskType,
+            dueDate: dueDate,
             completionDate: Date()
         )
     }

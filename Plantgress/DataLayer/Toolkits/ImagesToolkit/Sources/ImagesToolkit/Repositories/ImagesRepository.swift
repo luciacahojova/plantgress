@@ -38,7 +38,6 @@ public struct ImagesRepositoryImpl: ImagesRepository {
             // Step 1: Check the cache first
             if let cachedResponse = cache.cachedResponse(for: urlRequest) {
                 if let uiImage = UIImage(data: cachedResponse.data) {
-                    print("🏞️ Image loaded from cache")
                     return Image(uiImage: uiImage)
                 }
             }
@@ -52,7 +51,6 @@ public struct ImagesRepositoryImpl: ImagesRepository {
             
             guard let uiImage = UIImage(data: data) else { return nil }
             
-            print("🏞️ Image loaded from network")
             return Image(uiImage: uiImage)
             
         } catch {

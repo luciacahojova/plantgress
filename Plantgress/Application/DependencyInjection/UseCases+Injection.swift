@@ -34,7 +34,13 @@ public extension Resolver {
         register { HasPhotoLibraryAccessUseCaseImpl() as HasPhotoLibraryAccessUseCase }
 
         // Plants
-        register { CreatePlantUseCaseImpl(plantRepository: resolve(), roomRepository: resolve(), taskRepository: resolve()) as CreatePlantUseCase }
+        register {
+            CreatePlantUseCaseImpl(
+                plantRepository: resolve(),
+                roomRepository: resolve(),
+                taskRepository: resolve()
+            ) as CreatePlantUseCase
+        }
         register { UpdatePlantUseCaseImpl(plantRepository: resolve(), taskRepository: resolve()) as UpdatePlantUseCase }
         register { GetPlantUseCaseImpl(plantRepository: resolve()) as GetPlantUseCase }
         register { DeletePlantUseCaseImpl(plantRepository: resolve(), taskRepository: resolve()) as DeletePlantUseCase }
@@ -54,7 +60,7 @@ public extension Resolver {
         register { SynchronizeNotificationsForAllPlantsUseCaseImpl(taskRepository: resolve(), plantRepository: resolve()) as SynchronizeNotificationsForAllPlantsUseCase }
         register { CompleteTaskUseCaseImpl(taskRepository: resolve()) as CompleteTaskUseCase }
         register { CompleteTaskForRoomUseCaseImpl(taskRepository: resolve(), plantRepository: resolve()) as CompleteTaskForRoomUseCase }
-        register { DeleteTaskUseCaseImpl(taskRepository: resolve()) as DeleteTaskUseCase }
+        register { DeleteTaskUseCaseImpl(taskRepository: resolve(), plantRepository: resolve()) as DeleteTaskUseCase }
         register { DeleteTaskForRoomUseCaseImpl(taskRepository: resolve(), plantRepository: resolve()) as DeleteTaskForRoomUseCase }
         register { DeleteTaskForPlantUseCaseImpl(taskRepository: resolve()) as DeleteTaskForPlantUseCase }
         register { GetUpcomingTasksForAllPlantsUseCaseImpl(taskRepository: resolve()) as GetUpcomingTasksForAllPlantsUseCase }

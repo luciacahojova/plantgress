@@ -12,13 +12,21 @@ public protocol DeleteTaskUseCase {
 }
 
 public struct DeleteTaskUseCaseImpl: DeleteTaskUseCase {
+    
     private let taskRepository: TaskRepository
+    private let plantRepository: PlantRepository
 
-    public init(taskRepository: TaskRepository) {
+    public init(
+        taskRepository: TaskRepository,
+        plantRepository: PlantRepository
+    ) {
         self.taskRepository = taskRepository
+        self.plantRepository = plantRepository
     }
 
     public func execute(task: PlantTask) async throws {
-        try await taskRepository.deleteTask(task)
+        let plant = try await plantRepository.getPlant(id: task.plantId)
+        
+        try await taskRepository.deleteTask(task, plant: plant)
     }
 }

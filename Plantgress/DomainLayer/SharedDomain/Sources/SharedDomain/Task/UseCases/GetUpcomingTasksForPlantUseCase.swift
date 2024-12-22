@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol GetUpcomingTasksForPlantUseCase {
-    func execute(for plant: Plant, days: Int) -> [PlantTask]
+    func execute(for plant: Plant, days: Int) async -> [PlantTask]
 }
 
 public struct GetUpcomingTasksForPlantUseCaseImpl: GetUpcomingTasksForPlantUseCase {
@@ -18,7 +18,7 @@ public struct GetUpcomingTasksForPlantUseCaseImpl: GetUpcomingTasksForPlantUseCa
         self.taskRepository = taskRepository
     }
 
-    public func execute(for plant: Plant, days: Int) -> [PlantTask] {
-        return taskRepository.getUpcomingTasks(for: plant, days: days)
+    public func execute(for plant: Plant, days: Int) async -> [PlantTask] {
+        return await taskRepository.getUpcomingTasks(for: plant, days: days)
     }
 }

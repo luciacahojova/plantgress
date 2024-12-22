@@ -26,6 +26,6 @@ public struct DeletePlantUseCaseImpl: DeletePlantUseCase {
     
     public func execute(id: UUID) async throws {
         try await plantRepository.deletePlant(id: id)
-        taskRepository.deleteNotifications(for: id)
+        taskRepository.deleteAllTasks(for: id)
     }
 }

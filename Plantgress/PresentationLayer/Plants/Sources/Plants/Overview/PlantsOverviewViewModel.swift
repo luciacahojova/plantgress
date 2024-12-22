@@ -170,7 +170,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
             return
         }
         
-        completeTaskForPlant(plant: plant, taskType: plantTask.taskType)
+        completeTaskForPlant(plant: plant, taskType: plantTask.taskType, shouldRefresh: true)
     }
     
     private func deleteTask(_ plantTask: PlantTask) {
@@ -182,7 +182,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                     try await deleteTaskUseCase.execute(task: plantTask)
                     loadData()
                 } catch {
-                    print("Failed to delete task.")
+                    setFailedSnackbarData(message: "Failed to delete task.") // TODO: String
                 }
             }
         )
@@ -225,24 +225,32 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         )
     }
     
-    private func completeTaskForPlant(plant: Plant, taskType: TaskType) {
+    private func completeTaskForPlant(plant: Plant, taskType: TaskType, shouldRefresh: Bool = false) {
         let completeTaskUseCase = completeTaskUseCase
         let deleteTaskForPlantUseCase = deleteTaskForPlantUseCase
         
         executeTask(
             Task {
                 do {
-                    try await completeTaskUseCase.execute(for: plant, taskType: taskType, completionDate: Date())
-                    
-                    state.snackbarData = .init(
-                        message: "\(TaskType.title(for: taskType)) completed",
-                        actionText: "Undo",
-                        action: {
-                            Task {
-                                try? await deleteTaskForPlantUseCase.execute(plant: plant, taskType: taskType)
-                            }
-                        }
+                    try await completeTaskUseCase.execute(
+                        for: plant,
+                        taskType: taskType,
+                        completionDate: Date()
                     )
+                    
+                    if shouldRefresh {
+                        loadData()
+                    } else {
+                        state.snackbarData = .init(
+                            message: "\(TaskType.title(for: taskType)) completed",
+                            actionText: "Undo",
+                            action: {
+                                Task {
+                                    try? await deleteTaskForPlantUseCase.execute(plant: plant, taskType: taskType)
+                                }
+                            }
+                        )
+                    }
                 } catch {
                     state.snackbarData = .init(message: "Failed to complete task") // TODO: String
                 }
@@ -423,6 +431,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         let getAllPlantsUseCase = getAllPlantsUseCase
         let getAllRoomsUseCase = getAllRoomsUseCase
         let getCompletedTasksForAllPlantsUseCase = getCompletedTasksForAllPlantsUseCase
+        let getUpcomingTasksForAllPlantsUseCase = getUpcomingTasksForAllPlantsUseCase
+        
         executeTask(
             Task {
                 defer { state.isLoading = false }
@@ -432,7 +442,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                     case .plants: state.plants = try await getAllPlantsUseCase.execute()
                     case .rooms: state.rooms = try await getAllRoomsUseCase.execute()
                     case .tasks:
-                        state.upcomingTasks = getUpcomingTasksForAllPlantsUseCase.execute(
+                        state.upcomingTasks = await getUpcomingTasksForAllPlantsUseCase.execute(
                             for: state.plants,
                             days: 7
                         )

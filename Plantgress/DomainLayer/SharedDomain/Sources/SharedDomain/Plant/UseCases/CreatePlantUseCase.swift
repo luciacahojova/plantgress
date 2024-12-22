@@ -29,7 +29,7 @@ public struct CreatePlantUseCaseImpl: CreatePlantUseCase {
     
     public func execute(plant: Plant) async throws {
         try await plantRepository.createPlant(plant)
-        try await taskRepository.synchronizeNotifications(for: plant)
+        try await taskRepository.initializeNotifications(for: plant)
         
         guard let roomId = plant.roomId else { return }
         try await roomRepository.updateRoomPreviewImages(roomId: roomId)

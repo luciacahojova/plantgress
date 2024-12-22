@@ -21,12 +21,12 @@ public struct CompleteTaskForRoomUseCaseImpl: CompleteTaskForRoomUseCase {
     }
 
     public func execute(roomId: UUID, taskType: TaskType, completionDate: Date) async throws {
-        // Fetch all plants in the room
         let plants = try await plantRepository.getPlantsForRoom(roomId: roomId)
 
-        // Complete the task for each plant
-        for plant in plants {
-            try await taskRepository.completeTask(for: plant, taskType: taskType, completionDate: completionDate)
-        }
+        try await taskRepository.completeTaskForRoom(
+            plants: plants,
+            taskType: taskType,
+            completionDate: completionDate
+        )
     }
 }

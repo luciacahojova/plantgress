@@ -7,13 +7,13 @@
 
 import Foundation
 
-public enum TaskInterval: Codable, Sendable {
+public enum TaskInterval: Codable, Sendable, Equatable {
     case daily(interval: Int) // Every X days
     case weekly(interval: Int, weekday: Int) // Every X weeks on specific weekday
     case monthly(interval: Int, months: [Int]) // Every X days in specific months
     case yearly(dates: [SpecificDate]) // Specific dates across years
 
-    public struct SpecificDate: Codable, Sendable {
+    public struct SpecificDate: Codable, Sendable, Equatable {
         
         public let day: Int // Day of the month
         public let month: Int // Month of the year (1 = January, 12 = December)
@@ -23,6 +23,10 @@ public enum TaskInterval: Codable, Sendable {
             precondition(1...12 ~= month, "Month must be between 1 and 12")
             self.day = day
             self.month = month
+        }
+        
+        public static func == (lhs: SpecificDate, rhs: SpecificDate) -> Bool {
+            return lhs.day == rhs.day && lhs.month == rhs.month
         }
     }
 
@@ -77,4 +81,19 @@ public enum TaskInterval: Codable, Sendable {
             self = .yearly(dates: dates)
         }
     }
+    
+    public static func == (lhs: TaskInterval, rhs: TaskInterval) -> Bool {
+            switch (lhs, rhs) {
+            case let (.daily(lhsInterval), .daily(rhsInterval)):
+                return lhsInterval == rhsInterval
+            case let (.weekly(lhsInterval, lhsWeekday), .weekly(rhsInterval, rhsWeekday)):
+                return lhsInterval == rhsInterval && lhsWeekday == rhsWeekday
+            case let (.monthly(lhsInterval, lhsMonths), .monthly(rhsInterval, rhsMonths)):
+                return lhsInterval == rhsInterval && lhsMonths == rhsMonths
+            case let (.yearly(lhsDates), .yearly(rhsDates)):
+                return lhsDates == rhsDates
+            default:
+                return false
+            }
+        }
 }

@@ -31,6 +31,14 @@ public extension PlantTask {
         let components = calendar.dateComponents([.day], from: now, to: dueDate)
         return components.day ?? 0
     }
+    
+    func daysDifference(from startDate: Date, to endDate: Date) -> Int { // TODO: handle overdue tasks
+        let calendar = Calendar.current
+        let startDay = calendar.startOfDay(for: startDate)
+        let endDay = calendar.startOfDay(for: endDate)
+        let components = calendar.dateComponents([.day], from: startDay, to: endDay)
+        return components.day ?? -100
+    }
 }
 
 public extension [PlantTask] {

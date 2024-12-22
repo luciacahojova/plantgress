@@ -90,15 +90,26 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
-        // Extract the notification ID
-        let notificationId = response.notification.request.identifier
+        // Extract userInfo from the notification
+        let userInfo = response.notification.request.content.userInfo
         
-        // Use the use case to process the next step
+        guard let plantIdString = userInfo["plantId"] as? String,
+              let taskTypeRawValue = userInfo["taskType"] as? String,
+              let dueDateString = userInfo["dueDate"] as? String,
+              let plantId = UUID(uuidString: plantIdString),
+              let taskType = TaskType(rawValue: taskTypeRawValue),
+              let dueDate = ISO8601DateFormatter().date(from: dueDateString) else {
+            print("❗️Failed to parse notification userInfo")
+            completionHandler()
+            return
+        }
+
+        // Inject the use case
         @Injected var scheduleNextNotificationUseCase: ScheduleNextNotificationUseCase
 
         Task {
             do {
-                try await scheduleNextNotificationUseCase.execute(notificationId: notificationId)
+                try await scheduleNextNotificationUseCase.execute(plantId: plantId, taskType: taskType, dueDate: dueDate)
             } catch {
                 print("❗️Failed to schedule next notification: \(error.localizedDescription)")
             }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct TaskConfiguration: Codable, Sendable {
+public struct TaskConfiguration: Codable, Sendable, Equatable {
     public let taskType: TaskType
     public let isTracked: Bool
     public let hasNotifications: Bool
@@ -26,5 +26,13 @@ public struct TaskConfiguration: Codable, Sendable {
         self.hasNotifications = hasNotifications
         self.startDate = startDate
         self.periods = periods
+    }
+    
+    public static func == (lhs: TaskConfiguration, rhs: TaskConfiguration) -> Bool {
+        return lhs.taskType == rhs.taskType &&
+               lhs.isTracked == rhs.isTracked &&
+               lhs.hasNotifications == rhs.hasNotifications &&
+               lhs.startDate == rhs.startDate &&
+               lhs.periods == rhs.periods
     }
 }

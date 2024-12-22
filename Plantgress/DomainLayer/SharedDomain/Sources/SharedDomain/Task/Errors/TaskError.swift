@@ -11,4 +11,5 @@ public enum TaskError: Error {
     case taskOrPeriodNotFound
     case taskTypeNotFound
     case invalidNotificationId
+    case missingDueDate
 }
