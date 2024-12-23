@@ -125,7 +125,8 @@ public struct DefaultFirebaseFirestoreProvider: FirebaseFirestoreProvider {
             let snapshot = try await collectionRef.getDocuments()
             let documents = try snapshot.documents.map { try $0.data(as: T.self) }
             
-            print("🟢 \(path): \(documents.count) documents fetched: \(snapshot.documents.map { $0.data() })")
+            print("🟢 \(path): \(documents.count) documents fetched")
+//            print("🟢 \(path): \(documents.count) documents fetched: \(snapshot.documents.map { $0.data() })")
             return documents
         } catch let error {
             print("❌ \(path): \(error.localizedDescription)")

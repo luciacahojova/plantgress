@@ -507,7 +507,7 @@ public struct TaskRepositoryImpl: TaskRepository {
             "imageUrl": plantTask.imageUrl,
             "taskType": plantTask.taskType.rawValue,
             "dueDate": dateFormatter.string(from: plantTask.dueDate),
-            "completionDate": plantTask.completionDate,
+            "completionDate": "",
             "isCompleted": plantTask.isCompleted
         ]
 
@@ -515,7 +515,7 @@ public struct TaskRepositoryImpl: TaskRepository {
         content.title = "Reminder: \(plantTask.taskType.rawValue)"
         content.body = "\(plantTask.plantName) requires \(plantTask.taskType.rawValue)"
         content.sound = .default
-        content.userInfo = taskDictionary
+        content.userInfo = userInfo
 
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
