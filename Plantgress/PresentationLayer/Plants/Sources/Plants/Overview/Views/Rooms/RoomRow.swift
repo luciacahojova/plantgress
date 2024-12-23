@@ -43,7 +43,7 @@ struct RoomRow: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 TaskQuickActionList(
-                    taskConfigurations: .default,
+                    taskConfigurations: .defaultRoomConfiguration,
                     action: { taskType in
                         completeTaskAction(room.id, taskType)
                     }

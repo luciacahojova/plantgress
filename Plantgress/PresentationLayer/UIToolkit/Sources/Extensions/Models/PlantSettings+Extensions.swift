@@ -13,4 +13,10 @@ public extension PlantSettings {
             tasksConfiguartions: .mock
         )
     }
+    
+    static var `default`: PlantSettings {
+        PlantSettings(
+            tasksConfiguartions: .default
+        )
+    }
 }

@@ -16,6 +16,8 @@ enum PlantsFlow: Flow {
     case showAddRoom(editingId: UUID?, onShouldRefresh: () -> Void)
     case presentAddTask(editingId: UUID?, onShouldRefresh: () -> Void)
     case showPlantSettings(plantId: UUID?, onShouldRefresh: () -> Void)
+    case dismiss
+    case pop
 }
 
 public final class PlantsFlowController: FlowController {
@@ -45,6 +47,8 @@ public final class PlantsFlowController: FlowController {
         case let .showAddRoom(editingId, onShouldRefresh): showAddRoom(editingId: editingId, onShouldRefresh: onShouldRefresh)
         case let .presentAddTask(editingId, onShouldRefresh): presentAddTask(editingId: editingId, onShouldRefresh: onShouldRefresh)
         case let .showPlantSettings(plantId, onShouldRefresh): showPlantSettings(plantId: plantId, onShouldRefresh: onShouldRefresh)
+        case .dismiss: dismissView()
+        case .pop: pop()
         }
     }
     
@@ -66,7 +70,19 @@ public final class PlantsFlowController: FlowController {
         editingId: UUID?,
         onShouldRefresh: @escaping () -> Void
     ) {
-        #warning("TODO: Add implementation")
+        let vm = AddPlantViewModel(
+            flowController: self,
+            editingId: editingId,
+            onShouldRefresh: onShouldRefresh
+        )
+        let view = AddPlantView(viewModel: vm)
+        let vc = HostingController(
+            rootView: view,
+            title: editingId != nil ? "Edit Plant" : "Add New Plant" // TODO: Strings
+        )
+        vc.hidesBottomBarWhenPushed = true
+        
+        navigationController.show(vc, sender: nil)
     }
     
     private func showAddRoom(
@@ -88,5 +104,9 @@ public final class PlantsFlowController: FlowController {
         onShouldRefresh: @escaping () -> Void
     ) {
         #warning("TODO: Add implementation")
+    }
+    
+    private func dismissView() {
+        navigationController.dismiss(animated: true)
     }
 }
