@@ -23,22 +23,22 @@ public struct TaskRepositoryImpl: TaskRepository {
         let now = Date()
         let endDate = Calendar.current.date(byAdding: .day, value: days, to: now)!
 
-        // Fetch completed tasks and pending notifications
         let completedTasks = (try? await getCompletedTasks(for: plant.id)) ?? []
         let pendingNotifications = await getPendingNotifications()
         var tasks: [PlantTask] = []
 
         for taskConfig in plant.settings.tasksConfiguartions where taskConfig.isTracked {
-            // Get the last completed task or startDate
             let lastCompletedDate = completedTasks
                 .filter { $0.taskType == taskConfig.taskType }
                 .map { $0.completionDate ?? $0.dueDate }
                 .max() ?? taskConfig.startDate
 
-            // Calculate the next potential due date
             var currentDueDate = lastCompletedDate
             while true {
-                currentDueDate = calculateNextDueDate(startDate: currentDueDate, interval: taskConfig.periods.first?.interval ?? .daily(interval: 1))
+                currentDueDate = calculateNextDueDate(
+                    startDate: currentDueDate,
+                    interval: taskConfig.periods.first?.interval ?? .daily(interval: 1)
+                )
 
                 // Check if the task is already completed
                 if completedTasks.contains(where: { $0.taskType == taskConfig.taskType && $0.dueDate == currentDueDate }) {
@@ -56,126 +56,29 @@ public struct TaskRepositoryImpl: TaskRepository {
                 }) {
                     continue
                 }
-
-                // Include the first overdue or next upcoming task only
-                if currentDueDate < now {
-                    // Include the overdue task and stop further calculations
-                    tasks.append(
-                        PlantTask(
-                            id: UUID(),
-                            plantId: plant.id,
-                            plantName: plant.name,
-                            imageUrl: plant.images.first?.urlString ?? "",
-                            taskType: taskConfig.taskType,
-                            dueDate: currentDueDate,
-                            completionDate: nil,
-                            isCompleted: false
-                        )
-                    )
-                    break
-                } else if currentDueDate <= endDate {
-                    // Include the upcoming task and stop further calculations
-                    tasks.append(
-                        PlantTask(
-                            id: UUID(),
-                            plantId: plant.id,
-                            plantName: plant.name,
-                            imageUrl: plant.images.first?.urlString ?? "",
-                            taskType: taskConfig.taskType,
-                            dueDate: currentDueDate,
-                            completionDate: nil,
-                            isCompleted: false
-                        )
-                    )
-                    break
-                } else {
-                    // If no relevant due dates are found, break the loop
-                    break
-                }
+                
+                let plantTask = createPlantTask(plant: plant, taskType: taskConfig.taskType, dueDate: currentDueDate)
+                tasks.append(plantTask)
+                
+                break
             }
         }
 
         return tasks.sorted { $0.dueDate < $1.dueDate }
     }
-
     
-//    public func getUpcomingTasks(for plant: Plant, days: Int) async -> [PlantTask] {
-//        let now = Date()
-//        let endDate = Calendar.current.date(byAdding: .day, value: days, to: now)!
-//
-//        // Fetch completed tasks and pending notifications
-//        let completedTasks = (try? await getCompletedTasks(for: plant.id)) ?? []
-//        let pendingNotifications = await getPendingNotifications()
-//        var upcomingTasks: [PlantTask] = []
-//
-//        for taskConfig in plant.settings.tasksConfiguartions where taskConfig.isTracked {
-//            // Extract relevant notifications for this plant and task type
-//            let relevantNotifications = pendingNotifications.filter { notification in
-//                guard let notificationPlantId = notification.content.userInfo["plantId"] as? String,
-//                      let notificationTaskType = notification.content.userInfo["taskType"] as? String,
-//                      UUID(uuidString: notificationPlantId) == plant.id,
-//                      notificationTaskType == taskConfig.taskType.rawValue,
-//                      let trigger = notification.trigger as? UNCalendarNotificationTrigger,
-//                      let dueDate = trigger.nextTriggerDate()
-//                else { return false }
-//
-//                return dueDate <= endDate && dueDate >= now
-//            }
-//
-//            // Include overdue tasks (not completed and not in pending notifications)
-//            let overdueTasks = taskConfig.periods.compactMap { period -> PlantTask? in
-//                let dueDate = calculateNextDueDate(startDate: taskConfig.startDate, interval: period.interval)
-//                guard dueDate < now,
-//                      !completedTasks.contains(where: { $0.taskType == taskConfig.taskType && $0.dueDate == dueDate }),
-//                      !relevantNotifications.contains(where: { notification in
-//                          guard let notificationDueDateString = notification.content.userInfo["dueDate"] as? String,
-//                                let notificationDueDate = ISO8601DateFormatter().date(from: notificationDueDateString)
-//                          else { return false }
-//                          return notificationDueDate == dueDate
-//                      })
-//                else { return nil }
-//
-//                return PlantTask(
-//                    id: UUID(),
-//                    plantId: plant.id,
-//                    plantName: plant.name,
-//                    imageUrl: plant.images.first?.urlString ?? "",
-//                    taskType: taskConfig.taskType,
-//                    dueDate: dueDate,
-//                    completionDate: nil,
-//                    isCompleted: false
-//                )
-//            }
-//
-//            upcomingTasks.append(contentsOf: relevantNotifications.compactMap { notification in
-//                guard let trigger = notification.trigger as? UNCalendarNotificationTrigger,
-//                      let dueDate = trigger.nextTriggerDate() else {
-//                    return nil
-//                }
-//
-//                // Exclude tasks that are already completed
-//                if completedTasks.contains(where: { $0.taskType == taskConfig.taskType && $0.dueDate == dueDate }) {
-//                    return nil
-//                }
-//
-//                return PlantTask(
-//                    id: UUID(),
-//                    plantId: plant.id,
-//                    plantName: plant.name,
-//                    imageUrl: plant.images.first?.urlString ?? "",
-//                    taskType: taskConfig.taskType,
-//                    dueDate: dueDate,
-//                    completionDate: nil,
-//                    isCompleted: false
-//                )
-//            })
-//
-//            // Add overdue tasks to the list
-//            upcomingTasks.append(contentsOf: overdueTasks)
-//        }
-//
-//        return upcomingTasks.sorted { $0.dueDate < $1.dueDate }
-//    }
+    private func createPlantTask(plant: Plant, taskType: TaskType, dueDate: Date) -> PlantTask {
+        PlantTask(
+            id: UUID(),
+            plantId: plant.id,
+            plantName: plant.name,
+            imageUrl: plant.images.first?.urlString ?? "",
+            taskType: taskType,
+            dueDate: dueDate,
+            completionDate: nil,
+            isCompleted: false
+        )
+    }
 
     public func getUpcomingTasks(for plants: [Plant], days: Int) async -> [PlantTask] {
         var allUpcomingTasks: [PlantTask] = []
@@ -255,13 +158,11 @@ public struct TaskRepositoryImpl: TaskRepository {
                 }
                 .first
         ) else {
-            print("Error: missingDueDate")
             throw TaskError.missingDueDate
         }
         
         // Find the task configuration for the given task type
         guard let taskConfig = plant.settings.tasksConfiguartions.first(where: { $0.taskType == taskType }) else {
-            print("Error: taskTypeNotFound")
             throw TaskError.taskTypeNotFound
         }
 
@@ -366,10 +267,10 @@ public struct TaskRepositoryImpl: TaskRepository {
     public func synchronizeNotifications(for plant: Plant) async throws {
         print("🔄 Synchronizing notifications for plant: \(plant.name) (\(plant.id))")
         
-//        if !hasTaskConfigurationChanged(for: plant) {
-//            print("✅ Task configuration unchanged. Skipping notification update.")
-//            return
-//        }
+        if !hasTaskConfigurationChanged(for: plant) {
+            print("✅ Task configuration unchanged. Skipping notification update.")
+            return
+        }
         
         print("⚠️ Task configuration changed. Updating notifications.")
         

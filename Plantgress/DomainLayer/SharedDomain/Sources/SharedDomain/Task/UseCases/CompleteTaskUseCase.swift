@@ -22,7 +22,7 @@ public struct CompleteTaskUseCaseImpl: CompleteTaskUseCase {
         try await taskRepository.completeTask(
             for: plant,
             taskType: taskType,
-            dueDate: nil, // TODO:
+            dueDate: nil,
             completionDate: completionDate
         )
     }

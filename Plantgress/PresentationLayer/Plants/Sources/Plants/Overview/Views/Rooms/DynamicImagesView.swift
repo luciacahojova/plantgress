@@ -17,7 +17,7 @@ struct DynamicImagesView: View {
         urlStrings: [String]
     ) {
         self.urlStrings = urlStrings
-        self.secondImageWidth = .random(in: 170...200)
+        self.secondImageWidth = (UIScreen.main.bounds.size.width - Constants.Spacing.mediumLarge*2)/2
     }
     
     var body: some View {
