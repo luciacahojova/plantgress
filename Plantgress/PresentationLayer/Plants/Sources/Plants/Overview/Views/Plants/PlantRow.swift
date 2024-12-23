@@ -42,7 +42,7 @@ struct PlantRow: View {
                     trackPlantProgressAction(plant.id)
                 } label: {
                     HStack(spacing: Constants.Spacing.small) {
-                        Text("Track") // TODO: String
+                        Text(Strings.trackButton) 
                             .font(Fonts.bodyMedium)
                         
                         Asset.Icons.cameraPlus.image

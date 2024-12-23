@@ -53,13 +53,13 @@ struct TaskList: View {
         LazyVStack(spacing: Constants.Spacing.large) {
             if completedTasks.isEmpty, upcomingTasks.isEmpty {
                 BaseEmptyContentView(
-                    message: "You have no tracked tasks.", // TODO: String
+                    message: Strings.noTrackedTasksMessage,
                     fixedTopPadding: 100
                 )
             } else {
                 if !upcomingTasks.isEmpty {
                     VStack(alignment: .leading, spacing: Constants.Spacing.small) {
-                        sectionTitle("Upcoming Tasks") // TODO: String
+                        sectionTitle(Strings.upcomingTasksTitle)
                         
                         VStack(spacing: Constants.Spacing.medium) {
                             ForEach(upcomingTasks, id: \.id) { task in
@@ -77,7 +77,7 @@ struct TaskList: View {
                 
                 if !completedTasks.isEmpty {
                     VStack(alignment: .leading, spacing: Constants.Spacing.small) {
-                        sectionTitle("Completed Tasks") // TODO: String
+                        sectionTitle(Strings.completedTasksTitle) 
                         
                         VStack(spacing: Constants.Spacing.medium) {
                             ForEach(completedTasks, id: \.id) { task in

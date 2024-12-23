@@ -32,7 +32,7 @@ public extension PlantTask {
         return components.day ?? 0
     }
     
-    func daysDifference(from date1: Date, to date2: Date) -> Int { // TODO: handle
+    static func daysDifference(from date1: Date, to date2: Date) -> Int {
         let calendar = Calendar.current
         let startDay = calendar.startOfDay(for: date1 < date2 ? date1 : date2)
         let endDay = calendar.startOfDay(for: date1 < date2 ? date2 : date1)

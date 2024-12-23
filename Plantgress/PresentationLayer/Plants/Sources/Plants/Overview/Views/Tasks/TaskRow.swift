@@ -51,17 +51,19 @@ struct TaskRow: View {
                         .font(Fonts.titleSemibold)
                 }
                 
-                if !task.isCompleted {
-                    TaskDateChip(text: "in \(task.daysDifference(from: .now, to: task.dueDate)) days") // TODO: String
-                } else if let completionDate = task.completionDate {
-                    TaskDateChip(text: "Completed on \(completionDate.toString(formatter: Formatter.Date.ddMMyy))") // TODO: String, handle TODAY
-                }
+                TaskDateChip(
+                    isCompleted: task.isCompleted,
+                    dueDate: task.dueDate,
+                    completionDate: task.completionDate
+                )
             }
             
             Spacer()
             
             VStack(spacing: Constants.Spacing.medium) {
                 PlantTaskMenu(
+                    canEdit: !task.isCompleted,
+                    canDelete: task.isCompleted,
                     deleteTaskAction: { deleteTaskAction(task) },
                     editTaskAction: { editTaskAction(task) }
                 )
@@ -76,6 +78,9 @@ struct TaskRow: View {
                             foregroundColor: TaskType.color(for: task.taskType)
                         )
                     }
+                } else {
+                    Spacer()
+                        .frame(height: Constants.IconSize.xMedium)
                 }
             }
         }
@@ -92,10 +97,13 @@ struct TaskRow: View {
 #Preview {
     Resolver.registerUseCasesForPreviews()
     
-    return TaskRow(
-        task: .mock(id: UUID()),
-        editTaskAction: { _ in },
-        deleteTaskAction: { _ in },
-        completeTaskAction: { _ in }
-    )
+    return ScrollView {
+        TaskRow(
+            task: .mock(id: UUID()),
+            editTaskAction: { _ in },
+            deleteTaskAction: { _ in },
+            completeTaskAction: { _ in }
+        )
+    }
+    .background(Colors.primaryBackground)
 }

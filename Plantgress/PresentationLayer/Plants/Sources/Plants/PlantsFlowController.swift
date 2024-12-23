@@ -15,6 +15,7 @@ enum PlantsFlow: Flow {
     case showAddPlant(editingId: UUID?, onShouldRefresh: () -> Void)
     case showAddRoom(editingId: UUID?, onShouldRefresh: () -> Void)
     case presentAddTask(editingId: UUID?, onShouldRefresh: () -> Void)
+    case showPlantSettings(plantId: UUID?, onShouldRefresh: () -> Void)
 }
 
 public final class PlantsFlowController: FlowController {
@@ -43,6 +44,7 @@ public final class PlantsFlowController: FlowController {
         case let .showAddPlant(editingId, onShouldRefresh): showAddPlant(editingId: editingId, onShouldRefresh: onShouldRefresh)
         case let .showAddRoom(editingId, onShouldRefresh): showAddRoom(editingId: editingId, onShouldRefresh: onShouldRefresh)
         case let .presentAddTask(editingId, onShouldRefresh): presentAddTask(editingId: editingId, onShouldRefresh: onShouldRefresh)
+        case let .showPlantSettings(plantId, onShouldRefresh): showPlantSettings(plantId: plantId, onShouldRefresh: onShouldRefresh)
         }
     }
     
@@ -76,6 +78,13 @@ public final class PlantsFlowController: FlowController {
     
     private func presentAddTask(
         editingId: UUID?,
+        onShouldRefresh: @escaping () -> Void
+    ) {
+        #warning("TODO: Add implementation")
+    }
+    
+    private func showPlantSettings(
+        plantId: UUID?,
         onShouldRefresh: @escaping () -> Void
     ) {
         #warning("TODO: Add implementation")

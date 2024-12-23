@@ -39,7 +39,7 @@ struct RoomList: View {
         LazyVStack(spacing: Constants.Spacing.large) {
             if rooms.isEmpty {
                 BaseEmptyContentView(
-                    message: "You have no rooms", // TODO: String
+                    message: Strings.noRoomsMessage,
                     fixedTopPadding: 100
                 )
             } else {

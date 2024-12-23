@@ -62,11 +62,9 @@
 "plants_title_with_emoji" = "Rastliny 🪴";
 "rooms_title_with_emoji" = "Miestnosti 🏡";
 "tasks_title_with_emoji" = "Úlohy 📝";
-
-// MARK: Tasks
-"tasks_title" = "Úlohy";
-"task_start" = "Začiatok";
-"task_time" = "Čas";
+"plant_collection_empty_message" = "Vaša zbierka rastlín je prázdna.";
+"track_button" = "Zaznamenať";
+"no_rooms_message" = "Nemáte žiadne miestnosti.";
 
 // MARK: Rooms
 "rooms_title" = "Miestnosti";
@@ -76,3 +74,57 @@
 "cancel_button" = "Zrušiť";
 "close_button" = "Zavrieť";
 "delete_button" = "Zmazať";
+"edit_button" = "Upraviť";
+"undo_button" = "Späť";
+"settings_button" = "Nastavenia";
+
+// MARK: Tasks
+"tasks_title" = "Úlohy";
+"task_start" = "Začiatok";
+"task_time" = "Čas";
+"task_completed_on_title" = "Dokončené dňa %@";
+"task_due_today_title" = "Dnes";
+"task_overdue_days_one_title" = "Pred 1 dňom";
+"task_overdue_days_many_title" = "Pred %@ dňami";
+"task_due_days_one_title" = "O 1 deň";
+"task_due_days_few_title" = "O %@ dni";
+"task_due_days_many_title" = "O %@ dní";
+"no_tracked_tasks_message" = "Nemáte žiadne úlohy.";
+"completed_tasks_title" = "Dokončené úlohy";
+"upcoming_tasks_title" = "Nadchádzajúce úlohy";
+"task_delete_failed_snackbar_message" = "Odstránenie zlyhalo";
+"task_completed_snackbar_message" = "%@ dokončené";
+"task_complete_failed_snackbar_message" = "Zlyhalo dokončenie úlohy";
+
+// MARK: Permissions
+"no_camera_access_alert_title" = "Povoľte prístup k fotoaparátu";
+"camera_permission_alert_message" = "Pre pokračovanie povoľte prístup k fotoaparátu v Nastaveniach";
+"no_photos_access_alert_title" = "Povoľte prístup k Fotkám";
+"photos_permission_alert_message" = "Pre pokračovanie povoľte prístup k Fotkám v Nastaveniach";
+
+// MARK: Progress
+"progress_saved_snackbar_message" = "Progres uložený!";
+"image_upload_failed_snackbar_message" = "Nahrávanie obrázka zlyhalo";
+"data_load_failed_snackbar_message" = "Niečo sa pokazilo.";
+
+// MARK: Actions
+"choose_action_title" = "Vyberte akciu";
+"camera_action" = "Fotoaparát";
+"library_action" = "Fotky";
+
+// MARK: Plant Care
+"water_name" = "Zaliať";
+"inspect_name" = "Skontrolovať";
+"fertilize_name" = "Pohnojiť";
+"clean_name" = "Umyť";
+"repot_name" = "Presadiť";
+"propagate_name" = "Rozmnožiť";
+"track_progress_name" = "Sledovanie progresu";
+
+"watering_title" = "Zalievanie";
+"pest_inspection_title" = "Kontrola škodcov";
+"fertilizing_title" = "Hnojenie";
+"cleaning_title" = "Čistenie";
+"repotting_title" = "Presádzanie";
+"propagating_title" = "Množenie";
+"progress_tracking_title" = "Sledovanie progresu";

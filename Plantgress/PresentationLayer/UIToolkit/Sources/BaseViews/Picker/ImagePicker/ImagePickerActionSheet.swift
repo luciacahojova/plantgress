@@ -21,15 +21,15 @@ public struct ImagePickerActionSheet {
     
     public var actionSheet: ActionSheet {
         ActionSheet(
-            title: Text("Choose action"), // TODO: String?
+            title: Text(Strings.chooseActionTitle),
             message: nil,
             buttons: [
                 .default(
-                    Text("Camera"), // TODO: String
+                    Text(Strings.cameraAction),
                     action: cameraAction
                 ),
                 .default(
-                    Text("Library"),
+                    Text(Strings.libraryAction),
                     action: libraryAction
                 ),
                 .cancel(Text(Strings.cancelButton))

@@ -43,7 +43,7 @@ struct PlantList: View {
         LazyVStack(spacing: Constants.Spacing.large) {
             if plants.isEmpty {
                 BaseEmptyContentView(
-                    message: "Your plant collection is empty", // TODO: String
+                    message: Strings.plantCollectionEmptyMessage,
                     fixedTopPadding: 100
                 )
             } else {

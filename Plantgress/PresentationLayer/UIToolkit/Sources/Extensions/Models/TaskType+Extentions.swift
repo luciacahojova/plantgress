@@ -35,25 +35,25 @@ public extension TaskType {
     
     static func name(for type: TaskType) -> String {
         switch type {
-        case .watering: return "Water" // TODO: Strings
-        case .pestInspection: return "Inspect"
-        case .fertilizing: return "Fertilize"
-        case .cleaning: return "Clean"
-        case .repotting: return "Repot"
-        case .propagation: return "Propagate"
-        case .progressTracking: return "Track progress"
+        case .watering: return Strings.waterName
+        case .pestInspection: return Strings.inspectName
+        case .fertilizing: return Strings.fertilizeName
+        case .cleaning: return Strings.cleanName
+        case .repotting: return Strings.repotName
+        case .propagation: return Strings.propagateName
+        case .progressTracking: return Strings.trackProgressName
         }
     }
     
     static func title(for type: TaskType) -> String {
         switch type {
-        case .watering: return "Watering" // TODO: Strings
-        case .pestInspection: return "Pest Inspection"
-        case .fertilizing: return "Fertilizing"
-        case .cleaning: return "Cleaning"
-        case .repotting: return "Repotting"
-        case .propagation: return "Propagating"
-        case .progressTracking: return "Progress Tracking"
+        case .watering: return Strings.wateringTitle
+        case .pestInspection: return Strings.pestInspectionTitle
+        case .fertilizing: return Strings.fertilizingTitle
+        case .cleaning: return Strings.cleaningTitle
+        case .repotting: return Strings.repottingTitle
+        case .propagation: return Strings.propagatingTitle
+        case .progressTracking: return Strings.progressTrackingTitle
         }
     }
 }

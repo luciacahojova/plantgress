@@ -182,18 +182,19 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                     try await deleteTaskUseCase.execute(task: plantTask)
                     loadData()
                 } catch {
-                    setFailedSnackbarData(message: "Failed to delete task.") // TODO: String
+                    setFailedSnackbarData(message: Strings.taskDeleteFailedSnackbarMessage)
                 }
             }
         )
     }
     
     private func editTask(_ plantTask: PlantTask) {
-        if plantTask.isCompleted {
-            // TODO: Handle flow
-        } else {
-            // TODO: Handle flow
-        }
+        flowController?.handleFlow(
+            PlantsFlow.showPlantSettings(
+                plantId: plantTask.plantId,
+                onShouldRefresh: loadData
+            )
+        )
     }
     
     private func completeTaskForRoom(roomId: UUID, taskType: TaskType) {
@@ -210,8 +211,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                     )
                     
                     state.snackbarData = .init(
-                        message: "\(TaskType.title(for: taskType)) completed",
-                        actionText: "Undo", // TODO: String
+                        message: Strings.taskCompletedSnackbarMessage(TaskType.title(for: taskType)),
+                        actionText: Strings.undoButton,
                         action: {
                             Task {
                                 try? await deleteTaskForRoomUseCase.execute(roomId: roomId, taskType: taskType)
@@ -219,7 +220,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                         }
                     )
                 } catch {
-                    setFailedSnackbarData(message: "Failed to complete task")
+                    setFailedSnackbarData(message: Strings.taskCompleteFailedSnackbarMessage)
                 }
             }
         )
@@ -242,8 +243,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                         loadData()
                     } else {
                         state.snackbarData = .init(
-                            message: "\(TaskType.title(for: taskType)) completed",
-                            actionText: "Undo",
+                            message: Strings.taskCompletedSnackbarMessage(TaskType.title(for: taskType)),
+                            actionText: Strings.undoButton,
                             action: {
                                 Task {
                                     try? await deleteTaskForPlantUseCase.execute(plant: plant, taskType: taskType)
@@ -252,7 +253,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                         )
                     }
                 } catch {
-                    setFailedSnackbarData(message: "Failed to complete task") // TODO: String
+                    setFailedSnackbarData(message: Strings.taskCompleteFailedSnackbarMessage)
                 }
             }
         )
@@ -267,8 +268,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                     state.isCameraPickerPresented.toggle()
                 } catch {
                     state.alertData = .init(
-                        title: "No Camera access", // TODO: Strings
-                        message: "To continue, grant access to your camera in Settings",
+                        title: Strings.noCameraAccessAlertTitle,
+                        message: Strings.cameraPermissionAlertMessage,
                         primaryAction: .init(
                             title: Strings.cancelButton,
                             style: .cancel,
@@ -277,7 +278,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                             }
                         ),
                         secondaryAction: .init(
-                            title: "Settings",
+                            title: Strings.settingsButton,
                             completion: { [weak self] in
                                 self?.flowController?.handleFlow(PlantsFlow.openSettings)
                             }
@@ -301,8 +302,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                     state.isImagePickerPresented.toggle()
                 } catch {
                     state.alertData = .init(
-                        title: "No Photos access", // TODO: Strings
-                        message: "To continue, grant access to Photos in Settings",
+                        title: Strings.noPhotosAccessAlertTitle,
+                        message: Strings.photosPermissionAlertMessage,
                         primaryAction: .init(
                             title: Strings.cancelButton,
                             style: .cancel,
@@ -311,7 +312,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                             }
                         ),
                         secondaryAction: .init(
-                            title: "Settings",
+                            title: Strings.settingsButton,
                             completion: { [weak self] in
                                 self?.flowController?.handleFlow(PlantsFlow.openSettings)
                             }
@@ -383,9 +384,9 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                             newImages: newImageData
                         )
                         
-                        state.snackbarData = .init(message: "Progess saved!") // TODO: String
+                        state.snackbarData = .init(message: Strings.progressSavedSnackbarMessage)
                     } catch {
-                        setFailedSnackbarData(message: "Failed to upload image") // TODO: String
+                        setFailedSnackbarData(message: Strings.imageUploadFailedSnackbarMessage)
                     }
                 }
             }
@@ -394,7 +395,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     private func uploadImage(_ image: UIImage?) {
         guard let image else {
-            setFailedSnackbarData(message: "Failed to upload image") // TODO: String
+            setFailedSnackbarData(message: Strings.imageUploadFailedSnackbarMessage)
             return
         }
         
@@ -452,7 +453,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                         )
                     }
                 } catch {
-                    state.errorMessage = "Failed to load." // TODO: String
+                    state.errorMessage = Strings.dataLoadFailedSnackbarMessage
                 }
             }
         )
