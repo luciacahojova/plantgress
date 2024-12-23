@@ -219,7 +219,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                         }
                     )
                 } catch {
-                    state.snackbarData = .init(message: "Failed to complete task") // TODO: String
+                    setFailedSnackbarData(message: "Failed to complete task")
                 }
             }
         )
@@ -252,7 +252,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                         )
                     }
                 } catch {
-                    state.snackbarData = .init(message: "Failed to complete task") // TODO: String
+                    setFailedSnackbarData(message: "Failed to complete task") // TODO: String
                 }
             }
         )

@@ -254,10 +254,14 @@ public struct TaskRepositoryImpl: TaskRepository {
                     return ISO8601DateFormatter().date(from: dueDateString)
                 }
                 .first
-        ) else { throw TaskError.missingDueDate }
+        ) else {
+            print("Error: missingDueDate")
+            throw TaskError.missingDueDate
+        }
         
         // Find the task configuration for the given task type
         guard let taskConfig = plant.settings.tasksConfiguartions.first(where: { $0.taskType == taskType }) else {
+            print("Error: taskTypeNotFound")
             throw TaskError.taskTypeNotFound
         }
 
@@ -362,10 +366,10 @@ public struct TaskRepositoryImpl: TaskRepository {
     public func synchronizeNotifications(for plant: Plant) async throws {
         print("🔄 Synchronizing notifications for plant: \(plant.name) (\(plant.id))")
         
-        if !hasTaskConfigurationChanged(for: plant) {
-            print("✅ Task configuration unchanged. Skipping notification update.")
-            return
-        }
+//        if !hasTaskConfigurationChanged(for: plant) {
+//            print("✅ Task configuration unchanged. Skipping notification update.")
+//            return
+//        }
         
         print("⚠️ Task configuration changed. Updating notifications.")
         
@@ -494,12 +498,18 @@ public struct TaskRepositoryImpl: TaskRepository {
             isCompleted: false
         )
 
-        // Convert the PlantTask to a dictionary
-        guard let taskData = try? JSONEncoder().encode(plantTask),
-              let taskDictionary = try? JSONSerialization.jsonObject(with: taskData) as? [String: Any] else {
-            print("❗️Failed to encode PlantTask for notification.")
-            return
-        }
+        // Manually construct the userInfo dictionary
+        let dateFormatter = ISO8601DateFormatter()
+        let userInfo: [String: Any] = [
+            "id": plantTask.id.uuidString,
+            "plantId": plantTask.plantId.uuidString,
+            "plantName": plantTask.plantName,
+            "imageUrl": plantTask.imageUrl,
+            "taskType": plantTask.taskType.rawValue,
+            "dueDate": dateFormatter.string(from: plantTask.dueDate),
+            "completionDate": plantTask.completionDate,
+            "isCompleted": plantTask.isCompleted
+        ]
 
         let content = UNMutableNotificationContent()
         content.title = "Reminder: \(plantTask.taskType.rawValue)"

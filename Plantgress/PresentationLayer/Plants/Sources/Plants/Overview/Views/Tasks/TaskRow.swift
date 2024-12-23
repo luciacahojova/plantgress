@@ -53,11 +53,6 @@ struct TaskRow: View {
                 
                 if !task.isCompleted {
                     TaskDateChip(text: "in \(task.daysDifference(from: .now, to: task.dueDate)) days") // TODO: String
-                    
-                    if task.dueDate < Date() { // TODO: Delete
-                        Text("Overdue")
-                    }
-                
                 } else if let completionDate = task.completionDate {
                     TaskDateChip(text: "Completed on \(completionDate.toString(formatter: Formatter.Date.ddMMyy))") // TODO: String, handle TODAY
                 }
