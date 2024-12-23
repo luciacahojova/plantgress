@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		244B08352D1327B900A4A692 /* PlantToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 244B08342D1327B900A4A692 /* PlantToolkit */; };
+		244B08382D1365EB00A4A692 /* RoomToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 244B08372D1365EB00A4A692 /* RoomToolkit */; };
+		244B083B2D142F7300A4A692 /* TaskToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 244B083A2D142F7300A4A692 /* TaskToolkit */; };
 		24A561BF2CFE4F13003C5C84 /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = 24A561BE2CFE4F13003C5C84 /* Onboarding */; };
 		24CDAEF72CFF6FB70082CC98 /* UIToolkit in Frameworks */ = {isa = PBXBuildFile; productRef = 24CDAEF62CFF6FB70082CC98 /* UIToolkit */; };
 		24CDAF1F2CFF9BFE0082CC98 /* Plants in Frameworks */ = {isa = PBXBuildFile; productRef = 24CDAF1E2CFF9BFE0082CC98 /* Plants */; };
@@ -81,6 +84,9 @@
 				Providers/KeychainProvider,
 				Toolkits/AuthToolkit,
 				Toolkits/ImagesToolkit,
+				Toolkits/PlantToolkit,
+				Toolkits/RoomToolkit,
+				Toolkits/TaskToolkit,
 				Toolkits/UserToolkit,
 			);
 			target = 24A561772CFE4758003C5C84 /* Plantgress */;
@@ -139,8 +145,11 @@
 				24FECADF2D061E8000999950 /* SharedDomain in Frameworks */,
 				24FECAFE2D09F91100999950 /* Utilities in Frameworks */,
 				24CDAF282CFFA03F0082CC98 /* Profile in Frameworks */,
+				244B08382D1365EB00A4A692 /* RoomToolkit in Frameworks */,
 				24FECADB2D06023700999950 /* FirebaseStorage in Frameworks */,
 				24CDAF1F2CFF9BFE0082CC98 /* Plants in Frameworks */,
+				244B083B2D142F7300A4A692 /* TaskToolkit in Frameworks */,
+				244B08352D1327B900A4A692 /* PlantToolkit in Frameworks */,
 				24FECAF22D062B5300999950 /* Resolver in Frameworks */,
 				24FECAD92D06023700999950 /* FirebaseFirestore in Frameworks */,
 			);
@@ -235,6 +244,9 @@
 				24FECAFD2D09F91100999950 /* Utilities */,
 				24FECB012D0AE3BD00999950 /* KeychainAccess */,
 				24FECB032D0AE5C300999950 /* KeychainProvider */,
+				244B08342D1327B900A4A692 /* PlantToolkit */,
+				244B08372D1365EB00A4A692 /* RoomToolkit */,
+				244B083A2D142F7300A4A692 /* TaskToolkit */,
 			);
 			productName = Plantgress;
 			productReference = 24A561782CFE4758003C5C84 /* Plantgress.app */;
@@ -445,6 +457,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSFileProviderPresenceUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -503,6 +519,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSFileProviderPresenceUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -731,6 +751,18 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		244B08342D1327B900A4A692 /* PlantToolkit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PlantToolkit;
+		};
+		244B08372D1365EB00A4A692 /* RoomToolkit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RoomToolkit;
+		};
+		244B083A2D142F7300A4A692 /* TaskToolkit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TaskToolkit;
+		};
 		24A561BE2CFE4F13003C5C84 /* Onboarding */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Onboarding;

@@ -18,6 +18,8 @@ public protocol FirebaseFirestoreProvider {
         limit: Int?,
         as type: T.Type
     ) async throws -> [T]
+    func getAll<T: Decodable>(path: String, as type: T.Type) async throws -> [T]
     func update<T: Encodable>(path: String, id: String, data: T) async throws
+    func updateField(path: String, id: String, fields: [String: Any]) async throws
     func delete(path: String, id: String) async throws
 }

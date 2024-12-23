@@ -7,8 +7,11 @@
 
 import AuthToolkit
 import ImagesToolkit
+import PlantToolkit
 import Resolver
+import RoomToolkit
 import SharedDomain
+import TaskToolkit
 import UserToolkit
 
 public extension Resolver {
@@ -19,6 +22,12 @@ public extension Resolver {
         register { UserRepositoryImpl(firebaseFirestoreProvider: resolve(), keychainProvider: resolve()) as UserRepository }
         
         register { ImagesRepositoryImpl(firebaseStorageProvider: resolve()) as ImagesRepository }
+        
+        register { PlantRepositoryImpl(firebaseFirestoreProvider: resolve()) as PlantRepository }
+        
+        register { RoomRepositoryImpl(firebaseFirestoreProvider: resolve()) as RoomRepository }
+        
+        register { TaskRepositoryImpl(firebaseFirestoreProvider: resolve()) as TaskRepository }
         
     }
 }

@@ -98,7 +98,7 @@ public struct OutlinedTextField: View {
 }
 
 #Preview {
-    @Previewable @State var text: String = ""
+    @State var text: String = ""
     
     OutlinedTextField(
         text: $text,

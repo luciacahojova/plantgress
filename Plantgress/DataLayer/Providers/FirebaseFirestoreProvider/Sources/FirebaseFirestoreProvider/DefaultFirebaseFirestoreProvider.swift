@@ -111,6 +111,28 @@ public struct DefaultFirebaseFirestoreProvider: FirebaseFirestoreProvider {
             throw error
         }
     }
+    
+    public func getAll<T: Decodable>(
+        path: String,
+        as type: T.Type
+    ) async throws -> [T] {
+        print("➡️ GET ALL: \(path)")
+        
+        let db = Firestore.firestore()
+        let collectionRef = db.collection(path)
+        
+        do {
+            let snapshot = try await collectionRef.getDocuments()
+            let documents = try snapshot.documents.map { try $0.data(as: T.self) }
+            
+            print("🟢 \(path): \(documents.count) documents fetched")
+//            print("🟢 \(path): \(documents.count) documents fetched: \(snapshot.documents.map { $0.data() })")
+            return documents
+        } catch let error {
+            print("❌ \(path): \(error.localizedDescription)")
+            throw error
+        }
+    }
 
     public func update<T: Encodable>(
         path: String,
@@ -125,6 +147,25 @@ public struct DefaultFirebaseFirestoreProvider: FirebaseFirestoreProvider {
             try docRef.setData(from: data, merge: true)
             
             print("🟢 \(path)/\(id): updated \(data)")
+        } catch let error {
+            print("❌ \(path)/\(id): \(error.localizedDescription)")
+            throw error
+        }
+    }
+    
+    public func updateField(
+        path: String,
+        id: String,
+        fields: [String: Any]
+    ) async throws {
+        print("➡️ UPDATE FIELD: \(path)/\(id)")
+        
+        let db = Firestore.firestore()
+        let docRef = db.collection(path).document(id)
+        
+        do {
+            try await docRef.updateData(fields)
+            print("🟢 \(path)/\(id): fields updated \(fields)")
         } catch let error {
             print("❌ \(path)/\(id): \(error.localizedDescription)")
             throw error

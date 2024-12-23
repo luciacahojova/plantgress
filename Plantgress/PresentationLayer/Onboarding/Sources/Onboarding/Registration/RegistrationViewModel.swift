@@ -86,7 +86,10 @@ final class RegistrationViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func registerUser() {
         state.isRegisterButtonLoading = true
-        guard areCredentialsValid() else { return }
+        guard areCredentialsValid() else {
+            state.isRegisterButtonLoading = false
+            return
+        }
         
         executeTask(
             Task {

@@ -111,7 +111,11 @@ final class ForgottenPasswordViewModel: BaseViewModel, ViewModel, ObservableObje
                 
                 do {
                     try await sendPasswordResetUseCase.execute(email: state.email)
-                    state.snackbarData = .init(message: Strings.resetPasswordSnackbarMessage)
+                    state.snackbarData = .init(
+                        message: Strings.resetPasswordSnackbarMessage,
+                        bottomPadding: 0,
+                        alignment: .center
+                    )
                 } catch AuthError.userNotFound {
                     state.errorMessage = Strings.emailNotRegisteredErrorMessage
                 } catch {

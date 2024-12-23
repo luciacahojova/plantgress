@@ -54,7 +54,7 @@ struct ProfileOverviewView: View {
                             titleFont: Fonts.bodySemibold,
                             foregroundColor: Colors.red,
                             isLast: true,
-                            action: { viewModel.onIntent(.deleteUser) } // TODO: Handle loading? - skeleton?
+                            action: { viewModel.onIntent(.deleteUser) }
                         )
                     }
                     

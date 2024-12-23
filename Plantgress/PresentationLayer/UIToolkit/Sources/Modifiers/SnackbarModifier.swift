@@ -19,7 +19,7 @@ public struct SnackbarModifier: ViewModifier {
     }
     
     public func body(content: Content) -> some View {
-        ZStack {
+        ZStack(alignment: snackbarData?.alignment ?? .center) {
             content
             
             if let snackbarData = snackbarData {
@@ -32,7 +32,10 @@ public struct SnackbarModifier: ViewModifier {
                         if let action = snackbarData.action {
                             Divider()
                             
-                            Button(action: action) {
+                            Button {
+                                action()
+                                self.snackbarData = nil
+                            } label: {
                                 HStack(spacing: Constants.Spacing.small) {
                                     if let icon = snackbarData.icon {
                                         icon
@@ -51,12 +54,9 @@ public struct SnackbarModifier: ViewModifier {
                         }
                     }
                     .padding(.horizontal)
-                    .transition(.opacity)
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + snackbarData.duration) {
-                            withAnimation {
-                                self.snackbarData = nil
-                            }
+                            self.snackbarData = nil
                         }
                     }
                     .frame(height: Constants.Frame.primaryButtonHeight)
@@ -64,8 +64,14 @@ public struct SnackbarModifier: ViewModifier {
                     .background(snackbarData.backgroundColor)
                     .cornerRadius(Constants.CornerRadius.xLarge)
                 }
+                .shadow(
+                    color: Colors.gray,
+                    radius: 4,
+                    x: 4,
+                    y: 4
+                )
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: snackbarData.alignment)
                 .padding(.bottom, snackbarData.bottomPadding)
-                .frame(alignment: snackbarData.alignment)
                 .zIndex(1)
             }
         }

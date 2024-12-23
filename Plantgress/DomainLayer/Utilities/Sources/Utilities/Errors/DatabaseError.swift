@@ -10,6 +10,8 @@ import Foundation
 public enum DatabaseError: Error {
     case `default`
     
+    case invalidUrl
+    
     case notFound
     case updateFailed
     case deleteFailed

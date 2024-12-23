@@ -54,17 +54,77 @@
 
 // MARK: Explore
 "explore_title" = "Explore";
+"explore_title_with_emoji" = "Extra Tools 🔨";
 
 // MARK: Plants
 "plants_title" = "Plants";
 
-// MARK: Tasks
-"tasks_title" = "Tasks";
-"task_start" = "Start";
-"task_time" = "Time";
+"plants_title_with_emoji" = "Plants 🪴";
+"rooms_title_with_emoji" = "Rooms 🏡";
+"tasks_title_with_emoji" = "Tasks 📝";
+"plant_collection_empty_message" = "You have no plants.";
+"track_button" = "Track";
+"no_rooms_message" = "You have no rooms.";
+
+// MARK: Rooms
+"rooms_title" = "Rooms";
 
 // MARK: General
 "dismiss_button" = "Dismiss";
 "cancel_button" = "Cancel";
 "close_button" = "Close";
 "delete_button" = "Delete";
+"edit_button" = "Upraviť";
+"undo_button" = "Späť";
+"settings_button" = "Settings";
+
+// MARK: Tasks
+"tasks_title" = "Tasks";
+"task_start" = "Start";
+"task_time" = "Time";
+"task_completed_on_title" = "Completed on %@";
+"task_due_today_title" = "Today";
+"task_overdue_days_one_title" = "Overdue by 1 day";
+"task_overdue_days_many_title" = "Overdue by %@ days";
+"task_due_days_one_title" = "Due in 1 day";
+"task_due_days_few_title" = "Due in %@ days";
+"task_due_days_many_title" = "Due in %@ days";
+"no_tracked_tasks_message" = "You have no tracked tasks.";
+"completed_tasks_title" = "Completed Tasks";
+"upcoming_tasks_title" = "Upcoming Tasks";
+"task_delete_failed_snackbar_message" = "Failed to delete task.";
+"task_completed_snackbar_message" = "%@ completed";
+"task_complete_failed_snackbar_message" = "Failed to complete task";
+
+// MARK: Permissions
+"no_camera_access_alert_title" = "No Camera Access";
+"camera_permission_alert_message" = "To continue, grant access to your camera in Settings.";
+"no_photos_access_alert_title" = "No Photos Access";
+"photos_permission_alert_message" = "To continue, grant access to Photos in Settings.";
+
+// MARK: Progress
+"progress_saved_snackbar_message" = "Progress saved!";
+"image_upload_failed_snackbar_message" = "Failed to upload image.";
+"data_load_failed_snackbar_message" = "Failed to load.";
+
+// MARK: Actions
+"choose_action_title" = "Choose action";
+"camera_action" = "Camera";
+"library_action" = "Library";
+
+// MARK: Plant Care
+"water_name" = "Water";
+"inspect_name" = "Inspect";
+"fertilize_name" = "Fertilize";
+"clean_name" = "Clean";
+"repot_name" = "Repot";
+"propagate_name" = "Propagate";
+"track_progress_name" = "Track Progress";
+
+"watering_title" = "Watering";
+"pest_inspection_title" = "Pest Inspection";
+"fertilizing_title" = "Fertilizing";
+"cleaning_title" = "Cleaning";
+"repotting_title" = "Repotting";
+"propagating_title" = "Propagating";
+"progress_tracking_title" = "Progress Tracking";

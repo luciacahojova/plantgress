@@ -8,5 +8,13 @@
 import Foundation
 
 public enum ImagesError: Error {
+    case `default`
     
+    case invalidUrl
+    
+    case downloadFailed
+    case uploadFailed
+    
+    case cameraAccessNotGranted
+    case libraryAccessNotGranted
 }
