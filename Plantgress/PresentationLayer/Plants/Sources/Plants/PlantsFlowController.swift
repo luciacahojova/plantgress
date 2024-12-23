@@ -55,11 +55,11 @@ public final class PlantsFlowController: FlowController {
     }
     
     private func showPlantDetail(_ plantId: UUID) {
-        
+        #warning("TODO: Add implementation")
     }
     
     private func showRoomDetail(_ roomId: UUID) {
-        
+        #warning("TODO: Add implementation")
     }
     
     private func showAddPlant(
