@@ -19,4 +19,14 @@ public extension PlantSettings {
             tasksConfiguartions: .default
         )
     }
+    
+    func replacingTask(
+        taskType: TaskType,
+        with updatedTask: TaskConfiguration
+    ) -> PlantSettings {
+        let updatedTasks = tasksConfiguartions.map { task in
+            task.taskType == taskType ? updatedTask : task
+        }
+        return PlantSettings(tasksConfiguartions: updatedTasks)
+    }
 }

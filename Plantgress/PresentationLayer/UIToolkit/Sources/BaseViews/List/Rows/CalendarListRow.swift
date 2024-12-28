@@ -18,7 +18,7 @@ public struct CalendarListRow: View {
     private let icon: Image
     private let title: String
     
-    init(
+    public init(
         date: Binding<Date>,
         datePickerComponents: DatePickerComponents,
         rowLever: RowLevel,

@@ -8,6 +8,32 @@
 import Foundation
 import SharedDomain
 
+public extension TaskConfiguration {
+    static func `default`(for taskType: TaskType) -> TaskConfiguration {
+        if taskType == .progressTracking {
+            return TaskConfiguration(
+                taskType: taskType,
+                isTracked: true,
+                hasNotifications: true,
+                startDate: Date(),
+                periods: [
+                    TaskPeriod(id: UUID(), name: "Period 1", interval: .daily(interval: 10))
+                ]
+            )
+        } else {
+            return TaskConfiguration(
+                taskType: taskType,
+                isTracked: false,
+                hasNotifications: false,
+                startDate: Date(),
+                periods: [
+                    TaskPeriod(id: UUID(), name: "Period 1", interval: .daily(interval: 10))
+                ]
+            )
+        }
+    }
+}
+
 public extension [TaskConfiguration] {
     static var mock: [TaskConfiguration] {
         return TaskType.allCases.map { taskType in

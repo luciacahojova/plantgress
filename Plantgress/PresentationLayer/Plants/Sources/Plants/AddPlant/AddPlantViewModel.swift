@@ -18,13 +18,13 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     @Injected private var getRoomUseCase: GetRoomUseCase
     @Injected private var createPlantUseCase: CreatePlantUseCase
     @Injected private var uploadImageUseCase: UploadImageUseCase
+    @Injected private var deleteImageUseCase: DeleteImageUseCase
     @Injected private var hasCameraAccessUseCase: HasCameraAccessUseCase
     @Injected private var hasPhotoLibraryAccessUseCase: HasPhotoLibraryAccessUseCase
     
     // MARK: - Dependencies
     
     private weak var flowController: FlowController?
-    private let editingId: UUID?
     private let onShouldRefresh: () -> Void
     
     // MARK: - Init
@@ -35,12 +35,11 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         onShouldRefresh: @escaping () -> Void
     ) {
         self.flowController = flowController
-        self.editingId = editingId
         self.onShouldRefresh = onShouldRefresh
         
         super.init()
         
-        loadData()
+        loadData(editingId: editingId)
     }
     
     // MARK: - Lifecycle
@@ -55,11 +54,14 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
 
     struct State {
         var userId: String?
+        var editingId: UUID?
         
         var name: String = ""
         var room: Room?
-        var plantSettings: PlantSettings = .default
         var uploadedImages: [ImageData] = []
+        var tasks: [TaskType: TaskConfiguration] = TaskType.allCases.reduce(into: [:]) { tasks, taskType in
+            tasks[taskType] = TaskConfiguration.default(for: taskType)
+        }
         
         var alertData: AlertData?
         var snackbarData: SnackbarData?
@@ -67,10 +69,18 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         var isCreateButtonEnabled: Bool {
             !name.isBlank && !uploadedImages.isEmpty
         }
+        var isEditing: Bool { editingId != nil }
         
         var isCameraPickerPresented = false
         var isImagePickerPresented = false
         var isImageSheetPresented = false
+    }
+    
+    enum TaskProperty {
+        case isTracked(Bool)
+        case hasNotifications(Bool)
+        case startDate(Date)
+        case periods([TaskPeriod])
     }
     
     // MARK: - Intent
@@ -83,6 +93,9 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         
         case uploadImage(UIImage?)
         case uploadImages([UIImage])
+        case deleteImage(UUID)
+        case updateTask(TaskType, TaskConfiguration)
+        case updateTaskProperty(TaskType, TaskProperty)
         
         case toggleImageActionSheet
         case toggleCameraPicker
@@ -101,6 +114,9 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .nameChanged(let name): nameChanged(name)
         case .uploadImage(let image): uploadImage(image)
         case .uploadImages(let images): uploadImages(images)
+        case .deleteImage(let id): deleteImage(id)
+        case let .updateTask(taskType, taskConfiguration): updateTask(taskType: taskType, with: taskConfiguration)
+        case let .updateTaskProperty(taskType, property): updateTaskProperty(taskType: taskType, property: property)
         case .toggleImageActionSheet: toggleImageActionSheet()
         case .toggleCameraPicker: toggleCameraPicker()
         case .dissmissCameraPicker: dissmissCameraPicker()
@@ -109,6 +125,53 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
         }
+    }
+    
+    private func updateTask(taskType: TaskType, with taskConfiguration: TaskConfiguration) {
+        var updatedTasks = state.tasks
+        updatedTasks[taskType] = taskConfiguration
+        state.tasks = updatedTasks
+    }
+    
+    private func updateTaskProperty(taskType: TaskType, property: TaskProperty) {
+        guard var task = state.tasks[taskType] else { return }
+        
+        switch property {
+        case let .isTracked(isTracked):
+            task = TaskConfiguration(copy: task, isTracked: isTracked)
+        case let .hasNotifications(hasNotifications):
+            task = TaskConfiguration(copy: task, hasNotifications: hasNotifications)
+        case let .startDate(startDate):
+            task = TaskConfiguration(copy: task, startDate: startDate)
+        case let .periods(periods):
+            task = TaskConfiguration(copy: task, periods: periods)
+        }
+        
+        state.tasks[taskType] = task
+    }
+
+    private func deleteImage(_ imageId: UUID) {
+        guard let userId = state.userId else {
+            return
+        }
+
+        guard let index = state.uploadedImages.firstIndex(where: { $0.id == imageId }) else {
+            return
+        }
+        
+        let removedImage = state.uploadedImages.remove(at: index)
+        
+        let deleteImageUseCase = deleteImageUseCase
+        executeTask(
+            Task {
+                do {
+                    try await deleteImageUseCase.execute(userId: userId, imageId: imageId)
+                } catch {
+                    self.state.uploadedImages.insert(removedImage, at: index)
+                    self.setFailedSnackbarData(message: "Failed to delete image") // TODO: String
+                }
+            }
+        )
     }
     
     private func nameChanged(_ name: String) {
@@ -141,7 +204,9 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
             name: state.name,
             roomId: state.room?.id,
             images: state.uploadedImages,
-            settings: state.plantSettings
+            settings: .init(
+                tasksConfiguartions: Array(state.tasks.values)
+            )
         )
         
         let createPlantUseCase = createPlantUseCase
@@ -225,7 +290,8 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         )
     }
     
-    private func loadData() {
+    private func loadData(editingId: UUID?) {
+        state.editingId = editingId
         loadUser()
         
         let getPlantUseCase = getPlantUseCase
@@ -239,7 +305,10 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
                         state.room = try? await getRoomUseCase.execute(roomId: roomId)
                     }
                     state.uploadedImages = plant.images
-                    state.plantSettings = plant.settings
+                    
+                    plant.settings.tasksConfiguartions.forEach { task in
+                        state.tasks[task.taskType] = task
+                    }
                 }
             )
         }

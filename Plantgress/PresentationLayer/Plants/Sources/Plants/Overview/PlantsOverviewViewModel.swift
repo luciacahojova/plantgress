@@ -345,6 +345,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
             flowController?.handleFlow(
                 PlantsFlow.showAddPlant(
                     editingId: nil,
+                    plantName: nil,
                     onShouldRefresh: { self.loadData() }
                 )
             )

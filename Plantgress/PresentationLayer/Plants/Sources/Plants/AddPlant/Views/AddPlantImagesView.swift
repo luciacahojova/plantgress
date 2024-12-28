@@ -41,7 +41,7 @@ struct AddPlantImagesView: View {
                     Button(action: addImageAction) {
                         ZStack {
                             Rectangle()
-                                .fill(Colors.white)
+                                .fill(Colors.secondaryBackground)
                                 .frame(width: imageSize, height: imageSize)
                                 .cornerRadius(Constants.CornerRadius.large)
                             
@@ -71,15 +71,17 @@ struct AddPlantImagesView: View {
                                     Colors.white.opacity(0.5)
                                         .cornerRadius(Constants.CornerRadius.large)
                                     
-                                    Icons.trash
-                                        .renderingMode(.template)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: Constants.IconSize.xMedium)
-                                        .foregroundStyle(Colors.white)
+                                    if !image.isLoading {
+                                        Icons.trash
+                                            .renderingMode(.template)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: Constants.IconSize.xMedium)
+                                            .foregroundStyle(Colors.secondaryBackground)
+                                    }
                                     
                                     RoundedRectangle(cornerRadius: Constants.CornerRadius.large)
-                                        .strokeBorder(Colors.white, lineWidth: 2)
+                                        .strokeBorder(Colors.secondaryBackground, lineWidth: 2)
                                 }
                             } else {
                                 ZStack {

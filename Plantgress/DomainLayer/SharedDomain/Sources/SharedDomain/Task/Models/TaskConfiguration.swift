@@ -35,4 +35,19 @@ public struct TaskConfiguration: Codable, Sendable, Equatable {
                lhs.startDate == rhs.startDate &&
                lhs.periods == rhs.periods
     }
+    
+    public init(
+        copy: TaskConfiguration,
+        taskType: TaskType? = nil,
+        isTracked: Bool? = nil,
+        hasNotifications: Bool? = nil,
+        startDate: Date? = nil,
+        periods: [TaskPeriod]? = nil
+    ) {
+        self.taskType = taskType ?? copy.taskType
+        self.isTracked = isTracked ?? copy.isTracked
+        self.hasNotifications = hasNotifications ?? copy.hasNotifications
+        self.startDate = startDate ?? copy.startDate
+        self.periods = periods ?? copy.periods
+    }
 }

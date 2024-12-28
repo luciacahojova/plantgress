@@ -16,4 +16,3 @@ public struct PlantSettings: Codable, Sendable {
         self.tasksConfiguartions = tasksConfiguartions
     }
 }
-

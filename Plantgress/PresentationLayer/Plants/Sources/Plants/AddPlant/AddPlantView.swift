@@ -6,6 +6,7 @@
 //
 
 import Resolver
+import SharedDomain
 import SwiftUI
 import UIToolkit
 
@@ -40,7 +41,8 @@ struct AddPlantView: View {
                             set: { newName in viewModel.onIntent(.nameChanged(newName))}
                         ),
                         placeholder: "Plant name", // TODO: String
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.secondaryBackground,
+                        cornerRadius: Constants.List.cornerRadius,
                         deleteTextAction: {
                             viewModel.onIntent(.nameChanged(""))
                         }
@@ -48,19 +50,55 @@ struct AddPlantView: View {
                 }
                 .padding(.horizontal)
                     
-                AddPlantImagesView(
-                    images: viewModel.state.uploadedImages,
-                    addImageAction: {
-                        viewModel.onIntent(.toggleImageActionSheet)
-                    },
-                    deleteImageAction: { imageId in // TODO: Implementation
-//                        viewModel.onIntent(.deleteImage(imageId))
-                    }
+                if !viewModel.state.isEditing {
+                    AddPlantImagesView(
+                        images: viewModel.state.uploadedImages,
+                        addImageAction: {
+                            viewModel.onIntent(.toggleImageActionSheet)
+                        },
+                        deleteImageAction: { imageId in // TODO: Implementation
+                            viewModel.onIntent(.deleteImage(imageId))
+                        }
+                    )
+                }
+                
+                BaseList(title: "Room") { // TODO: String
+                    ButtonListRow(
+                        title: viewModel.state.room?.name ?? "Select room",
+                        isLast: true,
+                        trailingIcon: Icons.chevronSelectorVertical,
+                        action: {
+                            // TODO: intent - open room selection
+                            print("Action")
+                        }
+                    )
+                }
+                .padding(.horizontal)
+                
+                ProgressSettingsView(
+                    taskConfiguration: Binding(
+                        get: { viewModel.state.tasks[.progressTracking]! },
+                        set: { updatedTaskConfiguation in
+                            viewModel.onIntent(.updateTask(.progressTracking, updatedTaskConfiguation))
+                        }
+                    )
                 )
+                .padding(.horizontal)
                 
-                // TODO: Pick room handling
-                
+                TasksSettingsView(
+                    tasks: Binding(
+                        get: { viewModel.state.tasks },
+                        set: { updatedTaskConfigurations in
+                            updatedTaskConfigurations.forEach { taskType, taskConfiguration in
+                                viewModel.onIntent(.updateTask(taskType, taskConfiguration))
+                            }
+                        }
+                    )
+                )
+                .padding(.horizontal)
             }
+            .padding(.top)
+            .padding(.bottom, Constants.Spacing.xxxLarge)
         }
         .edgesIgnoringSafeArea(.bottom)
         .alert(item: Binding<AlertData?>(
@@ -114,9 +152,147 @@ struct AddPlantView: View {
             )
             .ignoresSafeArea(edges: .all)
         }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(viewModel.state.isEditing ? "Update" : "Add Plant") {
+                    // TODO
+                    print("disabled")
+                }
+                .disabled(!viewModel.state.isCreateButtonEnabled)
+            }
+        }
         .foregroundStyle(Colors.primaryText)
         .lifecycle(viewModel)
     }
+    
+    @ViewBuilder
+    private func taskSection(taskType: TaskType) -> some View {
+        if let taskConfiguration = viewModel.state.tasks[taskType] {
+            VStack(spacing: 0) {
+                ToggleListRow(
+                    isToggleOn: Binding(
+                        get: { taskConfiguration.isTracked },
+                        set: { isTracked in
+                            viewModel.onIntent(.updateTaskProperty(taskType, .isTracked(isTracked)))
+                        }
+                    ),
+                    title: TaskType.title(for: taskType),
+                    rowLevel: .primary,
+                    isLast: false,
+                    icon: TaskType.icon(for: taskType)
+                )
+                
+                if taskConfiguration.isTracked {
+                    ToggleListRow(
+                        isToggleOn: Binding(
+                            get: { taskConfiguration.hasNotifications },
+                            set: { hasNotifications in
+                                viewModel.onIntent(.updateTaskProperty(taskType, .hasNotifications(hasNotifications)))
+                            }
+                        ),
+                        title: "Notifications", // TODO: Strings
+                        rowLevel: .secondary,
+                        isLast: false,
+                        icon: Icons.alarmClock
+                    )
+                    
+                    if taskConfiguration.hasNotifications {
+                        CalendarListRow(
+                            date: Binding(
+                                get: { taskConfiguration.startDate },
+                                set: { newDate in
+                                    viewModel.onIntent(.updateTaskProperty(taskType, .startDate(newDate)))
+                                }
+                            ),
+                            datePickerComponents: .date,
+                            rowLever: .secondary,
+                            isLast: false
+                        )
+                        
+                        ButtonListRow(
+                            title: "Repeat",
+                            rowLevel: .secondary,
+                            isLast: true,
+                            text: taskConfiguration.periods.first?.name ?? "None",
+                            leadingIcon: Icons.refresh,
+                            trailingIcon: Asset.Icons.chevronSelectorVertical.image,
+                            action: {
+                                // Open repeat settings
+                            }
+                        )
+                    }
+                }
+            }
+            .animation(.easeInOut, value: taskConfiguration.isTracked)
+            .animation(.easeInOut, value: taskConfiguration.hasNotifications)
+        }
+    }
+    
+    @ViewBuilder
+    private func plantProgressSection() -> some View {
+        BaseList(title: "Plant Progress") {
+            if let taskConfiguration = viewModel.state.tasks[.progressTracking] {
+                VStack(spacing: 0) {
+                    ToggleListRow(
+                        isToggleOn: Binding(
+                            get: { taskConfiguration.isTracked },
+                            set: { isTracked in
+                                viewModel.onIntent(.updateTaskProperty(.progressTracking, .isTracked(isTracked)))
+                            }
+                        ),
+                        title: "Track Progress",
+                        rowLevel: .primary,
+                        isLast: false,
+                        icon: TaskType.icon(for: .progressTracking)
+                    )
+                    
+                    if taskConfiguration.isTracked {
+                        ToggleListRow(
+                            isToggleOn: Binding(
+                                get: { taskConfiguration.hasNotifications },
+                                set: { hasNotifications in
+                                    viewModel.onIntent(.updateTaskProperty(.progressTracking, .hasNotifications(hasNotifications)))
+                                }
+                            ),
+                            title: "Notifications",
+                            rowLevel: .secondary,
+                            isLast: false,
+                            icon: Icons.alarmClock
+                        )
+                        
+                        if taskConfiguration.hasNotifications {
+                            CalendarListRow(
+                                date: Binding(
+                                    get: { taskConfiguration.startDate },
+                                    set: { newDate in
+                                        viewModel.onIntent(.updateTaskProperty(.progressTracking, .startDate(newDate)))
+                                    }
+                                ),
+                                datePickerComponents: .date,
+                                rowLever: .secondary,
+                                isLast: false
+                            )
+                            
+                            ButtonListRow(
+                                title: "Repeat",
+                                rowLevel: .secondary,
+                                isLast: true,
+                                text: taskConfiguration.periods.first?.name ?? "None",
+                                leadingIcon: Icons.refresh,
+                                trailingIcon: Icons.chevronSelectorVertical,
+                                action: {
+                                    // TODO:
+                                }
+                            )
+                        }
+                    }
+                }
+                .animation(.easeInOut, value: taskConfiguration.isTracked)
+                .animation(.easeInOut, value: taskConfiguration.hasNotifications)
+            }
+        }
+    }
+
 }
 
 #Preview {

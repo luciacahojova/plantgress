@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ToggleListRow: View {
+public struct ToggleListRow: View {
     
     @Binding private var isToggleOn: Bool
     
@@ -17,7 +17,7 @@ struct ToggleListRow: View {
     
     private let icon: Image?
     
-    init(
+    public init(
         isToggleOn: Binding<Bool>,
         title: String,
         rowLevel: RowLevel,

@@ -12,7 +12,7 @@ enum PlantsFlow: Flow {
     case openSettings
     case showPlantDetail(UUID)
     case showRoomDetail(UUID)
-    case showAddPlant(editingId: UUID?, onShouldRefresh: () -> Void)
+    case showAddPlant(editingId: UUID?, plantName: String?, onShouldRefresh: () -> Void)
     case showAddRoom(editingId: UUID?, onShouldRefresh: () -> Void)
     case presentAddTask(editingId: UUID?, onShouldRefresh: () -> Void)
     case showPlantSettings(plantId: UUID?, onShouldRefresh: () -> Void)
@@ -43,7 +43,11 @@ public final class PlantsFlowController: FlowController {
         case .openSettings: openSettings()
         case .showPlantDetail(let plantId): showPlantDetail(plantId)
         case .showRoomDetail(let roomId): showRoomDetail(roomId)
-        case let .showAddPlant(editingId, onShouldRefresh): showAddPlant(editingId: editingId, onShouldRefresh: onShouldRefresh)
+        case let .showAddPlant(editingId, plantName, onShouldRefresh): showAddPlant(
+            editingId: editingId,
+            plantName: plantName,
+            onShouldRefresh: onShouldRefresh
+        )
         case let .showAddRoom(editingId, onShouldRefresh): showAddRoom(editingId: editingId, onShouldRefresh: onShouldRefresh)
         case let .presentAddTask(editingId, onShouldRefresh): presentAddTask(editingId: editingId, onShouldRefresh: onShouldRefresh)
         case let .showPlantSettings(plantId, onShouldRefresh): showPlantSettings(plantId: plantId, onShouldRefresh: onShouldRefresh)
@@ -68,6 +72,7 @@ public final class PlantsFlowController: FlowController {
     
     private func showAddPlant(
         editingId: UUID?,
+        plantName: String? = nil,
         onShouldRefresh: @escaping () -> Void
     ) {
         let vm = AddPlantViewModel(
@@ -78,7 +83,7 @@ public final class PlantsFlowController: FlowController {
         let view = AddPlantView(viewModel: vm)
         let vc = HostingController(
             rootView: view,
-            title: editingId != nil ? "Edit Plant" : "Add New Plant" // TODO: Strings
+            title: editingId != nil ? "\(plantName ?? "") Settings" : "Add New Plant" // TODO: Strings
         )
         vc.hidesBottomBarWhenPushed = true
         
