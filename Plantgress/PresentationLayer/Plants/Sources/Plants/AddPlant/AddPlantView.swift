@@ -26,8 +26,14 @@ struct AddPlantView: View {
     // MARK: - Body
     var body: some View {
         ScrollView(showsIndicators: false) {
-            VStack {
-                BaseList(title: "Name") { // TODO: String
+            VStack(spacing: Constants.Spacing.mediumLarge) {
+                VStack(alignment: .leading, spacing: Constants.Spacing.small) {
+                    Text("Name") // TODO: String
+                        .textCase(.uppercase)
+                        .padding(.leading, Constants.Spacing.medium)
+                        .font(Fonts.calloutSemibold)
+                        .foregroundStyle(Colors.secondaryText)
+                    
                     OutlinedTextField(
                         text: Binding<String>(
                             get: { viewModel.state.name },
@@ -40,6 +46,17 @@ struct AddPlantView: View {
                         }
                     )
                 }
+                .padding(.horizontal)
+                    
+                AddPlantImagesView(
+                    images: viewModel.state.uploadedImages,
+                    addImageAction: {
+                        viewModel.onIntent(.toggleImageActionSheet)
+                    },
+                    deleteImageAction: { imageId in // TODO: Implementation
+//                        viewModel.onIntent(.deleteImage(imageId))
+                    }
+                )
                 
                 // TODO: Pick room handling
                 
@@ -74,7 +91,7 @@ struct AddPlantView: View {
         }
         .sheet(isPresented: Binding<Bool>(
             get: { viewModel.state.isImagePickerPresented },
-            set: { _ in viewModel.onIntent(.toggleImagePicker) }
+            set: { _ in viewModel.onIntent(.dismissImagePicker) }
         )) {
             ImagePicker(
                 images: Binding<[UIImage]>(
@@ -88,7 +105,7 @@ struct AddPlantView: View {
         }
         .fullScreenCover(isPresented: Binding<Bool>(
             get: { viewModel.state.isCameraPickerPresented },
-            set: { _ in viewModel.onIntent(.toggleCameraPicker) }
+            set: { _ in viewModel.onIntent(.dissmissCameraPicker) }
         )) {
             CameraPicker(
                 selectedImage: { image in

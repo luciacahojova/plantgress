@@ -124,6 +124,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case toggleImageActionSheet
         case toggleCameraPicker
         case toggleImagePicker
+        case dismissCameraPicker
+        case dismissImagePicker
         
         case plusButtonTapped
         
@@ -152,6 +154,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case .toggleImageActionSheet: toggleImageActionSheet()
         case .toggleCameraPicker: toggleCameraPicker()
         case .toggleImagePicker: toggleImagePicker()
+        case .dismissCameraPicker: dismissCameraPicker()
+        case .dismissImagePicker: dismissImagePicker()
         case .plusButtonTapped: plusButtonTapped()
         case .showPlantDetail(let plantId): showPlantDetail(plantId)
         case .showRoomDetail(let roomId): showRoomDetail(roomId)
@@ -195,6 +199,14 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                 onShouldRefresh: loadData
             )
         )
+    }
+    
+    private func dismissCameraPicker() {
+        state.isCameraPickerPresented = false
+    }
+    
+    private func dismissImagePicker() {
+        state.isImagePickerPresented = false
     }
     
     private func completeTaskForRoom(roomId: UUID, taskType: TaskType) {

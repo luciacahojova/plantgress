@@ -10,13 +10,13 @@ import Foundation
 public struct ImageData: Codable, Sendable {
     public let id: UUID
     public let date: Date
-    public let urlString: String
+    public let urlString: String?
     public let isLoading: Bool
     
     public init(
         id: UUID,
         date: Date,
-        urlString: String,
+        urlString: String?,
         isLoading: Bool = false
     ) {
         self.id = id

@@ -87,6 +87,8 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         case toggleImageActionSheet
         case toggleCameraPicker
         case toggleImagePicker
+        case dissmissCameraPicker
+        case dismissImagePicker
         
         case alertDataChanged(AlertData?)
         case snackbarDataChanged(SnackbarData?)
@@ -101,6 +103,8 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .uploadImages(let images): uploadImages(images)
         case .toggleImageActionSheet: toggleImageActionSheet()
         case .toggleCameraPicker: toggleCameraPicker()
+        case .dissmissCameraPicker: dissmissCameraPicker()
+        case .dismissImagePicker: dismissImagePicker()
         case .toggleImagePicker: toggleImagePicker()
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
@@ -148,7 +152,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
                     onShouldRefresh()
                     flowController?.handleFlow(PlantsFlow.pop)
                 } catch {
-                    setFailedSnackbarData(message: "Failed to create plant.")
+                    setFailedSnackbarData(message: "Failed to create plant.") // TODO: String
                 }
             }
         )
@@ -161,15 +165,18 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
             Task {
                 for image in images {
                     do {
-                        guard let data = image.jpegData(compressionQuality: 1),
-                              let userId = state.userId else {
-                            continue
+                        guard let userId = state.userId else {
+                            throw ImagesError.uploadFailed
+                        }
+                        
+                        guard let data = image.jpegData(compressionQuality: 1) else {
+                            throw ImagesError.uploadFailed
                         }
                         
                         var newImage = ImageData(
                             id: UUID(),
                             date: Date(),
-                            urlString: "",
+                            urlString: nil,
                             isLoading: true
                         )
                         state.uploadedImages.append(newImage)
@@ -219,6 +226,8 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     }
     
     private func loadData() {
+        loadUser()
+        
         let getPlantUseCase = getPlantUseCase
         let getRoomUseCase = getRoomUseCase
         if let editingId {
@@ -241,6 +250,14 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
             return
         }
         state.userId = user.id
+    }
+    
+    private func dissmissCameraPicker() {
+        state.isCameraPickerPresented = false
+    }
+    
+    private func dismissImagePicker() {
+        state.isImagePickerPresented = false
     }
     
     private func toggleCameraPicker() {

@@ -145,7 +145,7 @@ struct PlantsOverviewView: View {
         }
         .sheet(isPresented: Binding<Bool>(
             get: { viewModel.state.isImagePickerPresented },
-            set: { _ in viewModel.onIntent(.toggleImagePicker) }
+            set: { _ in viewModel.onIntent(.dismissImagePicker) }
         )) {
             ImagePicker(
                 images: Binding<[UIImage]>(
@@ -159,7 +159,7 @@ struct PlantsOverviewView: View {
         }
         .fullScreenCover(isPresented: Binding<Bool>(
             get: { viewModel.state.isCameraPickerPresented },
-            set: { _ in viewModel.onIntent(.toggleCameraPicker) }
+            set: { _ in viewModel.onIntent(.dismissCameraPicker) }
         )) {
             CameraPicker(
                 selectedImage: { image in
