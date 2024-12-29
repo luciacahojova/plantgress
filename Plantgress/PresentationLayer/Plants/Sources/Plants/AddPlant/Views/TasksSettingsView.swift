@@ -61,6 +61,18 @@ struct TasksSettingsView: View {
                 if taskConfiguration.hasNotifications {
                     CalendarListRow(
                         date: Binding(
+                            get: { taskConfiguration.time },
+                            set: { newTime in
+                                tasks[taskType] = .init(copy: taskConfiguration, time: newTime)
+                            }
+                        ),
+                        datePickerComponents: .hourAndMinute,
+                        rowLever: .secondary,
+                        isLast: false
+                    )
+                    
+                    CalendarListRow(
+                        date: Binding(
                             get: { taskConfiguration.startDate },
                             set: { newDate in
                                 tasks[taskType] = .init(copy: taskConfiguration, startDate: newDate)
@@ -71,15 +83,27 @@ struct TasksSettingsView: View {
                         isLast: false
                     )
                     
-                    ButtonListRow(
-                        title: "Repeat", // TODO: Strings
+                    CustomListRow(
+                        title: "Repeat",
+                        rowLevel: .secondary,
+                        isLast: false,
+                        icon: Icons.recycle,
+                        content: {
+                            Text(
+                                taskConfiguration.periods.count == 1
+                                    ? taskConfiguration.periods.first?.interval.name ?? ""
+                                    : "Custom" // TODO: String
+                            )
+                            .foregroundStyle(Colors.secondaryText)
+                        }
+                    )
+                    
+                    PeriodListRow(
+                        periods: taskConfiguration.periods,
                         rowLevel: .secondary,
                         isLast: taskType == .propagation,
-                        text: taskConfiguration.periods.first?.name ?? "None", // TODO: ??
-                        leadingIcon: Icons.refresh,
-                        trailingIcon: Icons.chevronSelectorVertical,
                         action: {
-                            // TODO: Implementation
+                            // TODO: Action to open new screen
                         }
                     )
                 }
@@ -87,6 +111,19 @@ struct TasksSettingsView: View {
         }
         .animation(.easeInOut, value: taskConfiguration.isTracked)
         .animation(.easeInOut, value: taskConfiguration.hasNotifications)
+    }
+    
+    private func generatePeriodDescription(_ periods: [TaskPeriod]) -> String {
+        let maxVisiblePeriods = 3
+        let descriptions = periods.map { $0.name }
+        let visibleDescriptions = descriptions.prefix(maxVisiblePeriods)
+        let hiddenCount = descriptions.count - visibleDescriptions.count
+
+        if hiddenCount > 0 {
+            return visibleDescriptions.joined(separator: ", ") + ", ..."
+        } else {
+            return visibleDescriptions.joined(separator: ", ")
+        }
     }
 }
 

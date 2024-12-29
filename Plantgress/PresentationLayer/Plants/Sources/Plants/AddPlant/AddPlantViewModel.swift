@@ -79,6 +79,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     enum TaskProperty {
         case isTracked(Bool)
         case hasNotifications(Bool)
+        case time(Date)
         case startDate(Date)
         case periods([TaskPeriod])
     }
@@ -141,6 +142,8 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
             task = TaskConfiguration(copy: task, isTracked: isTracked)
         case let .hasNotifications(hasNotifications):
             task = TaskConfiguration(copy: task, hasNotifications: hasNotifications)
+        case let .time(time):
+            task = TaskConfiguration(copy: task, time: time)
         case let .startDate(startDate):
             task = TaskConfiguration(copy: task, startDate: startDate)
         case let .periods(periods):

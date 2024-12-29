@@ -11,6 +11,7 @@ public struct TaskConfiguration: Codable, Sendable, Equatable {
     public let taskType: TaskType
     public let isTracked: Bool
     public let hasNotifications: Bool
+    public let time: Date
     public let startDate: Date
     public let periods: [TaskPeriod]
     
@@ -18,12 +19,14 @@ public struct TaskConfiguration: Codable, Sendable, Equatable {
         taskType: TaskType,
         isTracked: Bool,
         hasNotifications: Bool,
+        time: Date,
         startDate: Date,
         periods: [TaskPeriod]
     ) {
         self.taskType = taskType
         self.isTracked = isTracked
         self.hasNotifications = hasNotifications
+        self.time = time
         self.startDate = startDate
         self.periods = periods
     }
@@ -32,6 +35,7 @@ public struct TaskConfiguration: Codable, Sendable, Equatable {
         return lhs.taskType == rhs.taskType &&
                lhs.isTracked == rhs.isTracked &&
                lhs.hasNotifications == rhs.hasNotifications &&
+               lhs.time == rhs.time &&
                lhs.startDate == rhs.startDate &&
                lhs.periods == rhs.periods
     }
@@ -41,12 +45,14 @@ public struct TaskConfiguration: Codable, Sendable, Equatable {
         taskType: TaskType? = nil,
         isTracked: Bool? = nil,
         hasNotifications: Bool? = nil,
+        time: Date? = nil,
         startDate: Date? = nil,
         periods: [TaskPeriod]? = nil
     ) {
         self.taskType = taskType ?? copy.taskType
         self.isTracked = isTracked ?? copy.isTracked
         self.hasNotifications = hasNotifications ?? copy.hasNotifications
+        self.time = time ?? copy.time 
         self.startDate = startDate ?? copy.startDate
         self.periods = periods ?? copy.periods
     }

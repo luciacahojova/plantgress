@@ -51,6 +51,18 @@ struct ProgressSettingsView: View {
                     if taskConfiguration.hasNotifications {
                         CalendarListRow(
                             date: Binding(
+                                get: { taskConfiguration.time },
+                                set: { newTime in
+                                    taskConfiguration = .init(copy: taskConfiguration, time: newTime)
+                                }
+                            ),
+                            datePickerComponents: .hourAndMinute,
+                            rowLever: .secondary,
+                            isLast: false
+                        )
+                        
+                        CalendarListRow(
+                            date: Binding(
                                 get: { taskConfiguration.startDate },
                                 set: { newDate in
                                     taskConfiguration = .init(copy: taskConfiguration, startDate: newDate)
@@ -61,15 +73,27 @@ struct ProgressSettingsView: View {
                             isLast: false
                         )
                         
-                        ButtonListRow(
-                            title: "Repeat", // TODO: Strings
+                        CustomListRow(
+                            title: "Repeat",
+                            rowLevel: .secondary,
+                            isLast: false,
+                            icon: Icons.recycle,
+                            content: {
+                                Text(
+                                    taskConfiguration.periods.count == 1
+                                        ? taskConfiguration.periods.first?.interval.name ?? ""
+                                        : "Custom" // TODO: String
+                                )
+                                .foregroundStyle(Colors.secondaryText)
+                            }
+                        )
+                        
+                        PeriodListRow(
+                            periods: taskConfiguration.periods,
                             rowLevel: .secondary,
                             isLast: true,
-                            text: taskConfiguration.periods.first?.name ?? "None", // TODO: ??
-                            leadingIcon: Icons.refresh,
-                            trailingIcon: Icons.chevronSelectorVertical,
                             action: {
-                                // TODO: Implementation
+                                // TODO: Action to open new screen
                             }
                         )
                     }

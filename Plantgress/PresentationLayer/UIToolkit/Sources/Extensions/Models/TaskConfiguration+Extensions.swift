@@ -15,6 +15,7 @@ public extension TaskConfiguration {
                 taskType: taskType,
                 isTracked: true,
                 hasNotifications: true,
+                time: Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date(),
                 startDate: Date(),
                 periods: [
                     TaskPeriod(id: UUID(), name: "Period 1", interval: .daily(interval: 10))
@@ -25,6 +26,7 @@ public extension TaskConfiguration {
                 taskType: taskType,
                 isTracked: false,
                 hasNotifications: false,
+                time: Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date(),
                 startDate: Date(),
                 periods: [
                     TaskPeriod(id: UUID(), name: "Period 1", interval: .daily(interval: 10))
@@ -41,6 +43,7 @@ public extension [TaskConfiguration] {
                 taskType: taskType,
                 isTracked: true,
                 hasNotifications: false,
+                time: Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date(),
                 startDate: Date(),
                 periods: []
             )
@@ -54,6 +57,7 @@ public extension [TaskConfiguration] {
                     taskType: taskType,
                     isTracked: true,
                     hasNotifications: true,
+                    time: Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date(),
                     startDate: Date(),
                     periods: [
                         TaskPeriod(id: UUID(), name: "Period 1", interval: .daily(interval: 10))
@@ -64,6 +68,7 @@ public extension [TaskConfiguration] {
                     taskType: taskType,
                     isTracked: false,
                     hasNotifications: false,
+                    time: Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date(),
                     startDate: Date(),
                     periods: [
                         TaskPeriod(id: UUID(), name: "Period 1", interval: .daily(interval: 10))
@@ -79,6 +84,7 @@ public extension [TaskConfiguration] {
                 taskType: taskType,
                 isTracked: true,
                 hasNotifications: false,
+                time: Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date(),
                 startDate: Date(),
                 periods: []
             )
