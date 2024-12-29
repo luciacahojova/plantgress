@@ -30,7 +30,7 @@ struct AddPlantImagesView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.Spacing.small) {
-            Text("Images") // TODO: String
+            Text(Strings.plantCreationImages) 
                 .textCase(.uppercase)
                 .padding(.leading, Constants.Spacing.medium + Constants.Spacing.mediumLarge)
                 .font(Fonts.calloutSemibold)

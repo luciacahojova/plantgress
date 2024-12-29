@@ -47,7 +47,7 @@ struct ProgressSettingsView: View {
                                 taskConfiguration = .init(copy: taskConfiguration, hasNotifications: hasNotifications)
                             }
                         ),
-                        title: "Notifications", // TODO: Strings
+                        title: Strings.plantCreationNotifications, 
                         rowLevel: .secondary,
                         isLast: !taskConfiguration.hasNotifications,
                         icon: Icons.alarmClock
@@ -79,15 +79,15 @@ struct ProgressSettingsView: View {
                         )
                         
                         CustomListRow(
-                            title: "Repeat",
+                            title: Strings.plantCreationRepeat,
                             rowLevel: .secondary,
                             isLast: false,
                             icon: Icons.recycle,
                             content: {
                                 Text(
                                     taskConfiguration.periods.count == 1
-                                        ? taskConfiguration.periods.first?.interval.name ?? ""
-                                        : "Custom" // TODO: String
+                                        ? taskConfiguration.periods.first?.interval.name ?? Strings.plantCreationCustom
+                                        : Strings.plantCreationCustom
                                 )
                                 .foregroundStyle(Colors.secondaryText)
                             }

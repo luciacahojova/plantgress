@@ -22,16 +22,19 @@ struct MonthlyPeriodRow: View {
     var body: some View {
         VStack(spacing: 0) {
             CustomListRow(
-                title: "Every", // TODO: Strings
-                isLast: false,
-                content: {
-                    if case let .monthly(interval, _) = taskInterval {
-                        Text("\(interval) days") // TODO: Strings
+                title: Strings.repeatEveryLabel,
+                isLast: false
+            ) {
+                if case let .monthly(interval, _) = taskInterval {
+                    if interval == 1 {
+                        Text(Strings.plantCreationEveryDaysFormatOne(interval))
+                    } else if interval < 5 {
+                        Text(Strings.plantCreationEveryDaysFormatFew(interval))
                     } else {
-                        Text("1 day")
+                        Text(Strings.plantCreationEveryDaysFormatMany(interval))
                     }
                 }
-            )
+            }
             
             Picker(
                 "",

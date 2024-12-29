@@ -20,13 +20,17 @@ struct WeeklyPeriodRow: View {
     var body: some View {
         VStack(spacing: 0) {
             CustomListRow(
-                title: "Every", // TODO: Strings
+                title: Strings.repeatEveryLabel,
                 isLast: false
             ) {
                 if case let .weekly(interval, _) = taskInterval {
-                    Text("\(interval) weeks") // TODO: Strings
-                } else {
-                    Text("1 week")
+                    if interval == 1 {
+                        Text(Strings.plantCreationEveryWeeksFormatOne(interval))
+                    } else if interval < 5 {
+                        Text(Strings.plantCreationEveryWeeksFormatFew(interval))
+                    } else {
+                        Text(Strings.plantCreationEveryWeeksFormatMany(interval))
+                    }
                 }
             }
             
@@ -47,7 +51,7 @@ struct WeeklyPeriodRow: View {
                 )
             ) {
                 ForEach(1...12, id: \.self) { number in
-                    Text("\(number) weeks") // TODO: Strings
+                    Text("\(number)")
                         .tag(number)
                 }
             }
@@ -57,13 +61,11 @@ struct WeeklyPeriodRow: View {
             Divider()
             
             CustomListRow(
-                title: "On", // TODO: Strings
+                title: Strings.repeatOnLabel,
                 isLast: false
             ) {
                 if case let .weekly(_, weekday) = taskInterval {
-                    Text(Calendar.current.weekdaySymbols[weekday - 1]) // TODO: Strings
-                } else {
-                    Text("Monday")
+                    Text(Calendar.current.weekdaySymbols[weekday - 1])
                 }
             }
             

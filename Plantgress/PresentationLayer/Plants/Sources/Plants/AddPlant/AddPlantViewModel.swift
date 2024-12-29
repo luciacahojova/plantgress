@@ -148,7 +148,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
                     onShouldRefresh()
                     flowController?.handleFlow(PlantsFlow.pop)
                 } catch {
-                    setFailedSnackbarData(message: "Failed to delete plant.") // TODO: Strings
+                    setFailedSnackbarData(message: Strings.plantCreationFailedToDeleteSnackbar)
                 }
             }
         )
@@ -156,8 +156,8 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func deletePlant() {
         state.alertData = .init(
-            title: "Delete Plant", // TODO: Strings
-            message: "Are you sure you want to delete plant?",
+            title: Strings.plantCreationDeleteAlertTitle,
+            message: Strings.plantCreationDeleteAlertMessage,
             primaryAction: .init(
                 title: Strings.cancelButton,
                 style: .cancel,
@@ -239,7 +239,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
                     try await deleteImageUseCase.execute(userId: userId, imageId: imageId)
                 } catch {
                     self.state.uploadedImages.insert(removedImage, at: index)
-                    self.setFailedSnackbarData(message: "Failed to delete image") // TODO: String
+                    self.setFailedSnackbarData(message: Strings.plantCreationFailedToDeleteImageSnackbar)
                 }
             }
         )
@@ -251,8 +251,8 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func navigateBack() {
         state.alertData = .init(
-            title: "Cancel plant creation",
-            message: "Are you sure you want to cancel plant creation?",
+            title: Strings.plantCreationCancelAlertTitle,
+            message: Strings.plantCreationCancelAlertMessage,
             primaryAction: .init(
                 title: Strings.cancelButton,
                 style: .cancel,
@@ -294,7 +294,11 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
                     onShouldRefresh()
                     flowController?.handleFlow(PlantsFlow.pop)
                 } catch {
-                    setFailedSnackbarData(message: "Failed to create plant.") // TODO: String
+                    setFailedSnackbarData(
+                        message: state.isEditing
+                            ? Strings.plantCreationFailedToUpdateSnackbar
+                        : Strings.plantCreationFailedToCreateSnackbar
+                    )
                 }
             }
         )

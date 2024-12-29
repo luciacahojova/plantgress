@@ -24,7 +24,7 @@ struct TasksSettingsView: View {
     }
 
     var body: some View {
-        BaseList(title: "Task Settings") { // TODO: Strings
+        BaseList(title: Strings.plantCreationTaskSettings) {
             ForEach(TaskType.allCases.filter { $0 != .progressTracking }, id: \.self) { taskType in
                 if let taskConfiguration = tasks[taskType] {
                     taskSection(taskType: taskType, taskConfiguration: taskConfiguration)
@@ -57,7 +57,7 @@ struct TasksSettingsView: View {
                             tasks[taskType] = .init(copy: taskConfiguration, hasNotifications: hasNotifications)
                         }
                     ),
-                    title: "Notifications", // TODO: Strings
+                    title: Strings.plantCreationNotifications,
                     rowLevel: .secondary,
                     isLast: !taskConfiguration.hasNotifications && taskType == .propagation,
                     icon: Icons.alarmClock
@@ -89,15 +89,15 @@ struct TasksSettingsView: View {
                     )
                     
                     CustomListRow(
-                        title: "Repeat",
+                        title: Strings.plantCreationRepeat,
                         rowLevel: .secondary,
                         isLast: false,
                         icon: Icons.recycle,
                         content: {
                             Text(
                                 taskConfiguration.periods.count == 1
-                                    ? taskConfiguration.periods.first?.interval.name ?? ""
-                                    : "Custom" // TODO: String
+                                    ? taskConfiguration.periods.first?.interval.name ?? Strings.plantCreationCustom
+                                    : Strings.plantCreationCustom
                             )
                             .foregroundStyle(Colors.secondaryText)
                         }
@@ -116,19 +116,6 @@ struct TasksSettingsView: View {
         }
         .animation(.easeInOut, value: taskConfiguration.isTracked)
         .animation(.easeInOut, value: taskConfiguration.hasNotifications)
-    }
-    
-    private func generatePeriodDescription(_ periods: [TaskPeriod]) -> String {
-        let maxVisiblePeriods = 3
-        let descriptions = periods.map { $0.name }
-        let visibleDescriptions = descriptions.prefix(maxVisiblePeriods)
-        let hiddenCount = descriptions.count - visibleDescriptions.count
-
-        if hiddenCount > 0 {
-            return visibleDescriptions.joined(separator: ", ") + ", ..."
-        } else {
-            return visibleDescriptions.joined(separator: ", ")
-        }
     }
 }
 

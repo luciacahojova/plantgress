@@ -73,7 +73,7 @@ public final class PlantsFlowController: FlowController {
         let view = PeriodSettingsView(viewModel: vm)
         let vc = HostingController(
             rootView: view,
-            title: "Tracking periods", // TODO: Strings,
+            title: Strings.plantCreationAddAnotherTrackingPeriodsTitle,
             prefersLargeTitles: false
         )
         vc.hidesBottomBarWhenPushed = true
@@ -108,7 +108,9 @@ public final class PlantsFlowController: FlowController {
         let view = AddPlantView(viewModel: vm)
         let vc = HostingController(
             rootView: view,
-            title: editingId != nil ? "\(plantName ?? "") Settings" : "Add New Plant" // TODO: Strings
+            title: editingId != nil
+                ? "\(plantName ?? "") \(Strings.settingsButton)"
+                : Strings.plantCreationTitle
         )
         vc.hidesBottomBarWhenPushed = true
         

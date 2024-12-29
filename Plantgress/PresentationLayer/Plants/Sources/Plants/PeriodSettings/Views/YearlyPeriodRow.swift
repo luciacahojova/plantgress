@@ -29,7 +29,7 @@ struct YearlyPeriodRow: View {
     public var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: Constants.List.spacing) {
-                Text("On") // TODO: String
+                Text(Strings.repeatOnLabel)
                 
                 Spacer()
                 

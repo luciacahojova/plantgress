@@ -37,7 +37,7 @@ struct PeriodSettingsView: View {
                 ForEach(viewModel.state.periods, id: \.id) { period in
                     BaseList(title: period.name) {
                         CustomListRow(
-                            title: "Frequency", // TODO: Strings
+                            title: Strings.plantCreationFrequency,
                             isLast: false
                         ) {
                             Picker(
@@ -49,10 +49,10 @@ struct PeriodSettingsView: View {
                                     }
                                 )
                             ) {
-                                Text("Daily").tag(IntervalType.daily) // TODO: Strings
-                                Text("Weekly").tag(IntervalType.weekly)
-                                Text("Monthly").tag(IntervalType.monthly)
-                                Text("Yearly").tag(IntervalType.yearly)
+                                Text(Strings.plantCreationDaily).tag(IntervalType.daily)
+                                Text(Strings.plantCreationWeekly).tag(IntervalType.weekly)
+                                Text(Strings.plantCreationMonthly).tag(IntervalType.monthly)
+                                Text(Strings.plantCreationYearly).tag(IntervalType.yearly)
                             }
                             .pickerStyle(MenuPickerStyle())
                             .tint(Colors.primaryText)
@@ -144,9 +144,9 @@ struct PeriodSettingsView: View {
                     }
                 }
                 
-                BaseList(title: "Add period") { // TODO: Strings
+                BaseList(title: Strings.plantCreationAddPeriodButton) {
                     ButtonListRow(
-                        title: "Add another period", // TODO: Strings
+                        title: Strings.plantCreationAddAnotherPeriodButton,
                         isLast: true,
                         trailingIcon: Icons.plus,
                         action: {

@@ -74,8 +74,10 @@
 "cancel_button" = "Cancel";
 "close_button" = "Close";
 "delete_button" = "Delete";
-"edit_button" = "Upraviť";
-"undo_button" = "Späť";
+"edit_button" = "Edit";
+"pick_button" = "Pick";
+"discard_button" = "Discard";
+"undo_button" = "Undo";
 "settings_button" = "Settings";
 
 // MARK: Tasks
@@ -128,3 +130,65 @@
 "repotting_title" = "Repotting";
 "propagating_title" = "Propagating";
 "progress_tracking_title" = "Progress Tracking";
+
+// MARK: Plant Creation
+"plant_creation_title" = "Add New Plant";
+"plant_creation_images" = "Images";
+"plant_creation_notifications" = "Notifications";
+"plant_creation_repeat" = "Repeat";
+"plant_creation_custom" = "Custom";
+"plant_creation_task_settings" = "Task Settings";
+"plant_creation_name" = "Name";
+"plant_creation_plant_name" = "Plant Name";
+"plant_creation_room" = "Room";
+"plant_creation_select_room" = "Select Room";
+"plant_creation_delete_plant_button" = "Delete Plant";
+"plant_creation_update_button" = "Update";
+"plant_creation_add_button" = "Add Plant";
+"repeat_on_label" = "On";
+"repeat_every_label" = "Every";
+"plant_creation_add_period_button" = "Add period";
+"plant_creation_add_another_period_button" = "Add another period";
+"plant_creation_add_another_tracking_periods_title" = "Tracking periods";
+
+"plant_creation_failed_to_delete_snackbar" = "Failed to delete plant.";
+"plant_creation_delete_alert_title" = "Delete Plant";
+"plant_creation_delete_alert_message" = "Are you sure you want to delete this plant?";
+
+"plant_creation_failed_to_delete_image_snackbar" = "Failed to delete image.";
+"plant_creation_cancel_alert_title" = "Cancel Plant Creation";
+"plant_creation_cancel_alert_message" = "Are you sure you want to cancel plant creation?";
+
+"plant_creation_failed_to_create_snackbar" = "Failed to create plant.";
+"plant_creation_failed_to_update_snackbar" = "Failed to update plant.";
+
+"plant_creation_period_format" = "Period %@";
+"plant_creation_frequency" = "Frequency";
+"plant_creation_daily" = "Daily";
+"plant_creation_weekly" = "Weekly";
+"plant_creation_monthly" = "Monthly";
+"plant_creation_yearly" = "Yearly";
+"plant_creation_sorted_months_format" = "%@ and %@";
+
+// MARK: Plurals
+"repeat_daily_format_one" = "Repeats every day";
+"repeat_daily_format_few" = "Repeats every %@ days";
+"repeat_daily_format_many" = "Repeats every %@ days";
+
+"repeat_weekly_format_one" = "Repeats every week on %@";
+"repeat_weekly_format_few" = "Repeats every %@ weeks on %@";
+"repeat_weekly_format_many" = "Repeats every %@ weeks on %@";
+
+"repeat_monthly_format_one" = "Repeats every day in %@";
+"repeat_monthly_format_few" = "Repeats every %@ days in %@";
+"repeat_monthly_format_many" = "Repeats every %@ days in %@";
+
+"repeat_yearly_format" = "Repeats every year on %@.%@";
+
+"plant_creation_every_days_format_one" = "%@ day";
+"plant_creation_every_days_format_few" = "%@ days";
+"plant_creation_every_days_format_many" = "%@ days";
+
+"plant_creation_every_weeks_format_one" = "%@ week";
+"plant_creation_every_weeks_format_few" = "%@ weeks";
+"plant_creation_every_weeks_format_many" = "%@ weeks";

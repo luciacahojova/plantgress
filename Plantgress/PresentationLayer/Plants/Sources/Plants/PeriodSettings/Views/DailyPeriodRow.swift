@@ -20,12 +20,17 @@ struct DailyPeriodRow: View {
     var body: some View {
         VStack(spacing: 0) {
             CustomListRow(
-                title: "Every", // TODO: Strings
-                isLast: false,
-                content:  {
-                    Text("\(interval) days") // TODO: Strings
+                title: Strings.repeatEveryLabel,
+                isLast: false
+            ) {
+                if interval == 1 {
+                    Text(Strings.plantCreationEveryDaysFormatOne(interval))
+                } else if interval < 5 {
+                    Text(Strings.plantCreationEveryDaysFormatFew(interval))
+                } else {
+                    Text(Strings.plantCreationEveryDaysFormatMany(interval))
                 }
-            )
+            }
             
             Picker("", selection: $interval) {
                 ForEach(1...365, id: \.self) { number in

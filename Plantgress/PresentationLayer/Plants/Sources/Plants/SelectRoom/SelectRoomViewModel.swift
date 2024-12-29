@@ -96,7 +96,7 @@ final class SelectRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
                 do {
                     state.rooms = try await getAllRoomsUseCase.execute()
                 } catch {
-                    state.errorMessage = "Failed to load rooms." // TODO: String
+                    state.errorMessage = Strings.dataLoadFailedSnackbarMessage
                 }
             }
         )

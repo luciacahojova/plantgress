@@ -29,7 +29,7 @@ struct AddPlantView: View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: Constants.Spacing.mediumLarge) {
                 VStack(alignment: .leading, spacing: Constants.Spacing.small) {
-                    Text("Name") // TODO: String
+                    Text(Strings.plantCreationName)
                         .textCase(.uppercase)
                         .padding(.leading, Constants.Spacing.medium)
                         .font(Fonts.calloutSemibold)
@@ -40,7 +40,7 @@ struct AddPlantView: View {
                             get: { viewModel.state.name },
                             set: { newName in viewModel.onIntent(.nameChanged(newName))}
                         ),
-                        placeholder: "Plant name", // TODO: String
+                        placeholder: Strings.plantCreationPlantName,
                         backgroundColor: Colors.secondaryBackground,
                         cornerRadius: Constants.List.cornerRadius,
                         deleteTextAction: {
@@ -56,15 +56,15 @@ struct AddPlantView: View {
                         addImageAction: {
                             viewModel.onIntent(.toggleImageActionSheet)
                         },
-                        deleteImageAction: { imageId in // TODO: Implementation
+                        deleteImageAction: { imageId in 
                             viewModel.onIntent(.deleteImage(imageId))
                         }
                     )
                 }
                 
-                BaseList(title: "Room") { // TODO: String
+                BaseList(title: Strings.plantCreationRoom) {
                     ButtonListRow(
-                        title: viewModel.state.room?.name ?? "Select room",
+                        title: viewModel.state.room?.name ?? Strings.plantCreationSelectRoom,
                         isLast: true,
                         trailingIcon: Icons.chevronSelectorVertical,
                         action: {
@@ -103,7 +103,7 @@ struct AddPlantView: View {
                 .padding(.horizontal)
                 
                 if viewModel.state.isEditing {
-                    Button("Delete Plant") { // TODO: Strings
+                    Button(Strings.plantCreationDeletePlantButton) {
                         viewModel.onIntent(.deletePlant)
                     }
                     .buttonStyle(
@@ -172,7 +172,7 @@ struct AddPlantView: View {
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button(viewModel.state.isEditing ? "Update" : "Add Plant") {
+                Button(viewModel.state.isEditing ? Strings.plantCreationUpdateButton : Strings.plantCreationAddButton) {
                     viewModel.onIntent(.createPlant)
                 }
                 .disabled(!viewModel.state.isCreateButtonEnabled)

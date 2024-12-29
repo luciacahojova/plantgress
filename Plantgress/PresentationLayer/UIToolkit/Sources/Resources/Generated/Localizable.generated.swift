@@ -50,10 +50,12 @@ public enum Strings {
   public static let deleteAccountButton = Strings.tr("Localizable", "delete_account_button", fallback: "Delete Account")
   /// Delete
   public static let deleteButton = Strings.tr("Localizable", "delete_button", fallback: "Delete")
+  /// Discard
+  public static let discardButton = Strings.tr("Localizable", "discard_button", fallback: "Discard")
   /// Dismiss
   public static let dismissButton = Strings.tr("Localizable", "dismiss_button", fallback: "Dismiss")
-  /// Upraviť
-  public static let editButton = Strings.tr("Localizable", "edit_button", fallback: "Upraviť")
+  /// Edit
+  public static let editButton = Strings.tr("Localizable", "edit_button", fallback: "Edit")
   /// Email is already in use.
   public static let emailAlreadyInUseErrorMessage = Strings.tr("Localizable", "email_already_in_use_error_message", fallback: "Email is already in use.")
   /// Your email address is already verified.
@@ -126,8 +128,100 @@ public enum Strings {
   public static let pestInspectionTitle = Strings.tr("Localizable", "pest_inspection_title", fallback: "Pest Inspection")
   /// To continue, grant access to Photos in Settings.
   public static let photosPermissionAlertMessage = Strings.tr("Localizable", "photos_permission_alert_message", fallback: "To continue, grant access to Photos in Settings.")
+  /// Pick
+  public static let pickButton = Strings.tr("Localizable", "pick_button", fallback: "Pick")
   /// You have no plants.
   public static let plantCollectionEmptyMessage = Strings.tr("Localizable", "plant_collection_empty_message", fallback: "You have no plants.")
+  /// Add another period
+  public static let plantCreationAddAnotherPeriodButton = Strings.tr("Localizable", "plant_creation_add_another_period_button", fallback: "Add another period")
+  /// Tracking periods
+  public static let plantCreationAddAnotherTrackingPeriodsTitle = Strings.tr("Localizable", "plant_creation_add_another_tracking_periods_title", fallback: "Tracking periods")
+  /// Add Plant
+  public static let plantCreationAddButton = Strings.tr("Localizable", "plant_creation_add_button", fallback: "Add Plant")
+  /// Add period
+  public static let plantCreationAddPeriodButton = Strings.tr("Localizable", "plant_creation_add_period_button", fallback: "Add period")
+  /// Are you sure you want to cancel plant creation?
+  public static let plantCreationCancelAlertMessage = Strings.tr("Localizable", "plant_creation_cancel_alert_message", fallback: "Are you sure you want to cancel plant creation?")
+  /// Cancel Plant Creation
+  public static let plantCreationCancelAlertTitle = Strings.tr("Localizable", "plant_creation_cancel_alert_title", fallback: "Cancel Plant Creation")
+  /// Custom
+  public static let plantCreationCustom = Strings.tr("Localizable", "plant_creation_custom", fallback: "Custom")
+  /// Daily
+  public static let plantCreationDaily = Strings.tr("Localizable", "plant_creation_daily", fallback: "Daily")
+  /// Are you sure you want to delete this plant?
+  public static let plantCreationDeleteAlertMessage = Strings.tr("Localizable", "plant_creation_delete_alert_message", fallback: "Are you sure you want to delete this plant?")
+  /// Delete Plant
+  public static let plantCreationDeleteAlertTitle = Strings.tr("Localizable", "plant_creation_delete_alert_title", fallback: "Delete Plant")
+  /// Delete Plant
+  public static let plantCreationDeletePlantButton = Strings.tr("Localizable", "plant_creation_delete_plant_button", fallback: "Delete Plant")
+  /// %@ days
+  public static func plantCreationEveryDaysFormatFew(_ p1: Any) -> String {
+    return Strings.tr("Localizable", "plant_creation_every_days_format_few", String(describing: p1), fallback: "%@ days")
+  }
+  /// %@ days
+  public static func plantCreationEveryDaysFormatMany(_ p1: Any) -> String {
+    return Strings.tr("Localizable", "plant_creation_every_days_format_many", String(describing: p1), fallback: "%@ days")
+  }
+  /// %@ day
+  public static func plantCreationEveryDaysFormatOne(_ p1: Any) -> String {
+    return Strings.tr("Localizable", "plant_creation_every_days_format_one", String(describing: p1), fallback: "%@ day")
+  }
+  /// %@ weeks
+  public static func plantCreationEveryWeeksFormatFew(_ p1: Any) -> String {
+    return Strings.tr("Localizable", "plant_creation_every_weeks_format_few", String(describing: p1), fallback: "%@ weeks")
+  }
+  /// %@ weeks
+  public static func plantCreationEveryWeeksFormatMany(_ p1: Any) -> String {
+    return Strings.tr("Localizable", "plant_creation_every_weeks_format_many", String(describing: p1), fallback: "%@ weeks")
+  }
+  /// %@ week
+  public static func plantCreationEveryWeeksFormatOne(_ p1: Any) -> String {
+    return Strings.tr("Localizable", "plant_creation_every_weeks_format_one", String(describing: p1), fallback: "%@ week")
+  }
+  /// Failed to create plant.
+  public static let plantCreationFailedToCreateSnackbar = Strings.tr("Localizable", "plant_creation_failed_to_create_snackbar", fallback: "Failed to create plant.")
+  /// Failed to delete image.
+  public static let plantCreationFailedToDeleteImageSnackbar = Strings.tr("Localizable", "plant_creation_failed_to_delete_image_snackbar", fallback: "Failed to delete image.")
+  /// Failed to delete plant.
+  public static let plantCreationFailedToDeleteSnackbar = Strings.tr("Localizable", "plant_creation_failed_to_delete_snackbar", fallback: "Failed to delete plant.")
+  /// Failed to update plant.
+  public static let plantCreationFailedToUpdateSnackbar = Strings.tr("Localizable", "plant_creation_failed_to_update_snackbar", fallback: "Failed to update plant.")
+  /// Frequency
+  public static let plantCreationFrequency = Strings.tr("Localizable", "plant_creation_frequency", fallback: "Frequency")
+  /// Images
+  public static let plantCreationImages = Strings.tr("Localizable", "plant_creation_images", fallback: "Images")
+  /// Monthly
+  public static let plantCreationMonthly = Strings.tr("Localizable", "plant_creation_monthly", fallback: "Monthly")
+  /// Name
+  public static let plantCreationName = Strings.tr("Localizable", "plant_creation_name", fallback: "Name")
+  /// Notifications
+  public static let plantCreationNotifications = Strings.tr("Localizable", "plant_creation_notifications", fallback: "Notifications")
+  /// Period %@
+  public static func plantCreationPeriodFormat(_ p1: Any) -> String {
+    return Strings.tr("Localizable", "plant_creation_period_format", String(describing: p1), fallback: "Period %@")
+  }
+  /// Plant Name
+  public static let plantCreationPlantName = Strings.tr("Localizable", "plant_creation_plant_name", fallback: "Plant Name")
+  /// Repeat
+  public static let plantCreationRepeat = Strings.tr("Localizable", "plant_creation_repeat", fallback: "Repeat")
+  /// Room
+  public static let plantCreationRoom = Strings.tr("Localizable", "plant_creation_room", fallback: "Room")
+  /// Select Room
+  public static let plantCreationSelectRoom = Strings.tr("Localizable", "plant_creation_select_room", fallback: "Select Room")
+  /// %@ and %@
+  public static func plantCreationSortedMonthsFormat(_ p1: Any, _ p2: Any) -> String {
+    return Strings.tr("Localizable", "plant_creation_sorted_months_format", String(describing: p1), String(describing: p2), fallback: "%@ and %@")
+  }
+  /// Task Settings
+  public static let plantCreationTaskSettings = Strings.tr("Localizable", "plant_creation_task_settings", fallback: "Task Settings")
+  /// Add New Plant
+  public static let plantCreationTitle = Strings.tr("Localizable", "plant_creation_title", fallback: "Add New Plant")
+  /// Update
+  public static let plantCreationUpdateButton = Strings.tr("Localizable", "plant_creation_update_button", fallback: "Update")
+  /// Weekly
+  public static let plantCreationWeekly = Strings.tr("Localizable", "plant_creation_weekly", fallback: "Weekly")
+  /// Yearly
+  public static let plantCreationYearly = Strings.tr("Localizable", "plant_creation_yearly", fallback: "Yearly")
   /// Plants
   public static let plantsTitle = Strings.tr("Localizable", "plants_title", fallback: "Plants")
   /// Plants 🪴
@@ -144,6 +238,48 @@ public enum Strings {
   public static let propagatingTitle = Strings.tr("Localizable", "propagating_title", fallback: "Propagating")
   /// Register
   public static let registrationTitle = Strings.tr("Localizable", "registration_title", fallback: "Register")
+  /// Repeats every %@ days
+  public static func repeatDailyFormatFew(_ p1: Any) -> String {
+    return Strings.tr("Localizable", "repeat_daily_format_few", String(describing: p1), fallback: "Repeats every %@ days")
+  }
+  /// Repeats every %@ days
+  public static func repeatDailyFormatMany(_ p1: Any) -> String {
+    return Strings.tr("Localizable", "repeat_daily_format_many", String(describing: p1), fallback: "Repeats every %@ days")
+  }
+  /// Repeats every day
+  public static let repeatDailyFormatOne = Strings.tr("Localizable", "repeat_daily_format_one", fallback: "Repeats every day")
+  /// Every
+  public static let repeatEveryLabel = Strings.tr("Localizable", "repeat_every_label", fallback: "Every")
+  /// Repeats every %@ days in %@
+  public static func repeatMonthlyFormatFew(_ p1: Any, _ p2: Any) -> String {
+    return Strings.tr("Localizable", "repeat_monthly_format_few", String(describing: p1), String(describing: p2), fallback: "Repeats every %@ days in %@")
+  }
+  /// Repeats every %@ days in %@
+  public static func repeatMonthlyFormatMany(_ p1: Any, _ p2: Any) -> String {
+    return Strings.tr("Localizable", "repeat_monthly_format_many", String(describing: p1), String(describing: p2), fallback: "Repeats every %@ days in %@")
+  }
+  /// Repeats every day in %@
+  public static func repeatMonthlyFormatOne(_ p1: Any) -> String {
+    return Strings.tr("Localizable", "repeat_monthly_format_one", String(describing: p1), fallback: "Repeats every day in %@")
+  }
+  /// On
+  public static let repeatOnLabel = Strings.tr("Localizable", "repeat_on_label", fallback: "On")
+  /// Repeats every %@ weeks on %@
+  public static func repeatWeeklyFormatFew(_ p1: Any, _ p2: Any) -> String {
+    return Strings.tr("Localizable", "repeat_weekly_format_few", String(describing: p1), String(describing: p2), fallback: "Repeats every %@ weeks on %@")
+  }
+  /// Repeats every %@ weeks on %@
+  public static func repeatWeeklyFormatMany(_ p1: Any, _ p2: Any) -> String {
+    return Strings.tr("Localizable", "repeat_weekly_format_many", String(describing: p1), String(describing: p2), fallback: "Repeats every %@ weeks on %@")
+  }
+  /// Repeats every week on %@
+  public static func repeatWeeklyFormatOne(_ p1: Any) -> String {
+    return Strings.tr("Localizable", "repeat_weekly_format_one", String(describing: p1), fallback: "Repeats every week on %@")
+  }
+  /// Repeats every year on %@.%@
+  public static func repeatYearlyFormat(_ p1: Any, _ p2: Any) -> String {
+    return Strings.tr("Localizable", "repeat_yearly_format", String(describing: p1), String(describing: p2), fallback: "Repeats every year on %@.%@")
+  }
   /// Repot
   public static let repotName = Strings.tr("Localizable", "repot_name", fallback: "Repot")
   /// Repotting
@@ -204,8 +340,8 @@ public enum Strings {
   public static let trackButton = Strings.tr("Localizable", "track_button", fallback: "Track")
   /// Track Progress
   public static let trackProgressName = Strings.tr("Localizable", "track_progress_name", fallback: "Track Progress")
-  /// Späť
-  public static let undoButton = Strings.tr("Localizable", "undo_button", fallback: "Späť")
+  /// Undo
+  public static let undoButton = Strings.tr("Localizable", "undo_button", fallback: "Undo")
   /// Upcoming Tasks
   public static let upcomingTasksTitle = Strings.tr("Localizable", "upcoming_tasks_title", fallback: "Upcoming Tasks")
   /// A verification link has been sent to your email address. It may take a few minutes to arrive. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.

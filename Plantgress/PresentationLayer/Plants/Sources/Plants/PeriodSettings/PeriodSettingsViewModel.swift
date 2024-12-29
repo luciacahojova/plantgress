@@ -73,7 +73,7 @@ final class PeriodSettingsViewModel: BaseViewModel, ViewModel, ObservableObject 
     private func addPeriod() {
         let newPeriod = TaskPeriod(
             id: UUID(),
-            name: "Period \(state.periods.count + 1)", // TODO: String
+            name: Strings.plantCreationPeriodFormat(state.periods.count + 1),
             interval: .daily(interval: 10)
         )
         state.periods.append(newPeriod)
@@ -85,7 +85,7 @@ final class PeriodSettingsViewModel: BaseViewModel, ViewModel, ObservableObject 
         state.periods = state.periods.enumerated().map { index, period in
             TaskPeriod(
                 id: period.id,
-                name: "Period \(index + 1)",
+                name: Strings.plantCreationPeriodFormat(state.periods.count + 1),
                 interval: period.interval
             )
         }

@@ -28,7 +28,7 @@ struct SelectRoomView: View {
                 Button {
                     viewModel.onIntent(.dismiss)
                 } label: {
-                    Text("Discard") // TODO: String
+                    Text(Strings.discardButton)
                         .foregroundStyle(Colors.red)
                         .font(Fonts.bodyMedium)
                 }
@@ -38,7 +38,7 @@ struct SelectRoomView: View {
                 Button {
                     viewModel.onIntent(.save)
                 } label: {
-                    Text("Pick") // TODO: String
+                    Text(Strings.pickButton)
                         .foregroundStyle(Colors.primaryText)
                         .font(Fonts.bodySemibold)
                 }
