@@ -25,7 +25,7 @@ struct AddPlantView: View {
     }
     
     // MARK: - Body
-    var body: some View {
+    var body: some View { // TODO: Delete plant
         ScrollView(showsIndicators: false) {
             VStack(spacing: Constants.Spacing.mediumLarge) {
                 VStack(alignment: .leading, spacing: Constants.Spacing.small) {
@@ -82,7 +82,7 @@ struct AddPlantView: View {
                         }
                     ),
                     openPeriodSettingsAction: {
-                        viewModel.onIntent(.showPeriodSettings(taskType: .watering))
+                        viewModel.onIntent(.showPeriodSettings(taskType: .progressTracking))
                     }
                 )
                 .padding(.horizontal)

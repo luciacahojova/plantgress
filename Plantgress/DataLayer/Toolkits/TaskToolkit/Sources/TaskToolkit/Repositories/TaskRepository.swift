@@ -359,10 +359,8 @@ public struct TaskRepositoryImpl: TaskRepository {
             return months.compactMap {
                 calendar.nextDate(after: startDate, matching: DateComponents(month: $0), matchingPolicy: .nextTime)
             }.first ?? startDate
-        case .yearly(let dates):
-            return dates.compactMap {
-                calendar.nextDate(after: startDate, matching: DateComponents(month: $0.month, day: $0.day), matchingPolicy: .nextTime)
-            }.first ?? startDate
+        case .yearly(let date):
+            return calendar.nextDate(after: startDate, matching: DateComponents(month: date.month, day: date.day), matchingPolicy: .nextTime) ?? startDate
         }
     }
     

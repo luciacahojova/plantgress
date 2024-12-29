@@ -138,14 +138,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
             PlantsFlow.showPeriodSettings(
                 periods: self.state.tasks[taskType]?.periods ?? [],
                 onSave: { periods in
-                    if let currentTask = self.state.tasks[taskType] {
-                        let updatedTask = TaskConfiguration(
-                            copy: currentTask,
-                            periods: periods
-                        )
-                        
-                        self.updateTask(taskType: taskType, with: updatedTask)
-                    }
+                    self.updateTaskProperty(taskType: taskType, property: .periods(periods))
                 }
             )
         )

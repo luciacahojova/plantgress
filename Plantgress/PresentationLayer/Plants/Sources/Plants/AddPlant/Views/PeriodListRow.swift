@@ -37,6 +37,7 @@ struct PeriodListRow: View {
                             Text(period.interval.description)
                                 .font(Fonts.captionMedium)
                                 .foregroundStyle(Colors.primaryText)
+                                .multilineTextAlignment(.leading)
                         }
                     }
                     .padding(.vertical, Constants.Spacing.small)

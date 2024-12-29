@@ -26,7 +26,7 @@ struct TaskQuickActionList: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(alignment: .top, spacing: Constants.Spacing.xMedium) {
                 ForEach(taskConfigurations, id: \.taskType.id) { configuration in
-                    if configuration.isTracked {
+                    if configuration.isTracked, configuration.taskType != .progressTracking {
                         Button {
                             action(configuration.taskType)
                         } label: {

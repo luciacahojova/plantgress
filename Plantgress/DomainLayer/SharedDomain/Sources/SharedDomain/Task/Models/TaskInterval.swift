@@ -7,13 +7,13 @@
 
 import Foundation
 
-public enum TaskInterval: Codable, Sendable, Equatable {
+public enum TaskInterval: Codable, Sendable, Equatable, Hashable {
     case daily(interval: Int) // Every X days
     case weekly(interval: Int, weekday: Int) // Every X weeks on specific weekday
     case monthly(interval: Int, months: [Int]) // Every X days in specific months
-    case yearly(dates: [SpecificDate]) // Specific dates across years
+    case yearly(date: SpecificDate) // Specific dates across years
 
-    public struct SpecificDate: Codable, Sendable, Equatable {
+    public struct SpecificDate: Codable, Sendable, Equatable, Hashable {
         
         public let day: Int // Day of the month
         public let month: Int // Month of the year (1 = January, 12 = December)
@@ -31,7 +31,7 @@ public enum TaskInterval: Codable, Sendable, Equatable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case type, interval, weekday, months, dates
+        case type, interval, weekday, months, date
     }
 
     private enum PeriodType: String, Codable {
@@ -53,9 +53,9 @@ public enum TaskInterval: Codable, Sendable, Equatable {
             try container.encode(PeriodType.monthly, forKey: .type)
             try container.encode(interval, forKey: .interval)
             try container.encode(months, forKey: .months)
-        case .yearly(let dates):
+        case .yearly(let date):
             try container.encode(PeriodType.yearly, forKey: .type)
-            try container.encode(dates, forKey: .dates)
+            try container.encode(date, forKey: .date)
         }
     }
 
@@ -77,23 +77,23 @@ public enum TaskInterval: Codable, Sendable, Equatable {
             let months = try container.decode([Int].self, forKey: .months)
             self = .monthly(interval: interval, months: months)
         case .yearly:
-            let dates = try container.decode([SpecificDate].self, forKey: .dates)
-            self = .yearly(dates: dates)
+            let date = try container.decode(SpecificDate.self, forKey: .date)
+            self = .yearly(date: date)
         }
     }
     
     public static func == (lhs: TaskInterval, rhs: TaskInterval) -> Bool {
-            switch (lhs, rhs) {
-            case let (.daily(lhsInterval), .daily(rhsInterval)):
-                return lhsInterval == rhsInterval
-            case let (.weekly(lhsInterval, lhsWeekday), .weekly(rhsInterval, rhsWeekday)):
-                return lhsInterval == rhsInterval && lhsWeekday == rhsWeekday
-            case let (.monthly(lhsInterval, lhsMonths), .monthly(rhsInterval, rhsMonths)):
-                return lhsInterval == rhsInterval && lhsMonths == rhsMonths
-            case let (.yearly(lhsDates), .yearly(rhsDates)):
-                return lhsDates == rhsDates
-            default:
-                return false
-            }
+        switch (lhs, rhs) {
+        case let (.daily(lhsInterval), .daily(rhsInterval)):
+            return lhsInterval == rhsInterval
+        case let (.weekly(lhsInterval, lhsWeekday), .weekly(rhsInterval, rhsWeekday)):
+            return lhsInterval == rhsInterval && lhsWeekday == rhsWeekday
+        case let (.monthly(lhsInterval, lhsMonths), .monthly(rhsInterval, rhsMonths)):
+            return lhsInterval == rhsInterval && lhsMonths == rhsMonths
+        case let (.yearly(lhsDate), .yearly(rhsDate)):
+            return lhsDate == rhsDate
+        default:
+            return false
         }
+    }
 }
