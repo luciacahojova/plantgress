@@ -10,12 +10,17 @@ import SwiftUI
 import UIToolkit
 
 struct TasksSettingsView: View {
-    @Binding var tasks: [TaskType: TaskConfiguration]
+    
+    @Binding private var tasks: [TaskType: TaskConfiguration]
+    
+    private let openPeriodSettingsAction: (TaskType) -> Void
 
     init(
-        tasks: Binding<[TaskType: TaskConfiguration]>
+        tasks: Binding<[TaskType: TaskConfiguration]>,
+        openPeriodSettingsAction: @escaping (TaskType) -> Void
     ) {
         self._tasks = tasks
+        self.openPeriodSettingsAction = openPeriodSettingsAction
     }
 
     var body: some View {
@@ -103,7 +108,7 @@ struct TasksSettingsView: View {
                         rowLevel: .secondary,
                         isLast: taskType == .propagation,
                         action: {
-                            // TODO: Action to open new screen
+                            openPeriodSettingsAction(taskType)
                         }
                     )
                 }
@@ -131,6 +136,7 @@ struct TasksSettingsView: View {
     TasksSettingsView(
         tasks: .constant(TaskType.allCases.reduce(into: [:]) { result, taskType in
             result[taskType] = .default(for: taskType)
-        })
+        }),
+        openPeriodSettingsAction: { _ in }
     )
 }

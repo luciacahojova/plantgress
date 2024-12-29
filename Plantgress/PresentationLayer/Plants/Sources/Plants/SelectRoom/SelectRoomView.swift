@@ -30,7 +30,7 @@ struct SelectRoomView: View {
                 } label: {
                     Text("Discard") // TODO: String
                         .foregroundStyle(Colors.red)
-                        .font(Fonts.bodyBold)
+                        .font(Fonts.bodyMedium)
                 }
                 
                 Spacer()

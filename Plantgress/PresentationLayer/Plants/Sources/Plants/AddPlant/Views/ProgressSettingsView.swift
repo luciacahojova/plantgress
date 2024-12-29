@@ -10,12 +10,17 @@ import SwiftUI
 import UIToolkit
 
 struct ProgressSettingsView: View {
-    @Binding var taskConfiguration: TaskConfiguration
+    
+    @Binding private var taskConfiguration: TaskConfiguration
+    
+    private let openPeriodSettingsAction: () -> Void
 
     init(
-        taskConfiguration: Binding<TaskConfiguration>
+        taskConfiguration: Binding<TaskConfiguration>,
+        openPeriodSettingsAction: @escaping () -> Void
     ) {
         self._taskConfiguration = taskConfiguration
+        self.openPeriodSettingsAction = openPeriodSettingsAction
     }
 
     var body: some View {
@@ -92,9 +97,7 @@ struct ProgressSettingsView: View {
                             periods: taskConfiguration.periods,
                             rowLevel: .secondary,
                             isLast: true,
-                            action: {
-                                // TODO: Action to open new screen
-                            }
+                            action: openPeriodSettingsAction
                         )
                     }
                 }
@@ -107,6 +110,7 @@ struct ProgressSettingsView: View {
 
 #Preview {
     ProgressSettingsView(
-        taskConfiguration: .constant(.default(for: .progressTracking))
+        taskConfiguration: .constant(.default(for: .progressTracking)),
+        openPeriodSettingsAction: {}
     )
 }

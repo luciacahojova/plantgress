@@ -18,6 +18,7 @@ enum PlantsFlow: Flow {
     case presentAddTask(editingId: UUID?, onShouldRefresh: () -> Void)
     case showPlantSettings(plantId: UUID?, onShouldRefresh: () -> Void)
     case presentPickRoom(onSave: (Room?) -> Void)
+    case showPeriodSettings(periods: [TaskPeriod], onSave: ([TaskPeriod]) -> Void)
     case dismiss
     case pop
 }
@@ -54,9 +55,30 @@ public final class PlantsFlowController: FlowController {
         case let .presentAddTask(editingId, onShouldRefresh): presentAddTask(editingId: editingId, onShouldRefresh: onShouldRefresh)
         case let .showPlantSettings(plantId, onShouldRefresh): showPlantSettings(plantId: plantId, onShouldRefresh: onShouldRefresh)
         case .presentPickRoom(let onSave): presentPickRoom(onSave: onSave)
+        case let .showPeriodSettings(periods, onSave): showPeriodSettings(periods: periods, onSave: onSave)
         case .dismiss: dismissView()
         case .pop: pop()
         }
+    }
+    
+    private func showPeriodSettings(
+        periods: [TaskPeriod],
+        onSave: @escaping ([TaskPeriod]) -> Void
+    ) {
+        let vm = PeriodSettingsViewModel(
+            flowController: self,
+            periods: periods,
+            onSave: onSave
+        )
+        let view = PeriodSettingsView(viewModel: vm)
+        let vc = HostingController(
+            rootView: view,
+            title: "Tracking periods", // TODO: Strings,
+            prefersLargeTitles: false
+        )
+        vc.hidesBottomBarWhenPushed = true
+        
+        navigationController.show(vc, sender: nil)
     }
     
     private func openSettings() {

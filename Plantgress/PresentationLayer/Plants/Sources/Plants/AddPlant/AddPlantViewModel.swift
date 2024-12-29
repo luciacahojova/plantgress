@@ -17,6 +17,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     @Injected private var getPlantUseCase: GetPlantUseCase
     @Injected private var getRoomUseCase: GetRoomUseCase
     @Injected private var createPlantUseCase: CreatePlantUseCase
+    @Injected private var updatePlantUseCase: UpdatePlantUseCase
     @Injected private var uploadImageUseCase: UploadImageUseCase
     @Injected private var deleteImageUseCase: DeleteImageUseCase
     @Injected private var hasCameraAccessUseCase: HasCameraAccessUseCase
@@ -88,6 +89,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     enum Intent {
         case navigateBack
         case pickRoom
+        case showPeriodSettings(taskType: TaskType)
         
         case createPlant
         
@@ -113,6 +115,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         switch intent {
         case .pickRoom: pickRoom()
         case .navigateBack: navigateBack()
+        case .showPeriodSettings(let taskType): showPeriodSettings(for: taskType)
         case .createPlant: createPlant()
         case .nameChanged(let name): nameChanged(name)
         case .uploadImage(let image): uploadImage(image)
@@ -128,6 +131,24 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
         }
+    }
+    
+    private func showPeriodSettings(for taskType: TaskType) {
+        flowController?.handleFlow(
+            PlantsFlow.showPeriodSettings(
+                periods: self.state.tasks[taskType]?.periods ?? [],
+                onSave: { periods in
+                    if let currentTask = self.state.tasks[taskType] {
+                        let updatedTask = TaskConfiguration(
+                            copy: currentTask,
+                            periods: periods
+                        )
+                        
+                        self.updateTask(taskType: taskType, with: updatedTask)
+                    }
+                }
+            )
+        )
     }
     
     private func pickRoom() {
@@ -225,10 +246,16 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         )
         
         let createPlantUseCase = createPlantUseCase
+        let updatePlantUseCase = updatePlantUseCase
         executeTask(
             Task {
                 do {
-                    try await createPlantUseCase.execute(plant: plant)
+                    if state.isEditing {
+                        try await updatePlantUseCase.execute(plant: plant)
+                    } else {
+                        try await createPlantUseCase.execute(plant: plant)
+                    }
+                    
                     onShouldRefresh()
                     flowController?.handleFlow(PlantsFlow.pop)
                 } catch {
