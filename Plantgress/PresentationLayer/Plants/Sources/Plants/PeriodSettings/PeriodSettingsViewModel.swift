@@ -85,7 +85,7 @@ final class PeriodSettingsViewModel: BaseViewModel, ViewModel, ObservableObject 
         state.periods = state.periods.enumerated().map { index, period in
             TaskPeriod(
                 id: period.id,
-                name: Strings.plantCreationPeriodFormat(state.periods.count + 1),
+                name: Strings.plantCreationPeriodFormat(index + 1),
                 interval: period.interval
             )
         }
