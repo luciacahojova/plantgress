@@ -12,6 +12,8 @@ public struct Formatter {
         public static let HHmm = Formatter.createDateFormatter(dateFormat: "HH:mm")
         public static let MMMdyyyy = Formatter.createDateFormatter(dateFormat: "MMM d, yyyy")
         public static let ddMMyy = Formatter.createDateFormatter(dateFormat: "dd/MM/yy")
+        public static let ddMM = Formatter.createDateFormatter(dateFormat: "      dd/MM      ")
+        public static let MMM = Formatter.createDateFormatter(dateFormat: "MMM")
     }
     
     /// Creates a DateFormatter based on a given date format.

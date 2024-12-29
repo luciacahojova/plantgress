@@ -75,6 +75,8 @@
 "close_button" = "Zavrieť";
 "delete_button" = "Zmazať";
 "edit_button" = "Upraviť";
+"pick_button" = "Zvoliť";
+"discard_button" = "Zrušiť";
 "undo_button" = "Späť";
 "settings_button" = "Nastavenia";
 
@@ -128,3 +130,65 @@
 "repotting_title" = "Presádzanie";
 "propagating_title" = "Množenie";
 "progress_tracking_title" = "Sledovanie progresu";
+
+// MARK: Plant Creation
+"plant_creation_title" = "Pridanie Rastliny";
+"plant_creation_images" = "Obrázky";
+"plant_creation_notifications" = "Upozornenia";
+"plant_creation_repeat" = "Opakovanie";
+"plant_creation_custom" = "Vlastné";
+"plant_creation_task_settings" = "Nastavenia úloh";
+"plant_creation_name" = "Názov";
+"plant_creation_plant_name" = "Názov rastliny";
+"plant_creation_room" = "Miestnosť";
+"plant_creation_select_room" = "Vyberte miestnosť";
+"plant_creation_delete_plant_button" = "Zmazať rastlinu";
+"plant_creation_update_button" = "Aktualizovať";
+"plant_creation_add_button" = "Pridať rastlinu";
+"repeat_on_label" = "V deň";
+"repeat_every_label" = "Opakovanie";
+"plant_creation_add_period_button" = "Pridať periódu";
+"plant_creation_add_another_period_button" = "Pridať ďalšiu periódu";
+"plant_creation_add_another_tracking_periods_title" = "Nastavenie periód";
+
+"plant_creation_failed_to_delete_snackbar" = "Zlyhalo odstránenie rastliny.";
+"plant_creation_delete_alert_title" = "Zmazať rastlinu";
+"plant_creation_delete_alert_message" = "Ste si istý, že chcete zmazať rastlinu?";
+
+"plant_creation_failed_to_delete_image_snackbar" = "Zlyhalo odstránenie obrázka.";
+"plant_creation_cancel_alert_title" = "Zrušiť vytvorenie rastliny";
+"plant_creation_cancel_alert_message" = "Ste si istý, že chcete zrušiť vytvorenie rastliny?";
+
+"plant_creation_failed_to_create_snackbar" = "Vytvorenie rastliny zlyhalo.";
+"plant_creation_failed_to_update_snackbar" = "Aktualizácia rastliny zlyhala.";
+
+"plant_creation_period_format" = "Perióda %@";
+"plant_creation_frequency" = "Frekvencia";
+"plant_creation_daily" = "Denne";
+"plant_creation_weekly" = "Týždenne";
+"plant_creation_monthly" = "Mesačne";
+"plant_creation_yearly" = "Ročne";
+"plant_creation_sorted_months_format" = "%@ a %@";
+
+// MARK: Plurals
+"repeat_daily_format_one" = "Opakuje sa každý deň";
+"repeat_daily_format_few" = "Opakuje sa každé %@ dni";
+"repeat_daily_format_many" = "Opakuje sa každých %@ dní";
+
+"repeat_weekly_format_one" = "Opakuje sa každý týždeň počas dňa %@";
+"repeat_weekly_format_few" = "Opakuje sa každé %@ týždne počas dňa %@";
+"repeat_weekly_format_many" = "Opakuje sa každých %@ týždňov počas dňa %@";
+
+"repeat_monthly_format_one" = "Opakuje sa každý deň v mesiaci %@";
+"repeat_monthly_format_few" = "Opakuje sa každé %@ dni v mesiaci %@";
+"repeat_monthly_format_many" = "Opakuje sa každých %@ dní v mesiaci %@";
+
+"repeat_yearly_format" = "Opakuje sa každý rok %@.%@.";
+
+"plant_creation_every_days_format_one" = "%@ deň";
+"plant_creation_every_days_format_few" = "%@ dni";
+"plant_creation_every_days_format_many" = "%@ dní";
+
+"plant_creation_every_weeks_format_one" = "%@ týždeň";
+"plant_creation_every_weeks_format_few" = "%@ týždne";
+"plant_creation_every_weeks_format_many" = "%@ týždňov";

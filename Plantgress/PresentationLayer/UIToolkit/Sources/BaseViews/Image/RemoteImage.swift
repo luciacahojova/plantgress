@@ -9,7 +9,7 @@ import Resolver
 import SharedDomain
 import SwiftUI
 
-public struct RemoteImage: View {
+public struct RemoteImage<Content: View>: View {
     
     @Injected private var downloadImageUseCase: DownloadImageUseCase
     
@@ -18,15 +18,25 @@ public struct RemoteImage: View {
     private let urlString: String?
     private let contentMode: ContentMode
     private let height: CGFloat?
+    private var placeholder: Content
 
     public init(
         urlString: String?,
         contentMode: ContentMode = .fit,
-        height: CGFloat? = nil
+        height: CGFloat? = nil,
+        @ViewBuilder customPlaceholder: () -> Content = {
+            Icons.placeholder
+                .renderingMode(.template)
+                .resizable()
+                .scaledToFit()
+                .frame(width: Constants.IconSize.large)
+                .foregroundStyle(Colors.secondaryText)
+        }
     ) {
         self.urlString = urlString
         self.contentMode = contentMode
         self.height = height
+        self.placeholder = customPlaceholder()
     }
 
     public var body: some View {
@@ -38,8 +48,7 @@ public struct RemoteImage: View {
                     .frame(height: self.height)
                     .clipped()
             } else if let urlString {
-                ProgressView()
-                    .tint(Colors.primaryText)
+                placeholder
                     .onAppear {
                         Task {
                             image = await downloadImageUseCase.execute(urlString: urlString)
@@ -51,15 +60,6 @@ public struct RemoteImage: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Colors.green)
-    }
-
-    private var placeholder: some View {
-        Icons.placeholder
-            .renderingMode(.template)
-            .resizable()
-            .scaledToFit()
-            .frame(width: Constants.IconSize.large)
-            .foregroundStyle(Colors.secondaryText)
     }
 }
 

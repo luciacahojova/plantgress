@@ -15,19 +15,22 @@ public struct BaseDatePicker: View {
     private let foregroundColor: Color
     private let backgroundColor: Color
     private let tintColor: Color
+    private let dateFormatter: DateFormatter
     
     public init(
         date: Binding<Date>,
         datePickerComponents: DatePickerComponents,
         foregroundColor: Color = Colors.primaryText,
         backgroundColor: Color = Colors.gray,
-        tintColor: Color = Colors.green
+        tintColor: Color = Colors.green,
+        dateFormatter: DateFormatter = Formatter.Date.MMMdyyyy
     ) {
         self._date = date
         self.datePickerComponents = datePickerComponents
         self.foregroundColor = foregroundColor
         self.backgroundColor = backgroundColor
         self.tintColor = tintColor
+        self.dateFormatter = dateFormatter
     }
     
     public var body: some View {
@@ -43,7 +46,7 @@ public struct BaseDatePicker: View {
             
             VStack {
                 if datePickerComponents.contains(.date) {
-                    Text(date.toString(formatter: Formatter.Date.MMMdyyyy))
+                    Text(date.toString(formatter: dateFormatter))
                 } else if datePickerComponents.contains(.hourAndMinute) {
                     Text(date.toString(formatter: Formatter.Date.HHmm))
                 }

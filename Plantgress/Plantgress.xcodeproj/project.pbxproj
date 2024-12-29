@@ -49,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		247F5DBC2D20426400278583 /* Plantgress-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Plantgress-Info.plist"; sourceTree = "<group>"; };
 		24A561782CFE4758003C5C84 /* Plantgress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Plantgress.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24A561882CFE4759003C5C84 /* PlantgressTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlantgressTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		24A561922CFE4759003C5C84 /* PlantgressUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlantgressUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,6 +176,7 @@
 		24A5616F2CFE4758003C5C84 = {
 			isa = PBXGroup;
 			children = (
+				247F5DBC2D20426400278583 /* Plantgress-Info.plist */,
 				24FECB052D0AF98F00999950 /* Plantgress.entitlements */,
 				24A5617A2CFE4758003C5C84 /* Application */,
 				24A561B62CFE4CB3003C5C84 /* PresentationLayer */,
@@ -547,10 +549,15 @@
 				DEVELOPMENT_TEAM = 8LD6238W2H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Plantgress-Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) camera description.";
+				INFOPLIST_KEY_NSFileProviderPresenceUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "$(PRODUCT_NAME) library description.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -581,10 +588,15 @@
 				DEVELOPMENT_TEAM = 8LD6238W2H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Plantgress-Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) camera description.";
+				INFOPLIST_KEY_NSFileProviderPresenceUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "$(PRODUCT_NAME) library description.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

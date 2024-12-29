@@ -1,55 +1,42 @@
 //
-//  CalendarListRow.swift
-//  UIToolkit
+//  YearlyPeriodRow.swift
+//  Plants
 //
-//  Created by Lucia Cahojova on 12.12.2024.
+//  Created by Lucia Cahojova on 29.12.2024.
 //
 
+import SharedDomain
 import SwiftUI
+import UIToolkit
 
-public struct CalendarListRow: View {
+struct YearlyPeriodRow: View {
     
     @Binding private var date: Date
     
-    private let datePickerComponents: DatePickerComponents
     private let rowLever: RowLevel
     private let isLast: Bool
     
-    private let icon: Image
-    private let title: String
-    
     public init(
         date: Binding<Date>,
-        datePickerComponents: DatePickerComponents,
         rowLever: RowLevel,
         isLast: Bool
     ) {
         self._date = date
-        self.datePickerComponents = datePickerComponents
         self.rowLever = rowLever
         self.isLast = isLast
-        
-        let isDate = datePickerComponents == .date
-        self.icon = isDate ? Asset.Icons.calendar.image : Asset.Icons.clock.image
-        self.title = isDate ? Strings.taskStart : Strings.taskTime
     }
     
     public var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: Constants.List.spacing) {
-                icon
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: Constants.IconSize.small)
-                
-                Text(title)
+                Text(Strings.repeatOnLabel)
                 
                 Spacer()
                 
                 BaseDatePicker(
                     date: $date,
-                    datePickerComponents: datePickerComponents
+                    datePickerComponents: .date,
+                    dateFormatter: Formatter.Date.ddMM
                 )
             }
             .padding(.trailing, Constants.List.trailingPadding)
@@ -70,22 +57,9 @@ public struct CalendarListRow: View {
 }
 
 #Preview {
-    CalendarListRow(
-        date: .constant(.now),
-        datePickerComponents: .hourAndMinute,
+    YearlyPeriodRow(
+        date: .constant(Date()),
         rowLever: .primary,
-        isLast: false
+        isLast: true
     )
-    .background(Colors.secondaryBackground)
-    
-    CalendarListRow(
-        date: .constant(.now),
-        datePickerComponents: .date,
-        rowLever: .primary,
-        isLast: false
-    )
-    .background(Colors.secondaryBackground)
-    .colorScheme(.dark)
 }
-
-

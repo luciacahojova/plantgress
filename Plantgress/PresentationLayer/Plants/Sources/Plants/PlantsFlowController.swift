@@ -5,6 +5,7 @@
 //  Created by Lucia Cahojova on 03.12.2024.
 //
 
+import SharedDomain
 import UIToolkit
 import UIKit
 
@@ -12,10 +13,14 @@ enum PlantsFlow: Flow {
     case openSettings
     case showPlantDetail(UUID)
     case showRoomDetail(UUID)
-    case showAddPlant(editingId: UUID?, onShouldRefresh: () -> Void)
+    case showAddPlant(editingId: UUID?, plantName: String?, onShouldRefresh: () -> Void)
     case showAddRoom(editingId: UUID?, onShouldRefresh: () -> Void)
     case presentAddTask(editingId: UUID?, onShouldRefresh: () -> Void)
     case showPlantSettings(plantId: UUID?, onShouldRefresh: () -> Void)
+    case presentPickRoom(onSave: (Room?) -> Void)
+    case showPeriodSettings(periods: [TaskPeriod], onSave: ([TaskPeriod]) -> Void)
+    case dismiss
+    case pop
 }
 
 public final class PlantsFlowController: FlowController {
@@ -41,11 +46,39 @@ public final class PlantsFlowController: FlowController {
         case .openSettings: openSettings()
         case .showPlantDetail(let plantId): showPlantDetail(plantId)
         case .showRoomDetail(let roomId): showRoomDetail(roomId)
-        case let .showAddPlant(editingId, onShouldRefresh): showAddPlant(editingId: editingId, onShouldRefresh: onShouldRefresh)
+        case let .showAddPlant(editingId, plantName, onShouldRefresh): showAddPlant(
+            editingId: editingId,
+            plantName: plantName,
+            onShouldRefresh: onShouldRefresh
+        )
         case let .showAddRoom(editingId, onShouldRefresh): showAddRoom(editingId: editingId, onShouldRefresh: onShouldRefresh)
         case let .presentAddTask(editingId, onShouldRefresh): presentAddTask(editingId: editingId, onShouldRefresh: onShouldRefresh)
         case let .showPlantSettings(plantId, onShouldRefresh): showPlantSettings(plantId: plantId, onShouldRefresh: onShouldRefresh)
+        case .presentPickRoom(let onSave): presentPickRoom(onSave: onSave)
+        case let .showPeriodSettings(periods, onSave): showPeriodSettings(periods: periods, onSave: onSave)
+        case .dismiss: dismissView()
+        case .pop: pop()
         }
+    }
+    
+    private func showPeriodSettings(
+        periods: [TaskPeriod],
+        onSave: @escaping ([TaskPeriod]) -> Void
+    ) {
+        let vm = PeriodSettingsViewModel(
+            flowController: self,
+            periods: periods,
+            onSave: onSave
+        )
+        let view = PeriodSettingsView(viewModel: vm)
+        let vc = HostingController(
+            rootView: view,
+            title: Strings.plantCreationAddAnotherTrackingPeriodsTitle,
+            prefersLargeTitles: false
+        )
+        vc.hidesBottomBarWhenPushed = true
+        
+        navigationController.show(vc, sender: nil)
     }
     
     private func openSettings() {
@@ -64,9 +97,24 @@ public final class PlantsFlowController: FlowController {
     
     private func showAddPlant(
         editingId: UUID?,
+        plantName: String? = nil,
         onShouldRefresh: @escaping () -> Void
     ) {
-        #warning("TODO: Add implementation")
+        let vm = AddPlantViewModel(
+            flowController: self,
+            editingId: editingId,
+            onShouldRefresh: onShouldRefresh
+        )
+        let view = AddPlantView(viewModel: vm)
+        let vc = HostingController(
+            rootView: view,
+            title: editingId != nil
+                ? "\(plantName ?? "") \(Strings.settingsButton)"
+                : Strings.plantCreationTitle
+        )
+        vc.hidesBottomBarWhenPushed = true
+        
+        navigationController.show(vc, sender: nil)
     }
     
     private func showAddRoom(
@@ -88,5 +136,24 @@ public final class PlantsFlowController: FlowController {
         onShouldRefresh: @escaping () -> Void
     ) {
         #warning("TODO: Add implementation")
+    }
+    
+    private func dismissView() {
+        navigationController.dismiss(animated: true)
+    }
+    
+    private func presentPickRoom(
+        onSave: @escaping (Room?) -> Void
+    ) {
+        let vm = SelectRoomViewModel(
+            flowController: self,
+            onSave: onSave
+        )
+        let view = SelectRoomView(viewModel: vm)
+        let vc = HostingController(
+            rootView: view
+        )
+        
+        navigationController.present(vc, animated: true)
     }
 }

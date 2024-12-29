@@ -79,6 +79,10 @@ class UploadImageUseCasePreviewMock: UploadImageUseCase {
     }
 }
 
+class DeleteImageUseCasePreviewMock: DeleteImageUseCase {
+    func execute(userId: String, imageId: UUID) async throws {}
+}
+
 class DownloadImageUseCasePreviewMock: DownloadImageUseCase {
     func execute(urlString: String) async -> Image? {
         do {
