@@ -5,6 +5,7 @@
 //  Created by Lucia Cahojova on 03.12.2024.
 //
 
+import SharedDomain
 import UIToolkit
 import UIKit
 
@@ -16,6 +17,7 @@ enum PlantsFlow: Flow {
     case showAddRoom(editingId: UUID?, onShouldRefresh: () -> Void)
     case presentAddTask(editingId: UUID?, onShouldRefresh: () -> Void)
     case showPlantSettings(plantId: UUID?, onShouldRefresh: () -> Void)
+    case presentPickRoom(onSave: (Room?) -> Void)
     case dismiss
     case pop
 }
@@ -51,6 +53,7 @@ public final class PlantsFlowController: FlowController {
         case let .showAddRoom(editingId, onShouldRefresh): showAddRoom(editingId: editingId, onShouldRefresh: onShouldRefresh)
         case let .presentAddTask(editingId, onShouldRefresh): presentAddTask(editingId: editingId, onShouldRefresh: onShouldRefresh)
         case let .showPlantSettings(plantId, onShouldRefresh): showPlantSettings(plantId: plantId, onShouldRefresh: onShouldRefresh)
+        case .presentPickRoom(let onSave): presentPickRoom(onSave: onSave)
         case .dismiss: dismissView()
         case .pop: pop()
         }
@@ -113,5 +116,20 @@ public final class PlantsFlowController: FlowController {
     
     private func dismissView() {
         navigationController.dismiss(animated: true)
+    }
+    
+    private func presentPickRoom(
+        onSave: @escaping (Room?) -> Void
+    ) {
+        let vm = SelectRoomViewModel(
+            flowController: self,
+            onSave: onSave
+        )
+        let view = SelectRoomView(viewModel: vm)
+        let vc = HostingController(
+            rootView: view
+        )
+        
+        navigationController.present(vc, animated: true)
     }
 }

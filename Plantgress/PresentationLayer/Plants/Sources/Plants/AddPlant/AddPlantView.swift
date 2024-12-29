@@ -68,8 +68,7 @@ struct AddPlantView: View {
                         isLast: true,
                         trailingIcon: Icons.chevronSelectorVertical,
                         action: {
-                            // TODO: intent - open room selection
-                            print("Action")
+                            viewModel.onIntent(.pickRoom)
                         }
                     )
                 }

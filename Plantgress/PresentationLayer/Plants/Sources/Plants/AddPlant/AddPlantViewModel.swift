@@ -87,6 +87,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     // MARK: - Intent
     enum Intent {
         case navigateBack
+        case pickRoom
         
         case createPlant
         
@@ -110,6 +111,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
 
     func onIntent(_ intent: Intent) {
         switch intent {
+        case .pickRoom: pickRoom()
         case .navigateBack: navigateBack()
         case .createPlant: createPlant()
         case .nameChanged(let name): nameChanged(name)
@@ -126,6 +128,16 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
         }
+    }
+    
+    private func pickRoom() {
+        flowController?.handleFlow(
+            PlantsFlow.presentPickRoom(
+                onSave: { room in
+                    self.state.room = room
+                }
+            )
+        )
     }
     
     private func updateTask(taskType: TaskType, with taskConfiguration: TaskConfiguration) {
