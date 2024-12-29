@@ -17,6 +17,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     @Injected private var getPlantUseCase: GetPlantUseCase
     @Injected private var getRoomUseCase: GetRoomUseCase
     @Injected private var createPlantUseCase: CreatePlantUseCase
+    @Injected private var deletePlantUseCase: DeletePlantUseCase
     @Injected private var updatePlantUseCase: UpdatePlantUseCase
     @Injected private var uploadImageUseCase: UploadImageUseCase
     @Injected private var deleteImageUseCase: DeleteImageUseCase
@@ -92,6 +93,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         case showPeriodSettings(taskType: TaskType)
         
         case createPlant
+        case deletePlant
         
         case nameChanged(String)
         
@@ -117,6 +119,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .navigateBack: navigateBack()
         case .showPeriodSettings(let taskType): showPeriodSettings(for: taskType)
         case .createPlant: createPlant()
+        case .deletePlant: deletePlant()
         case .nameChanged(let name): nameChanged(name)
         case .uploadImage(let image): uploadImage(image)
         case .uploadImages(let images): uploadImages(images)
@@ -131,6 +134,45 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
         }
+    }
+    
+    private func confirmDeletePlant() {
+        guard let plantId = state.editingId else { return }
+        
+        let deletePlantUseCase = deletePlantUseCase
+        
+        executeTask(
+            Task {
+                do {
+                    try await deletePlantUseCase.execute(id: plantId)
+                    onShouldRefresh()
+                    flowController?.handleFlow(PlantsFlow.pop)
+                } catch {
+                    setFailedSnackbarData(message: "Failed to delete plant.") // TODO: Strings
+                }
+            }
+        )
+    }
+    
+    private func deletePlant() {
+        state.alertData = .init(
+            title: "Delete Plant", // TODO: Strings
+            message: "Are you sure you want to delete plant?",
+            primaryAction: .init(
+                title: Strings.cancelButton,
+                style: .cancel,
+                completion: { [weak self] in
+                    self?.dismissAlert()
+                }
+            ),
+            secondaryAction: .init(
+                title: Strings.deleteButton,
+                style: .destructive,
+                completion: { [weak self] in
+                    self?.confirmDeletePlant()
+                }
+            )
+        )
     }
     
     private func showPeriodSettings(for taskType: TaskType) {

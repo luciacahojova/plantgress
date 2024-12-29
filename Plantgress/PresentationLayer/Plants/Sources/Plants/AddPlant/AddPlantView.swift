@@ -101,6 +101,19 @@ struct AddPlantView: View {
                     }
                 )
                 .padding(.horizontal)
+                
+                if viewModel.state.isEditing {
+                    Button("Delete Plant") { // TODO: Strings
+                        viewModel.onIntent(.deletePlant)
+                    }
+                    .buttonStyle(
+                        PrimaryButtonStyle(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.red
+                        )
+                    )
+                    .padding()
+                }
             }
             .padding(.top)
             .padding(.bottom, Constants.Spacing.xxxLarge)
