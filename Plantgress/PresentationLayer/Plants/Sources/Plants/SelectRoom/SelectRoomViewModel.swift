@@ -45,7 +45,7 @@ final class SelectRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
 
     struct State {
         var selectedRoom: Room?
-        var rooms: [Room] = .mock // TODO: empty
+        var rooms: [Room] = []
         
         var errorMessage: String?
         

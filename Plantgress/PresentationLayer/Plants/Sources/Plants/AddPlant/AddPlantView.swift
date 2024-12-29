@@ -25,7 +25,7 @@ struct AddPlantView: View {
     }
     
     // MARK: - Body
-    var body: some View { // TODO: Delete plant
+    var body: some View { 
         ScrollView(showsIndicators: false) {
             VStack(spacing: Constants.Spacing.mediumLarge) {
                 VStack(alignment: .leading, spacing: Constants.Spacing.small) {

@@ -53,55 +53,44 @@ struct AddPlantImagesView: View {
                                 .frame(width: Constants.IconSize.xMedium)
                         }
                     }
+                    .frame(
+                        height: imageSize + Constants.Spacing.small,
+                        alignment: .bottom
+                    )
                     
                     ForEach(images, id: \.id) { image in
-                        Button { // TODO: New design with xmark
-                            deleteImageAction(image.id)
-                        } label: {
-                            if let urlString = image.urlString {
-                                RemoteImage(
-                                    urlString: urlString,
-                                    contentMode: .fill,
-                                    customPlaceholder: { Color.clear } // TODO: keep default with new design
-                                )
-                                .frame(width: imageSize, height: imageSize)
-                                .cornerRadius(Constants.CornerRadius.large)
-                                .clipped()
-                                .overlay {
-                                    Colors.white.opacity(0.5)
-                                        .cornerRadius(Constants.CornerRadius.large)
-                                    
-                                    if !image.isLoading {
-                                        Icons.trash
-                                            .renderingMode(.template)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: Constants.IconSize.xMedium)
-                                            .foregroundStyle(Colors.secondaryBackground)
-                                    }
-                                    
-                                    RoundedRectangle(cornerRadius: Constants.CornerRadius.large)
-                                        .strokeBorder(Colors.secondaryBackground, lineWidth: 2)
-                                }
-                            } else {
-                                ZStack {
-                                    Colors.green
-                                    
-                                    Colors.white.opacity(0.5)
-                                    
+                        ZStack(alignment: .topTrailing) {
+                            RemoteImage(
+                                urlString: image.urlString,
+                                contentMode: .fill,
+                                customPlaceholder: {
                                     ProgressView()
+                                        .tint(Colors.primaryText)
                                 }
-                                .frame(width: imageSize, height: imageSize)
-                                .cornerRadius(Constants.CornerRadius.large)
-                                .clipped()
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: Constants.CornerRadius.large)
-                                        .strokeBorder(Colors.white, lineWidth: 2)
+                            )
+                            .frame(width: imageSize, height: imageSize)
+                            .cornerRadius(Constants.CornerRadius.large)
+                            .clipped()
+                            .overlay {
+                                RoundedRectangle(cornerRadius: Constants.CornerRadius.large)
+                                    .strokeBorder(Colors.secondaryBackground, lineWidth: 2)
+                            }
+                            .padding([.top, .trailing], Constants.Spacing.small)
+                            
+                            if !image.isLoading {
+                                Button {
+                                    deleteImageAction(image.id)
+                                } label :{
+                                    RoundedIcon(
+                                        icon: Icons.trash,
+                                        isFilled: true,
+                                        foregroundColor: Colors.white,
+                                        backgroundColor: Colors.primaryText
+                                    )
                                 }
                             }
                         }
                     }
-                    
                 }
                 .padding(.horizontal)
             }
