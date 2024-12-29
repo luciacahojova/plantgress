@@ -176,6 +176,7 @@ struct AddPlantView: View {
                     viewModel.onIntent(.createPlant)
                 }
                 .disabled(!viewModel.state.isCreateButtonEnabled)
+                .opacity(viewModel.state.isCreateButtonEnabled ? 1 : 0.3)
             }
         }
         .foregroundStyle(Colors.primaryText)
