@@ -78,6 +78,9 @@ struct PlantsOverviewView: View {
                                 rooms: viewModel.state.rooms,
                                 completeTaskAction: { roomId, taskType in
                                     viewModel.onIntent(.completeTaskForRoom(roomId: roomId, taskType: taskType))
+                                },
+                                openRoomDetailAction: { room in
+                                    viewModel.onIntent(.showRoomDetail(room: room))
                                 }
                             )
                         case .tasks:

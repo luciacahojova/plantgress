@@ -45,7 +45,7 @@ public struct RoomRepositoryImpl: RoomRepository {
             try await firebaseFirestoreProvider.updateField(
                 path: DatabaseConstants.plantsCollection,
                 id: plant.id.uuidString,
-                fields: ["roomId": ""]
+                fields: ["roomId": NSNull()]
             )
         }
         
@@ -62,7 +62,7 @@ public struct RoomRepositoryImpl: RoomRepository {
         try await firebaseFirestoreProvider.update(
             path: DatabaseConstants.roomsCollection,
             id: room.id.uuidString,
-            data: room
+            data: roomWithImages
         )
 
         for plant in plants {

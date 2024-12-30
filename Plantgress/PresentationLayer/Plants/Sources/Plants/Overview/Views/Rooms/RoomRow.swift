@@ -13,44 +13,51 @@ import UIToolkit
 struct RoomRow: View {
     private let room: Room
     private let completeTaskAction: (UUID, TaskType) -> Void
+    private let openRoomDetailAction: (Room) -> Void
     
     init(
         room: Room,
-        completeTaskAction: @escaping (UUID, TaskType) -> Void
+        completeTaskAction: @escaping (UUID, TaskType) -> Void,
+        openRoomDetailAction: @escaping (Room) -> Void
     ) {
         self.room = room
         self.completeTaskAction = completeTaskAction
+        self.openRoomDetailAction = openRoomDetailAction
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: Constants.Spacing.medium) {
-            if !room.imageUrls.isEmpty {
-                DynamicImagesView(
-                    urlStrings: room.imageUrls
-                )
-                .allowsHitTesting(false)
-                .frame(height: 150)
-                .cornerRadius(Constants.CornerRadius.large)
-                .contentShape(Rectangle())
-            }
-            
-            VStack(spacing: Constants.Spacing.xMedium) {
-                Text(room.name)
-                    .font(Fonts.titleSemibold)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(2)
-                    .padding(.leading)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+        Button {
+            openRoomDetailAction(room)
+        } label: {
+            VStack(alignment: .leading, spacing: Constants.Spacing.medium) {
+                if !room.imageUrls.isEmpty {
+                    DynamicImagesView(
+                        urlStrings: room.imageUrls
+                    )
+                    .allowsHitTesting(false)
+                    .frame(height: 150)
+                    .cornerRadius(Constants.CornerRadius.large)
+                    .contentShape(Rectangle())
+                }
                 
-                TaskQuickActionList(
-                    taskConfigurations: .defaultRoomConfiguration,
-                    action: { taskType in
-                        completeTaskAction(room.id, taskType)
-                    }
-                )
+                VStack(spacing: Constants.Spacing.xMedium) {
+                    Text(room.name)
+                        .font(Fonts.titleSemibold)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(2)
+                        .padding(.leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    TaskQuickActionList(
+                        taskConfigurations: .defaultRoomConfiguration,
+                        action: { taskType in
+                            completeTaskAction(room.id, taskType)
+                        }
+                    )
+                }
+                .padding(.bottom)
+                .padding(.top, room.imageUrls.isEmpty ? Constants.Spacing.mediumLarge : 0)
             }
-            .padding(.bottom)
-            .padding(.top, room.imageUrls.isEmpty ? Constants.Spacing.mediumLarge : 0)
         }
         .foregroundStyle(Colors.primaryText)
         .background(Colors.secondaryBackground)
@@ -63,7 +70,8 @@ struct RoomRow: View {
     
     return RoomRow(
         room: .mock(id: UUID()),
-        completeTaskAction: { _, _ in }
+        completeTaskAction: { _, _ in },
+        openRoomDetailAction: { _ in }
     )
     .padding()
     .background(Colors.primaryBackground)

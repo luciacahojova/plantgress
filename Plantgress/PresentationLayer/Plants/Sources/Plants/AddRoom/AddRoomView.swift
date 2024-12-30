@@ -135,7 +135,8 @@ struct AddRoomView: View {
     let vm = AddRoomViewModel(
         flowController: nil,
         editingId: nil,
-        onShouldRefresh: {}
+        onShouldRefresh: {},
+        onDelete: {}
     )
     
     return AddRoomView(
