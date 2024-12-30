@@ -39,6 +39,40 @@ public struct RoomRepositoryImpl: RoomRepository {
             )
         }
     }
+    
+    public func deleteRoom(roomId: String, plants: [Plant]) async throws {
+        for plant in plants {
+            try await firebaseFirestoreProvider.updateField(
+                path: DatabaseConstants.plantsCollection,
+                id: plant.id.uuidString,
+                fields: ["roomId": ""]
+            )
+        }
+        
+        try await firebaseFirestoreProvider.delete(
+            path: DatabaseConstants.roomsCollection,
+            id: roomId
+        )
+    }
+    
+    public func updateRoom(room: Room, plants: [Plant]) async throws {
+        let previewImages = plants.prefix(2).compactMap { $0.images.first?.urlString }
+        let roomWithImages = Room(id: room.id, name: room.name, imageUrls: previewImages)
+        
+        try await firebaseFirestoreProvider.update(
+            path: DatabaseConstants.roomsCollection,
+            id: room.id.uuidString,
+            data: room
+        )
+
+        for plant in plants {
+            try await firebaseFirestoreProvider.updateField(
+                path: DatabaseConstants.plantsCollection,
+                id: plant.id.uuidString,
+                fields: ["roomId": room.id.uuidString]
+            )
+        }
+    }
 
     public func addPlantToRoom(roomId: UUID, plantId: UUID) async throws {
         // Update the `roomId` field of the plant document

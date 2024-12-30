@@ -52,6 +52,8 @@ public extension Resolver {
         register { CreateRoomUseCaseImpl(roomRepository: resolve()) as CreateRoomUseCase }
         register { AddPlantsToRoomUseCaseImpl(roomRepository: resolve()) as AddPlantsToRoomUseCase }
         register { GetRoomUseCaseImpl(roomRepository: resolve()) as GetRoomUseCase }
+        register { DeleteRoomUseCaseImpl(roomRepository: resolve()) as DeleteRoomUseCase }
+        register { UpdateRoomUseCaseImpl(roomRepository: resolve()) as UpdateRoomUseCase }
         register { GetPlantsForRoomUseCaseImpl(roomRepository: resolve()) as GetPlantsForRoomUseCase }
         register { GetAllRoomsUseCaseImpl(roomRepository: resolve()) as GetAllRoomsUseCase }
         register { RemovePlantFromRoomUseCaseImpl(roomRepository: resolve()) as RemovePlantFromRoomUseCase }

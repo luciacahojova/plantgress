@@ -192,3 +192,20 @@
 "plant_creation_every_weeks_format_one" = "%@ týždeň";
 "plant_creation_every_weeks_format_few" = "%@ týždne";
 "plant_creation_every_weeks_format_many" = "%@ týždňov";
+
+// MARK: Room Creation
+"delete_room" = "Zmazať miestnosť";
+"update_room" = "Uložiť";
+"create_room_button" = "Vytvoriť miestnosť";
+"room_name_placeholder" = "Názov miestnosti";
+"room_name_title" = "Názov";
+
+"room_deletion_alert_title" = "Zmazanie miestnosti";
+"room_deletion_alert_message" = "Ste si istý, že chcete zmazať túto miestnosť? Rastliny v miestnosti nebudú zmazané.";
+"failed_to_delete_room_snackbar" = "Zlyhalo odstránenie miestnosti.";
+"failed_to_update_room_snackbar" = "Zlyhala aktualizácia miestnosti.";
+"failed_to_create_room_snackbar" = "Zlyhalo vytvorenie miestnosti.";
+
+"no_plants_empty_content_message" = "Nemáte žiadne rastliny bez priradenej rastliny.";
+"edit_room_title" = "Upraviť miestnosť";
+"create_room_title" = "Vytvorenie miestnosti";

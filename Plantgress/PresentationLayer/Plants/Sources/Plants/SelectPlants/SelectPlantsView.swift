@@ -1,23 +1,24 @@
 //
-//  SelectRoomView.swift
+//  SelectPlantsView.swift
 //  Plants
 //
-//  Created by Lucia Cahojova on 29.12.2024.
+//  Created by Lucia Cahojova on 30.12.2024.
 //
 
 import Resolver
+import SharedDomain
 import SwiftUI
 import UIToolkit
 
-struct SelectRoomView: View {
+struct SelectPlantsView: View {
     
     // MARK: - Stored properties
     
-    @ObservedObject private var viewModel: SelectRoomViewModel
+    @ObservedObject private var viewModel: SelectPlantsViewModel
     
     // MARK: - Init
     
-    init(viewModel: SelectRoomViewModel) {
+    init(viewModel: SelectPlantsViewModel) {
         self.viewModel = viewModel
     }
     
@@ -61,20 +62,20 @@ struct SelectRoomView: View {
                             },
                             fixedTopPadding: 100
                         )
-                    } else if viewModel.state.rooms.isEmpty {
+                    } else if viewModel.state.plants.isEmpty {
                         BaseEmptyContentView(
-                            message: Strings.noRoomsMessage,
+                            message: Strings.noPlantsEmptyContentMessage,
                             fixedTopPadding: 100
                         )
                     } else {
-                        ForEach(viewModel.state.rooms, id: \.id) { room in
+                        ForEach(viewModel.state.plants, id: \.id) { plant in
                             SelectionRow(
-                                title: room.name,
-                                isSelected: room.id == viewModel.state.selectedRoom?.id,
-                                actionType: .none,
-                                imageUrlString: room.imageUrls.first,
+                                title: plant.name,
+                                isSelected: viewModel.state.selectedPlants.contains(where: { $0.id == plant.id }),
+                                actionType: .checkmark,
+                                imageUrlString: plant.images.first?.urlString,
                                 selectAction: {
-                                    viewModel.onIntent(.selectRoom(room))
+                                    viewModel.onIntent(.selectPlant(plant))
                                 }
                             )
                         }
@@ -86,17 +87,17 @@ struct SelectRoomView: View {
         }
         .edgesIgnoringSafeArea(.bottom)
         .lifecycle(viewModel)
-        .background(Colors.primaryBackground)
     }
 }
 
 #Preview {
     Resolver.registerUseCasesForPreviews()
     
-    let vm = SelectRoomViewModel(
+    let vm = SelectPlantsViewModel(
         flowController: nil,
+        selectedPlants: [],
         onSave: { _ in }
     )
     
-    return SelectRoomView(viewModel: vm)
+    return SelectPlantsView(viewModel: vm)
 }

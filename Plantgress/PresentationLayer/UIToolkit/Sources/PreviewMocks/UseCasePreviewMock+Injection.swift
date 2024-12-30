@@ -45,6 +45,8 @@ public extension Resolver {
         register { CreateRoomUseCasePreviewMock() as CreateRoomUseCase }
         register { AddPlantsToRoomUseCasePreviewMock() as AddPlantsToRoomUseCase }
         register { GetRoomUseCasePreviewMock() as GetRoomUseCase }
+        register { DeleteRoomUseCasePreviewMock() as DeleteRoomUseCase }
+        register { UpdateRoomUseCasePreviewMock() as UpdateRoomUseCase }
         register { GetPlantsForRoomUseCasePreviewMock() as GetPlantsForRoomUseCase }
         register { GetAllRoomsUseCasePreviewMock() as GetAllRoomsUseCase }
         register { RemovePlantFromRoomUseCasePreviewMock() as RemovePlantFromRoomUseCase }

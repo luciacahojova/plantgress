@@ -154,6 +154,14 @@ class GetRoomUseCasePreviewMock: GetRoomUseCase {
     }
 }
 
+class UpdateRoomUseCasePreviewMock: UpdateRoomUseCase {
+    func execute(room: Room, plants: [Plant]) async throws {}
+}
+
+class DeleteRoomUseCasePreviewMock: DeleteRoomUseCase {
+    func execute(roomId: UUID, plants: [Plant]) async throws {}
+}
+
 class GetPlantsForRoomUseCasePreviewMock: GetPlantsForRoomUseCase {
     func execute(roomId: UUID) async throws -> [Plant] {
         return .mock
