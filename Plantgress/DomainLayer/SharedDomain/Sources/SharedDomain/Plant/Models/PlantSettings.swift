@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PlantSettings: Codable, Sendable {
+public struct PlantSettings: Codable, Sendable, Equatable {
     public let tasksConfiguartions: [TaskConfiguration]
     
     public init(

@@ -38,6 +38,10 @@ public enum Strings {
   public static let closeButton = Strings.tr("Localizable", "close_button", fallback: "Close")
   /// Completed Tasks
   public static let completedTasksTitle = Strings.tr("Localizable", "completed_tasks_title", fallback: "Completed Tasks")
+  /// Create Room
+  public static let createRoomButton = Strings.tr("Localizable", "create_room_button", fallback: "Create Room")
+  /// Create a Room
+  public static let createRoomTitle = Strings.tr("Localizable", "create_room_title", fallback: "Create a Room")
   /// Failed to load.
   public static let dataLoadFailedSnackbarMessage = Strings.tr("Localizable", "data_load_failed_snackbar_message", fallback: "Failed to load.")
   /// Something went wrong.
@@ -50,12 +54,16 @@ public enum Strings {
   public static let deleteAccountButton = Strings.tr("Localizable", "delete_account_button", fallback: "Delete Account")
   /// Delete
   public static let deleteButton = Strings.tr("Localizable", "delete_button", fallback: "Delete")
+  /// Delete Room
+  public static let deleteRoom = Strings.tr("Localizable", "delete_room", fallback: "Delete Room")
   /// Discard
   public static let discardButton = Strings.tr("Localizable", "discard_button", fallback: "Discard")
   /// Dismiss
   public static let dismissButton = Strings.tr("Localizable", "dismiss_button", fallback: "Dismiss")
   /// Edit
   public static let editButton = Strings.tr("Localizable", "edit_button", fallback: "Edit")
+  /// Edit Room
+  public static let editRoomTitle = Strings.tr("Localizable", "edit_room_title", fallback: "Edit Room")
   /// Email is already in use.
   public static let emailAlreadyInUseErrorMessage = Strings.tr("Localizable", "email_already_in_use_error_message", fallback: "Email is already in use.")
   /// Your email address is already verified.
@@ -70,6 +78,12 @@ public enum Strings {
   public static let exploreTitle = Strings.tr("Localizable", "explore_title", fallback: "Explore")
   /// Extra Tools 🔨
   public static let exploreTitleWithEmoji = Strings.tr("Localizable", "explore_title_with_emoji", fallback: "Extra Tools 🔨")
+  /// Failed to create room.
+  public static let failedToCreateRoomSnackbar = Strings.tr("Localizable", "failed_to_create_room_snackbar", fallback: "Failed to create room.")
+  /// Failed to delete room.
+  public static let failedToDeleteRoomSnackbar = Strings.tr("Localizable", "failed_to_delete_room_snackbar", fallback: "Failed to delete room.")
+  /// Failed to update room.
+  public static let failedToUpdateRoomSnackbar = Strings.tr("Localizable", "failed_to_update_room_snackbar", fallback: "Failed to update room.")
   /// Fertilize
   public static let fertilizeName = Strings.tr("Localizable", "fertilize_name", fallback: "Fertilize")
   /// Fertilizing
@@ -102,6 +116,8 @@ public enum Strings {
   public static let noCameraAccessAlertTitle = Strings.tr("Localizable", "no_camera_access_alert_title", fallback: "No Camera Access")
   /// No Photos Access
   public static let noPhotosAccessAlertTitle = Strings.tr("Localizable", "no_photos_access_alert_title", fallback: "No Photos Access")
+  /// You have no plants.
+  public static let noPlantsEmptyContentMessage = Strings.tr("Localizable", "no_plants_empty_content_message", fallback: "You have no plants.")
   /// You have no rooms.
   public static let noRoomsMessage = Strings.tr("Localizable", "no_rooms_message", fallback: "You have no rooms.")
   /// You have no tracked tasks.
@@ -290,6 +306,14 @@ public enum Strings {
   public static let resetPasswordButtom = Strings.tr("Localizable", "reset_password_buttom", fallback: "Send password reset")
   /// Password reset link has been sent.
   public static let resetPasswordSnackbarMessage = Strings.tr("Localizable", "reset_password_snackbar_message", fallback: "Password reset link has been sent.")
+  /// Are you sure you want to delete this room? Plants in the room won't be deleted.
+  public static let roomDeletionAlertMessage = Strings.tr("Localizable", "room_deletion_alert_message", fallback: "Are you sure you want to delete this room? Plants in the room won't be deleted.")
+  /// Room Deletion
+  public static let roomDeletionAlertTitle = Strings.tr("Localizable", "room_deletion_alert_title", fallback: "Room Deletion")
+  /// Room Name
+  public static let roomNamePlaceholder = Strings.tr("Localizable", "room_name_placeholder", fallback: "Room Name")
+  /// Name
+  public static let roomNameTitle = Strings.tr("Localizable", "room_name_title", fallback: "Name")
   /// Rooms
   public static let roomsTitle = Strings.tr("Localizable", "rooms_title", fallback: "Rooms")
   /// Rooms 🏡
@@ -344,6 +368,8 @@ public enum Strings {
   public static let undoButton = Strings.tr("Localizable", "undo_button", fallback: "Undo")
   /// Upcoming Tasks
   public static let upcomingTasksTitle = Strings.tr("Localizable", "upcoming_tasks_title", fallback: "Upcoming Tasks")
+  /// Update Room
+  public static let updateRoom = Strings.tr("Localizable", "update_room", fallback: "Update Room")
   /// A verification link has been sent to your email address. It may take a few minutes to arrive. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.
   public static let verificationLinkSentMessage = Strings.tr("Localizable", "verification_link_sent_message", fallback: "A verification link has been sent to your email address. It may take a few minutes to arrive. Once verified, you can log into the app. If you didn’t receive the email, you can request to resend the link.")
   /// Verification link sent

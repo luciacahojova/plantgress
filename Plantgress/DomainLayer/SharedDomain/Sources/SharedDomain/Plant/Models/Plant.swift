@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public struct Plant: Codable, Identifiable, Sendable {
+public struct Plant: Codable, Identifiable, Sendable, Equatable {
     public let id: UUID
     public let name: String
     public let roomId: UUID?
