@@ -206,6 +206,6 @@
 "failed_to_update_room_snackbar" = "Zlyhala aktualizácia miestnosti.";
 "failed_to_create_room_snackbar" = "Zlyhalo vytvorenie miestnosti.";
 
-"no_plants_empty_content_message" = "Nemáte žiadne rastliny.";
+"no_plants_empty_content_message" = "Nemáte žiadne rastliny bez priradenej rastliny.";
 "edit_room_title" = "Upraviť miestnosť";
 "create_room_title" = "Vytvorenie miestnosti";

@@ -116,8 +116,8 @@ public enum Strings {
   public static let noCameraAccessAlertTitle = Strings.tr("Localizable", "no_camera_access_alert_title", fallback: "No Camera Access")
   /// No Photos Access
   public static let noPhotosAccessAlertTitle = Strings.tr("Localizable", "no_photos_access_alert_title", fallback: "No Photos Access")
-  /// You have no plants.
-  public static let noPlantsEmptyContentMessage = Strings.tr("Localizable", "no_plants_empty_content_message", fallback: "You have no plants.")
+  /// You have no plants without a room.
+  public static let noPlantsEmptyContentMessage = Strings.tr("Localizable", "no_plants_empty_content_message", fallback: "You have no plants without a room.")
   /// You have no rooms.
   public static let noRoomsMessage = Strings.tr("Localizable", "no_rooms_message", fallback: "You have no rooms.")
   /// You have no tracked tasks.

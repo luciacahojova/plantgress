@@ -206,6 +206,6 @@
 "failed_to_update_room_snackbar" = "Failed to update room.";
 "failed_to_create_room_snackbar" = "Failed to create room.";
 
-"no_plants_empty_content_message" = "You have no plants.";
+"no_plants_empty_content_message" = "You have no plants without a room.";
 "edit_room_title" = "Edit Room";
 "create_room_title" = "Create a Room";
