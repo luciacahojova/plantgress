@@ -136,6 +136,8 @@ final class AddRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
             Task {
                 do {
                     try await deleteRoomUseCase.execute(roomId: editingId, plants: state.plants)
+                    onShouldRefresh()
+                    flowController?.handleFlow(PlantsFlow.pop)
                 } catch {
                     setFailedSnackbarData(message: Strings.failedToDeleteRoomSnackbar)
                 }
