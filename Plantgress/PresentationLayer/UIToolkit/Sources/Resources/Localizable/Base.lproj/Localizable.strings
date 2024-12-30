@@ -209,3 +209,7 @@
 "no_plants_empty_content_message" = "You have no plants without a room.";
 "edit_room_title" = "Edit Room";
 "create_room_title" = "Create a Room";
+
+// MARK: Room detail
+"no_plants_in_room_empty_content_message" = "There are no plants in this room.";
+"failed_to_remove_plant_from_room_snackbar" = "Failed to remove plant from room.";

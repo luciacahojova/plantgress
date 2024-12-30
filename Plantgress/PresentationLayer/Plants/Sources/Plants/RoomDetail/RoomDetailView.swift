@@ -39,7 +39,7 @@ struct RoomDetailView: View {
                     )
                 } else if viewModel.state.plants.isEmpty {
                     BaseEmptyContentView(
-                        message: "There are no plants in this room.", // TODO: String
+                        message: Strings.noPlantsInRoomEmptyContentMessage,
                         fixedTopPadding: 100
                     )
                 } else {

@@ -170,7 +170,7 @@ final class AddRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
                             do {
                                 try await removePlantFromRoomUseCase.execute(plantId: deletedPlant.id, roomId: room.id)
                             } catch {
-                                setFailedSnackbarData(message: "Failed to remove plant from room.") // TODO: Strings
+                                setFailedSnackbarData(message: Strings.failedToRemovePlantFromRoomSnackbar) 
                             }
                         }
                         

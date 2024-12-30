@@ -209,3 +209,7 @@
 "no_plants_empty_content_message" = "Nemáte žiadne rastliny bez priradenej rastliny.";
 "edit_room_title" = "Upraviť miestnosť";
 "create_room_title" = "Vytvorenie miestnosti";
+
+// MARK: Room detail
+"no_plants_in_room_empty_content_message" = "V tejto miestnosti nie sú žiadne rastliny.";
+"failed_to_remove_plant_from_room_snackbar" = "Nepodarilo sa odstrániť rastlinu.";
