@@ -104,8 +104,7 @@ public final class PlantsFlowController: FlowController {
         )
         let view = RoomDetailView(viewModel: vm)
         let vc = HostingController(
-            rootView: view,
-            title: room.name
+            rootView: view
         )
         
         navigationController.show(vc, sender: nil)

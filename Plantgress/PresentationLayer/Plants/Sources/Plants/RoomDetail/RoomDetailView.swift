@@ -55,6 +55,7 @@ struct RoomDetailView: View {
             .padding([.top, .horizontal])
             .padding(.bottom, Constants.Spacing.xLarge)
         }
+        .navigationTitle(viewModel.state.room?.name ?? "")
         .alert(item: Binding<AlertData?>(
             get: { viewModel.state.alertData },
             set: { alertData in

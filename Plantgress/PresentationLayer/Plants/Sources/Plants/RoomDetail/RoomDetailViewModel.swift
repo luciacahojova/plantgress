@@ -79,7 +79,6 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
             PlantsFlow.showAddRoom(
                 editingId: state.room?.id,
                 onShouldRefresh: {
-                    // TODO: Handle refreshing flow title
                     self.refresh()
                 },
                 onDelete: {
@@ -94,7 +93,7 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     }
     
     private func refresh() {
-        loadData(room: state.room)
+        loadData()
     }
     
     private func dismissAlert() {
@@ -109,21 +108,28 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         state.snackbarData = snackbarData
     }
     
-    private func loadData(room: Room?) {
-        state.room = room
-        guard let roomId = state.room?.id else {
-            setFailedSnackbarData(message: Strings.dataLoadFailedSnackbarMessage)
-            return
-        }
-        
+    private func loadData(room: Room? = nil) {
         state.isLoading = true
+        
+        let getRoomUseCase = getRoomUseCase
         let getPlantsForRoomUseCase = getPlantsForRoomUseCase
         executeTask(
             Task {
                 defer { state.isLoading = false }
                 
                 do {
-                    state.plants = try await getPlantsForRoomUseCase.execute(roomId: roomId)
+                    if let room = room {
+                        state.room = room
+                    } else if let roomId = state.room?.id {
+                        state.room = try await getRoomUseCase.execute(roomId: roomId)
+                    }
+                    
+                    guard let loadedRoom = state.room else {
+                        state.errorMessage = Strings.dataLoadFailedSnackbarMessage
+                        return
+                    }
+                    
+                    state.plants = try await getPlantsForRoomUseCase.execute(roomId: loadedRoom.id)
                 } catch {
                     state.errorMessage = Strings.dataLoadFailedSnackbarMessage
                 }
