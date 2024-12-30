@@ -13,21 +13,25 @@ struct RoomList: View {
     
     private let rooms: [Room]
     private let completeTaskAction: (UUID, TaskType) -> Void
+    private let openRoomDetailAction: (Room) -> Void
     
     private let isLoading: Bool
     
     init(
         rooms: [Room],
-        completeTaskAction: @escaping (UUID, TaskType) -> Void
+        completeTaskAction: @escaping (UUID, TaskType) -> Void,
+        openRoomDetailAction: @escaping (Room) -> Void
     ) {
         self.rooms = rooms
         self.completeTaskAction = completeTaskAction
+        self.openRoomDetailAction = openRoomDetailAction
         self.isLoading = false
     }
     
     private init() {
         self.rooms = .mock
-        self.completeTaskAction = { _, _ in}
+        self.completeTaskAction = { _, _ in }
+        self.openRoomDetailAction = { _ in }
         self.isLoading = true
     }
     
@@ -46,7 +50,8 @@ struct RoomList: View {
                 ForEach(rooms, id: \.id) { room in
                     RoomRow(
                         room: room,
-                        completeTaskAction: completeTaskAction
+                        completeTaskAction: completeTaskAction,
+                        openRoomDetailAction: openRoomDetailAction
                     )
                 }
             }
@@ -59,7 +64,8 @@ struct RoomList: View {
     ScrollView(showsIndicators: false) {
         RoomList(
             rooms: .mock,
-            completeTaskAction: { _, _ in }
+            completeTaskAction: { _, _ in },
+            openRoomDetailAction: { _ in }
         )
     }
 }

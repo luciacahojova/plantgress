@@ -17,6 +17,7 @@ final class AddRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     @Injected private var movePlantToRoomUseCase: MovePlantToRoomUseCase
     @Injected private var addPlantsToRoomUseCase: AddPlantsToRoomUseCase
+    @Injected private var removePlantFromRoomUseCase: RemovePlantFromRoomUseCase
     
     @Injected private var getRoomUseCase: GetRoomUseCase
     @Injected private var createRoomUseCase: CreateRoomUseCase
@@ -27,16 +28,19 @@ final class AddRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private weak var flowController: FlowController?
     private let onShouldRefresh: () -> Void
+    private let onDelete: () -> Void
     
     // MARK: - Init
 
     init(
         flowController: FlowController?,
         editingId: UUID?,
-        onShouldRefresh: @escaping () -> Void
+        onShouldRefresh: @escaping () -> Void,
+        onDelete: @escaping () -> Void
     ) {
         self.flowController = flowController
         self.onShouldRefresh = onShouldRefresh
+        self.onDelete = onDelete
         
         super.init()
         
@@ -58,6 +62,7 @@ final class AddRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
     
         var name: String = ""
         var plants: [Plant] = []
+        var deletedPlants: [Plant] = []
         
         var isEditing: Bool { editingId != nil }
         var isLoading: Bool = false
@@ -136,7 +141,7 @@ final class AddRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
             Task {
                 do {
                     try await deleteRoomUseCase.execute(roomId: editingId, plants: state.plants)
-                    onShouldRefresh()
+                    onDelete()
                     flowController?.handleFlow(PlantsFlow.pop)
                 } catch {
                     setFailedSnackbarData(message: Strings.failedToDeleteRoomSnackbar)
@@ -148,26 +153,34 @@ final class AddRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
     private func createRoom() {
         let createRoomUseCase = createRoomUseCase
         let updateRoomUseCase = updateRoomUseCase
+        let removePlantFromRoomUseCase = removePlantFromRoomUseCase
         
         executeTask(
             Task {
                 defer { state.isLoading = false }
                 
                 do {
-                    if let editingId = state.editingId {
+                    let room = Room(
+                        id: state.editingId ?? UUID(),
+                        name: state.name
+                    )
+                    
+                    if state.isEditing {
+                        for deletedPlant in state.deletedPlants {
+                            do {
+                                try await removePlantFromRoomUseCase.execute(plantId: deletedPlant.id, roomId: room.id)
+                            } catch {
+                                setFailedSnackbarData(message: Strings.failedToRemovePlantFromRoomSnackbar) 
+                            }
+                        }
+                        
                         try await updateRoomUseCase.execute(
-                            room: .init(
-                                id: editingId,
-                                name: state.name
-                            ),
+                            room: room,
                             plants: state.plants
                         )
                     } else {
                         try await createRoomUseCase.execute(
-                            room: .init(
-                                id: UUID(),
-                                name: state.name
-                            ),
+                            room: room,
                             plants: state.plants
                         )
                     }
@@ -184,7 +197,11 @@ final class AddRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
     }
     
     private func deletePlant(plantId: UUID) {
-        state.plants.removeAll(where: { $0.id == plantId })
+        if let plantIndex = state.plants.firstIndex(where: { $0.id == plantId }) {
+            let removedPlant = state.plants.remove(at: plantIndex)
+            
+            state.deletedPlants.append(removedPlant)
+        }
     }
     
     private func addPlant() {

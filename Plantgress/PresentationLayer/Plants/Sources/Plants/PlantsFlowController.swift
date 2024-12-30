@@ -12,9 +12,9 @@ import UIKit
 enum PlantsFlow: Flow {
     case openSettings
     case showPlantDetail(UUID)
-    case showRoomDetail(UUID)
+    case showRoomDetail(Room)
     case showAddPlant(editingId: UUID?, plantName: String?, onShouldRefresh: () -> Void)
-    case showAddRoom(editingId: UUID?, onShouldRefresh: () -> Void)
+    case showAddRoom(editingId: UUID?, onShouldRefresh: () -> Void, onDelete: () -> Void)
     case presentAddTask(editingId: UUID?, onShouldRefresh: () -> Void)
     case showPlantSettings(plantId: UUID?, onShouldRefresh: () -> Void)
     case presentPickRoom(onSave: (Room?) -> Void)
@@ -46,13 +46,17 @@ public final class PlantsFlowController: FlowController {
         switch flow {
         case .openSettings: openSettings()
         case .showPlantDetail(let plantId): showPlantDetail(plantId)
-        case .showRoomDetail(let roomId): showRoomDetail(roomId)
+        case .showRoomDetail(let room): showRoomDetail(room)
         case let .showAddPlant(editingId, plantName, onShouldRefresh): showAddPlant(
             editingId: editingId,
             plantName: plantName,
             onShouldRefresh: onShouldRefresh
         )
-        case let .showAddRoom(editingId, onShouldRefresh): showAddRoom(editingId: editingId, onShouldRefresh: onShouldRefresh)
+        case let .showAddRoom(editingId, onShouldRefresh, onDelete): showAddRoom(
+            editingId: editingId,
+            onShouldRefresh: onShouldRefresh,
+            onDelete: onDelete
+        )
         case let .presentAddTask(editingId, onShouldRefresh): presentAddTask(editingId: editingId, onShouldRefresh: onShouldRefresh)
         case let .showPlantSettings(plantId, onShouldRefresh): showPlantSettings(plantId: plantId, onShouldRefresh: onShouldRefresh)
         case .presentPickRoom(let onSave): presentPickRoom(onSave: onSave)
@@ -93,8 +97,17 @@ public final class PlantsFlowController: FlowController {
         #warning("TODO: Add implementation")
     }
     
-    private func showRoomDetail(_ roomId: UUID) {
-        #warning("TODO: Add implementation")
+    private func showRoomDetail(_ room: Room) {
+        let vm = RoomDetailViewModel(
+            flowController: self,
+            room: room
+        )
+        let view = RoomDetailView(viewModel: vm)
+        let vc = HostingController(
+            rootView: view
+        )
+        
+        navigationController.show(vc, sender: nil)
     }
     
     private func showAddPlant(
@@ -121,12 +134,14 @@ public final class PlantsFlowController: FlowController {
     
     private func showAddRoom(
         editingId: UUID?,
-        onShouldRefresh: @escaping () -> Void
+        onShouldRefresh: @escaping () -> Void, 
+        onDelete: @escaping () -> Void
     ) {
         let vm = AddRoomViewModel(
             flowController: self,
             editingId: editingId,
-            onShouldRefresh: onShouldRefresh
+            onShouldRefresh: onShouldRefresh,
+            onDelete: onDelete
         )
         let view = AddRoomView(viewModel: vm)
         let vc = HostingController(

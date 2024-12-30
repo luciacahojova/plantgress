@@ -82,6 +82,8 @@ public enum Strings {
   public static let failedToCreateRoomSnackbar = Strings.tr("Localizable", "failed_to_create_room_snackbar", fallback: "Failed to create room.")
   /// Failed to delete room.
   public static let failedToDeleteRoomSnackbar = Strings.tr("Localizable", "failed_to_delete_room_snackbar", fallback: "Failed to delete room.")
+  /// Failed to remove plant from room.
+  public static let failedToRemovePlantFromRoomSnackbar = Strings.tr("Localizable", "failed_to_remove_plant_from_room_snackbar", fallback: "Failed to remove plant from room.")
   /// Failed to update room.
   public static let failedToUpdateRoomSnackbar = Strings.tr("Localizable", "failed_to_update_room_snackbar", fallback: "Failed to update room.")
   /// Fertilize
@@ -118,6 +120,8 @@ public enum Strings {
   public static let noPhotosAccessAlertTitle = Strings.tr("Localizable", "no_photos_access_alert_title", fallback: "No Photos Access")
   /// You have no plants without a room.
   public static let noPlantsEmptyContentMessage = Strings.tr("Localizable", "no_plants_empty_content_message", fallback: "You have no plants without a room.")
+  /// There are no plants in this room.
+  public static let noPlantsInRoomEmptyContentMessage = Strings.tr("Localizable", "no_plants_in_room_empty_content_message", fallback: "There are no plants in this room.")
   /// You have no rooms.
   public static let noRoomsMessage = Strings.tr("Localizable", "no_rooms_message", fallback: "You have no rooms.")
   /// You have no tracked tasks.
