@@ -14,17 +14,20 @@ struct PlantList: View {
     private let plants: [Plant]
     private let trackPlantProgressAction: (UUID) -> Void
     private let completeTaskAction: (Plant, TaskType) -> Void
+    private let openPlantDetailAction: (UUID) -> Void
     
     private let isLoading: Bool
     
     init(
         plants: [Plant],
         trackPlantProgressAction: @escaping (UUID) -> Void,
-        completeTaskAction: @escaping (Plant, TaskType) -> Void
+        completeTaskAction: @escaping (Plant, TaskType) -> Void,
+        openPlantDetailAction: @escaping (UUID) -> Void
     ) {
         self.plants = plants
         self.trackPlantProgressAction = trackPlantProgressAction
         self.completeTaskAction = completeTaskAction
+        self.openPlantDetailAction = openPlantDetailAction
         self.isLoading = false
     }
     
@@ -32,6 +35,7 @@ struct PlantList: View {
         self.plants = .mock
         self.trackPlantProgressAction = { _ in }
         self.completeTaskAction = { _, _ in }
+        self.openPlantDetailAction = { _ in }
         self.isLoading = true
     }
     
@@ -51,7 +55,8 @@ struct PlantList: View {
                     PlantRow(
                         plant: plant,
                         trackPlantProgressAction: trackPlantProgressAction,
-                        completeTaskAction: completeTaskAction
+                        completeTaskAction: completeTaskAction,
+                        openPlantDetailAction: openPlantDetailAction
                     )
                 }
             }
@@ -65,7 +70,8 @@ struct PlantList: View {
         PlantList(
             plants: .mock,
             trackPlantProgressAction: { _ in },
-            completeTaskAction: { _, _ in }
+            completeTaskAction: { _, _ in },
+            openPlantDetailAction: { _ in }
         )
     }
 }

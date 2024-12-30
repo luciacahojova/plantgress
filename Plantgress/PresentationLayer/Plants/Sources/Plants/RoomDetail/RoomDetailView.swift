@@ -24,6 +24,8 @@ struct RoomDetailView: View {
         self.viewModel = viewModel
     }
     
+    // MARK: Body
+    
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
@@ -51,6 +53,9 @@ struct RoomDetailView: View {
                         },
                         completeTaskAction: { plant, taskType in
                             viewModel.onIntent(.completeTaskForPlant(plant: plant, taskType: taskType))
+                        },
+                        openPlantDetailAction: { plantId in
+                            viewModel.onIntent(.showPlantDetail(plantId: plantId))
                         }
                     )
                 }

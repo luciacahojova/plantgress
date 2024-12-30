@@ -1,5 +1,5 @@
 //
-//  RoomDetailViewModel.swift
+//  PlantDetailViewModel.swift
 //  Plants
 //
 //  Created by Lucia Cahojova on 30.12.2024.
@@ -11,12 +11,11 @@ import SharedDomain
 import UIKit
 import UIToolkit
 
-final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
+final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     @Injected private var getCurrentUserLocallyUseCase: GetCurrentUserLocallyUseCase
     
-    @Injected private var getRoomUseCase: GetRoomUseCase
-    @Injected private var getPlantsForRoomUseCase: GetPlantsForRoomUseCase
+    @Injected private var getPlantUseCase: GetPlantUseCase
     
     @Injected private var uploadImageUseCase: UploadImageUseCase
     @Injected private var updatePlantImagesUseCase: UpdatePlantImagesUseCase
@@ -35,13 +34,13 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
 
     init(
         flowController: FlowController?,
-        room: Room
+        plantId: UUID
     ) {
         self.flowController = flowController
         
         super.init()
         
-        loadData(room: room)
+        loadData(plantId: plantId)
     }
     
     // MARK: - Lifecycle
@@ -57,12 +56,9 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     struct State {
         var userId: String?
         
-        var room: Room?
-        var plants: [Plant] = []
+        var plant: Plant?
         
         var isLoading: Bool = false
-        
-        var selectedPlantId: UUID?
         
         var snackbarData: SnackbarData?
         var alertData: AlertData?
@@ -75,9 +71,6 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     // MARK: - Intent
     enum Intent {
-        case editRoom
-        case showPlantDetail(plantId: UUID)
-        
         case snackbarDataChanged(SnackbarData?)
         case alertDataChanged(AlertData?)
         
@@ -89,8 +82,6 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         case dismissCameraPicker
         case dismissImagePicker
         
-        case selectedPlantIdChanged(UUID)
-        
         case uploadImage(UIImage?)
         case uploadImages([UIImage])
         
@@ -99,8 +90,6 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
 
     func onIntent(_ intent: Intent) {
         switch intent {
-        case .editRoom: editRoom()
-        case .showPlantDetail(let plantId): showPlantDetail(plantId: plantId)
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .refresh: refresh()
@@ -109,7 +98,6 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .toggleImagePicker: toggleImagePicker()
         case .dismissCameraPicker: dismissCameraPicker()
         case .dismissImagePicker: dismissImagePicker()
-        case .selectedPlantIdChanged(let id): selectedPlantIdChanged(id)
         case .uploadImage(let image): uploadImage(image)
         case .uploadImages(let images): uploadImages(images)
         case let .completeTaskForPlant(plant, taskType): completeTaskForPlant(plant: plant, taskType: taskType)
@@ -130,7 +118,7 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
                     )
                     
                     if shouldRefresh {
-                        loadData()
+                        loadData(plantId: plant.id)
                     } else {
                         state.snackbarData = .init(
                             message: Strings.taskCompletedSnackbarMessage(TaskType.title(for: taskType)),
@@ -153,11 +141,10 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         let uploadImageUseCase = uploadImageUseCase
         let updatePlantImagesUseCase = updatePlantImagesUseCase
 
-        guard let selectedPlantId = state.selectedPlantId else { return }
+        guard let plantId = state.plant?.id else { return }
         
         executeTask(
             Task {
-                defer { state.selectedPlantId = nil }
                 var newImageData: [ImageData] = []
                 
                 for image in images {
@@ -176,7 +163,7 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
                         newImageData.append(newImage)
                         
                         try await updatePlantImagesUseCase.execute(
-                            plantId: selectedPlantId,
+                            plantId: plantId,
                             newImages: newImageData
                         )
                         
@@ -228,10 +215,6 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         )
     }
     
-    private func selectedPlantIdChanged(_ id: UUID) {
-        state.selectedPlantId = id
-    }
-    
     private func toggleImageActionSheet() {
         state.isImageSheetPresented.toggle()
     }
@@ -274,26 +257,17 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         state.isImagePickerPresented = false
     }
     
-    private func editRoom() {
-        flowController?.handleFlow(
-            PlantsFlow.showAddRoom(
-                editingId: state.room?.id,
-                onShouldRefresh: {
-                    self.refresh()
-                },
-                onDelete: {
-                    self.flowController?.handleFlow(PlantsFlow.pop)
-                }
-            )
-        )
-    }
-    
-    private func showPlantDetail(plantId: UUID) {
+    private func openPlantDetail(plantId: UUID) {
         flowController?.handleFlow(PlantsFlow.showPlantDetail(plantId))
     }
     
     private func refresh() {
-        loadData()
+        guard let plantId = state.plant?.id else {
+            setFailedSnackbarData(message: Strings.defaultErrorMessage)
+            return
+        }
+        
+        loadData(plantId: plantId)
     }
     
     private func dismissAlert() {
@@ -308,29 +282,17 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         state.snackbarData = snackbarData
     }
     
-    private func loadData(room: Room? = nil) {
+    private func loadData(plantId: UUID) {
         state.isLoading = true
         loadUser()
         
-        let getRoomUseCase = getRoomUseCase
-        let getPlantsForRoomUseCase = getPlantsForRoomUseCase
+        let getPlantUseCase = getPlantUseCase
         executeTask(
             Task {
                 defer { state.isLoading = false }
                 
                 do {
-                    if let room = room {
-                        state.room = room
-                    } else if let roomId = state.room?.id {
-                        state.room = try await getRoomUseCase.execute(roomId: roomId)
-                    }
-                    
-                    guard let loadedRoom = state.room else {
-                        state.errorMessage = Strings.dataLoadFailedSnackbarMessage
-                        return
-                    }
-                    
-                    state.plants = try await getPlantsForRoomUseCase.execute(roomId: loadedRoom.id)
+                    state.plant = try await getPlantUseCase.execute(id: plantId)
                 } catch {
                     state.errorMessage = Strings.dataLoadFailedSnackbarMessage
                 }

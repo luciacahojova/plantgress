@@ -42,6 +42,7 @@ public enum Icons {
     public static let check = Asset.Icons.check.image
     public static let refresh = Asset.Icons.refresh.image
     public static let faceSmile = Asset.Icons.faceSmile.image
+    public static let settings = Asset.Icons.settings.image
 }
 
 public enum Colors {

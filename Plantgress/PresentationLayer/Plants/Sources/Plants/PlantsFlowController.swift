@@ -94,7 +94,17 @@ public final class PlantsFlowController: FlowController {
     }
     
     private func showPlantDetail(_ plantId: UUID) {
-        #warning("TODO: Add implementation")
+        let vm = PlantDetailViewModel(
+            flowController: self,
+            plantId: plantId
+        )
+        let view = PlantDetailView(viewModel: vm)
+        let vc = HostingController(
+            rootView: view,
+            showsNavigationBar: false
+        )
+        
+        navigationController.show(vc, sender: nil)
     }
     
     private func showRoomDetail(_ room: Room) {
