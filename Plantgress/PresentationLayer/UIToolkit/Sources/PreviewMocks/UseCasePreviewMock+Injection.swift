@@ -34,6 +34,7 @@ public extension Resolver {
         register { HasPhotoLibraryAccessUseCasePreviewMock() as HasPhotoLibraryAccessUseCase }
         register { DeleteImageUseCasePreviewMock() as DeleteImageUseCase }
         register { UpdatePlantImagesUseCasePreviewMock() as UpdatePlantImagesUseCase }
+        register { PrepareImagesForSharingUseCasePreviewMock() as PrepareImagesForSharingUseCase }
         
         // Plants
         register { CreatePlantUseCasePreviewMock() as CreatePlantUseCase }

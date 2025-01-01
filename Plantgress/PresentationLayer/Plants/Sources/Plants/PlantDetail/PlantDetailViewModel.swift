@@ -19,6 +19,7 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     @Injected private var uploadImageUseCase: UploadImageUseCase
     @Injected private var updatePlantImagesUseCase: UpdatePlantImagesUseCase
+    @Injected private var prepareImagesForSharingUseCase: PrepareImagesForSharingUseCase
     
     @Injected private var hasCameraAccessUseCase: HasCameraAccessUseCase
     @Injected private var hasPhotoLibraryAccessUseCase: HasPhotoLibraryAccessUseCase
@@ -84,6 +85,7 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         
         case uploadImage(UIImage?)
         case uploadImages([UIImage])
+        case shareImages
         
         case completeTaskForPlant(plant: Plant, taskType: TaskType)
     }
@@ -100,8 +102,36 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .dismissImagePicker: dismissImagePicker()
         case .uploadImage(let image): uploadImage(image)
         case .uploadImages(let images): uploadImages(images)
+        case .shareImages: shareImages()
         case let .completeTaskForPlant(plant, taskType): completeTaskForPlant(plant: plant, taskType: taskType)
         }
+    }
+    
+    private func shareImages() {
+        guard let images = state.plant?.images else { return }
+        let prepareImagesForSharingUseCase = prepareImagesForSharingUseCase
+        
+        executeTask(
+            Task {
+                state.snackbarData = .init(message: "Preparing...", duration: 30) // TODO: Strings
+                
+                do {
+                    let imagesToShare = try await prepareImagesForSharingUseCase.execute(images: images)
+                    state.snackbarData = nil
+                    
+                    flowController?.handleFlow(
+                        PlantsFlow.presentShareImages(
+                            images: imagesToShare,
+                            onShareSuccess: {
+                                self.state.snackbarData = .init(message: "Success!")
+                            }
+                        )
+                    )
+                } catch {
+                    setFailedSnackbarData(message: "Failed to prepare images.")// TODO: Strings
+                }
+            }
+        )
     }
     
     private func completeTaskForPlant(plant: Plant, taskType: TaskType, shouldRefresh: Bool = false) {

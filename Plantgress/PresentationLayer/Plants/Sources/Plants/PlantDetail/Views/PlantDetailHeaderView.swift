@@ -26,25 +26,31 @@ struct PlantDetailHeaderView: View {
     
     var body: some View {
         HStack(spacing: Constants.Spacing.xMedium) {
-            Icons.chevronLeft
-                .renderingMode(.template)
-                .resizable()
-                .scaledToFit()
-                .frame(width: Constants.IconSize.medium)
+            Button(action: navigateBackAction) {
+                Icons.chevronLeft
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: Constants.IconSize.medium)
+            }
             
             Spacer()
             
-            Icons.send
-                .renderingMode(.template)
-                .resizable()
-                .scaledToFit()
-                .frame(width: Constants.IconSize.xMedium)
+            Button(action: shareAction) {
+                Icons.send
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: Constants.IconSize.xMedium)
+            }
             
-            Icons.settings
-                .renderingMode(.template)
-                .resizable()
-                .scaledToFit()
-                .frame(width: Constants.IconSize.xMedium)
+            Button(action: showSettingsAction) {
+                Icons.settings
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: Constants.IconSize.xMedium)
+            }
         }
         .padding(.trailing)
         .padding(.top, Constants.statusBarHeight + Constants.Spacing.small)

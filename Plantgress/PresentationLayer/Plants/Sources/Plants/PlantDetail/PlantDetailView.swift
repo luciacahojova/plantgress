@@ -74,13 +74,19 @@ struct PlantDetailView: View {
                             // TODO: implementation
                         },
                         shareAction: {
-                            // TODO: implementation
+                            viewModel.onIntent(.shareImages)
                         }
                     )
                     .background(isTransparent ? .clear : Colors.primaryBackground)
                 }
             }
-        }
+        } // TODO: Bind snackbar
+        .snackbar(
+            Binding<SnackbarData?>(
+                get: { viewModel.state.snackbarData },
+                set: { snackbarData in viewModel.onIntent(.snackbarDataChanged(snackbarData)) }
+            )
+        )
         .edgesIgnoringSafeArea(.top)
         .foregroundStyle(Colors.primaryText)
         .lifecycle(viewModel)

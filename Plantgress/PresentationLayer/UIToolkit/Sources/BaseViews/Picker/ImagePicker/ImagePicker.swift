@@ -22,7 +22,7 @@ public struct ImagePicker: UIViewControllerRepresentable {
     
     public typealias UIViewControllerType = PHPickerViewController
     
-    public func makeUIViewController(context: Context) -> PHPickerViewController {
+    public func makeUIViewController(context: Context) -> PHPickerViewController { // TODO: Handle remembering the date
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
         configuration.filter = .images
         configuration.selectionLimit = self.selectionLimit
