@@ -140,6 +140,12 @@ class UpdatePlantImagesUseCasePreviewMock: UpdatePlantImagesUseCase {
     func execute(plantId: UUID, newImages: [ImageData]) async throws {}
 }
 
+class PrepareImagesForSharingUseCasePreviewMock: PrepareImagesForSharingUseCase {
+    func execute(images: [SharedDomain.ImageData]) async throws -> [UIImage] {
+        []
+    }
+}
+
 class CreateRoomUseCasePreviewMock: CreateRoomUseCase {
     func execute(room: Room, plants: [Plant]) async throws {}
 }

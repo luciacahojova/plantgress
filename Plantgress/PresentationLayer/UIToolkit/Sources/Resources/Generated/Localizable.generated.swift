@@ -16,6 +16,8 @@ import Foundation
 public enum Strings {
   /// Account
   public static let accountTitle = Strings.tr("Localizable", "account_title", fallback: "Account")
+  /// Calendar
+  public static let calendarTitle = Strings.tr("Localizable", "calendar_title", fallback: "Calendar")
   /// Camera
   public static let cameraAction = Strings.tr("Localizable", "camera_action", fallback: "Camera")
   /// To continue, grant access to your camera in Settings.
@@ -56,6 +58,10 @@ public enum Strings {
   public static let deleteButton = Strings.tr("Localizable", "delete_button", fallback: "Delete")
   /// Delete Room
   public static let deleteRoom = Strings.tr("Localizable", "delete_room", fallback: "Delete Room")
+  /// Diagnose plants to identify pests, diseases, or care issues and get solutions to help them thrive.
+  public static let diagnoseSubtitle = Strings.tr("Localizable", "diagnose_subtitle", fallback: "Diagnose plants to identify pests, diseases, or care issues and get solutions to help them thrive.")
+  /// Diagnose Plants
+  public static let diagnoseTitle = Strings.tr("Localizable", "diagnose_title", fallback: "Diagnose Plants")
   /// Discard
   public static let discardButton = Strings.tr("Localizable", "discard_button", fallback: "Discard")
   /// Dismiss
@@ -114,6 +120,10 @@ public enum Strings {
   public static let logoutAlertTitle = Strings.tr("Localizable", "logout_alert_title", fallback: "Logout")
   /// Log Out
   public static let logoutButton = Strings.tr("Localizable", "logout_button", fallback: "Log Out")
+  /// Use the Luxmeter to measure light levels and ensure your plants receive the optimal amount of light for healthy growth.
+  public static let luxmeterSubtitle = Strings.tr("Localizable", "luxmeter_subtitle", fallback: "Use the Luxmeter to measure light levels and ensure your plants receive the optimal amount of light for healthy growth.")
+  /// Luxmeter
+  public static let luxmeterTitle = Strings.tr("Localizable", "luxmeter_title", fallback: "Luxmeter")
   /// No Camera Access
   public static let noCameraAccessAlertTitle = Strings.tr("Localizable", "no_camera_access_alert_title", fallback: "No Camera Access")
   /// No Photos Access
@@ -324,6 +334,12 @@ public enum Strings {
   public static let roomsTitleWithEmoji = Strings.tr("Localizable", "rooms_title_with_emoji", fallback: "Rooms 🏡")
   /// Settings
   public static let settingsButton = Strings.tr("Localizable", "settings_button", fallback: "Settings")
+  /// Failed to prepare images.
+  public static let snackFailedToPrepare = Strings.tr("Localizable", "snack_failed_to_prepare", fallback: "Failed to prepare images.")
+  /// Preparing...
+  public static let snackPreparing = Strings.tr("Localizable", "snack_preparing", fallback: "Preparing...")
+  /// Success!
+  public static let snackSuccess = Strings.tr("Localizable", "snack_success", fallback: "Success!")
   /// Failed to complete task
   public static let taskCompleteFailedSnackbarMessage = Strings.tr("Localizable", "task_complete_failed_snackbar_message", fallback: "Failed to complete task")
   /// Completed on %@

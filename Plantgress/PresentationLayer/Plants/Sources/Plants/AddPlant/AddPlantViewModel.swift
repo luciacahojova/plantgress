@@ -98,7 +98,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         case nameChanged(String)
         
         case uploadImage(UIImage?)
-        case uploadImages([UIImage])
+        case uploadImages([(Date, UIImage)])
         case deleteImage(UUID)
         case updateTask(TaskType, TaskConfiguration)
         case updateTaskProperty(TaskType, TaskProperty)
@@ -271,7 +271,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func createPlant() {
         let plant = Plant(
-            id: UUID(),
+            id: state.editingId ?? UUID(),
             name: state.name,
             roomId: state.room?.id,
             images: state.uploadedImages,
@@ -304,12 +304,12 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         )
     }
     
-    private func uploadImages(_ images: [UIImage]) {
+    private func uploadImages(_ images: [(Date, UIImage)]) {
         let uploadImageUseCase = uploadImageUseCase
         
         executeTask(
             Task {
-                for image in images {
+                for (date, image) in images {
                     do {
                         guard let userId = state.userId else {
                             throw ImagesError.uploadFailed
@@ -321,7 +321,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
                         
                         var newImage = ImageData(
                             id: UUID(),
-                            date: Date(),
+                            date: date,
                             urlString: nil,
                             isLoading: true
                         )
@@ -356,7 +356,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
             return
         }
         
-        uploadImages([image])
+        uploadImages([(Date(), image)])
     }
     
     private func dismissAlert() {

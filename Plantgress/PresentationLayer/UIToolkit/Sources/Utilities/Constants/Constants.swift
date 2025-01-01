@@ -9,6 +9,10 @@ import UIKit
 
 public struct Constants {
     
+    public static var statusBarHeight: CGFloat {
+        return UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 44
+    }
+    
     // MARK: - Spacing
     public enum Spacing {
         /**

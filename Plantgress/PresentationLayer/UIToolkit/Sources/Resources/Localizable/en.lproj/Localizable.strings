@@ -213,3 +213,15 @@
 // MARK: Room detail
 "no_plants_in_room_empty_content_message" = "There are no plants in this room.";
 "failed_to_remove_plant_from_room_snackbar" = "Failed to remove plant from room.";
+
+// MARK: Explore
+"diagnose_title" = "Diagnose Plants";
+"diagnose_subtitle" = "Diagnose plants to identify pests, diseases, or care issues and get solutions to help them thrive.";
+"luxmeter_title" = "Luxmeter";
+"luxmeter_subtitle" = "Use the Luxmeter to measure light levels and ensure your plants receive the optimal amount of light for healthy growth.";
+
+// MARK: Plant Detail
+"calendar_title" = "Calendar";
+"snack_preparing" = "Preparing...";
+"snack_success" = "Success!";
+"snack_failed_to_prepare" = "Failed to prepare images.";

@@ -20,6 +20,7 @@ enum PlantsFlow: Flow {
     case presentPickRoom(onSave: (Room?) -> Void)
     case presentPickPlants(selectedPlants: [Plant], onSave: ([Plant]) -> Void)
     case showPeriodSettings(periods: [TaskPeriod], onSave: ([TaskPeriod]) -> Void)
+    case presentShareImages(images: [UIImage], onShareSuccess: () -> Void)
     case dismiss
     case pop
 }
@@ -62,9 +63,25 @@ public final class PlantsFlowController: FlowController {
         case .presentPickRoom(let onSave): presentPickRoom(onSave: onSave)
         case let .presentPickPlants(selectedPlants, onSave): presentPickPlants(selectedPlants: selectedPlants, onSave: onSave)
         case let .showPeriodSettings(periods, onSave): showPeriodSettings(periods: periods, onSave: onSave)
+        case let .presentShareImages(images, onShareSuccess): presentShareImages(images: images, onShareSuccess: onShareSuccess)
         case .dismiss: dismissView()
         case .pop: pop()
         }
+    }
+    
+    private func presentShareImages(
+        images: [UIImage],
+        onShareSuccess: @escaping () -> Void
+    ) {
+        let activityViewController = UIActivityViewController(activityItems: images, applicationActivities: nil)
+
+        activityViewController.completionWithItemsHandler = { activityType, completed, returnedItems, error in
+            if completed {
+                onShareSuccess()
+            }
+        }
+
+        navigationController.present(activityViewController, animated: true)
     }
     
     private func showPeriodSettings(
@@ -94,7 +111,17 @@ public final class PlantsFlowController: FlowController {
     }
     
     private func showPlantDetail(_ plantId: UUID) {
-        #warning("TODO: Add implementation")
+        let vm = PlantDetailViewModel(
+            flowController: self,
+            plantId: plantId
+        )
+        let view = PlantDetailView(viewModel: vm)
+        let vc = HostingController(
+            rootView: view,
+            showsNavigationBar: false
+        )
+        
+        navigationController.show(vc, sender: nil)
     }
     
     private func showRoomDetail(_ room: Room) {

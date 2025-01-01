@@ -17,4 +17,6 @@ public enum ImagesError: Error {
     
     case cameraAccessNotGranted
     case libraryAccessNotGranted
+    
+    case preparingImageFailed
 }

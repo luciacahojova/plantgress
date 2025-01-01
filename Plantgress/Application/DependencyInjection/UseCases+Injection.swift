@@ -33,6 +33,7 @@ public extension Resolver {
         register { HasCameraAccessUseCaseImpl() as HasCameraAccessUseCase }
         register { HasPhotoLibraryAccessUseCaseImpl() as HasPhotoLibraryAccessUseCase }
         register { DeleteImageUseCaseImpl(imagesRepository: resolve()) as DeleteImageUseCase }
+        register { PrepareImagesForSharingUseCaseImpl(imagesRepository: resolve()) as PrepareImagesForSharingUseCase }
 
         // Plants
         register {

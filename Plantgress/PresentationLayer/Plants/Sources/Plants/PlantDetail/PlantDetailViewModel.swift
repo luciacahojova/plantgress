@@ -1,5 +1,5 @@
 //
-//  RoomDetailViewModel.swift
+//  PlantDetailViewModel.swift
 //  Plants
 //
 //  Created by Lucia Cahojova on 30.12.2024.
@@ -11,21 +11,25 @@ import SharedDomain
 import UIKit
 import UIToolkit
 
-final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
+final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     @Injected private var getCurrentUserLocallyUseCase: GetCurrentUserLocallyUseCase
     
+    @Injected private var getPlantUseCase: GetPlantUseCase
     @Injected private var getRoomUseCase: GetRoomUseCase
-    @Injected private var getPlantsForRoomUseCase: GetPlantsForRoomUseCase
     
     @Injected private var uploadImageUseCase: UploadImageUseCase
     @Injected private var updatePlantImagesUseCase: UpdatePlantImagesUseCase
+    @Injected private var prepareImagesForSharingUseCase: PrepareImagesForSharingUseCase
     
     @Injected private var hasCameraAccessUseCase: HasCameraAccessUseCase
     @Injected private var hasPhotoLibraryAccessUseCase: HasPhotoLibraryAccessUseCase
     
     @Injected private var completeTaskUseCase: CompleteTaskUseCase
+    @Injected private var deleteTaskUseCase: DeleteTaskUseCase
     @Injected private var deleteTaskForPlantUseCase: DeleteTaskForPlantUseCase
+    @Injected private var getUpcomingTasksForPlantUseCase: GetUpcomingTasksForPlantUseCase
+    @Injected private var getCompletedTasksForPlantUseCase: GetCompletedTasksForPlantUseCase
     
     // MARK: - Dependencies
     
@@ -35,13 +39,13 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
 
     init(
         flowController: FlowController?,
-        room: Room
+        plantId: UUID
     ) {
         self.flowController = flowController
         
         super.init()
         
-        loadData(room: room)
+        loadData(plantId: plantId)
     }
     
     // MARK: - Lifecycle
@@ -50,19 +54,38 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         super.onAppear()
     }
     
+    // MARK: - Tab selection
+    
+    enum SectionPickerOption: CaseIterable {
+        case calendar
+        case tasks
+        
+        var sectionTitle: String {
+            switch self {
+            case .calendar: Strings.calendarTitle
+            case .tasks: Strings.tasksTitle
+            }
+        }
+    }
+    
     // MARK: - State
     
     @Published private(set) var state: State = State()
+    @Published private(set) var selectedSection: SectionPickerOption = .calendar {
+        didSet {
+            refreshTasks()
+        }
+    }
 
     struct State {
         var userId: String?
         
-        var room: Room?
-        var plants: [Plant] = []
+        var plant: Plant?
+        var roomName: String?
+        var upcomingTasks: [PlantTask] = []
+        var completedTasks: [PlantTask] = []
         
         var isLoading: Bool = false
-        
-        var selectedPlantId: UUID?
         
         var snackbarData: SnackbarData?
         var alertData: AlertData?
@@ -75,13 +98,14 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     // MARK: - Intent
     enum Intent {
-        case editRoom
-        case showPlantDetail(plantId: UUID)
-        
         case snackbarDataChanged(SnackbarData?)
         case alertDataChanged(AlertData?)
         
         case refresh
+        case navigateBack
+        case showPlantSettings
+        
+        case selectedSectionChanged(SectionPickerOption)
         
         case toggleImageActionSheet
         case toggleCameraPicker
@@ -89,36 +113,112 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         case dismissCameraPicker
         case dismissImagePicker
         
-        case selectedPlantIdChanged(UUID)
-        
         case uploadImage(UIImage?)
         case uploadImages([(Date, UIImage)])
+        case shareImages
         
-        case completeTaskForPlant(plant: Plant, taskType: TaskType)
+        case completeTask(taskType: TaskType)
+        case editTask(PlantTask)
+        case deleteTask(PlantTask)
     }
 
     func onIntent(_ intent: Intent) {
         switch intent {
-        case .editRoom: editRoom()
-        case .showPlantDetail(let plantId): showPlantDetail(plantId: plantId)
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .refresh: refresh()
+        case .navigateBack: navigateBack()
+        case .showPlantSettings: showPlantSettings()
+        case .selectedSectionChanged(let selectedSection): selectedSectionChanged(selectedSection)
         case .toggleImageActionSheet: toggleImageActionSheet()
         case .toggleCameraPicker: toggleCameraPicker()
         case .toggleImagePicker: toggleImagePicker()
         case .dismissCameraPicker: dismissCameraPicker()
         case .dismissImagePicker: dismissImagePicker()
-        case .selectedPlantIdChanged(let id): selectedPlantIdChanged(id)
         case .uploadImage(let image): uploadImage(image)
         case .uploadImages(let images): uploadImages(images)
-        case let .completeTaskForPlant(plant, taskType): completeTaskForPlant(plant: plant, taskType: taskType)
+        case .shareImages: shareImages()
+        case let .completeTask(taskType): completeTask(taskType: taskType)
+        case .editTask(let plantTask): editTask(plantTask)
+        case .deleteTask(let plantTask): deleteTask(plantTask)
         }
     }
     
-    private func completeTaskForPlant(plant: Plant, taskType: TaskType, shouldRefresh: Bool = false) {
+    private func selectedSectionChanged(_ selectedSection: SectionPickerOption) {
+        self.selectedSection = selectedSection
+    }
+    
+    private func editTask(_ plantTask: PlantTask) {
+        flowController?.handleFlow(
+            PlantsFlow.showPlantSettings(
+                plantId: plantTask.plantId,
+                onShouldRefresh: refresh
+            )
+        )
+    }
+    
+    private func showPlantSettings() {
+        flowController?.handleFlow(
+            PlantsFlow.showAddPlant(
+                editingId: state.plant?.id,
+                plantName: state.plant?.name ?? "",
+                onShouldRefresh: {
+                    self.refresh()
+                }
+            )
+        )
+    }
+    
+    private func navigateBack() {
+        flowController?.handleFlow(PlantsFlow.pop)
+    }
+    
+    private func shareImages() {
+        guard let images = state.plant?.images else { return }
+        let prepareImagesForSharingUseCase = prepareImagesForSharingUseCase
+        
+        executeTask(
+            Task {
+                state.snackbarData = .init(message: Strings.snackPreparing, duration: 30)
+                
+                do {
+                    let imagesToShare = try await prepareImagesForSharingUseCase.execute(images: images)
+                    state.snackbarData = nil
+                    
+                    flowController?.handleFlow(
+                        PlantsFlow.presentShareImages(
+                            images: imagesToShare,
+                            onShareSuccess: {
+                                self.state.snackbarData = .init(message: Strings.snackSuccess)
+                            }
+                        )
+                    )
+                } catch {
+                    setFailedSnackbarData(message: Strings.snackFailedToPrepare)
+                }
+            }
+        )
+    }
+    
+    private func deleteTask(_ plantTask: PlantTask) {
+        let deleteTaskUseCase = deleteTaskUseCase
+        
+        executeTask(
+            Task {
+                do {
+                    try await deleteTaskUseCase.execute(task: plantTask)
+                    refreshTasks()
+                } catch {
+                    setFailedSnackbarData(message: Strings.taskDeleteFailedSnackbarMessage)
+                }
+            }
+        )
+    }
+    
+    private func completeTask(taskType: TaskType, shouldRefresh: Bool = false) {
+        guard let plant = state.plant else { return }
+        
         let completeTaskUseCase = completeTaskUseCase
-        let deleteTaskForPlantUseCase = deleteTaskForPlantUseCase
         
         executeTask(
             Task {
@@ -129,19 +229,7 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
                         completionDate: Date()
                     )
                     
-                    if shouldRefresh {
-                        loadData()
-                    } else {
-                        state.snackbarData = .init(
-                            message: Strings.taskCompletedSnackbarMessage(TaskType.title(for: taskType)),
-                            actionText: Strings.undoButton,
-                            action: {
-                                Task {
-                                    try? await deleteTaskForPlantUseCase.execute(plant: plant, taskType: taskType)
-                                }
-                            }
-                        )
-                    }
+                    refreshTasks()
                 } catch {
                     setFailedSnackbarData(message: Strings.taskCompleteFailedSnackbarMessage)
                 }
@@ -153,11 +241,10 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         let uploadImageUseCase = uploadImageUseCase
         let updatePlantImagesUseCase = updatePlantImagesUseCase
 
-        guard let selectedPlantId = state.selectedPlantId else { return }
+        guard let plantId = state.plant?.id else { return }
         
         executeTask(
             Task {
-                defer { state.selectedPlantId = nil }
                 var newImageData: [ImageData] = []
                 
                 for (date, image) in images {
@@ -181,11 +268,11 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
                         newImageData.append(newImage)
                         
                         try await updatePlantImagesUseCase.execute(
-                            plantId: selectedPlantId,
+                            plantId: plantId,
                             newImages: newImageData
                         )
                         
-                        state.snackbarData = .init(message: Strings.progressSavedSnackbarMessage)
+                        refresh()
                     } catch {
                         setFailedSnackbarData(message: Strings.imageUploadFailedSnackbarMessage)
                     }
@@ -233,10 +320,6 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         )
     }
     
-    private func selectedPlantIdChanged(_ id: UUID) {
-        state.selectedPlantId = id
-    }
-    
     private func toggleImageActionSheet() {
         state.isImageSheetPresented.toggle()
     }
@@ -279,26 +362,17 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         state.isImagePickerPresented = false
     }
     
-    private func editRoom() {
-        flowController?.handleFlow(
-            PlantsFlow.showAddRoom(
-                editingId: state.room?.id,
-                onShouldRefresh: {
-                    self.refresh()
-                },
-                onDelete: {
-                    self.flowController?.handleFlow(PlantsFlow.pop)
-                }
-            )
-        )
-    }
-    
-    private func showPlantDetail(plantId: UUID) {
+    private func openPlantDetail(plantId: UUID) {
         flowController?.handleFlow(PlantsFlow.showPlantDetail(plantId))
     }
     
     private func refresh() {
-        loadData()
+        guard let plantId = state.plant?.id else {
+            setFailedSnackbarData(message: Strings.defaultErrorMessage)
+            return
+        }
+        
+        loadData(plantId: plantId)
     }
     
     private func dismissAlert() {
@@ -313,29 +387,36 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         state.snackbarData = snackbarData
     }
     
-    private func loadData(room: Room? = nil) {
+    private func loadData(plantId: UUID) {
         state.isLoading = true
-        loadUser()
         
+        if state.userId == nil {
+            loadUser()
+        }
+        
+        let getPlantUseCase = getPlantUseCase
         let getRoomUseCase = getRoomUseCase
-        let getPlantsForRoomUseCase = getPlantsForRoomUseCase
+        let getUpcomingTasksForPlantUseCase = getUpcomingTasksForPlantUseCase
+        let getCompletedTasksForPlantUseCase = getCompletedTasksForPlantUseCase
         executeTask(
             Task {
                 defer { state.isLoading = false }
                 
                 do {
-                    if let room = room {
-                        state.room = room
-                    } else if let roomId = state.room?.id {
-                        state.room = try await getRoomUseCase.execute(roomId: roomId)
-                    }
+                    state.plant = try await getPlantUseCase.execute(id: plantId)
                     
-                    guard let loadedRoom = state.room else {
-                        state.errorMessage = Strings.dataLoadFailedSnackbarMessage
+                    guard let plant = state.plant else {
                         return
                     }
                     
-                    state.plants = try await getPlantsForRoomUseCase.execute(roomId: loadedRoom.id)
+                    state.upcomingTasks = await getUpcomingTasksForPlantUseCase.execute(for: plant, days: 14)
+                    state.completedTasks = try await getCompletedTasksForPlantUseCase.execute(for: plant.id)
+                    
+                    guard let roomId = state.plant?.roomId else {
+                        return
+                    }
+                    
+                    state.roomName = try await getRoomUseCase.execute(roomId: roomId).name
                 } catch {
                     state.errorMessage = Strings.dataLoadFailedSnackbarMessage
                 }
@@ -356,5 +437,23 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
             return
         }
         state.userId = user.id
+    }
+    
+    private func refreshTasks() {
+        guard let plant = state.plant else { return }
+        
+        let getCompletedTasksForPlantUseCase = getCompletedTasksForPlantUseCase
+        let getUpcomingTasksForPlantUseCase = getUpcomingTasksForPlantUseCase
+        
+        executeTask(
+            Task {
+                do {
+                    state.upcomingTasks = await getUpcomingTasksForPlantUseCase.execute(for: plant, days: 14)
+                    state.completedTasks = try await getCompletedTasksForPlantUseCase.execute(for: plant.id)
+                } catch {
+                    state.errorMessage = Strings.defaultErrorMessage
+                }
+            }
+        )
     }
 }

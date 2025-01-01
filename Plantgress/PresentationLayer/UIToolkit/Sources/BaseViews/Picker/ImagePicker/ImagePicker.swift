@@ -6,14 +6,15 @@
 //
 
 import PhotosUI
+import SharedDomain
 import SwiftUI
 
 public struct ImagePicker: UIViewControllerRepresentable {
-    @Binding private var images: [UIImage]
+    @Binding private var images: [(Date, UIImage)]
     private let selectionLimit: Int
     
     public init(
-        images: Binding<[UIImage]>,
+        images: Binding<[(Date, UIImage)]>,
         selectionLimit: Int = 6
     ) {
         self._images = images
@@ -26,9 +27,6 @@ public struct ImagePicker: UIViewControllerRepresentable {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
         configuration.filter = .images
         configuration.selectionLimit = self.selectionLimit
-        configuration.preselectedAssetIdentifiers = self.images.compactMap { media in
-            return media.accessibilityIdentifier
-        }
         configuration.selection = .ordered
         
         let picker = PHPickerViewController(configuration: configuration)
@@ -58,18 +56,27 @@ public struct ImagePicker: UIViewControllerRepresentable {
         
         private func loadMedia(from results: [PHPickerResult]) {
             for result in results {
-                if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
-                    result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
-                        guard let self else { return }
-                        
-                        if let image = image as? UIImage {
-                            DispatchQueue.main.schedule {
-                                self.photoPicker.images.append(image)
+                if let assetIdentifier = result.assetIdentifier {
+                    let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetIdentifier], options: nil)
+                    guard let asset = assets.firstObject else { continue }
+                    
+                    let creationDate = asset.creationDate ?? Date()
+                    
+                    if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
+                        result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
+                            guard let self else { return }
+                            
+                            if let image = image as? UIImage {
+                                DispatchQueue.main.async {
+                                    self.photoPicker.images.append((creationDate, image))
+                                }
+                            } else if let error {
+                                print("📷 Failed to load image: \(error.localizedDescription)")
                             }
-                        } else if let error {
-                            print("📷 Failed to load image \(error.localizedDescription)")
                         }
                     }
+                } else {
+                    print("📷 No asset identifier available.")
                 }
             }
         }

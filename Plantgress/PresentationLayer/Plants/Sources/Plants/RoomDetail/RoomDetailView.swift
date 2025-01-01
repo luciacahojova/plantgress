@@ -16,13 +16,15 @@ struct RoomDetailView: View {
     
     @ObservedObject private var viewModel: RoomDetailViewModel
     
-    private let images: [UIImage] = []
+    private let images: [(Date, UIImage)] = []
     
     // MARK: - Init
     
     init(viewModel: RoomDetailViewModel) {
         self.viewModel = viewModel
     }
+    
+    // MARK: Body
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -51,6 +53,9 @@ struct RoomDetailView: View {
                         },
                         completeTaskAction: { plant, taskType in
                             viewModel.onIntent(.completeTaskForPlant(plant: plant, taskType: taskType))
+                        },
+                        openPlantDetailAction: { plantId in
+                            viewModel.onIntent(.showPlantDetail(plantId: plantId))
                         }
                     )
                 }
@@ -102,7 +107,7 @@ struct RoomDetailView: View {
             set: { _ in viewModel.onIntent(.dismissImagePicker) }
         )) {
             ImagePicker(
-                images: Binding<[UIImage]>(
+                images: Binding<[(Date, UIImage)]>(
                     get: { images },
                     set: { images in
                         viewModel.onIntent(.uploadImages(images))

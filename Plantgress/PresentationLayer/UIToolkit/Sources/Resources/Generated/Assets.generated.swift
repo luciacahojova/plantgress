@@ -88,8 +88,10 @@ public enum Asset {
     public static let xMark = ImageAsset(name: "x-mark")
   }
   public enum Images {
+    public static let disease = ImageAsset(name: "disease")
     public static let logoWithText = ImageAsset(name: "logo-with-text")
     public static let logo = ImageAsset(name: "logo")
+    public static let luxmeter = ImageAsset(name: "luxmeter")
     public static let primaryOnboardingBackground = ImageAsset(name: "primary-onboarding-background")
     public static let secondaryOnboardingBackground = ImageAsset(name: "secondary-onboarding-background")
   }

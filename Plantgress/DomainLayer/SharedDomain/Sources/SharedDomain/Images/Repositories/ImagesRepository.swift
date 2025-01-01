@@ -10,6 +10,7 @@ import SwiftUI
 
 public protocol ImagesRepository {
     func uploadImage(userId: String, imageId: String, imageData: Data) async throws -> URL
+    func prepareImagesForSharing(images: [ImageData]) async throws -> [UIImage]
     func downloadImage(urlString: String) async -> Image?
     func delete(userId: String, imageId: String) async throws
 }

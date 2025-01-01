@@ -65,7 +65,7 @@ public struct SnackbarModifier: ViewModifier {
                     .cornerRadius(Constants.CornerRadius.xLarge)
                 }
                 .shadow(
-                    color: Colors.gray,
+                    color: .black.opacity(0.1),
                     radius: 4,
                     x: 4,
                     y: 4

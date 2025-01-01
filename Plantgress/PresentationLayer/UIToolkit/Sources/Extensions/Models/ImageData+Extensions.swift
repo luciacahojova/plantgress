@@ -20,6 +20,6 @@ public extension ImageData {
 
 public extension [ImageData] {
     static var mock: [ImageData] {
-        [0...1].map { _ in .mock(id: UUID()) }
+        (0...3).map { _ in .mock(id: UUID()) }
     }
 }

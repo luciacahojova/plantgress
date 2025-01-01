@@ -14,7 +14,7 @@ public extension TaskConfiguration {
             return TaskConfiguration(
                 taskType: taskType,
                 isTracked: true,
-                hasNotifications: true,
+                hasNotifications: false,
                 time: Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date(),
                 startDate: Date(),
                 periods: [
@@ -56,7 +56,7 @@ public extension [TaskConfiguration] {
                 return TaskConfiguration(
                     taskType: taskType,
                     isTracked: true,
-                    hasNotifications: true,
+                    hasNotifications: false,
                     time: Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date(),
                     startDate: Date(),
                     periods: [

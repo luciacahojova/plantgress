@@ -16,7 +16,7 @@ struct PlantsOverviewView: View {
     
     @ObservedObject private var viewModel: PlantsOverviewViewModel
     
-    private let images: [UIImage] = []
+    private let images: [(Date, UIImage)] = []
     @State private var width: CGFloat? = nil
 
     // MARK: - Init
@@ -71,6 +71,9 @@ struct PlantsOverviewView: View {
                                 },
                                 completeTaskAction: { plant, taskType in
                                     viewModel.onIntent(.completeTaskForPlant(plant: plant, taskType: taskType))
+                                },
+                                openPlantDetailAction: { plantId in
+                                    viewModel.onIntent(.showPlantDetail(plantId: plantId))
                                 }
                             )
                         case .rooms:
@@ -109,14 +112,16 @@ struct PlantsOverviewView: View {
             .padding(.bottom, Constants.Spacing.xLarge)
         }
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    viewModel.onIntent(.plusButtonTapped)
-                } label: {
-                    Asset.Icons.plus.image
-                        .renderingMode(.template)
-                        .resizable()
-                        .scaledToFit()
+            if viewModel.selectedSection != .tasks {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        viewModel.onIntent(.plusButtonTapped)
+                    } label: {
+                        Asset.Icons.plus.image
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                    }
                 }
             }
         }
@@ -151,7 +156,7 @@ struct PlantsOverviewView: View {
             set: { _ in viewModel.onIntent(.dismissImagePicker) }
         )) {
             ImagePicker(
-                images: Binding<[UIImage]>(
+                images: Binding<[(Date, UIImage)]>(
                     get: { images },
                     set: { images in
                         viewModel.onIntent(.uploadImages(images))

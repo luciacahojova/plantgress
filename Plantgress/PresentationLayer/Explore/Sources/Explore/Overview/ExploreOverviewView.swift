@@ -6,16 +6,54 @@
 //
 
 import SwiftUI
+import UIToolkit
 
 struct ExploreOverviewView: View {
     
-    init() {}
+    // MARK: - Stored properties
+    
+    @ObservedObject private var viewModel: ExploreOverviewViewModel
+    
+    // MARK: - Init
+    
+    init(viewModel: ExploreOverviewViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    // MARK: - Body
     
     var body: some View {
-        EmptyView()
+        ScrollView {
+            VStack(spacing: Constants.Spacing.large) {
+                ExtraToolRow(
+                    title: Strings.diagnoseTitle,
+                    subtitle: Strings.diagnoseSubtitle,
+                    image: Images.disease,
+                    icon: Icons.doctorBag,
+                    action: {
+                        viewModel.onIntent(.showPlantDiagnostics)
+                    }
+                )
+                
+                ExtraToolRow(
+                    title: Strings.luxmeterTitle,
+                    subtitle: Strings.luxmeterSubtitle,
+                    image: Images.luxmeter,
+                    icon: Icons.lightbulb,
+                    action: {
+                        viewModel.onIntent(.showLuxmeter)
+                    }
+                )
+            }
+            .padding()
+        }
+        .lifecycle(viewModel)
     }
 }
 
 #Preview {
-    ExploreOverviewView()
+    let vm = ExploreOverviewViewModel(flowController: nil)
+    
+    return ExploreOverviewView(viewModel: vm)
+        .background(Colors.primaryBackground)
 }

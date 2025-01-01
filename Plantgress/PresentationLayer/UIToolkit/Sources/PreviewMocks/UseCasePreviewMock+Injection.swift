@@ -33,6 +33,8 @@ public extension Resolver {
         register { HasCameraAccessUseCasePreviewMock() as HasCameraAccessUseCase }
         register { HasPhotoLibraryAccessUseCasePreviewMock() as HasPhotoLibraryAccessUseCase }
         register { DeleteImageUseCasePreviewMock() as DeleteImageUseCase }
+        register { UpdatePlantImagesUseCasePreviewMock() as UpdatePlantImagesUseCase }
+        register { PrepareImagesForSharingUseCasePreviewMock() as PrepareImagesForSharingUseCase }
         
         // Plants
         register { CreatePlantUseCasePreviewMock() as CreatePlantUseCase }

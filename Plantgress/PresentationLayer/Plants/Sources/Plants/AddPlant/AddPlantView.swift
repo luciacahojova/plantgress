@@ -16,7 +16,7 @@ struct AddPlantView: View {
     
     @ObservedObject private var viewModel: AddPlantViewModel
     
-    private let images: [UIImage] = []
+    private let images: [(Date, UIImage)] = []
     
     // MARK: - Init
     
@@ -150,7 +150,7 @@ struct AddPlantView: View {
             set: { _ in viewModel.onIntent(.dismissImagePicker) }
         )) {
             ImagePicker(
-                images: Binding<[UIImage]>(
+                images: Binding<[(Date, UIImage)]>(
                     get: { images },
                     set: { images in
                         viewModel.onIntent(.uploadImages(images))
