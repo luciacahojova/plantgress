@@ -57,13 +57,13 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     // MARK: - Tab selection
     
     enum SectionPickerOption: CaseIterable {
-        case tasks
         case calendar
+        case tasks
         
         var sectionTitle: String {
             switch self {
-            case .tasks: Strings.tasksTitle
             case .calendar: "Calendar" // TODO: Strings
+            case .tasks: Strings.tasksTitle
             }
         }
     }
@@ -71,7 +71,7 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     // MARK: - State
     
     @Published private(set) var state: State = State()
-    @Published private(set) var selectedSection: SectionPickerOption = .tasks {
+    @Published private(set) var selectedSection: SectionPickerOption = .calendar {
         didSet {
             refreshTasks()
         }

@@ -16,8 +16,20 @@ struct TasksCalendarView: View {
     
     @State private var currentDate = Date()
     
+    private let skeleton: Bool
+    
     init(upcomingTasks: [PlantTask]) {
         self.upcomingTasks = upcomingTasks
+        self.skeleton = false
+    }
+    
+    private init() {
+        self.upcomingTasks = .mock
+        self.skeleton = true
+    }
+    
+    static var skeleton: TasksCalendarView {
+        self.init()
     }
     
     var body: some View {
@@ -68,6 +80,7 @@ struct TasksCalendarView: View {
         .padding()
         .background(Colors.secondaryBackground)
         .clipShape(RoundedRectangle(cornerRadius: Constants.CornerRadius.large))
+        .skeleton(skeleton)
     }
     
     // MARK: - Helper Functions

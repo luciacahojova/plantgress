@@ -16,12 +16,24 @@ struct PlantImagesView: View {
     @State private var selectedImage: UUID
     
     private let imageHeight: CGFloat = 355
+    private let skeleton: Bool
     
     init(
         images: [ImageData]
     ) {
         self.images = images
         self.selectedImage = images.first?.id ?? UUID()
+        self.skeleton = false
+    }
+    
+    private init() {
+        self.images = []
+        self.selectedImage = UUID()
+        self.skeleton = true
+    }
+    
+    static var skeleton: PlantImagesView {
+        self.init()
     }
     
     var body: some View {
@@ -73,6 +85,7 @@ struct PlantImagesView: View {
         .onAppear {
             selectedImage = images.first?.id ?? UUID()
         }
+        .skeleton(skeleton)
         .edgesIgnoringSafeArea(.top)
     }
 }

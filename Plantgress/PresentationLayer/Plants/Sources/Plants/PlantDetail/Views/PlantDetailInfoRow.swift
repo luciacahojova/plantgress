@@ -14,6 +14,8 @@ struct PlantDetailInfoRow: View {
     private let roomName: String?
     private let trackProgressAction: () -> Void
     
+    private let skeleton: Bool
+    
     init(
         plantName: String,
         roomName: String?,
@@ -22,6 +24,18 @@ struct PlantDetailInfoRow: View {
         self.plantName = plantName
         self.roomName = roomName
         self.trackProgressAction = trackProgressAction
+        self.skeleton = false
+    }
+    
+    private init() {
+        self.plantName = "Monstera"
+        self.roomName = "Living Room"
+        self.trackProgressAction = {}
+        self.skeleton = true
+    }
+    
+    static var skeleton: PlantDetailInfoRow {
+        self.init()
     }
     
     var body: some View {
@@ -61,6 +75,7 @@ struct PlantDetailInfoRow: View {
                 .cornerRadius(Constants.CornerRadius.xxxLarge)
             }
         }
+        .skeleton(skeleton)
     }
 }
 

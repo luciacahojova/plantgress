@@ -43,7 +43,24 @@ struct PlantDetailView: View {
                 )
             ) {
                 if viewModel.state.isLoading {
-                    // TODO: skeleton
+                    VStack(spacing: Constants.Spacing.xMedium) {
+                        PlantImagesView.skeleton
+                        
+                        VStack(spacing: Constants.Spacing.large) {
+                            PlantDetailInfoRow.skeleton
+                            
+                            SectionPicker(
+                                selectedOption: .constant(PlantDetailViewModel.SectionPickerOption.calendar),
+                                options: PlantDetailViewModel.SectionPickerOption.allCases
+                            ) { option in
+                                Text(option.sectionTitle)
+                            }
+                            .skeleton(true)
+                            
+                            TasksCalendarView.skeleton
+                        }
+                        .padding(.horizontal)
+                    }
                 } else if let errorMessage = viewModel.state.errorMessage {
                     BaseErrorContentView(
                         errorMessage: errorMessage,
