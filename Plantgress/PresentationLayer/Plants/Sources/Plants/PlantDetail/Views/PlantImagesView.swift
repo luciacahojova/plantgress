@@ -13,7 +13,7 @@ import UIToolkit
 struct PlantImagesView: View {
     
     private let images: [ImageData]
-    @State private var selectedImageOrder: UUID
+    @State private var selectedImage: UUID
     
     private let imageHeight: CGFloat = 355
     
@@ -21,18 +21,19 @@ struct PlantImagesView: View {
         images: [ImageData]
     ) {
         self.images = images
-        self.selectedImageOrder = images.first?.id ?? UUID()
+        self.selectedImage = images.first?.id ?? UUID()
     }
     
     var body: some View {
         VStack {
             if !images.isEmpty {
-                TabView(selection: $selectedImageOrder) {
+                TabView(selection: $selectedImage) {
                     ForEach(images, id: \.id) { image in
                         ZStack(alignment: .top) {
                             RemoteImage(
                                 urlString: image.urlString,
-                                contentMode: .fill
+                                contentMode: .fill,
+                                height: imageHeight
                             )
                             .frame(width: UIScreen.main.bounds.size.width, height: imageHeight)
                             .clipped()
@@ -70,8 +71,9 @@ struct PlantImagesView: View {
             }
         }
         .onAppear {
-            selectedImageOrder = images.first?.id ?? UUID()
+            selectedImage = images.first?.id ?? UUID()
         }
+        .edgesIgnoringSafeArea(.top)
     }
 }
 

@@ -10,15 +10,21 @@ import UIToolkit
 
 struct PlantDetailHeaderView: View {
     
+    private let hasError: Bool
+    private let isLoading: Bool
     private let navigateBackAction: () -> Void
     private let showSettingsAction: () -> Void
     private let shareAction: () -> Void
     
     init(
+        hasError: Bool,
+        isLoading: Bool,
         navigateBackAction: @escaping () -> Void,
         showSettingsAction: @escaping () -> Void,
         shareAction: @escaping () -> Void
     ) {
+        self.hasError = hasError
+        self.isLoading = isLoading
         self.navigateBackAction = navigateBackAction
         self.showSettingsAction = showSettingsAction
         self.shareAction = shareAction
@@ -36,20 +42,24 @@ struct PlantDetailHeaderView: View {
             
             Spacer()
             
-            Button(action: shareAction) {
-                Icons.send
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: Constants.IconSize.xMedium)
-            }
-            
-            Button(action: showSettingsAction) {
-                Icons.settings
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: Constants.IconSize.xMedium)
+            if !hasError {
+                Button(action: shareAction) {
+                    Icons.send
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: Constants.IconSize.xMedium)
+                }
+                .skeleton(isLoading)
+                
+                Button(action: showSettingsAction) {
+                    Icons.settings
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: Constants.IconSize.xMedium)
+                }
+                .skeleton(isLoading)
             }
         }
         .padding(.trailing)
@@ -60,6 +70,8 @@ struct PlantDetailHeaderView: View {
 
 #Preview {
     PlantDetailHeaderView(
+        hasError: false,
+        isLoading: false,
         navigateBackAction: {},
         showSettingsAction: {},
         shareAction: {}

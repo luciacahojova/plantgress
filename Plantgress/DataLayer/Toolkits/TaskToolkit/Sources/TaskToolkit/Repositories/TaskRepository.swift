@@ -20,14 +20,11 @@ public struct TaskRepositoryImpl: TaskRepository {
     }
     
     public func getUpcomingTasks(for plant: Plant, days: Int) async -> [PlantTask] {
-        let now = Date()
-        let endDate = Calendar.current.date(byAdding: .day, value: days, to: now)!
-
         let completedTasks = (try? await getCompletedTasks(for: plant.id)) ?? []
         let pendingNotifications = await getPendingNotifications()
         var tasks: [PlantTask] = []
 
-        for taskConfig in plant.settings.tasksConfiguartions where taskConfig.isTracked {
+        for taskConfig in plant.settings.tasksConfiguartions where (taskConfig.isTracked && taskConfig.hasNotifications) {
             let lastCompletedDate = completedTasks
                 .filter { $0.taskType == taskConfig.taskType }
                 .map { $0.completionDate ?? $0.dueDate }

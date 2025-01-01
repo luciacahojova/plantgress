@@ -16,6 +16,7 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     @Injected private var getCurrentUserLocallyUseCase: GetCurrentUserLocallyUseCase
     
     @Injected private var getPlantUseCase: GetPlantUseCase
+    @Injected private var getRoomUseCase: GetRoomUseCase
     
     @Injected private var uploadImageUseCase: UploadImageUseCase
     @Injected private var updatePlantImagesUseCase: UpdatePlantImagesUseCase
@@ -25,7 +26,10 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     @Injected private var hasPhotoLibraryAccessUseCase: HasPhotoLibraryAccessUseCase
     
     @Injected private var completeTaskUseCase: CompleteTaskUseCase
+    @Injected private var deleteTaskUseCase: DeleteTaskUseCase
     @Injected private var deleteTaskForPlantUseCase: DeleteTaskForPlantUseCase
+    @Injected private var getUpcomingTasksForPlantUseCase: GetUpcomingTasksForPlantUseCase
+    @Injected private var getCompletedTasksForPlantUseCase: GetCompletedTasksForPlantUseCase
     
     // MARK: - Dependencies
     
@@ -50,14 +54,36 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         super.onAppear()
     }
     
+    // MARK: - Tab selection
+    
+    enum SectionPickerOption: CaseIterable {
+        case tasks
+        case calendar
+        
+        var sectionTitle: String {
+            switch self {
+            case .tasks: Strings.tasksTitle
+            case .calendar: "Calendar" // TODO: Strings
+            }
+        }
+    }
+    
     // MARK: - State
     
     @Published private(set) var state: State = State()
+    @Published private(set) var selectedSection: SectionPickerOption = .tasks {
+        didSet {
+            refreshTasks()
+        }
+    }
 
     struct State {
         var userId: String?
         
         var plant: Plant?
+        var roomName: String?
+        var upcomingTasks: [PlantTask] = []
+        var completedTasks: [PlantTask] = []
         
         var isLoading: Bool = false
         
@@ -79,6 +105,8 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         case navigateBack
         case showPlantSettings
         
+        case selectedSectionChanged(SectionPickerOption)
+        
         case toggleImageActionSheet
         case toggleCameraPicker
         case toggleImagePicker
@@ -89,7 +117,9 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         case uploadImages([UIImage])
         case shareImages
         
-        case completeTaskForPlant(plant: Plant, taskType: TaskType)
+        case completeTask(taskType: TaskType)
+        case editTask(PlantTask)
+        case deleteTask(PlantTask)
     }
 
     func onIntent(_ intent: Intent) {
@@ -99,6 +129,7 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .refresh: refresh()
         case .navigateBack: navigateBack()
         case .showPlantSettings: showPlantSettings()
+        case .selectedSectionChanged(let selectedSection): selectedSectionChanged(selectedSection)
         case .toggleImageActionSheet: toggleImageActionSheet()
         case .toggleCameraPicker: toggleCameraPicker()
         case .toggleImagePicker: toggleImagePicker()
@@ -107,8 +138,23 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .uploadImage(let image): uploadImage(image)
         case .uploadImages(let images): uploadImages(images)
         case .shareImages: shareImages()
-        case let .completeTaskForPlant(plant, taskType): completeTaskForPlant(plant: plant, taskType: taskType)
+        case let .completeTask(taskType): completeTask(taskType: taskType)
+        case .editTask(let plantTask): editTask(plantTask)
+        case .deleteTask(let plantTask): deleteTask(plantTask)
         }
+    }
+    
+    private func selectedSectionChanged(_ selectedSection: SectionPickerOption) {
+        self.selectedSection = selectedSection
+    }
+    
+    private func editTask(_ plantTask: PlantTask) {
+        flowController?.handleFlow(
+            PlantsFlow.showPlantSettings(
+                plantId: plantTask.plantId,
+                onShouldRefresh: refresh
+            )
+        )
     }
     
     private func showPlantSettings() {
@@ -154,9 +200,25 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         )
     }
     
-    private func completeTaskForPlant(plant: Plant, taskType: TaskType, shouldRefresh: Bool = false) {
+    private func deleteTask(_ plantTask: PlantTask) {
+        let deleteTaskUseCase = deleteTaskUseCase
+        
+        executeTask(
+            Task {
+                do {
+                    try await deleteTaskUseCase.execute(task: plantTask)
+                    refreshTasks()
+                } catch {
+                    setFailedSnackbarData(message: Strings.taskDeleteFailedSnackbarMessage)
+                }
+            }
+        )
+    }
+    
+    private func completeTask(taskType: TaskType, shouldRefresh: Bool = false) {
+        guard let plant = state.plant else { return }
+        
         let completeTaskUseCase = completeTaskUseCase
-        let deleteTaskForPlantUseCase = deleteTaskForPlantUseCase
         
         executeTask(
             Task {
@@ -167,19 +229,7 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
                         completionDate: Date()
                     )
                     
-                    if shouldRefresh {
-                        loadData(plantId: plant.id)
-                    } else {
-                        state.snackbarData = .init(
-                            message: Strings.taskCompletedSnackbarMessage(TaskType.title(for: taskType)),
-                            actionText: Strings.undoButton,
-                            action: {
-                                Task {
-                                    try? await deleteTaskForPlantUseCase.execute(plant: plant, taskType: taskType)
-                                }
-                            }
-                        )
-                    }
+                    refreshTasks()
                 } catch {
                     setFailedSnackbarData(message: Strings.taskCompleteFailedSnackbarMessage)
                 }
@@ -217,7 +267,7 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
                             newImages: newImageData
                         )
                         
-                        state.snackbarData = .init(message: Strings.progressSavedSnackbarMessage)
+                        refresh()
                     } catch {
                         setFailedSnackbarData(message: Strings.imageUploadFailedSnackbarMessage)
                     }
@@ -340,12 +390,28 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         }
         
         let getPlantUseCase = getPlantUseCase
+        let getRoomUseCase = getRoomUseCase
+        let getUpcomingTasksForPlantUseCase = getUpcomingTasksForPlantUseCase
+        let getCompletedTasksForPlantUseCase = getCompletedTasksForPlantUseCase
         executeTask(
             Task {
                 defer { state.isLoading = false }
                 
                 do {
                     state.plant = try await getPlantUseCase.execute(id: plantId)
+                    
+                    guard let plant = state.plant else {
+                        return
+                    }
+                    
+                    state.upcomingTasks = await getUpcomingTasksForPlantUseCase.execute(for: plant, days: 14)
+                    state.completedTasks = try await getCompletedTasksForPlantUseCase.execute(for: plant.id)
+                    
+                    guard let roomId = state.plant?.roomId else {
+                        return
+                    }
+                    
+                    state.roomName = try await getRoomUseCase.execute(roomId: roomId).name
                 } catch {
                     state.errorMessage = Strings.dataLoadFailedSnackbarMessage
                 }
@@ -366,5 +432,23 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
             return
         }
         state.userId = user.id
+    }
+    
+    private func refreshTasks() {
+        guard let plant = state.plant else { return }
+        
+        let getCompletedTasksForPlantUseCase = getCompletedTasksForPlantUseCase
+        let getUpcomingTasksForPlantUseCase = getUpcomingTasksForPlantUseCase
+        
+        executeTask(
+            Task {
+                do {
+                    state.upcomingTasks = await getUpcomingTasksForPlantUseCase.execute(for: plant, days: 14)
+                    state.completedTasks = try await getCompletedTasksForPlantUseCase.execute(for: plant.id)
+                } catch {
+                    state.errorMessage = Strings.defaultErrorMessage
+                }
+            }
+        )
     }
 }

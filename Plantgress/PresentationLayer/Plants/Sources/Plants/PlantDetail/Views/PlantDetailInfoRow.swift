@@ -11,12 +11,12 @@ import UIToolkit
 struct PlantDetailInfoRow: View {
     
     private let plantName: String
-    private let roomName: String
+    private let roomName: String?
     private let trackProgressAction: () -> Void
     
     init(
         plantName: String,
-        roomName: String,
+        roomName: String?,
         trackProgressAction: @escaping () -> Void
     ) {
         self.plantName = plantName
@@ -25,19 +25,21 @@ struct PlantDetailInfoRow: View {
     }
     
     var body: some View {
-        HStack(alignment: .center) {
+        HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: Constants.Spacing.small) {
                 Text(plantName)
                     .font(Fonts.titleBold)
                 
-                HStack(spacing: Constants.Spacing.small) {
-                    Icons.tag
-                        .renderingMode(.template)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 16)
-                    
-                    Text(roomName) 
+                if let roomName {
+                    HStack(spacing: Constants.Spacing.small) {
+                        Icons.tag
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 16)
+                        
+                        Text(roomName)
+                    }
                 }
             }
             

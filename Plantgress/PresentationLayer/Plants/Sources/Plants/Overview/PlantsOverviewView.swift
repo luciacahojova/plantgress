@@ -112,14 +112,16 @@ struct PlantsOverviewView: View {
             .padding(.bottom, Constants.Spacing.xLarge)
         }
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    viewModel.onIntent(.plusButtonTapped)
-                } label: {
-                    Asset.Icons.plus.image
-                        .renderingMode(.template)
-                        .resizable()
-                        .scaledToFit()
+            if viewModel.selectedSection != .tasks {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        viewModel.onIntent(.plusButtonTapped)
+                    } label: {
+                        Asset.Icons.plus.image
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                    }
                 }
             }
         }
