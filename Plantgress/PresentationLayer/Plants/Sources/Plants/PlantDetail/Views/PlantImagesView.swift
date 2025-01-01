@@ -48,7 +48,7 @@ struct PlantImagesView: View {
                             .padding(.horizontal, Constants.Spacing.xMedium)
                             .padding(.top, Constants.Spacing.medium)
                             .padding(.bottom, Constants.Spacing.small)
-                            .background(Colors.secondaryBackground)
+                            .background(Colors.secondaryBackground.opacity(0.8))
                             .clipShape(RoundedRectangle(cornerRadius: Constants.CornerRadius.xxxLarge))
                             .padding(.top, Constants.statusBarHeight + Constants.Spacing.small)
                             .frame(maxWidth: .infinity, alignment: .center)

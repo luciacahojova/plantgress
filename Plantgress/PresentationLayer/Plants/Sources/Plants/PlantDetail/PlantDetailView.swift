@@ -66,6 +66,7 @@ struct PlantDetailView: View {
                                     viewModel.onIntent(.toggleImageActionSheet)
                                 }
                             )
+                            .padding(.horizontal)
                             
                             SectionPicker(
                                 selectedOption: Binding<PlantDetailViewModel.SectionPickerOption> (
@@ -78,6 +79,7 @@ struct PlantDetailView: View {
                             ) { option in
                                 Text(option.sectionTitle)
                             }
+                            .padding(.horizontal)
                             
                             switch viewModel.selectedSection {
                             case .tasks:
@@ -107,12 +109,15 @@ struct PlantDetailView: View {
                                         }
                                     }
                                 )
+                                .padding(.horizontal)
                             case .calendar:
-                                Text("Calendar")
+                                TasksCalendarView(
+                                    upcomingTasks: viewModel.state.upcomingTasks
+                                )
+                                .padding(.horizontal)
                             }
                         }
                         .padding(.bottom, Constants.Spacing.xLarge)
-                        .padding(.horizontal)
                     }
                 }
             }

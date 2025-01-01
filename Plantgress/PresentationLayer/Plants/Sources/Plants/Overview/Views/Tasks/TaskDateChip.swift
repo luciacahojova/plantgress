@@ -38,7 +38,7 @@ struct TaskDateChip: View {
                 if daysDifference == -1 {
                     Text(Strings.taskOverdueDaysOneTitle)
                 } else {
-                    Text(Strings.taskOverdueDaysManyTitle(daysDifference))
+                    Text(Strings.taskOverdueDaysManyTitle(abs(daysDifference)))
                 }
             } else {
                 if daysDifference == 1 {
