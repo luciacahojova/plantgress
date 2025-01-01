@@ -271,7 +271,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func createPlant() {
         let plant = Plant(
-            id: UUID(),
+            id: state.editingId ?? UUID(),
             name: state.name,
             roomId: state.room?.id,
             images: state.uploadedImages,

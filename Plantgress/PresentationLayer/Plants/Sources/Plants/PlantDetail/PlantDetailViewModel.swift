@@ -76,6 +76,8 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         case alertDataChanged(AlertData?)
         
         case refresh
+        case navigateBack
+        case showPlantSettings
         
         case toggleImageActionSheet
         case toggleCameraPicker
@@ -95,6 +97,8 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
         case .alertDataChanged(let alertData): alertDataChanged(alertData)
         case .refresh: refresh()
+        case .navigateBack: navigateBack()
+        case .showPlantSettings: showPlantSettings()
         case .toggleImageActionSheet: toggleImageActionSheet()
         case .toggleCameraPicker: toggleCameraPicker()
         case .toggleImagePicker: toggleImagePicker()
@@ -105,6 +109,22 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         case .shareImages: shareImages()
         case let .completeTaskForPlant(plant, taskType): completeTaskForPlant(plant: plant, taskType: taskType)
         }
+    }
+    
+    private func showPlantSettings() {
+        flowController?.handleFlow(
+            PlantsFlow.showAddPlant(
+                editingId: state.plant?.id,
+                plantName: state.plant?.name ?? "",
+                onShouldRefresh: {
+                    self.refresh()
+                }
+            )
+        )
+    }
+    
+    private func navigateBack() {
+        flowController?.handleFlow(PlantsFlow.pop)
     }
     
     private func shareImages() {
@@ -314,7 +334,10 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func loadData(plantId: UUID) {
         state.isLoading = true
-        loadUser()
+        
+        if state.userId == nil {
+            loadUser()
+        }
         
         let getPlantUseCase = getPlantUseCase
         executeTask(

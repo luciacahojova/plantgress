@@ -68,16 +68,16 @@ struct PlantDetailView: View {
                     
                     PlantDetailHeaderView(
                         navigateBackAction: {
-                            // TODO: implementation
+                            viewModel.onIntent(.navigateBack)
                         },
                         showSettingsAction: {
-                            // TODO: implementation
+                            viewModel.onIntent(.showPlantSettings)
                         },
                         shareAction: {
                             viewModel.onIntent(.shareImages)
                         }
                     )
-                    .background(isTransparent ? .clear : Colors.primaryBackground)
+                    .background(isTransparent ? .clear : Colors.primaryBackground.opacity(0.9))
                 }
             }
         } // TODO: Bind snackbar
