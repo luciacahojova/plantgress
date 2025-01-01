@@ -70,6 +70,8 @@ public enum Images {
     public static let logoWithText = Asset.Images.logoWithText.image
     public static let primaryOnboardingBackground = Asset.Images.primaryOnboardingBackground.image
     public static let secondaryOnboardingBackground = Asset.Images.secondaryOnboardingBackground.image
+    public static let disease = Asset.Images.disease.image
+    public static let luxmeter = Asset.Images.luxmeter.image
 }
 
 public enum Fonts {
@@ -84,6 +86,7 @@ public enum Fonts {
     public static let bodySemibold: Font = .custom(relativeTo: .body, size: 17, weight: .semibold)
     public static let bodyBold: Font = .custom(relativeTo: .body, size: 17, weight: .bold)
 
+    public static let subheadlineRegular: Font = .custom(relativeTo: .subheadline, size: 15, weight: .regular)
     public static let subheadlineMedium: Font = .custom(relativeTo: .subheadline, size: 15, weight: .medium)
     public static let subheadlineSemibold: Font = .custom(relativeTo: .subheadline, size: 15, weight: .semibold)
     public static let subheadlineBold: Font = .custom(relativeTo: .subheadline, size: 15, weight: .bold)
