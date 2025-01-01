@@ -21,7 +21,7 @@ struct PlantImagesView: View {
     init(
         images: [ImageData]
     ) {
-        self.images = images
+        self.images = images.sorted { $0.date > $1.date }
         self.selectedImage = images.first?.id ?? UUID()
         self.skeleton = false
     }

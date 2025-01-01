@@ -16,7 +16,7 @@ struct PlantsOverviewView: View {
     
     @ObservedObject private var viewModel: PlantsOverviewViewModel
     
-    private let images: [UIImage] = []
+    private let images: [(Date, UIImage)] = []
     @State private var width: CGFloat? = nil
 
     // MARK: - Init
@@ -156,7 +156,7 @@ struct PlantsOverviewView: View {
             set: { _ in viewModel.onIntent(.dismissImagePicker) }
         )) {
             ImagePicker(
-                images: Binding<[UIImage]>(
+                images: Binding<[(Date, UIImage)]>(
                     get: { images },
                     set: { images in
                         viewModel.onIntent(.uploadImages(images))

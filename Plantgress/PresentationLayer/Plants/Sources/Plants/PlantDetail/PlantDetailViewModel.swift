@@ -114,7 +114,7 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         case dismissImagePicker
         
         case uploadImage(UIImage?)
-        case uploadImages([UIImage])
+        case uploadImages([(Date, UIImage)])
         case shareImages
         
         case completeTask(taskType: TaskType)
@@ -237,7 +237,7 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         )
     }
     
-    private func uploadImages(_ images: [UIImage]) {
+    private func uploadImages(_ images: [(Date, UIImage)]) {
         let uploadImageUseCase = uploadImageUseCase
         let updatePlantImagesUseCase = updatePlantImagesUseCase
 
@@ -247,9 +247,10 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
             Task {
                 var newImageData: [ImageData] = []
                 
-                for image in images {
+                for (date, image) in images {
                     do {
-                        guard let data = image.jpegData(compressionQuality: 1), let userId = state.userId else {
+                        guard let data = image.jpegData(compressionQuality: 1),
+                              let userId = state.userId else {
                             continue
                         }
                         
@@ -259,7 +260,11 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
                             imageData: data
                         )
                         
-                        let newImage = ImageData(id: UUID(), date: Date(), urlString: url.absoluteString)
+                        let newImage = ImageData(
+                            id: UUID(),
+                            date: date,
+                            urlString: url.absoluteString
+                        )
                         newImageData.append(newImage)
                         
                         try await updatePlantImagesUseCase.execute(
@@ -282,7 +287,7 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
             return
         }
         
-        uploadImages([image])
+        uploadImages([(Date(), image)])
     }
     
     private func toggleCameraPicker() {

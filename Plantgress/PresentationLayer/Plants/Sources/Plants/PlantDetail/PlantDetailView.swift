@@ -18,7 +18,7 @@ struct PlantDetailView: View {
     
     @State private var isTransparent: Bool = true
     
-    private let images: [UIImage] = []
+    private let images: [(Date, UIImage)] = []
     
     // MARK: - Init
     
@@ -173,7 +173,7 @@ struct PlantDetailView: View {
             set: { _ in viewModel.onIntent(.dismissImagePicker) }
         )) {
             ImagePicker(
-                images: Binding<[UIImage]>(
+                images: Binding<[(Date, UIImage)]>(
                     get: { images },
                     set: { images in
                         viewModel.onIntent(.uploadImages(images))

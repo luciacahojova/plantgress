@@ -16,7 +16,7 @@ struct RoomDetailView: View {
     
     @ObservedObject private var viewModel: RoomDetailViewModel
     
-    private let images: [UIImage] = []
+    private let images: [(Date, UIImage)] = []
     
     // MARK: - Init
     
@@ -107,7 +107,7 @@ struct RoomDetailView: View {
             set: { _ in viewModel.onIntent(.dismissImagePicker) }
         )) {
             ImagePicker(
-                images: Binding<[UIImage]>(
+                images: Binding<[(Date, UIImage)]>(
                     get: { images },
                     set: { images in
                         viewModel.onIntent(.uploadImages(images))

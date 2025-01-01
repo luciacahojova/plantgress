@@ -133,7 +133,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case showRoomDetail(room: Room)
         
         case uploadImage(UIImage?)
-        case uploadImages([UIImage])
+        case uploadImages([(Date, UIImage)])
         
         case alertDataChanged(AlertData?)
         case snackbarDataChanged(SnackbarData?)
@@ -367,7 +367,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         }
     }
     
-    private func uploadImages(_ images: [UIImage]) {
+    private func uploadImages(_ images: [(Date, UIImage)]) {
         let uploadImageUseCase = uploadImageUseCase
         let updatePlantImagesUseCase = updatePlantImagesUseCase
 
@@ -378,9 +378,10 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                 defer { state.selectedPlantId = nil }
                 var newImageData: [ImageData] = []
                 
-                for image in images {
+                for (date, image) in images {
                     do {
-                        guard let data = image.jpegData(compressionQuality: 1), let userId = state.userId else {
+                        guard let data = image.jpegData(compressionQuality: 1),
+                              let userId = state.userId else {
                             continue
                         }
                         
@@ -390,7 +391,11 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                             imageData: data
                         )
                         
-                        let newImage = ImageData(id: UUID(), date: Date(), urlString: url.absoluteString)
+                        let newImage = ImageData(
+                            id: UUID(),
+                            date: date,
+                            urlString: url.absoluteString
+                        )
                         newImageData.append(newImage)
                         
                         try await updatePlantImagesUseCase.execute(
@@ -413,7 +418,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
             return
         }
         
-        uploadImages([image])
+        uploadImages([(Date(), image)])
     }
     
     private func snackbarDataChanged(_ snackbarData: SnackbarData?) {
