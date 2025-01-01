@@ -213,3 +213,16 @@
 // MARK: Room detail
 "no_plants_in_room_empty_content_message" = "V tejto miestnosti nie sú žiadne rastliny.";
 "failed_to_remove_plant_from_room_snackbar" = "Nepodarilo sa odstrániť rastlinu.";
+
+// MARK: Explote
+"diagnose_title" = "Diagnostikovať Rastliny";
+"diagnose_subtitle" = "Diagnostikujte rastliny na identifikáciu škodcov, chorôb alebo problémov so starostlivosťou a získajte riešenia, ktoré im pomôžu prosperovať.";
+"luxmeter_title" = "Luxmeter";
+"luxmeter_subtitle" = "Použite luxmeter na meranie svetelných podmienok a zabezpečte, aby vaše rastliny dostávali optimálne množstvo svetla pre zdravý rast.";
+
+// MARK: Plant Detail
+"calendar_title" = "Kalendár";
+"snack_preparing" = "Pripravuje sa...";
+"snack_success" = "Hotovo!";
+"snack_failed_to_prepare" = "Nepodarilo sa pripraviť obrázky.";
+

@@ -26,8 +26,8 @@ struct ExploreOverviewView: View {
         ScrollView {
             VStack(spacing: Constants.Spacing.large) {
                 ExtraToolRow(
-                    title: "Diagnose Plants", // TODO: Strings
-                    subtitle: "Diagnose plants to identify pests, diseases, or care issues and get solutions to help them thrive.",
+                    title: Strings.diagnoseTitle,
+                    subtitle: Strings.diagnoseSubtitle,
                     image: Images.disease,
                     icon: Icons.doctorBag,
                     action: {
@@ -36,8 +36,8 @@ struct ExploreOverviewView: View {
                 )
                 
                 ExtraToolRow(
-                    title: "Luxmeter", // TODO: Strings
-                    subtitle: "Use the Luxmeter to measure light levels and ensure your plants receive the optimal amount of light for healthy growth.",
+                    title: Strings.luxmeterTitle,
+                    subtitle: Strings.luxmeterSubtitle,
                     image: Images.luxmeter,
                     icon: Icons.lightbulb,
                     action: {

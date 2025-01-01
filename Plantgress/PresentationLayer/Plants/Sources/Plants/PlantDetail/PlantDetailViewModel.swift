@@ -62,7 +62,7 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         
         var sectionTitle: String {
             switch self {
-            case .calendar: "Calendar" // TODO: Strings
+            case .calendar: Strings.calendarTitle
             case .tasks: Strings.tasksTitle
             }
         }
@@ -179,7 +179,7 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         
         executeTask(
             Task {
-                state.snackbarData = .init(message: "Preparing...", duration: 30) // TODO: Strings
+                state.snackbarData = .init(message: Strings.snackPreparing, duration: 30)
                 
                 do {
                     let imagesToShare = try await prepareImagesForSharingUseCase.execute(images: images)
@@ -189,12 +189,12 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
                         PlantsFlow.presentShareImages(
                             images: imagesToShare,
                             onShareSuccess: {
-                                self.state.snackbarData = .init(message: "Success!")
+                                self.state.snackbarData = .init(message: Strings.snackSuccess)
                             }
                         )
                     )
                 } catch {
-                    setFailedSnackbarData(message: "Failed to prepare images.")// TODO: Strings
+                    setFailedSnackbarData(message: Strings.snackFailedToPrepare)
                 }
             }
         )
