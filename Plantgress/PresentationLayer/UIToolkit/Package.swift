@@ -30,13 +30,6 @@ let package = Package(
                 .product(name: "SharedDomain", package: "SharedDomain"),
                 .product(name: "Resolver", package: "Resolver"),
             ]
-        ),
-        .testTarget(
-            name: "UIToolkitTests",
-            dependencies: ["UIToolkit"],
-            plugins: [
-                .plugin(name: "SwiftGenPlugin", package: "SwiftGenPlugin")
-            ]
-        ),
+        )
     ]
 )

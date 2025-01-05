@@ -109,7 +109,7 @@ struct SelectionRow: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     return ScrollView {
         SelectionRow(

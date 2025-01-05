@@ -185,7 +185,7 @@ struct AddPlantView: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     let viewModel = AddPlantViewModel(
         flowController: nil,

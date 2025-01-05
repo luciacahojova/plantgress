@@ -91,7 +91,7 @@ struct SelectPlantsView: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     let vm = SelectPlantsViewModel(
         flowController: nil,

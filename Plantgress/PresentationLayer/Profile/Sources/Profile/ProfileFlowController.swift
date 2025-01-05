@@ -8,12 +8,34 @@
 import UIToolkit
 import UIKit
 
-enum ProfileFlow: Flow {
+public enum ProfileFlow: Flow, Equatable {
     case presentOnboarding(message: String?)
     case showChangeEmail
     case showChangeName
     case showChangePassword
     case handleLogout
+    
+    public enum ProfileFlow: Flow, Equatable {
+        case presentOnboarding(message: String?)
+        case showChangeEmail
+        case showChangeName
+        case showChangePassword
+        case handleLogout
+
+        public static func == (lhs: ProfileFlow, rhs: ProfileFlow) -> Bool {
+            switch (lhs, rhs) {
+            case (.presentOnboarding(let lhsMessage), .presentOnboarding(let rhsMessage)):
+                return lhsMessage == rhsMessage
+            case (.showChangeEmail, .showChangeEmail),
+                 (.showChangeName, .showChangeName),
+                 (.showChangePassword, .showChangePassword),
+                 (.handleLogout, .handleLogout):
+                return true
+            default:
+                return false
+            }
+        }
+    }
 }
 
 public protocol ProfileFlowControllerDelegate: AnyObject {

@@ -41,7 +41,7 @@ struct DynamicImagesView: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     return DynamicImagesView(
         urlStrings: [

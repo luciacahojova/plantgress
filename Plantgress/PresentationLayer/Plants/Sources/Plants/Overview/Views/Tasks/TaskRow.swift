@@ -95,7 +95,7 @@ struct TaskRow: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     return ScrollView {
         TaskRow(

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Room: Codable, Sendable {
+public struct Room: Codable, Sendable, Equatable {
     public let id: UUID
     public let name: String
     public let imageUrls: [String]

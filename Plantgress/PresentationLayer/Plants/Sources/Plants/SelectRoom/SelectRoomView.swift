@@ -91,7 +91,7 @@ struct SelectRoomView: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     let vm = SelectRoomViewModel(
         flowController: nil,

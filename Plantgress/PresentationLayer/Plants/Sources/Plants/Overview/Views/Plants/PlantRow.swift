@@ -92,7 +92,7 @@ struct PlantRow: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     return ScrollView(showsIndicators: false) {
         PlantRow(

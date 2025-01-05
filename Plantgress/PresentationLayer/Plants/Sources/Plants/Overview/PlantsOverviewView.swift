@@ -182,7 +182,7 @@ struct PlantsOverviewView: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     let vm = PlantsOverviewViewModel(flowController: nil)
     

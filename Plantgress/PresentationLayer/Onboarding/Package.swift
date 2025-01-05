@@ -33,6 +33,8 @@ let package = Package(
             dependencies: [
                 "Onboarding",
                 .product(name: "UIToolkit", package: "UIToolkit"),
+                .product(name: "SharedDomain", package: "SharedDomain"),
+                .product(name: "Resolver", package: "Resolver"),
             ]
         ),
     ]

@@ -19,6 +19,7 @@ final class ExploreOverviewViewModel: BaseViewModel, ViewModel, ObservableObject
     init(
         flowController: FlowController?
     ) {
+        self.flowController = flowController
         super.init()
     }
     

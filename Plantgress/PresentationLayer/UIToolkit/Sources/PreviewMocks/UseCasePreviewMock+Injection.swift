@@ -1,5 +1,5 @@
 //
-//  UseCasePreviewMock+Injection.swift
+//  UseCaseMock+Injection.swift
 //  UIToolkit
 //
 //  Created by Lucia Cahojova on 09.12.2024.
@@ -9,66 +9,66 @@ import Resolver
 import SharedDomain
 
 public extension Resolver {
-    static func registerUseCasesForPreviews() {
+    static func registerUseCaseMocks() {
         // Authentication
-        register { LogInUserUseCasePreviewMock() as LogInUserUseCase }
-        register { RegisterUserUseCasePreviewMock() as RegisterUserUseCase }
-        register { IsUserLoggedInUseCasePreviewMock() as IsUserLoggedInUseCase }
-        register { IsEmailVerifiedUseCasePreviewMock() as IsEmailVerifiedUseCase }
-        register { SendEmailVerificationUseCasePreviewMock() as SendEmailVerificationUseCase }
-        register { ValidateEmailUseCasePreviewMock() as ValidateEmailUseCase }
-        register { ValidatePasswordUseCasePreviewMock() as ValidatePasswordUseCase }
-        register { GetCurrentUsersEmailUseCasePreviewMock() as GetCurrentUsersEmailUseCase }
-        register { GetCurrentUserRemotelyUseCasePreviewMock() as GetCurrentUserRemotelyUseCase }
-        register { GetCurrentUserLocallyUseCasePreviewMock() as GetCurrentUserLocallyUseCase }
-        register { SendPasswordResetUseCasePreviewMock() as SendPasswordResetUseCase }
-        register { LogOutUserUseCasePreviewMock() as LogOutUserUseCase }
-        register { DeleteUserUseCasePreviewMock() as DeleteUserUseCase }
-        register { SaveCurrentUserEmailUseCasePreviewMock() as SaveCurrentUserEmailUseCase }
-        register { DeleteCurrentUserEmailUseCasePreviewMock() as DeleteCurrentUserEmailUseCase }
+        register { LogInUserUseCaseMock() as LogInUserUseCase }
+        register { RegisterUserUseCaseMock() as RegisterUserUseCase }
+        register { IsUserLoggedInUseCaseMock() as IsUserLoggedInUseCase }
+        register { IsEmailVerifiedUseCaseMock() as IsEmailVerifiedUseCase }
+        register { SendEmailVerificationUseCaseMock() as SendEmailVerificationUseCase }
+        register { ValidateEmailUseCaseMock() as ValidateEmailUseCase }
+        register { ValidatePasswordUseCaseMock() as ValidatePasswordUseCase }
+        register { GetCurrentUsersEmailUseCaseMock() as GetCurrentUsersEmailUseCase }
+        register { GetCurrentUserRemotelyUseCaseMock() as GetCurrentUserRemotelyUseCase }
+        register { GetCurrentUserLocallyUseCaseMock() as GetCurrentUserLocallyUseCase }
+        register { SendPasswordResetUseCaseMock() as SendPasswordResetUseCase }
+        register { LogOutUserUseCaseMock() as LogOutUserUseCase }
+        register { DeleteUserUseCaseMock() as DeleteUserUseCase }
+        register { SaveCurrentUserEmailUseCaseMock() as SaveCurrentUserEmailUseCase }
+        register { DeleteCurrentUserEmailUseCaseMock() as DeleteCurrentUserEmailUseCase }
         
         // Images
-        register { UploadImageUseCasePreviewMock() as UploadImageUseCase }
-        register { DownloadImageUseCasePreviewMock() as DownloadImageUseCase }
-        register { HasCameraAccessUseCasePreviewMock() as HasCameraAccessUseCase }
-        register { HasPhotoLibraryAccessUseCasePreviewMock() as HasPhotoLibraryAccessUseCase }
-        register { DeleteImageUseCasePreviewMock() as DeleteImageUseCase }
-        register { UpdatePlantImagesUseCasePreviewMock() as UpdatePlantImagesUseCase }
-        register { PrepareImagesForSharingUseCasePreviewMock() as PrepareImagesForSharingUseCase }
+        register { UploadImageUseCaseMock() as UploadImageUseCase }
+        register { DownloadImageUseCaseMock() as DownloadImageUseCase }
+        register { HasCameraAccessUseCaseMock() as HasCameraAccessUseCase }
+        register { HasPhotoLibraryAccessUseCaseMock() as HasPhotoLibraryAccessUseCase }
+        register { DeleteImageUseCaseMock() as DeleteImageUseCase }
+        register { UpdatePlantImagesUseCaseMock() as UpdatePlantImagesUseCase }
+        register { PrepareImagesForSharingUseCaseMock() as PrepareImagesForSharingUseCase }
         
         // Plants
-        register { CreatePlantUseCasePreviewMock() as CreatePlantUseCase }
-        register { UpdatePlantUseCasePreviewMock() as UpdatePlantUseCase }
-        register { GetPlantUseCasePreviewMock() as GetPlantUseCase }
-        register { DeletePlantUseCasePreviewMock() as DeletePlantUseCase }
-        register { GetAllPlantsUseCasePreviewMock() as GetAllPlantsUseCase }
+        register { CreatePlantUseCaseMock() as CreatePlantUseCase }
+        register { UpdatePlantUseCaseMock() as UpdatePlantUseCase }
+        register { GetPlantUseCaseMock() as GetPlantUseCase }
+        register { DeletePlantUseCaseMock() as DeletePlantUseCase }
+        register { GetAllPlantsUseCaseMock() as GetAllPlantsUseCase }
 
         // Rooms
-        register { CreateRoomUseCasePreviewMock() as CreateRoomUseCase }
-        register { AddPlantsToRoomUseCasePreviewMock() as AddPlantsToRoomUseCase }
-        register { GetRoomUseCasePreviewMock() as GetRoomUseCase }
-        register { DeleteRoomUseCasePreviewMock() as DeleteRoomUseCase }
-        register { UpdateRoomUseCasePreviewMock() as UpdateRoomUseCase }
-        register { GetPlantsForRoomUseCasePreviewMock() as GetPlantsForRoomUseCase }
-        register { GetAllRoomsUseCasePreviewMock() as GetAllRoomsUseCase }
-        register { RemovePlantFromRoomUseCasePreviewMock() as RemovePlantFromRoomUseCase }
-        register { MovePlantToRoomUseCasePreviewMock() as MovePlantToRoomUseCase }
+        register { CreateRoomUseCaseMock() as CreateRoomUseCase }
+        register { AddPlantsToRoomUseCaseMock() as AddPlantsToRoomUseCase }
+        register { GetRoomUseCaseMock() as GetRoomUseCase }
+        register { DeleteRoomUseCaseMock() as DeleteRoomUseCase }
+        register { UpdateRoomUseCaseMock() as UpdateRoomUseCase }
+        register { GetPlantsForRoomUseCaseMock() as GetPlantsForRoomUseCase }
+        register { GetAllRoomsUseCaseMock() as GetAllRoomsUseCase }
+        register { RemovePlantFromRoomUseCaseMock() as RemovePlantFromRoomUseCase }
+        register { MovePlantToRoomUseCaseMock() as MovePlantToRoomUseCase }
 
         // Tasks
-        register { SynchronizeNotificationsForAllPlantsUseCasePreviewMock() as SynchronizeNotificationsForAllPlantsUseCase }
-        register { CompleteTaskUseCasePreviewMock() as CompleteTaskUseCase }
-        register { CompleteTaskForRoomUseCasePreviewMock() as CompleteTaskForRoomUseCase }
-        register { DeleteTaskUseCasePreviewMock() as DeleteTaskUseCase }
-        register { DeleteTaskForRoomUseCasePreviewMock() as DeleteTaskForRoomUseCase }
-        register { DeleteTaskForPlantUseCasePreviewMock() as DeleteTaskForPlantUseCase }
-        register { GetUpcomingTasksForAllPlantsUseCasePreviewMock() as GetUpcomingTasksForAllPlantsUseCase }
-        register { GetUpcomingTasksForPlantUseCasePreviewMock() as GetUpcomingTasksForPlantUseCase }
-        register { GetCompletedTasksForPlantUseCasePreviewMock() as GetCompletedTasksForPlantUseCase }
-        register { GetCompletedTasksForAllPlantsUseCasePreviewMock() as GetCompletedTasksForAllPlantsUseCase }
+        register { SynchronizeNotificationsForAllPlantsUseCaseMock() as SynchronizeNotificationsForAllPlantsUseCase }
+        register { CompleteTaskUseCaseMock() as CompleteTaskUseCase }
+        register { CompleteTaskForRoomUseCaseMock() as CompleteTaskForRoomUseCase }
+        register { DeleteTaskUseCaseMock() as DeleteTaskUseCase }
+        register { DeleteTaskForRoomUseCaseMock() as DeleteTaskForRoomUseCase }
+        register { DeleteTaskForPlantUseCaseMock() as DeleteTaskForPlantUseCase }
+        register { GetUpcomingTasksForAllPlantsUseCaseMock() as GetUpcomingTasksForAllPlantsUseCase }
+        register { GetUpcomingTasksForPlantUseCaseMock() as GetUpcomingTasksForPlantUseCase }
+        register { GetCompletedTasksForPlantUseCaseMock() as GetCompletedTasksForPlantUseCase }
+        register { GetCompletedTasksForAllPlantsUseCaseMock() as GetCompletedTasksForAllPlantsUseCase }
         
         // Notifications
-        register { HasNotificationAccessUseCasePreviewMock() as HasNotificationAccessUseCase }
-        register { ScheduleNextNotificationUseCasePreviewMock() as ScheduleNextNotificationUseCase }
+        register { HasNotificationAccessUseCaseMock() as HasNotificationAccessUseCase }
+        register { ScheduleNextNotificationUseCaseMock() as ScheduleNextNotificationUseCase }
         
     }
 }

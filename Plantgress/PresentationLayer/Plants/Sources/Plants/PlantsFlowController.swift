@@ -9,7 +9,7 @@ import SharedDomain
 import UIToolkit
 import UIKit
 
-enum PlantsFlow: Flow {
+public enum PlantsFlow: Flow, Equatable {
     case openSettings
     case showPlantDetail(UUID)
     case showRoomDetail(Room)
@@ -23,6 +23,36 @@ enum PlantsFlow: Flow {
     case presentShareImages(images: [UIImage], onShareSuccess: () -> Void)
     case dismiss
     case pop
+    
+    public static func == (lhs: PlantsFlow, rhs: PlantsFlow) -> Bool {
+        switch (lhs, rhs) {
+        case (.openSettings, .openSettings),
+             (.dismiss, .dismiss),
+             (.pop, .pop),
+             (.presentPickRoom, .presentPickRoom):
+            return true
+        case let (.showPlantDetail(id1), .showPlantDetail(id2)):
+            return id1 == id2
+        case let (.showRoomDetail(room1), .showRoomDetail(room2)):
+            return room1 == room2
+        case let (.showAddPlant(id1, name1, _), .showAddPlant(id2, name2, _)):
+            return id1 == id2 && name1 == name2
+        case let (.showAddRoom(id1, _, _), .showAddRoom(id2, _, _)):
+            return id1 == id2
+        case let (.presentAddTask(id1, _), .presentAddTask(id2, _)):
+            return id1 == id2
+        case let (.showPlantSettings(id1, _), .showPlantSettings(id2, _)):
+            return id1 == id2
+        case let (.presentPickPlants(selected1, _), .presentPickPlants(selected2, _)):
+            return selected1 == selected2
+        case let (.showPeriodSettings(periods1, _), .showPeriodSettings(periods2, _)):
+            return periods1 == periods2
+        case let (.presentShareImages(images1, _), .presentShareImages(images2, _)):
+            return images1 == images2
+        default:
+            return false
+        }
+    }
 }
 
 public final class PlantsFlowController: FlowController {

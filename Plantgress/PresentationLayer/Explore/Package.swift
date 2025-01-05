@@ -14,6 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../UIToolKit"),
+        .package(name: "SharedDomain", path: "../../DomainLayer/SharedDomain"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -21,6 +22,7 @@ let package = Package(
         .target(
             name: "Explore",
             dependencies: [
+                .product(name: "SharedDomain", package: "SharedDomain"),
                 .product(name: "UIToolkit", package: "UIToolkit"),
             ]
         ),
