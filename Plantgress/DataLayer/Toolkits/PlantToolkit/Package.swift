@@ -30,7 +30,10 @@ let package = Package(
         ),
         .testTarget(
             name: "PlantToolkitTests",
-            dependencies: ["PlantToolkit"]
+            dependencies: [
+                "PlantToolkit",
+                .product(name: "FirebaseFirestoreProviderMocks", package: "FirebaseFirestoreProvider"),
+            ]
         ),
     ]
 )

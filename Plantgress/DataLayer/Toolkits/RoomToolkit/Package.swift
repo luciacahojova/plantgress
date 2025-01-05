@@ -30,7 +30,10 @@ let package = Package(
         ),
         .testTarget(
             name: "RoomToolkitTests",
-            dependencies: ["RoomToolkit"]
+            dependencies: [
+                "RoomToolkit",
+                .product(name: "FirebaseFirestoreProviderMocks", package: "FirebaseFirestoreProvider"),
+            ]
         ),
     ]
 )

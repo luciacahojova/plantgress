@@ -30,7 +30,11 @@ let package = Package(
         ),
         .testTarget(
             name: "UserToolkitTests",
-            dependencies: ["UserToolkit"]
+            dependencies: [
+                "UserToolkit",
+                .product(name: "FirebaseFirestoreProviderMocks", package: "FirebaseFirestoreProvider"),
+                .product(name: "KeychainProviderMocks", package: "KeychainProvider"),
+            ]
         ),
     ]
 )

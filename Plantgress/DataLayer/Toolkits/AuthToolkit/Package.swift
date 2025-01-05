@@ -31,7 +31,7 @@ let package = Package(
             dependencies: [
                 "AuthToolkit",
                 .product(name: "SharedDomain", package: "SharedDomain"),
-                .product(name: "FirebaseAuthProvider", package: "FirebaseAuthProvider"),
+                .product(name: "FirebaseAuthProviderMocks", package: "FirebaseAuthProvider"),
             ]
         ),
     ]

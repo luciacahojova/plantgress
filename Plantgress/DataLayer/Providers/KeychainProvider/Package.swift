@@ -9,7 +9,12 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "KeychainProvider",
-            targets: ["KeychainProvider"]),
+            targets: ["KeychainProvider"]
+        ),
+        .library(
+            name: "KeychainProviderMocks",
+            targets: ["KeychainProviderMocks"]
+        ),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -25,9 +30,9 @@ let package = Package(
                 .product(name: "KeychainAccess", package: "KeychainAccess")
             ]
         ),
-        .testTarget(
-            name: "KeychainProviderTests",
+        .target(
+            name: "KeychainProviderMocks",
             dependencies: ["KeychainProvider"]
-        ),
+        )
     ]
 )

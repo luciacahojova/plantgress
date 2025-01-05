@@ -5,34 +5,43 @@
 //  Created by Lucia Cahojova on 12.12.2024.
 //
 
-import Foundation
+import KeychainProvider
 
-class KeychainProviderMock: KeychainProvider {
+public class KeychainProviderMock: KeychainProvider {
+    
     private var data: [String: String] = [:]
+    
+    public init() {}
 
     func add(_ key: KeychainCoding, value: String) throws {
         data[key.rawValue] = value
     }
 
-    func read(_ key: KeychainCoding) throws -> String {
+    public func read(_ key: KeychainCoding) throws -> String {
         guard let value = data[key.rawValue] else {
             throw KeychainError.valueForKeyNotFound
         }
         return value
     }
 
-    func delete(_ key: KeychainCoding) throws {
+    public func delete(_ key: KeychainCoding) throws {
         data[key.rawValue] = nil
     }
 
-    func deleteAll() throws {
+    public func deleteAll() throws {
         data.removeAll()
     }
 
-    func deleteAll(except values: [KeychainCoding]) throws {
-        let keysToRemove = data.keys.filter { !values.contains(KeychainCoding(rawValue: $0)!) }
+    public func deleteAll(except items: [KeychainCoding]?) throws {
+        let items = items ?? []
+        
+        let keysToRemove = data.keys.filter { !items.contains(KeychainCoding(rawValue: $0)!) }
         for key in keysToRemove {
             data[key] = nil
         }
+    }
+    
+    public func update(_ key: KeychainCoding, value: String) throws {
+        data[key.rawValue] = value
     }
 }
