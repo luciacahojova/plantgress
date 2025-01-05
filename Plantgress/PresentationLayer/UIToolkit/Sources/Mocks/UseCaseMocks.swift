@@ -1,5 +1,5 @@
 //
-//  UseCasePreviewMocks.swift
+//  UseCaseMocks.swift
 //  UIToolkit
 //
 //  Created by Lucia Cahojova on 09.12.2024.
@@ -8,68 +8,69 @@
 import Foundation
 import SharedDomain
 import SwiftUI
+import Utilities
 
-class LogInUserUseCasePreviewMock: LogInUserUseCase {
+class LogInUserUseCaseMock: LogInUserUseCase {
     func execute(credentials: LoginCredentials) {}
 }
 
-class RegisterUserUseCasePreviewMock: RegisterUserUseCase {
+class RegisterUserUseCaseMock: RegisterUserUseCase {
     func execute(credentials: RegistrationCredentials) {}
 }
 
-class IsUserLoggedInUseCasePreviewMock: IsUserLoggedInUseCase {
+class IsUserLoggedInUseCaseMock: IsUserLoggedInUseCase {
     func execute() -> Bool { return false }
 }
 
-class IsEmailVerifiedUseCasePreviewMock: IsEmailVerifiedUseCase {
-    func execute() -> Bool { return false }
+class IsEmailVerifiedUseCaseMock: IsEmailVerifiedUseCase {
+    func execute() -> Bool { return true }
 }
 
-class SendEmailVerificationUseCasePreviewMock: SendEmailVerificationUseCase {
+class SendEmailVerificationUseCaseMock: SendEmailVerificationUseCase {
     func execute() {}
 }
 
-class ValidateEmailUseCasePreviewMock: ValidateEmailUseCase {
+class ValidateEmailUseCaseMock: ValidateEmailUseCase {
     func execute(email: String) throws {}
 }
 
-class ValidatePasswordUseCasePreviewMock: ValidatePasswordUseCase {
+class ValidatePasswordUseCaseMock: ValidatePasswordUseCase {
     func execute(password: String) throws {}
 }
 
-class GetCurrentUsersEmailUseCasePreviewMock: GetCurrentUsersEmailUseCase {
+class GetCurrentUsersEmailUseCaseMock: GetCurrentUsersEmailUseCase {
     func execute() -> String? { return nil }
 }
 
-class GetCurrentUserRemotelyUseCasePreviewMock: GetCurrentUserRemotelyUseCase {
+class GetCurrentUserRemotelyUseCaseMock: GetCurrentUserRemotelyUseCase {
     func execute() -> User { return .mock }
 }
 
-class GetCurrentUserLocallyUseCasePreviewMock: GetCurrentUserLocallyUseCase {
+class GetCurrentUserLocallyUseCaseMock: GetCurrentUserLocallyUseCase {
     func execute() -> User { return .mock }
 }
 
-class SendPasswordResetUseCasePreviewMock: SendPasswordResetUseCase {
+class SendPasswordResetUseCaseMock: SendPasswordResetUseCase {
     func execute(email: String) {}
 }
 
-class LogOutUserUseCasePreviewMock: LogOutUserUseCase {
+class LogOutUserUseCaseMock: LogOutUserUseCase {
     func execute() throws {}
 }
 
-class DeleteUserUseCasePreviewMock: DeleteUserUseCase {
+class DeleteUserUseCaseMock: DeleteUserUseCase {
     func execute(userId: String) async throws {}
 }
 
-class SaveCurrentUserEmailUseCasePreviewMock: SaveCurrentUserEmailUseCase {
+class SaveCurrentUserEmailUseCaseMock: SaveCurrentUserEmailUseCase {
     func execute(email: String) {}
 }
 
-class DeleteCurrentUserEmailUseCasePreviewMock: DeleteCurrentUserEmailUseCase {
+class DeleteCurrentUserEmailUseCaseMock: DeleteCurrentUserEmailUseCase {
     func execute() {}
 }
 
-class UploadImageUseCasePreviewMock: UploadImageUseCase {
+class UploadImageUseCaseMock: UploadImageUseCase {
     func execute(userId: String, imageId: String, imageData: Data) async throws -> URL {
         guard let url = URL(string: "") else {
             throw ImagesError.invalidUrl
@@ -79,11 +80,11 @@ class UploadImageUseCasePreviewMock: UploadImageUseCase {
     }
 }
 
-class DeleteImageUseCasePreviewMock: DeleteImageUseCase {
+class DeleteImageUseCaseMock: DeleteImageUseCase {
     func execute(userId: String, imageId: UUID) async throws {}
 }
 
-class DownloadImageUseCasePreviewMock: DownloadImageUseCase {
+class DownloadImageUseCaseMock: DownloadImageUseCase {
     func execute(urlString: String) async -> Image? {
         do {
             guard let url = URL(string: urlString) else { return nil }
@@ -104,142 +105,142 @@ class DownloadImageUseCasePreviewMock: DownloadImageUseCase {
     }
 }
 
-class HasPhotoLibraryAccessUseCasePreviewMock: HasPhotoLibraryAccessUseCase {
+class HasPhotoLibraryAccessUseCaseMock: HasPhotoLibraryAccessUseCase {
     func execute() {}
 }
 
-class HasCameraAccessUseCasePreviewMock: HasCameraAccessUseCase {
+class HasCameraAccessUseCaseMock: HasCameraAccessUseCase {
     func execute() {}
 }
 
-class CreatePlantUseCasePreviewMock: CreatePlantUseCase {
+class CreatePlantUseCaseMock: CreatePlantUseCase {
     func execute(plant: Plant) async throws {}
 }
 
-class UpdatePlantUseCasePreviewMock: UpdatePlantUseCase {
+class UpdatePlantUseCaseMock: UpdatePlantUseCase {
     func execute(plant: Plant) async throws {}
 }
 
-class GetPlantUseCasePreviewMock: GetPlantUseCase {
+class GetPlantUseCaseMock: GetPlantUseCase {
     func execute(id: UUID) async throws -> Plant {
         .mock(id: id)
     }
 }
 
-class DeletePlantUseCasePreviewMock: DeletePlantUseCase {
+class DeletePlantUseCaseMock: DeletePlantUseCase {
     func execute(id: UUID) async throws {}
 }
 
-class GetAllPlantsUseCasePreviewMock: GetAllPlantsUseCase {
+class GetAllPlantsUseCaseMock: GetAllPlantsUseCase {
     func execute() async throws -> [Plant] {
         return .mock
     }
 }
 
-class UpdatePlantImagesUseCasePreviewMock: UpdatePlantImagesUseCase {
+class UpdatePlantImagesUseCaseMock: UpdatePlantImagesUseCase {
     func execute(plantId: UUID, newImages: [ImageData]) async throws {}
 }
 
-class PrepareImagesForSharingUseCasePreviewMock: PrepareImagesForSharingUseCase {
+class PrepareImagesForSharingUseCaseMock: PrepareImagesForSharingUseCase {
     func execute(images: [SharedDomain.ImageData]) async throws -> [UIImage] {
         []
     }
 }
 
-class CreateRoomUseCasePreviewMock: CreateRoomUseCase {
+class CreateRoomUseCaseMock: CreateRoomUseCase {
     func execute(room: Room, plants: [Plant]) async throws {}
 }
 
-class AddPlantsToRoomUseCasePreviewMock: AddPlantsToRoomUseCase {
+class AddPlantsToRoomUseCaseMock: AddPlantsToRoomUseCase {
     func execute(roomId: UUID, plantIds: [UUID]) async throws {}
 }
 
-class GetRoomUseCasePreviewMock: GetRoomUseCase {
+class GetRoomUseCaseMock: GetRoomUseCase {
     func execute(roomId: UUID) async throws -> Room {
         return .mock(id: roomId)
     }
 }
 
-class UpdateRoomUseCasePreviewMock: UpdateRoomUseCase {
+class UpdateRoomUseCaseMock: UpdateRoomUseCase {
     func execute(room: Room, plants: [Plant]) async throws {}
 }
 
-class DeleteRoomUseCasePreviewMock: DeleteRoomUseCase {
+class DeleteRoomUseCaseMock: DeleteRoomUseCase {
     func execute(roomId: UUID, plants: [Plant]) async throws {}
 }
 
-class GetPlantsForRoomUseCasePreviewMock: GetPlantsForRoomUseCase {
+class GetPlantsForRoomUseCaseMock: GetPlantsForRoomUseCase {
     func execute(roomId: UUID) async throws -> [Plant] {
         return .mock
     }
 }
 
-class GetAllRoomsUseCasePreviewMock: GetAllRoomsUseCase {
+class GetAllRoomsUseCaseMock: GetAllRoomsUseCase {
     func execute() async throws -> [Room] {
         return .mock
     }
 }
 
-class RemovePlantFromRoomUseCasePreviewMock: RemovePlantFromRoomUseCase {
+class RemovePlantFromRoomUseCaseMock: RemovePlantFromRoomUseCase {
     func execute(plantId: UUID, roomId: UUID) async throws {}
 }
 
-class MovePlantToRoomUseCasePreviewMock: MovePlantToRoomUseCase {
+class MovePlantToRoomUseCaseMock: MovePlantToRoomUseCase {
     func execute(plantId: UUID, fromRoomId: UUID, toRoomId: UUID) async throws {}
 }
 
-class SynchronizeNotificationsForAllPlantsUseCasePreviewMock: SynchronizeNotificationsForAllPlantsUseCase {
+class SynchronizeNotificationsForAllPlantsUseCaseMock: SynchronizeNotificationsForAllPlantsUseCase {
     func execute() async throws {}
 }
 
-class CompleteTaskUseCasePreviewMock: CompleteTaskUseCase {
+class CompleteTaskUseCaseMock: CompleteTaskUseCase {
     func execute(for plant: Plant, taskType: TaskType, completionDate: Date) async throws {}
 }
 
-class GetUpcomingTasksForAllPlantsUseCasePreviewMock: GetUpcomingTasksForAllPlantsUseCase {
+class GetUpcomingTasksForAllPlantsUseCaseMock: GetUpcomingTasksForAllPlantsUseCase {
     func execute(for plants: [Plant], days: Int) -> [PlantTask] {
         return []
     }
 }
 
-class GetUpcomingTasksForPlantUseCasePreviewMock: GetUpcomingTasksForPlantUseCase {
+class GetUpcomingTasksForPlantUseCaseMock: GetUpcomingTasksForPlantUseCase {
     func execute(for plant: Plant, days: Int) -> [PlantTask] {
         return []
     }
 }
 
-class GetCompletedTasksForAllPlantsUseCasePreviewMock: GetCompletedTasksForAllPlantsUseCase {
+class GetCompletedTasksForAllPlantsUseCaseMock: GetCompletedTasksForAllPlantsUseCase {
     func execute(for plantIds: [UUID]) async throws -> [PlantTask] {
         []
     }
 }
 
-class GetCompletedTasksForPlantUseCasePreviewMock: GetCompletedTasksForPlantUseCase {
+class GetCompletedTasksForPlantUseCaseMock: GetCompletedTasksForPlantUseCase {
     func execute(for plantId: UUID) async throws -> [PlantTask] {
         .mock
     }
 }
 
-class HasNotificationAccessUseCasePreviewMock: HasNotificationAccessUseCase {
+class HasNotificationAccessUseCaseMock: HasNotificationAccessUseCase {
     func execute() async throws {}
 }
 
-class DeleteTaskUseCasePreviewMock: DeleteTaskUseCase {
+class DeleteTaskUseCaseMock: DeleteTaskUseCase {
     func execute(task: PlantTask) async throws {}
 }
 
-class DeleteTaskForRoomUseCasePreviewMock: DeleteTaskForRoomUseCase {
+class DeleteTaskForRoomUseCaseMock: DeleteTaskForRoomUseCase {
     func execute(roomId: UUID, taskType: TaskType) async throws {}
 }
 
-class DeleteTaskForPlantUseCasePreviewMock: DeleteTaskForPlantUseCase {
+class DeleteTaskForPlantUseCaseMock: DeleteTaskForPlantUseCase {
     func execute(plant: Plant, taskType: TaskType) async throws {}
 }
 
-class CompleteTaskForRoomUseCasePreviewMock: CompleteTaskForRoomUseCase {
+class CompleteTaskForRoomUseCaseMock: CompleteTaskForRoomUseCase {
     func execute(roomId: UUID, taskType: TaskType, completionDate: Date) async throws {}
 }
 
-class ScheduleNextNotificationUseCasePreviewMock: ScheduleNextNotificationUseCase {
+class ScheduleNextNotificationUseCaseMock: ScheduleNextNotificationUseCase {
     func execute(plantId: UUID, taskType: TaskType, dueDate: Date) async throws {}
 }

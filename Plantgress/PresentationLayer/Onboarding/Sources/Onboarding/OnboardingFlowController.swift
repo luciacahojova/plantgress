@@ -8,7 +8,7 @@
 import UIToolkit
 import UIKit
 
-enum OnboardingFlow: Flow {
+public enum OnboardingFlow: Flow {
     case showLogin
     case showRegistration
     case showForgottenPassword

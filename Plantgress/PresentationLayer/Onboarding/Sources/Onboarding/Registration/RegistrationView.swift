@@ -110,7 +110,7 @@ struct RegistrationView: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     let vm = RegistrationViewModel(flowController: nil)
     return RegistrationView(

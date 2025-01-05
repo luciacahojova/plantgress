@@ -91,7 +91,7 @@ struct PlantImagesView: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     return PlantImagesView(
         images: .mock

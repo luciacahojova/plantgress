@@ -10,7 +10,12 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "FirebaseAuthProvider",
-            targets: ["FirebaseAuthProvider"]),
+            targets: ["FirebaseAuthProvider"]
+        ),
+        .library(
+            name: "FirebaseAuthProviderMocks",
+            targets: ["FirebaseAuthProviderMocks"]
+        ),
     ],
     dependencies: [
         .package(name: "SharedDomain", path: "../../../DomainLayer/SharedDomain"),
@@ -26,11 +31,12 @@ let package = Package(
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
             ]
         ),
-        .testTarget(
-            name: "FirebaseAuthProviderTests",
+        .target(
+            name: "FirebaseAuthProviderMocks",
             dependencies: [
-                "FirebaseAuthProvider"
+                "FirebaseAuthProvider",
+                .product(name: "SharedDomain", package: "SharedDomain"),
             ]
-        ),
+        )
     ]
 )

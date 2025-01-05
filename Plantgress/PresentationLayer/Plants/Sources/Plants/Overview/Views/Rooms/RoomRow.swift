@@ -66,7 +66,7 @@ struct RoomRow: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     return RoomRow(
         room: .mock(id: UUID()),

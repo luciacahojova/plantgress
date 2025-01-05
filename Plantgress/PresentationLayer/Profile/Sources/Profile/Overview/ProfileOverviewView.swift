@@ -92,7 +92,7 @@ struct ProfileOverviewView: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     let vm = ProfileOverviewViewModel(flowController: nil)
     

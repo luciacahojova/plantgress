@@ -14,6 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "SharedDomain", path: "../../../DomainLayer/SharedDomain"),
+        .package(name: "Utilities", path: "../../../DomainLayer/Utilities"),
         .package(name: "FirebaseFirestoreProvider", path: "../../Providers/FirebaseFirestoreProvider"),
         .package(name: "KeychainProvider", path: "../../Providers/KeychainProvider"),
     ],
@@ -30,7 +31,13 @@ let package = Package(
         ),
         .testTarget(
             name: "UserToolkitTests",
-            dependencies: ["UserToolkit"]
+            dependencies: [
+                "UserToolkit",
+                .product(name: "Utilities", package: "Utilities"),
+                .product(name: "FirebaseFirestoreProviderMocks", package: "FirebaseFirestoreProvider"),
+                .product(name: "KeychainProviderMocks", package: "KeychainProvider"),
+                .product(name: "KeychainProvider", package: "KeychainProvider"),
+            ]
         ),
     ]
 )

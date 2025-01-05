@@ -8,7 +8,7 @@
 import UIToolkit
 import UIKit
 
-enum ExploreFlow: Flow {
+public enum ExploreFlow: Flow {
     case showPlantDiagnostics
     case showLuxmeter
 }

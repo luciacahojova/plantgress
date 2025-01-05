@@ -98,7 +98,7 @@ struct VerificationLinkView: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     let vm = VerificationLinkViewModel(
         flowController: nil,

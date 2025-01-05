@@ -101,7 +101,7 @@ struct ForgottenPasswordView: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     let vm = ForgottenPasswordViewModel(
         flowController: nil,

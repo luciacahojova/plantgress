@@ -104,7 +104,7 @@ struct LoginView: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     let vm = LoginViewModel(flowController: nil)
     

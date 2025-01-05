@@ -130,7 +130,7 @@ struct AddRoomView: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     let vm = AddRoomViewModel(
         flowController: nil,

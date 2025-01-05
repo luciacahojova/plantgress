@@ -107,7 +107,7 @@ struct TaskList: View {
 }
 
 #Preview {
-    Resolver.registerUseCasesForPreviews()
+    Resolver.registerUseCaseMocks()
     
     return TaskList(
         upcomingTasks: .mock,

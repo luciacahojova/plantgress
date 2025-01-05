@@ -9,15 +9,15 @@ import Foundation
 import SwiftUICore
 
 public struct SnackbarData {
-    let icon: Image?
-    let message: String
-    let duration: Double
-    let bottomPadding: CGFloat
-    let alignment: Alignment
-    let foregroundColor: Color
-    let backgroundColor: Color
-    let actionText: String?
-    let action: (() -> Void)?
+    public let icon: Image?
+    public let message: String
+    public let duration: Double
+    public let bottomPadding: CGFloat
+    public let alignment: Alignment
+    public let foregroundColor: Color
+    public let backgroundColor: Color
+    public let actionText: String?
+    public let action: (() -> Void)?
     
     public init(
         icon: Image? = nil,

@@ -37,19 +37,6 @@ public extension TaskConfiguration {
 }
 
 public extension [TaskConfiguration] {
-    static var mock: [TaskConfiguration] {
-        return TaskType.allCases.map { taskType in
-            return TaskConfiguration(
-                taskType: taskType,
-                isTracked: true,
-                hasNotifications: false,
-                time: Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date(),
-                startDate: Date(),
-                periods: []
-            )
-        }
-    }
-    
     static var `default`: [TaskConfiguration] {
         TaskType.allCases.map { taskType in
             if taskType == .progressTracking {

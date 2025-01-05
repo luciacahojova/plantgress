@@ -9,21 +9,6 @@ import Foundation
 import SharedDomain
 
 public extension PlantTask {
-    static func mock(id: UUID) -> PlantTask {
-        PlantTask(
-            id: id,
-            plantId: UUID(),
-            plantName: "Monstera",
-            imageUrl: "https://fastly.picsum.photos/id/248/3872/2592.jpg?hmac=_F3LsKQyGyWnwQJogUtsd_wyx2YDYnYZ6VZmSMBCxNI",
-            taskType: .watering,
-            dueDate: Date(),
-            completionDate: nil,
-            isCompleted: false
-        )
-    }
-}
-
-public extension PlantTask {
     func daysUntilDue() -> Int {
         let calendar = Calendar.current
         let now = calendar.startOfDay(for: Date())
@@ -39,11 +24,5 @@ public extension PlantTask {
         
         let difference = calendar.dateComponents([.day], from: startDay, to: endDay).day ?? 0
         return difference
-    }
-}
-
-public extension [PlantTask] {
-    static var mock: [PlantTask] {
-        (0...5).map { _ in .mock(id: UUID()) }
     }
 }

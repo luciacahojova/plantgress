@@ -5,7 +5,7 @@
 //  Created by Lucia Cahojova on 11.12.2024.
 //
 
-public struct User: Codable, Sendable {
+public struct User: Codable, Sendable, Equatable {
     public let id: String
     public let email: String
     public let name: String

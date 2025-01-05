@@ -30,8 +30,7 @@ let package = Package(
             name: "ImagesToolkitTests",
             dependencies: [
                 "ImagesToolkit",
-                .product(name: "SharedDomain", package: "SharedDomain"),
-                .product(name: "FirebaseStorageProvider", package: "FirebaseStorageProvider"),
+                .product(name: "FirebaseStorageProviderMocks", package: "FirebaseStorageProvider"),
             ]
         ),
     ]
