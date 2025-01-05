@@ -8,12 +8,6 @@
 import SharedDomain
 
 public extension PlantSettings {
-    static var mock: PlantSettings {
-        PlantSettings(
-            tasksConfiguartions: .mock
-        )
-    }
-    
     static var `default`: PlantSettings {
         PlantSettings(
             tasksConfiguartions: .default

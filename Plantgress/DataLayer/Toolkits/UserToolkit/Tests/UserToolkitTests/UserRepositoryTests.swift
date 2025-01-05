@@ -8,6 +8,7 @@
 @testable import UserToolkit
 import FirebaseFirestoreProviderMocks
 import KeychainProviderMocks
+import KeychainProvider
 import SharedDomain
 import XCTest
 
@@ -28,144 +29,94 @@ final class UserRepositoryTests: XCTestCase {
     // MARK: - Tests
     
     func testGetRemoteUser() async throws {
-        // registerUseCaseMocks
-//        let repository = createRepository()
-//        let userId = "test_user_id"
-//        let expectedUser = User.stub(id: userId)
-//        firebaseFirestoreProvider.getReturnValue = expectedUser
-//        
-//        // When
-//        let user = try await repository.getRemoteUser(id: userId)
-//        
-//        // Then
-//        XCTAssertEqual(firebaseFirestoreProvider.getCallsCount, 1)
-//        XCTAssertEqual(user, expectedUser)
-        XCTAssertEqual(true, true)
+        let repository = createRepository()
+        firebaseFirestoreProvider.getReturnValue = User.mock
+        
+        let user = try await repository.getRemoteUser(id: User.mock.id)
+        
+        XCTAssertEqual(user, User.mock)
+        XCTAssertEqual(firebaseFirestoreProvider.getCallsCount, 1)
     }
-//    
-//    func testGetLocalUser() throws {
-//        // registerUseCaseMocks
-//        let repository = createRepository()
-//        let expectedUser = User.stub(id: "local_user_id")
-//        let userJson = try JSONEncoder().encode(expectedUser)
-//        keychainProvider.add(.user, value: String(data: userJson, encoding: .utf8)!)
-//        
-//        // When
-//        let user = try repository.getLocalUser()
-//        
-//        // Then
-//        XCTAssertEqual(user, expectedUser)
-//    }
-//    
-//    func testSaveUserLocally() throws {
-//        // registerUseCaseMocks
-//        let repository = createRepository()
-//        let user = User.stub(id: "local_user_id")
-//        
-//        // When
-//        try repository.saveUserLocally(user: user)
-//        
-//        // Then
-//        XCTAssertNotNil(keychainProvider.data[KeychainCoding.user.rawValue])
-//    }
-//    
-//    func testDeleteCurrentUserLocally() throws {
-//        // registerUseCaseMocks
-//        let repository = createRepository()
-//        keychainProvider.add(.user, value: "test_data")
-//        
-//        // When
-//        try repository.deleteCurrentUserLocally()
-//        
-//        // Then
-//        XCTAssertNil(keychainProvider.data[KeychainCoding.user.rawValue])
-//    }
-//    
-//    func testDeleteUser() async throws {
-//        // registerUseCaseMocks
-//        let repository = createRepository()
-//        let userId = "test_user_id"
-//        keychainProvider.add(.user, value: "test_data")
-//        
-//        // When
-//        try await repository.deleteUser(userId: userId)
-//        
-//        // Then
-//        XCTAssertEqual(firebaseFirestoreProvider.deleteCallsCount, 1)
-//        XCTAssertNil(keychainProvider.data[KeychainCoding.user.rawValue])
-//    }
-//    
-//    func testIsUserLoggedIn_WhenUserExists() throws {
-//        // registerUseCaseMocks
-//        let repository = createRepository()
-//        let user = User.stub(id: "logged_in_user")
-//        let userJson = try JSONEncoder().encode(user)
-//        keychainProvider.add(.user, value: String(data: userJson, encoding: .utf8)!)
-//        
-//        // When
-//        let isLoggedIn = repository.isUserLoggedIn()
-//        
-//        // Then
-//        XCTAssertTrue(isLoggedIn)
-//    }
-//    
-//    func testIsUserLoggedIn_WhenUserDoesNotExist() throws {
-//        // registerUseCaseMocks
-//        let repository = createRepository()
-//        
-//        // When
-//        let isLoggedIn = repository.isUserLoggedIn()
-//        
-//        // Then
-//        XCTAssertFalse(isLoggedIn)
-//    }
-//    
-//    func testGetUserEmailLocally() throws {
-//        // registerUseCaseMocks
-//        let repository = createRepository()
-//        let email = "test@example.com"
-//        keychainProvider.add(.userEmail, value: email)
-//        
-//        // When
-//        let retrievedEmail = try repository.getUserEmailLocally()
-//        
-//        // Then
-//        XCTAssertEqual(retrievedEmail, email)
-//    }
-//    
-//    func testSaveUserEmailLocally() throws {
-//        // registerUseCaseMocks
-//        let repository = createRepository()
-//        let email = "test@example.com"
-//        
-//        // When
-//        try repository.saveUserEmailLocally(email: email)
-//        
-//        // Then
-//        XCTAssertEqual(keychainProvider.data[KeychainCoding.userEmail.rawValue], email)
-//    }
-//    
-//    func testDeleteUserEmailLocally() throws {
-//        // registerUseCaseMocks
-//        let repository = createRepository()
-//        keychainProvider.add(.userEmail, value: "test@example.com")
-//        
-//        // When
-//        try repository.deleteUserEmailLocally()
-//        
-//        // Then
-//        XCTAssertNil(keychainProvider.data[KeychainCoding.userEmail.rawValue])
-//    }
-//    
-//    func testCreateUser() async throws {
-//        // registerUseCaseMocks
-//        let repository = createRepository()
-//        let user = User.stub(id: "test_user_id")
-//        
-//        // When
-//        try await repository.createUser(user)
-//        
-//        // Then
-//        XCTAssertEqual(firebaseFirestoreProvider.updateCallsCount, 1)
-//    }
+    
+    func testGetLocalUser() throws {
+        let repository = createRepository()
+        let userJson = try JSONEncoder().encode(User.mock)
+        try keychainProvider.add(.user, value: String(data: userJson, encoding: .utf8)!)
+        
+        let user = try repository.getLocalUser()
+        
+        XCTAssertEqual(user, User.mock)
+    }
+    
+    func testSaveUserLocally() throws {
+        let repository = createRepository()
+        
+        try repository.saveUserLocally(user: User.mock)
+        
+        let storedJson = keychainProvider.data[KeychainCoding.user.rawValue]
+        let storedUser = try? JSONDecoder().decode(User.self, from: storedJson!.data(using: .utf8)!)
+        XCTAssertEqual(storedUser, User.mock)
+    }
+    
+    func testDeleteCurrentUserLocally() throws {
+        let repository = createRepository()
+        try keychainProvider.add(.user, value: "test_data")
+        
+        try repository.deleteCurrentUserLocally()
+        
+        XCTAssertNil(keychainProvider.data[KeychainCoding.user.rawValue])
+    }
+    
+    func testDeleteUser() async throws {
+        let repository = createRepository()
+        try keychainProvider.add(.user, value: "test_data")
+        
+        try await repository.deleteUser(userId: User.mock.id)
+        
+        XCTAssertEqual(firebaseFirestoreProvider.deleteCallsCount, 1)
+        XCTAssertNil(keychainProvider.data[KeychainCoding.user.rawValue])
+    }
+    
+    func testIsUserLoggedIn() throws {
+        let repository = createRepository()
+        let userJson = try JSONEncoder().encode(User.mock)
+        try keychainProvider.add(.user, value: String(data: userJson, encoding: .utf8)!)
+        
+        XCTAssertTrue(repository.isUserLoggedIn())
+    }
+    
+    func testGetUserEmailLocally() throws {
+        let repository = createRepository()
+        try keychainProvider.add(.userEmail, value: "test@example.com")
+        
+        let email = try repository.getUserEmailLocally()
+        
+        XCTAssertEqual(email, "test@example.com")
+    }
+    
+    func testSaveUserEmailLocally() throws {
+        let repository = createRepository()
+        
+        try repository.saveUserEmailLocally(email: "test@example.com")
+        
+        XCTAssertEqual(keychainProvider.data[KeychainCoding.userEmail.rawValue], "test@example.com")
+    }
+    
+    func testDeleteUserEmailLocally() throws {
+        let repository = createRepository()
+        try keychainProvider.add(.userEmail, value: "test@example.com")
+        
+        try repository.deleteUserEmailLocally()
+        
+        XCTAssertNil(keychainProvider.data[KeychainCoding.userEmail.rawValue])
+    }
+    
+    func testCreateUser() async throws {
+        let repository = createRepository()
+        
+        try await repository.createUser(User.mock)
+        
+        XCTAssertEqual(firebaseFirestoreProvider.updateCallsCount, 1)
+    }
 }
+

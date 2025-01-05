@@ -9,11 +9,11 @@ import KeychainProvider
 
 public class KeychainProviderMock: KeychainProvider {
     
-    private var data: [String: String] = [:]
+    public var data: [String: String] = [:]
     
     public init() {}
 
-    func add(_ key: KeychainCoding, value: String) throws {
+    public func add(_ key: KeychainCoding, value: String) throws {
         data[key.rawValue] = value
     }
 

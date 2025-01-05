@@ -14,7 +14,7 @@ let package = Package(
         ),
         .library(
             name: "FirebaseStorageProviderMocks",
-            targets: ["FirebaseFirestoreProviderMocks"]
+            targets: ["FirebaseStorageProviderMocks"]
         ),
     ],
     dependencies: [

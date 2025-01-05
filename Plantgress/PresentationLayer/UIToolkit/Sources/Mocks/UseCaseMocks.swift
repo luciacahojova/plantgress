@@ -8,6 +8,7 @@
 import Foundation
 import SharedDomain
 import SwiftUI
+import Utilities
 
 class LogInUserUseCaseMock: LogInUserUseCase {
     func execute(credentials: LoginCredentials) {}

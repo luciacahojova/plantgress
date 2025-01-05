@@ -33,7 +33,10 @@ let package = Package(
         ),
         .target(
             name: "FirebaseAuthProviderMocks",
-            dependencies: ["FirebaseAuthProvider"]
+            dependencies: [
+                "FirebaseAuthProvider",
+                .product(name: "SharedDomain", package: "SharedDomain"),
+            ]
         )
     ]
 )
