@@ -11,4 +11,5 @@ public enum RoomError: Error {
     case `default`
     
     case emptyRoom
+    case taskNotTracked
 }

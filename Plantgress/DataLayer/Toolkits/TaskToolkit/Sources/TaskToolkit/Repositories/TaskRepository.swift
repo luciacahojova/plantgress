@@ -24,7 +24,7 @@ public struct TaskRepositoryImpl: TaskRepository {
         let pendingNotifications = await getPendingNotifications()
         var tasks: [PlantTask] = []
 
-        for taskConfig in plant.settings.tasksConfiguartions where (taskConfig.isTracked && taskConfig.hasNotifications) {
+        for taskConfig in plant.settings.tasksConfigurations where (taskConfig.isTracked && taskConfig.hasNotifications) {
             let lastCompletedDate = completedTasks
                 .filter { $0.taskType == taskConfig.taskType }
                 .map { $0.completionDate ?? $0.dueDate }
@@ -159,7 +159,7 @@ public struct TaskRepositoryImpl: TaskRepository {
         }
         
         // Find the task configuration for the given task type
-        guard let taskConfig = plant.settings.tasksConfiguartions.first(where: { $0.taskType == taskType }) else {
+        guard let taskConfig = plant.settings.tasksConfigurations.first(where: { $0.taskType == taskType }) else {
             throw TaskError.taskTypeNotFound
         }
 
@@ -214,7 +214,7 @@ public struct TaskRepositoryImpl: TaskRepository {
         // Iterate over the plants in the room
         for plant in plants {
             // Check if the task type is tracked for the plant
-            guard plant.settings.tasksConfiguartions.contains(where: { $0.taskType == taskType && $0.isTracked }) else {
+            guard plant.settings.tasksConfigurations.contains(where: { $0.taskType == taskType && $0.isTracked }) else {
                 continue
             }
             
@@ -275,7 +275,7 @@ public struct TaskRepositoryImpl: TaskRepository {
         let completedTasks = try await getCompletedTasks(for: plant.id)
         let pendingNotifications = await getPendingNotifications()
 
-        for taskConfig in plant.settings.tasksConfiguartions where taskConfig.isTracked && taskConfig.hasNotifications {
+        for taskConfig in plant.settings.tasksConfigurations where taskConfig.isTracked && taskConfig.hasNotifications {
             var nextDueDate = taskConfig.periods
                 .map { calculateNextDueDate(startDate: taskConfig.startDate, interval: $0.interval) }
                 .min()
@@ -307,7 +307,7 @@ public struct TaskRepositoryImpl: TaskRepository {
     public func initializeNotifications(for plant: Plant) async throws {
         print("🔄 Initializing notifications for new plant: \(plant.name) (\(plant.id))")
         
-        for taskConfig in plant.settings.tasksConfiguartions where taskConfig.isTracked && taskConfig.hasNotifications {
+        for taskConfig in plant.settings.tasksConfigurations where taskConfig.isTracked && taskConfig.hasNotifications {
             // Calculate the next due date for the task type
             let nextDueDate = taskConfig.periods
                 .map { calculateNextDueDate(startDate: taskConfig.startDate, interval: $0.interval) }
@@ -327,7 +327,7 @@ public struct TaskRepositoryImpl: TaskRepository {
 
     public func scheduleNextNotification(for plant: Plant, taskType: TaskType, dueDate: Date, completionDate: Date) async throws {
         // Find the task configuration for the given task type
-        guard let taskConfig = plant.settings.tasksConfiguartions.first(where: { $0.taskType == taskType }) else {
+        guard let taskConfig = plant.settings.tasksConfigurations.first(where: { $0.taskType == taskType }) else {
             throw TaskError.taskTypeNotFound
         }
 
@@ -367,7 +367,7 @@ public struct TaskRepositoryImpl: TaskRepository {
         // Filter pending notifications to those related to the plant
         let plantNotificationIds = currentNotificationIds.filter { $0.contains(plant.id.uuidString) }
 
-        let validNotificationIds = plant.settings.tasksConfiguartions.map { taskConfig in
+        let validNotificationIds = plant.settings.tasksConfigurations.map { taskConfig in
             generateNotificationId(plantId: plant.id, taskType: taskConfig.taskType)
         }
 
@@ -455,7 +455,7 @@ public struct TaskRepositoryImpl: TaskRepository {
     }
     
     private func saveTaskConfiguration(for plant: Plant) throws {
-        let data = try JSONEncoder().encode(plant.settings.tasksConfiguartions)
+        let data = try JSONEncoder().encode(plant.settings.tasksConfigurations)
         UserDefaults.standard.set(data, forKey: "taskConfig_\(plant.id.uuidString)")
     }
 
@@ -475,6 +475,6 @@ public struct TaskRepositoryImpl: TaskRepository {
         guard let storedConfig = getStoredTaskConfiguration(for: plant.id) else {
             return true // No stored configuration, consider it changed
         }
-        return storedConfig != plant.settings.tasksConfiguartions
+        return storedConfig != plant.settings.tasksConfigurations
     }
 }

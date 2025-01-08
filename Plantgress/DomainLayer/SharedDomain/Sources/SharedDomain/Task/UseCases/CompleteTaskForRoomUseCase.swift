@@ -12,6 +12,7 @@ public protocol CompleteTaskForRoomUseCase {
 }
 
 public struct CompleteTaskForRoomUseCaseImpl: CompleteTaskForRoomUseCase {
+    
     private let taskRepository: TaskRepository
     private let plantRepository: PlantRepository
 
@@ -25,6 +26,18 @@ public struct CompleteTaskForRoomUseCaseImpl: CompleteTaskForRoomUseCase {
         
         if plants.isEmpty {
             throw RoomError.emptyRoom
+        }
+        
+        guard plants.contains(
+            where: { plant in
+                plant.settings.tasksConfigurations.contains(where: { $0.taskType == taskType && $0.isTracked })
+            }
+        ) else {
+            throw RoomError.taskNotTracked
+        }
+        
+        guard plants.contains(where: { plant in plant.settings.tasksConfigurations.contains(where: { $0.taskType == taskType }) }) else {
+            throw RoomError.taskNotTracked
         }
         
         try await taskRepository.completeTaskForRoom(

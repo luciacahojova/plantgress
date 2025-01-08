@@ -233,6 +233,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                     )
                 } catch RoomError.emptyRoom {
                     setFailedSnackbarData(message: Strings.noPlantsInRoomEmptyContentMessage)
+                } catch RoomError.taskNotTracked {
+                    setFailedSnackbarData(message: Strings.noPlantsWithTaskSnackbarMessage(TaskType.title(for: taskType)))
                 } catch {
                     setFailedSnackbarData(message: Strings.taskCompleteFailedSnackbarMessage)
                 }

@@ -68,6 +68,7 @@
 
 // MARK: Rooms
 "rooms_title" = "Miestnosti";
+"no_plants_with_task_snackbar_message" = "Žiadne rastliny nesledujú \(TaskType.title(for: taskType)).";
 
 // MARK: General
 "dismiss_button" = "Zatvoriť";

@@ -73,9 +73,9 @@ struct PlantRow: View {
                         .padding(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    if !plant.settings.tasksConfiguartions.isEmpty {
+                    if !plant.settings.tasksConfigurations.isEmpty {
                         TaskQuickActionList(
-                            taskConfigurations: plant.settings.tasksConfiguartions,
+                            taskConfigurations: plant.settings.tasksConfigurations,
                             action: { taskType in
                                 completeTaskAction(plant, taskType)
                             }

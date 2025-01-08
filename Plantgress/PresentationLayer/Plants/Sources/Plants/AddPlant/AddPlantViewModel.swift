@@ -279,7 +279,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
             roomId: state.room?.id,
             images: state.uploadedImages,
             settings: .init(
-                tasksConfiguartions: Array(state.tasks.values)
+                tasksConfigurations: Array(state.tasks.values)
             )
         )
         
@@ -395,7 +395,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
                     }
                     state.uploadedImages = plant.images
                     
-                    plant.settings.tasksConfiguartions.forEach { task in
+                    plant.settings.tasksConfigurations.forEach { task in
                         state.tasks[task.taskType] = task
                     }
                 }

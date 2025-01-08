@@ -100,9 +100,9 @@ struct PlantDetailView: View {
                             
                             switch viewModel.selectedSection {
                             case .tasks:
-                                if let tasksConfiguartions = viewModel.state.plant?.settings.tasksConfiguartions {
+                                if let tasksConfigurations = viewModel.state.plant?.settings.tasksConfigurations {
                                     TaskQuickActionList(
-                                        taskConfigurations: tasksConfiguartions,
+                                        taskConfigurations: tasksConfigurations,
                                         action: { taskType in
                                             viewModel.onIntent(.completeTask(taskType: taskType))
                                         }
