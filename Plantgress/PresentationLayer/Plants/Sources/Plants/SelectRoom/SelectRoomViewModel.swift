@@ -80,11 +80,11 @@ final class SelectRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
     }
     
     private func selectRoom(_ room: Room?) {
-        if state.selectedRoom?.id == room?.id, room?.id != nil {
-            state.selectedRoom = nil
-            return
+        guard state.selectedRoom?.id != room?.id else { return }
+        
+        if let room {
+            state.selectedRoom = room
         }
-        state.selectedRoom = room
     }
     
     private func loadData(selectedRoom: Room? = nil) {
