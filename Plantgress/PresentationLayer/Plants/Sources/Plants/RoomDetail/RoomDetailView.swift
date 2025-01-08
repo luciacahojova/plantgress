@@ -63,7 +63,7 @@ struct RoomDetailView: View {
             .padding([.top, .horizontal])
             .padding(.bottom, Constants.Spacing.xLarge)
         }
-        .navigationTitle(viewModel.state.room?.name ?? "")
+        .navigationTitle(viewModel.state.room?.name ?? " ")
         .alert(item: Binding<AlertData?>(
             get: { viewModel.state.alertData },
             set: { alertData in
@@ -137,7 +137,7 @@ struct RoomDetailView: View {
     
     let vm = RoomDetailViewModel(
         flowController: nil,
-        room: .mock(id: UUID())
+        roomId: UUID()
     )
     
     return RoomDetailView(viewModel: vm)

@@ -13,12 +13,12 @@ import UIToolkit
 struct RoomRow: View {
     private let room: Room
     private let completeTaskAction: (UUID, TaskType) -> Void
-    private let openRoomDetailAction: (Room) -> Void
+    private let openRoomDetailAction: (UUID) -> Void
     
     init(
         room: Room,
         completeTaskAction: @escaping (UUID, TaskType) -> Void,
-        openRoomDetailAction: @escaping (Room) -> Void
+        openRoomDetailAction: @escaping (UUID) -> Void
     ) {
         self.room = room
         self.completeTaskAction = completeTaskAction
@@ -27,7 +27,7 @@ struct RoomRow: View {
     
     var body: some View {
         Button {
-            openRoomDetailAction(room)
+            openRoomDetailAction(room.id)
         } label: {
             VStack(alignment: .leading, spacing: Constants.Spacing.medium) {
                 if !room.imageUrls.isEmpty {

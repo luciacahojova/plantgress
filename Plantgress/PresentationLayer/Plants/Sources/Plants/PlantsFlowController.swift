@@ -12,7 +12,7 @@ import UIKit
 public enum PlantsFlow: Flow, Equatable {
     case openSettings
     case showPlantDetail(UUID)
-    case showRoomDetail(Room)
+    case showRoomDetail(UUID)
     case showAddPlant(editingId: UUID?, plantName: String?, onShouldRefresh: () -> Void)
     case showAddRoom(editingId: UUID?, onShouldRefresh: () -> Void, onDelete: () -> Void)
     case presentAddTask(editingId: UUID?, onShouldRefresh: () -> Void)
@@ -33,8 +33,8 @@ public enum PlantsFlow: Flow, Equatable {
             return true
         case let (.showPlantDetail(id1), .showPlantDetail(id2)):
             return id1 == id2
-        case let (.showRoomDetail(room1), .showRoomDetail(room2)):
-            return room1 == room2
+        case let (.showRoomDetail(id1), .showRoomDetail(id2)):
+            return id1 == id2
         case let (.showAddPlant(id1, name1, _), .showAddPlant(id2, name2, _)):
             return id1 == id2 && name1 == name2
         case let (.showAddRoom(id1, _, _), .showAddRoom(id2, _, _)):
@@ -77,7 +77,7 @@ public final class PlantsFlowController: FlowController {
         switch flow {
         case .openSettings: openSettings()
         case .showPlantDetail(let plantId): showPlantDetail(plantId)
-        case .showRoomDetail(let room): showRoomDetail(room)
+        case .showRoomDetail(let roomId): showRoomDetail(roomId)
         case let .showAddPlant(editingId, plantName, onShouldRefresh): showAddPlant(
             editingId: editingId,
             plantName: plantName,
@@ -154,10 +154,10 @@ public final class PlantsFlowController: FlowController {
         navigationController.show(vc, sender: nil)
     }
     
-    private func showRoomDetail(_ room: Room) {
+    private func showRoomDetail(_ roomId: UUID) {
         let vm = RoomDetailViewModel(
             flowController: self,
-            room: room
+            roomId: roomId
         )
         let view = RoomDetailView(viewModel: vm)
         let vc = HostingController(

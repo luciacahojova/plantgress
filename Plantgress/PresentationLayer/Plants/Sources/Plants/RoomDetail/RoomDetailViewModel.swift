@@ -30,18 +30,19 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     // MARK: - Dependencies
     
     private weak var flowController: FlowController?
+    private let roomId: UUID
     
     // MARK: - Init
 
     init(
         flowController: FlowController?,
-        room: Room
+        roomId: UUID
     ) {
         self.flowController = flowController
-        
+        self.roomId = roomId
         super.init()
         
-        loadData(room: room)
+        loadData()
     }
     
     // MARK: - Lifecycle
@@ -313,7 +314,7 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
         state.snackbarData = snackbarData
     }
     
-    private func loadData(room: Room? = nil) {
+    private func loadData() {
         state.isLoading = true
         loadUser()
         
@@ -324,18 +325,8 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
                 defer { state.isLoading = false }
                 
                 do {
-                    if let room = room {
-                        state.room = room
-                    } else if let roomId = state.room?.id {
-                        state.room = try await getRoomUseCase.execute(roomId: roomId)
-                    }
-                    
-                    guard let loadedRoom = state.room else {
-                        state.errorMessage = Strings.dataLoadFailedSnackbarMessage
-                        return
-                    }
-                    
-                    state.plants = try await getPlantsForRoomUseCase.execute(roomId: loadedRoom.id)
+                    state.room = try await getRoomUseCase.execute(roomId: roomId)
+                    state.plants = try await getPlantsForRoomUseCase.execute(roomId: roomId)
                 } catch {
                     state.errorMessage = Strings.dataLoadFailedSnackbarMessage
                 }

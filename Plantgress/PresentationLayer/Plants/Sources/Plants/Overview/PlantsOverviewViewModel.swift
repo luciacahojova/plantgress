@@ -130,7 +130,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case plusButtonTapped
         
         case showPlantDetail(plantId: UUID)
-        case showRoomDetail(room: Room)
+        case showRoomDetail(roomId: UUID)
         
         case uploadImage(UIImage?)
         case uploadImages([(Date, UIImage)])
@@ -158,7 +158,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case .dismissImagePicker: dismissImagePicker()
         case .plusButtonTapped: plusButtonTapped()
         case .showPlantDetail(let plantId): showPlantDetail(plantId)
-        case .showRoomDetail(let room): showRoomDetail(room)
+        case .showRoomDetail(let roomId): showRoomDetail(roomId)
         case .uploadImage(let image): uploadImage(image)
         case .uploadImages(let images): uploadImages(images)
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
@@ -441,8 +441,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         flowController?.handleFlow(PlantsFlow.showPlantDetail(plantId))
     }
     
-    private func showRoomDetail(_ room: Room) {
-        flowController?.handleFlow(PlantsFlow.showRoomDetail(room))
+    private func showRoomDetail(_ roomId: UUID) {
+        flowController?.handleFlow(PlantsFlow.showRoomDetail(roomId))
     }
     
     private func loadData() {
