@@ -286,9 +286,6 @@ final class RoomDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
                 editingId: state.room?.id,
                 onShouldRefresh: {
                     self.refresh()
-                },
-                onDelete: {
-                    self.flowController?.handleFlow(PlantsFlow.pop)
                 }
             )
         )

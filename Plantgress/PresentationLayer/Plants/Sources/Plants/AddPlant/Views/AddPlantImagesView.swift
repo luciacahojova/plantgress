@@ -84,7 +84,7 @@ struct AddPlantImagesView: View {
                                     RoundedIcon(
                                         icon: Icons.trash,
                                         isFilled: true,
-                                        foregroundColor: Colors.white,
+                                        foregroundColor: Colors.secondaryBackground,
                                         backgroundColor: Colors.primaryText
                                     )
                                 }

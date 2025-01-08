@@ -18,7 +18,11 @@ final class SelectRoomViewModelTests: XCTestCase {
     
     private func createViewModel() -> SelectRoomViewModel {
         Resolver.registerUseCaseMocks()
-        return SelectRoomViewModel(flowController: flowController, onSave: { _ in })
+        return SelectRoomViewModel(
+            flowController: flowController,
+            selectedRoom: nil,
+            onSave: { _ in }
+        )
     }
     
     // MARK: - Tests

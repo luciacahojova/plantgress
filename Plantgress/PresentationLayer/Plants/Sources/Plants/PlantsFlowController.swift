@@ -14,15 +14,16 @@ public enum PlantsFlow: Flow, Equatable {
     case showPlantDetail(UUID)
     case showRoomDetail(UUID)
     case showAddPlant(editingId: UUID?, plantName: String?, onShouldRefresh: () -> Void)
-    case showAddRoom(editingId: UUID?, onShouldRefresh: () -> Void, onDelete: () -> Void)
+    case showAddRoom(editingId: UUID?, onShouldRefresh: () -> Void)
     case presentAddTask(editingId: UUID?, onShouldRefresh: () -> Void)
     case showPlantSettings(plantId: UUID?, onShouldRefresh: () -> Void)
-    case presentPickRoom(onSave: (Room?) -> Void)
+    case presentPickRoom(selectedRoom: Room?, onSave: (Room?) -> Void)
     case presentPickPlants(selectedPlants: [Plant], onSave: ([Plant]) -> Void)
     case showPeriodSettings(periods: [TaskPeriod], onSave: ([TaskPeriod]) -> Void)
     case presentShareImages(images: [UIImage], onShareSuccess: () -> Void)
     case dismiss
     case pop
+    case popToRoot
     
     public static func == (lhs: PlantsFlow, rhs: PlantsFlow) -> Bool {
         switch (lhs, rhs) {
@@ -37,7 +38,7 @@ public enum PlantsFlow: Flow, Equatable {
             return id1 == id2
         case let (.showAddPlant(id1, name1, _), .showAddPlant(id2, name2, _)):
             return id1 == id2 && name1 == name2
-        case let (.showAddRoom(id1, _, _), .showAddRoom(id2, _, _)):
+        case let (.showAddRoom(id1, _), .showAddRoom(id2, _)):
             return id1 == id2
         case let (.presentAddTask(id1, _), .presentAddTask(id2, _)):
             return id1 == id2
@@ -83,19 +84,19 @@ public final class PlantsFlowController: FlowController {
             plantName: plantName,
             onShouldRefresh: onShouldRefresh
         )
-        case let .showAddRoom(editingId, onShouldRefresh, onDelete): showAddRoom(
+        case let .showAddRoom(editingId, onShouldRefresh): showAddRoom(
             editingId: editingId,
-            onShouldRefresh: onShouldRefresh,
-            onDelete: onDelete
+            onShouldRefresh: onShouldRefresh
         )
         case let .presentAddTask(editingId, onShouldRefresh): presentAddTask(editingId: editingId, onShouldRefresh: onShouldRefresh)
         case let .showPlantSettings(plantId, onShouldRefresh): showPlantSettings(plantId: plantId, onShouldRefresh: onShouldRefresh)
-        case .presentPickRoom(let onSave): presentPickRoom(onSave: onSave)
+        case let .presentPickRoom(selectedRoom, onSave): presentPickRoom(selectedRoom: selectedRoom, onSave: onSave)
         case let .presentPickPlants(selectedPlants, onSave): presentPickPlants(selectedPlants: selectedPlants, onSave: onSave)
         case let .showPeriodSettings(periods, onSave): showPeriodSettings(periods: periods, onSave: onSave)
         case let .presentShareImages(images, onShareSuccess): presentShareImages(images: images, onShareSuccess: onShareSuccess)
         case .dismiss: dismissView()
         case .pop: pop()
+        case .popToRoot: popToRoot()
         }
     }
     
@@ -191,14 +192,12 @@ public final class PlantsFlowController: FlowController {
     
     private func showAddRoom(
         editingId: UUID?,
-        onShouldRefresh: @escaping () -> Void, 
-        onDelete: @escaping () -> Void
+        onShouldRefresh: @escaping () -> Void
     ) {
         let vm = AddRoomViewModel(
             flowController: self,
             editingId: editingId,
-            onShouldRefresh: onShouldRefresh,
-            onDelete: onDelete
+            onShouldRefresh: onShouldRefresh
         )
         let view = AddRoomView(viewModel: vm)
         let vc = HostingController(
@@ -229,10 +228,12 @@ public final class PlantsFlowController: FlowController {
     }
     
     private func presentPickRoom(
+        selectedRoom: Room?,
         onSave: @escaping (Room?) -> Void
     ) {
         let vm = SelectRoomViewModel(
             flowController: self,
+            selectedRoom: selectedRoom,
             onSave: onSave
         )
         let view = SelectRoomView(viewModel: vm)
@@ -258,5 +259,9 @@ public final class PlantsFlowController: FlowController {
         )
         
         navigationController.present(vc, animated: true)
+    }
+    
+    private func popToRoot() {
+        navigationController.popToRootViewController(animated: true)
     }
 }

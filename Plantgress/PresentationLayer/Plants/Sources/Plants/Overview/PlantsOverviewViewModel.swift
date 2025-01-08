@@ -355,8 +355,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
             flowController?.handleFlow(
                 PlantsFlow.showAddRoom(
                     editingId: nil,
-                    onShouldRefresh: { self.loadData() },
-                    onDelete: {}
+                    onShouldRefresh: { self.loadData() }
                 )
             )
         case .tasks:

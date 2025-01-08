@@ -146,7 +146,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
                 do {
                     try await deletePlantUseCase.execute(id: plantId)
                     onShouldRefresh()
-                    flowController?.handleFlow(PlantsFlow.pop)
+                    flowController?.handleFlow(PlantsFlow.popToRoot)
                 } catch {
                     setFailedSnackbarData(message: Strings.plantCreationFailedToDeleteSnackbar)
                 }
@@ -189,6 +189,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     private func pickRoom() {
         flowController?.handleFlow(
             PlantsFlow.presentPickRoom(
+                selectedRoom: state.room,
                 onSave: { room in
                     self.state.room = room
                 }
