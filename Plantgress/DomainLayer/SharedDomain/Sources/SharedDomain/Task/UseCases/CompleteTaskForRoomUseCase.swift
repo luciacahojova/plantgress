@@ -22,7 +22,11 @@ public struct CompleteTaskForRoomUseCaseImpl: CompleteTaskForRoomUseCase {
 
     public func execute(roomId: UUID, taskType: TaskType, completionDate: Date) async throws {
         let plants = try await plantRepository.getPlantsForRoom(roomId: roomId)
-
+        
+        if plants.isEmpty {
+            throw RoomError.emptyRoom
+        }
+        
         try await taskRepository.completeTaskForRoom(
             plants: plants,
             taskType: taskType,

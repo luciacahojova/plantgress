@@ -231,6 +231,8 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                             }
                         }
                     )
+                } catch RoomError.emptyRoom {
+                    setFailedSnackbarData(message: Strings.noPlantsInRoomEmptyContentMessage)
                 } catch {
                     setFailedSnackbarData(message: Strings.taskCompleteFailedSnackbarMessage)
                 }
