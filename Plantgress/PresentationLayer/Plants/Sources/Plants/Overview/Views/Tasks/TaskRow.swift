@@ -37,8 +37,15 @@ struct TaskRow: View {
                 contentMode: .fill
             )
             .frame(width: Constants.IconSize.xLarge, height: Constants.IconSize.xLarge)
+            .clipShape(RoundedRectangle(cornerRadius: Constants.CornerRadius.medium))
+            .overlay {
+                RoundedRectangle(cornerRadius: Constants.CornerRadius.medium)
+                    .strokeBorder(
+                        TaskType.color(for: task.taskType),
+                        lineWidth: 3
+                    )
+            }
             .clipped()
-            .cornerRadius(Constants.CornerRadius.medium)
             .allowsHitTesting(false)
                 
             VStack(alignment: .leading, spacing: Constants.Spacing.medium) {
