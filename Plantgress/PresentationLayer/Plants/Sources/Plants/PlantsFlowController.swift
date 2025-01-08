@@ -16,7 +16,6 @@ public enum PlantsFlow: Flow, Equatable {
     case showAddPlant(editingId: UUID?, plantName: String?, onShouldRefresh: () -> Void)
     case showAddRoom(editingId: UUID?, onShouldRefresh: () -> Void)
     case presentAddTask(editingId: UUID?, onShouldRefresh: () -> Void)
-    case showPlantSettings(plantId: UUID?, onShouldRefresh: () -> Void)
     case presentPickRoom(selectedRoom: Room?, onSave: (Room?) -> Void)
     case presentPickPlants(selectedPlants: [Plant], onSave: ([Plant]) -> Void)
     case showPeriodSettings(periods: [TaskPeriod], onSave: ([TaskPeriod]) -> Void)
@@ -41,8 +40,6 @@ public enum PlantsFlow: Flow, Equatable {
         case let (.showAddRoom(id1, _), .showAddRoom(id2, _)):
             return id1 == id2
         case let (.presentAddTask(id1, _), .presentAddTask(id2, _)):
-            return id1 == id2
-        case let (.showPlantSettings(id1, _), .showPlantSettings(id2, _)):
             return id1 == id2
         case let (.presentPickPlants(selected1, _), .presentPickPlants(selected2, _)):
             return selected1 == selected2
@@ -89,7 +86,6 @@ public final class PlantsFlowController: FlowController {
             onShouldRefresh: onShouldRefresh
         )
         case let .presentAddTask(editingId, onShouldRefresh): presentAddTask(editingId: editingId, onShouldRefresh: onShouldRefresh)
-        case let .showPlantSettings(plantId, onShouldRefresh): showPlantSettings(plantId: plantId, onShouldRefresh: onShouldRefresh)
         case let .presentPickRoom(selectedRoom, onSave): presentPickRoom(selectedRoom: selectedRoom, onSave: onSave)
         case let .presentPickPlants(selectedPlants, onSave): presentPickPlants(selectedPlants: selectedPlants, onSave: onSave)
         case let .showPeriodSettings(periods, onSave): showPeriodSettings(periods: periods, onSave: onSave)
@@ -215,13 +211,6 @@ public final class PlantsFlowController: FlowController {
     
     private func presentAddTask(
         editingId: UUID?,
-        onShouldRefresh: @escaping () -> Void
-    ) {
-        #warning("TODO: Add implementation")
-    }
-    
-    private func showPlantSettings(
-        plantId: UUID?,
         onShouldRefresh: @escaping () -> Void
     ) {
         #warning("TODO: Add implementation")

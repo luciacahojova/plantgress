@@ -153,9 +153,12 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func editTask(_ plantTask: PlantTask) {
         flowController?.handleFlow(
-            PlantsFlow.showPlantSettings(
-                plantId: plantTask.plantId,
-                onShouldRefresh: refresh
+            PlantsFlow.showAddPlant(
+                editingId: plantTask.plantId,
+                plantName: plantTask.plantName,
+                onShouldRefresh: {
+                    self.refreshTasks()
+                }
             )
         )
     }

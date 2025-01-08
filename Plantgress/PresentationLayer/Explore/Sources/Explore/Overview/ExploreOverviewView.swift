@@ -24,7 +24,7 @@ struct ExploreOverviewView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: Constants.Spacing.large) {
+            LazyVStack(spacing: Constants.Spacing.large) {
                 ExtraToolRow(
                     title: Strings.diagnoseTitle,
                     subtitle: Strings.diagnoseSubtitle,

@@ -36,7 +36,7 @@ struct PlantRow: View {
             VStack(alignment: .leading, spacing: Constants.Spacing.medium) {
                 ZStack {
                     RemoteImage(
-                        urlString: plant.images.first?.urlString,
+                        urlString: plant.images.sorted(by: { $0.date > $1.date }).first?.urlString,
                         contentMode: .fill
                     )
                     .frame(height: 215)
