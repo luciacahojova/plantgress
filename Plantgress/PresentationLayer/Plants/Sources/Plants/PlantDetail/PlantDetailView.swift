@@ -210,7 +210,8 @@ struct PlantDetailView: View {
     
     let vm = PlantDetailViewModel(
         flowController: nil,
-        plantId: UUID()
+        plantId: UUID(),
+        onShouldRefresh: {}
     )
     
     return PlantDetailView(

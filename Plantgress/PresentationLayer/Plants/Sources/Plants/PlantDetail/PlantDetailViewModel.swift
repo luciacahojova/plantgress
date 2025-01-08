@@ -34,14 +34,17 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     // MARK: - Dependencies
     
     private weak var flowController: FlowController?
+    private let onShouldRefresh: () -> Void
     
     // MARK: - Init
 
     init(
         flowController: FlowController?,
-        plantId: UUID
+        plantId: UUID,
+        onShouldRefresh: @escaping () -> Void
     ) {
         self.flowController = flowController
+        self.onShouldRefresh = onShouldRefresh
         
         super.init()
         
@@ -163,6 +166,7 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
                 editingId: state.plant?.id,
                 plantName: state.plant?.name ?? "",
                 onShouldRefresh: {
+                    self.onShouldRefresh()
                     self.refresh()
                 }
             )
@@ -360,10 +364,6 @@ final class PlantDetailViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private func dismissImagePicker() {
         state.isImagePickerPresented = false
-    }
-    
-    private func openPlantDetail(plantId: UUID) {
-        flowController?.handleFlow(PlantsFlow.showPlantDetail(plantId))
     }
     
     private func refresh() {

@@ -439,7 +439,14 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     }
     
     private func showPlantDetail(_ plantId: UUID) {
-        flowController?.handleFlow(PlantsFlow.showPlantDetail(plantId))
+        flowController?.handleFlow(
+            PlantsFlow.showPlantDetail(
+                plantId: plantId,
+                onShouldRefresh: {
+                    self.loadData()
+                }
+            )
+        )
     }
     
     private func showRoomDetail(_ roomId: UUID) {
