@@ -43,9 +43,21 @@ public extension Resolver {
                 taskRepository: resolve()
             ) as CreatePlantUseCase
         }
-        register { UpdatePlantUseCaseImpl(plantRepository: resolve(), taskRepository: resolve()) as UpdatePlantUseCase }
+        register {
+            UpdatePlantUseCaseImpl(
+                plantRepository: resolve(),
+                roomRepository: resolve(),
+                taskRepository: resolve()
+            ) as UpdatePlantUseCase
+        }
         register { GetPlantUseCaseImpl(plantRepository: resolve()) as GetPlantUseCase }
-        register { DeletePlantUseCaseImpl(plantRepository: resolve(), taskRepository: resolve()) as DeletePlantUseCase }
+        register {
+            DeletePlantUseCaseImpl(
+                plantRepository: resolve(),
+                roomRepository: resolve(),
+                taskRepository: resolve()
+            ) as DeletePlantUseCase
+        }
         register { GetAllPlantsUseCaseImpl(plantRepository: resolve()) as GetAllPlantsUseCase }
         register { UpdatePlantImagesUseCaseImpl(plantRepository: resolve()) as UpdatePlantImagesUseCase }
 

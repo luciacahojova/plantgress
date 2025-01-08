@@ -32,6 +32,7 @@ public struct CreatePlantUseCaseImpl: CreatePlantUseCase {
         try await taskRepository.initializeNotifications(for: plant)
         
         guard let roomId = plant.roomId else { return }
+        try await roomRepository.addPlantToRoom(roomId: roomId, plantId: plant.id)
         try await roomRepository.updateRoomPreviewImages(roomId: roomId)
     }
 }
