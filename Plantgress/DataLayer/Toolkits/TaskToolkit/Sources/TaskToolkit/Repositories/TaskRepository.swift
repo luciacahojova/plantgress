@@ -20,48 +20,60 @@ public struct TaskRepositoryImpl: TaskRepository {
     }
     
     public func getUpcomingTasks(for plant: Plant, days: Int) async -> [PlantTask] {
+        let today = Date()
         let completedTasks = (try? await getCompletedTasks(for: plant.id)) ?? []
         let pendingNotifications = await getPendingNotifications()
         var tasks: [PlantTask] = []
 
         for taskConfig in plant.settings.tasksConfigurations where (taskConfig.isTracked && taskConfig.hasNotifications) {
-            let lastCompletedDate = completedTasks
+            var currentDueDate = completedTasks
                 .filter { $0.taskType == taskConfig.taskType }
                 .map { $0.completionDate ?? $0.dueDate }
                 .max() ?? taskConfig.startDate
-
-            var currentDueDate = lastCompletedDate
-            while true {
-                currentDueDate = calculateNextDueDate(
+            
+            while currentDueDate <= today {
+                var newDueDate = calculateNextDueDate(
                     startDate: currentDueDate,
-                    interval: taskConfig.periods.first?.interval ?? .daily(interval: 1)
+                    startTime: taskConfig.time,
+                    interval: findClosestPeriod(startDate: currentDueDate, periods: taskConfig.periods)?.interval ?? .daily(interval: 1)
                 )
-
-                // Check if the task is already completed
-                if completedTasks.contains(where: { $0.taskType == taskConfig.taskType && $0.dueDate == currentDueDate }) {
-                    continue
-                }
-
-                // Check if this due date already has a pending notification
-                if pendingNotifications.contains(where: { notification in
-                    guard let notificationDueDateString = notification.content.userInfo["dueDate"] as? String,
-                          let notificationDueDate = ISO8601DateFormatter().date(from: notificationDueDateString),
-                          notificationDueDate == currentDueDate else {
-                        return false
-                    }
-                    return true
-                }) {
-                    continue
-                }
                 
-                let plantTask = createPlantTask(plant: plant, taskType: taskConfig.taskType, dueDate: currentDueDate)
-                tasks.append(plantTask)
-                
-                break
+                if completedTasks.contains(
+                    where: { $0.taskType == taskConfig.taskType && Calendar.current.isDate($0.completionDate ?? currentDueDate, inSameDayAs: newDueDate) }
+                ) {
+                    
+                    newDueDate = calculateNextDueDate(
+                        startDate: newDueDate,
+                        startTime: taskConfig.time,
+                        interval: findClosestPeriod(startDate: newDueDate, periods: taskConfig.periods)?.interval ?? .daily(interval: 1)
+                    )
+                }
+                currentDueDate = newDueDate
             }
+            
+            let plantTask = createPlantTask(plant: plant, taskType: taskConfig.taskType, dueDate: currentDueDate)
+            tasks.append(plantTask)
         }
 
         return tasks.sorted { $0.dueDate < $1.dueDate }
+    }
+    
+    private func findClosestPeriod(startDate: Date, periods: [TaskPeriod]) -> TaskPeriod? {
+        var closestPeriod: TaskPeriod?
+        var minimumInterval: TimeInterval = .greatestFiniteMagnitude
+
+        for period in periods {
+            let nextDate = calculateNextDate(for: period.interval, startDate: startDate)
+            let timeInterval = nextDate.timeIntervalSince(startDate)
+
+            // Ensure the date is in the future and is the closest one
+            if timeInterval >= 0 && timeInterval < minimumInterval {
+                minimumInterval = timeInterval
+                closestPeriod = period
+            }
+        }
+
+        return closestPeriod
     }
     
     private func createPlantTask(plant: Plant, taskType: TaskType, dueDate: Date) -> PlantTask {
@@ -190,12 +202,16 @@ public struct TaskRepositoryImpl: TaskRepository {
 
         // Find the next due date that hasn't been completed yet
         var nextDueDate = taskConfig.periods
-            .map { calculateNextDueDate(startDate: completionDate, interval: $0.interval) }
+            .map { calculateNextDueDate(startDate: completionDate, startTime: taskConfig.time, interval: $0.interval) }
             .min()
 
         while let dueDate = nextDueDate,
               completedTasks.contains(where: { $0.taskType == taskType && $0.dueDate == dueDate }) {
-            nextDueDate = calculateNextDueDate(startDate: dueDate, interval: taskConfig.periods.first!.interval)
+            nextDueDate = calculateNextDueDate(
+                startDate: dueDate,
+                startTime: taskConfig.time,
+                interval: findClosestPeriod(startDate: dueDate, periods: taskConfig.periods)?.interval ?? .daily(interval: 1)
+            )
         }
 
         // Schedule the next notification if a valid due date is found
@@ -277,11 +293,11 @@ public struct TaskRepositoryImpl: TaskRepository {
 
         for taskConfig in plant.settings.tasksConfigurations where taskConfig.isTracked && taskConfig.hasNotifications {
             var nextDueDate = taskConfig.periods
-                .map { calculateNextDueDate(startDate: taskConfig.startDate, interval: $0.interval) }
+                .map { calculateNextDueDate(startDate: taskConfig.startDate, startTime: taskConfig.time, interval: $0.interval) }
                 .min()
 
             while let dueDate = nextDueDate,
-                  (completedTasks.contains { $0.taskType == taskConfig.taskType && $0.dueDate == dueDate } ||
+                  (completedTasks.contains { $0.taskType == taskConfig.taskType && Calendar.current.isDate($0.dueDate, inSameDayAs: dueDate) } ||
                    pendingNotifications.contains { notification in
                        guard let notificationTaskType = notification.content.userInfo["taskType"] as? String,
                              let notificationDueDate = (notification.trigger as? UNCalendarNotificationTrigger)?.nextTriggerDate(),
@@ -289,7 +305,11 @@ public struct TaskRepositoryImpl: TaskRepository {
                        else { return false }
                        return notificationDueDate == dueDate
                    }) {
-                nextDueDate = calculateNextDueDate(startDate: dueDate, interval: taskConfig.periods.first!.interval)
+                nextDueDate = calculateNextDueDate(
+                    startDate: dueDate,
+                    startTime: taskConfig.time,
+                    interval: findClosestPeriod(startDate: dueDate, periods: taskConfig.periods)!.interval
+                )
             }
 
             if let nextDueDate = nextDueDate {
@@ -310,12 +330,13 @@ public struct TaskRepositoryImpl: TaskRepository {
         for taskConfig in plant.settings.tasksConfigurations where taskConfig.isTracked && taskConfig.hasNotifications {
             // Calculate the next due date for the task type
             let nextDueDate = taskConfig.periods
-                .map { calculateNextDueDate(startDate: taskConfig.startDate, interval: $0.interval) }
+                .map { calculateNextDueDate(startDate: taskConfig.startDate, startTime: taskConfig.time, interval: $0.interval) }
                 .min() // Get the earliest due date
 
             if let nextDueDate = nextDueDate {
                 let notificationId = generateNotificationId(plantId: plant.id, taskType: taskConfig.taskType)
                 print("📅 Adding notification for \(taskConfig.taskType.rawValue): \(nextDueDate)")
+                updateNotification(id: notificationId, dueDate: nextDueDate, taskConfig: taskConfig, plant: plant)
                 updateNotification(id: notificationId, dueDate: nextDueDate, taskConfig: taskConfig, plant: plant)
             } else {
                 print("⚠️ No valid due dates for \(taskConfig.taskType.rawValue), skipping notification.")
@@ -333,7 +354,7 @@ public struct TaskRepositoryImpl: TaskRepository {
 
         // Calculate the next due date based on the task's interval
         guard let nextDueDate = taskConfig.periods
-            .map({ calculateNextDueDate(startDate: completionDate, interval: $0.interval) })
+            .map({ calculateNextDueDate(startDate: completionDate, startTime: taskConfig.time, interval: $0.interval) })
             .min() else { return }
 
         // Generate the notification ID
@@ -343,21 +364,109 @@ public struct TaskRepositoryImpl: TaskRepository {
         updateNotification(id: notificationId, dueDate: nextDueDate, taskConfig: taskConfig, plant: plant)
     }
     
-    private func calculateNextDueDate(startDate: Date, interval: TaskInterval) -> Date {
+    private func calculateNextDate(for interval: TaskInterval, startDate: Date) -> Date {
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.current
+        
+        switch interval {
+        case .daily(let interval):
+            return calendar.date(byAdding: .day, value: interval, to: startDate) ?? startDate
+            
+        case .weekly(let interval, let weekday):
+            let currentWeekday = calendar.component(.weekday, from: startDate)
+            var daysToAdd = (weekday - currentWeekday + 7) % 7
+            daysToAdd += (daysToAdd == 0 ? interval : interval - 1) * 7
+            
+            return calendar.date(byAdding: .day, value: daysToAdd, to: startDate) ?? startDate
+            
+        case .monthly(let interval, let months):
+            let currentMonth = calendar.component(.month, from: startDate)
+            
+            var nextMonth = currentMonth
+            
+            let sortedMonths = months.sorted()
+            
+            while !sortedMonths.contains(nextMonth) {
+                nextMonth = (nextMonth % 12)
+                nextMonth += 1
+            }
+            
+            let monthIncrement = (nextMonth - currentMonth + 12) % 12
+            
+            if nextMonth == currentMonth {
+                return calendar.date(byAdding: .day, value: interval, to: startDate) ?? startDate
+            }
+            
+            let incrementedDate = calendar.date(byAdding: .month, value: monthIncrement, to: startDate) ?? startDate
+            
+            let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month, .hour, .minute, .second, .nanosecond], from: incrementedDate))
+            
+            return startOfMonth ?? startDate
+            
+        case .yearly(let date):
+            let components = DateComponents(year: calendar.component(.year, from: startDate), month: date.month, day: date.day)
+            var nextDate = calendar.date(from: components) ?? startDate
+            if nextDate < startDate {
+                nextDate = calendar.date(byAdding: .year, value: 1, to: nextDate) ?? startDate
+            }
+            return nextDate
+        }
+    }
+    
+    private func calculateNextDueDate(startDate: Date, startTime: Date, interval: TaskInterval) -> Date {
         let calendar = Calendar.current
+        let todayComponents = calendar.dateComponents([.year, .month, .day], from: startDate)
+        let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: startTime)
+        var combinedComponents = todayComponents
+        combinedComponents.hour = timeComponents.hour
+        combinedComponents.minute = timeComponents.minute
+        
         switch interval {
         case .daily(let interval):
             return calendar.date(byAdding: .day, value: interval, to: startDate)!
+            
         case .weekly(let interval, let weekday):
-            let weekdayComponent = DateComponents(weekday: weekday)
-            let nextWeek = calendar.date(byAdding: .weekOfYear, value: interval, to: startDate)!
-            return calendar.nextDate(after: nextWeek, matching: weekdayComponent, matchingPolicy: .nextTime) ?? nextWeek
-        case .monthly(_, let months):
-            return months.compactMap {
-                calendar.nextDate(after: startDate, matching: DateComponents(month: $0), matchingPolicy: .nextTime)
-            }.first ?? startDate
+            let currentWeekday = calendar.component(.weekday, from: startDate)
+            var daysToAdd = (weekday - currentWeekday + 7) % 7
+            daysToAdd += (daysToAdd == 0 ? interval : interval - 1) * 7
+            
+            guard let date = calendar.date(from: combinedComponents),
+                  let dueDate = calendar.date(byAdding: .day, value: daysToAdd, to: date) else {
+                return calendar.date(byAdding: .day, value: daysToAdd, to: startDate) ?? startDate
+            }
+            return dueDate
+            
+        case .monthly(let interval, let months):
+            let startMonth = calendar.component(.month, from: startDate)
+            var nextMonth = startMonth
+            
+            let sortedMonths = months.sorted()
+            
+            while !sortedMonths.contains(nextMonth) {
+                nextMonth = (nextMonth % 12)
+                nextMonth += 1
+            }
+            
+            if nextMonth == startMonth {
+                combinedComponents.day = interval + (combinedComponents.day ?? 1)
+            } else {
+                combinedComponents.month = nextMonth
+                combinedComponents.day = 1
+            }
+            
+            return calendar.date(from: combinedComponents) ?? startDate
+            
         case .yearly(let date):
-            return calendar.nextDate(after: startDate, matching: DateComponents(month: date.month, day: date.day), matchingPolicy: .nextTime) ?? startDate
+            return calendar.nextDate(
+                after: startDate,
+                matching: DateComponents(
+                    month: date.month,
+                    day: date.day,
+                    hour: combinedComponents.hour,
+                    minute: combinedComponents.minute
+                ),
+                matchingPolicy: .nextTime
+            ) ?? startDate
         }
     }
     
@@ -378,7 +487,11 @@ public struct TaskRepositoryImpl: TaskRepository {
 
     private func updateNotification(id: String, dueDate: Date, taskConfig: TaskConfiguration, plant: Plant) {
         let calendar = Calendar.current
-        let dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: dueDate)
+        let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: taskConfig.time)
+        var dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: dueDate)
+        dateComponents.hour = timeComponents.hour
+        dateComponents.minute = timeComponents.minute
+        dateComponents.second = timeComponents.second
         
         removeNotification(id: id)
 
@@ -408,8 +521,8 @@ public struct TaskRepositoryImpl: TaskRepository {
         ]
 
         let content = UNMutableNotificationContent()
-        content.title = "Reminder: \(plantTask.taskType.rawValue)"
-        content.body = "\(plantTask.plantName) requires \(plantTask.taskType.rawValue)"
+        content.title = "Task Reminder"
+        content.body = "\(plantTask.plantName) requires care!"
         content.sound = .default
         content.userInfo = userInfo
 
@@ -420,7 +533,7 @@ public struct TaskRepositoryImpl: TaskRepository {
             if let error = error {
                 print("❗️Failed to schedule notification: \(error.localizedDescription)")
             } else {
-                print("✅ Notification scheduled with ID: \(id)")
+                print("✅ Notification scheduled with ID: \(id), to \(dateComponents)")
             }
         }
     }
