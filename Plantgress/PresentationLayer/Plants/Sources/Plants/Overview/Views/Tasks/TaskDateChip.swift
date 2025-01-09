@@ -53,7 +53,7 @@ struct TaskDateChip: View {
         .font(Fonts.subheadlineMedium)
         .padding(.horizontal, Constants.Spacing.xMedium)
         .padding(.vertical, Constants.Spacing.xSmall)
-        .background(Colors.secondaryText)
+        .background(Colors.secondaryText.opacity(0.7))
         .foregroundStyle(Colors.white)
         .cornerRadius(Constants.CornerRadius.xxxLarge)
     }

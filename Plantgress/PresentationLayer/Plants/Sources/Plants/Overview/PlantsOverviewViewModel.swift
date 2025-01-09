@@ -130,7 +130,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case plusButtonTapped
         
         case showPlantDetail(plantId: UUID)
-        case showRoomDetail(room: Room)
+        case showRoomDetail(roomId: UUID)
         
         case uploadImage(UIImage?)
         case uploadImages([(Date, UIImage)])
@@ -158,7 +158,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
         case .dismissImagePicker: dismissImagePicker()
         case .plusButtonTapped: plusButtonTapped()
         case .showPlantDetail(let plantId): showPlantDetail(plantId)
-        case .showRoomDetail(let room): showRoomDetail(room)
+        case .showRoomDetail(let roomId): showRoomDetail(roomId)
         case .uploadImage(let image): uploadImage(image)
         case .uploadImages(let images): uploadImages(images)
         case .snackbarDataChanged(let snackbarData): snackbarDataChanged(snackbarData)
@@ -194,8 +194,9 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     
     private func editTask(_ plantTask: PlantTask) {
         flowController?.handleFlow(
-            PlantsFlow.showPlantSettings(
-                plantId: plantTask.plantId,
+            PlantsFlow.showAddPlant(
+                editingId: plantTask.plantId,
+                plantName: plantTask.plantName,
                 onShouldRefresh: loadData
             )
         )
@@ -231,6 +232,10 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
                             }
                         }
                     )
+                } catch RoomError.emptyRoom {
+                    setFailedSnackbarData(message: Strings.noPlantsInRoomEmptyContentMessage)
+                } catch RoomError.taskNotTracked {
+                    setFailedSnackbarData(message: Strings.noPlantsWithTaskSnackbarMessage(TaskType.title(for: taskType)))
                 } catch {
                     setFailedSnackbarData(message: Strings.taskCompleteFailedSnackbarMessage)
                 }
@@ -353,8 +358,7 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
             flowController?.handleFlow(
                 PlantsFlow.showAddRoom(
                     editingId: nil,
-                    onShouldRefresh: { self.loadData() },
-                    onDelete: {}
+                    onShouldRefresh: { self.loadData() }
                 )
             )
         case .tasks:
@@ -438,11 +442,18 @@ final class PlantsOverviewViewModel: BaseViewModel, ViewModel, ObservableObject 
     }
     
     private func showPlantDetail(_ plantId: UUID) {
-        flowController?.handleFlow(PlantsFlow.showPlantDetail(plantId))
+        flowController?.handleFlow(
+            PlantsFlow.showPlantDetail(
+                plantId: plantId,
+                onShouldRefresh: {
+                    self.loadData()
+                }
+            )
+        )
     }
     
-    private func showRoomDetail(_ room: Room) {
-        flowController?.handleFlow(PlantsFlow.showRoomDetail(room))
+    private func showRoomDetail(_ roomId: UUID) {
+        flowController?.handleFlow(PlantsFlow.showRoomDetail(roomId))
     }
     
     private func loadData() {

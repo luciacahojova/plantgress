@@ -71,7 +71,6 @@ public struct UserRepositoryImpl: UserRepository {
         do {
             let userJsonString = try keychainProvider.read(.user)
             guard let userJson = userJsonString.data(using: .utf8) else { throw UserError.persistenceError }
-            let user = try JSONDecoder().decode(User.self, from: userJson)
             
             return true
         } catch {

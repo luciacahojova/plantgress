@@ -100,9 +100,9 @@ struct PlantDetailView: View {
                             
                             switch viewModel.selectedSection {
                             case .tasks:
-                                if let tasksConfiguartions = viewModel.state.plant?.settings.tasksConfiguartions {
+                                if let tasksConfigurations = viewModel.state.plant?.settings.tasksConfigurations {
                                     TaskQuickActionList(
-                                        taskConfigurations: tasksConfiguartions,
+                                        taskConfigurations: tasksConfigurations,
                                         action: { taskType in
                                             viewModel.onIntent(.completeTask(taskType: taskType))
                                         }
@@ -210,7 +210,8 @@ struct PlantDetailView: View {
     
     let vm = PlantDetailViewModel(
         flowController: nil,
-        plantId: UUID()
+        plantId: UUID(),
+        onShouldRefresh: {}
     )
     
     return PlantDetailView(

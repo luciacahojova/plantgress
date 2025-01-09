@@ -68,6 +68,7 @@
 
 // MARK: Rooms
 "rooms_title" = "Rooms";
+"no_plants_with_task_snackbar_message" = "No plants with %@ tracked.";
 
 // MARK: General
 "dismiss_button" = "Dismiss";

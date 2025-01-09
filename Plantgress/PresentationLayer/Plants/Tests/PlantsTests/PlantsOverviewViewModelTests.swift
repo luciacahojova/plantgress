@@ -111,11 +111,11 @@ final class PlantsOverviewViewModelTests: XCTestCase {
         let vm = createViewModel()
 
         // when
-        vm.onIntent(.showRoomDetail(room: room))
+        vm.onIntent(.showRoomDetail(roomId: room.id))
         await vm.awaitAllTasks()
 
         // then
-        XCTAssertEqual(flowController.flowValue, .showRoomDetail(room))
+        XCTAssertEqual(flowController.flowValue, .showRoomDetail(room.id))
     }
 
     func testUploadImage() async {

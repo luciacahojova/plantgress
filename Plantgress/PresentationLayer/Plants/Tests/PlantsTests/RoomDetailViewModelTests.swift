@@ -16,18 +16,17 @@ final class RoomDetailViewModelTests: XCTestCase {
     
     private let flowController = FlowControllerMock<PlantsFlow>(navigationController: UINavigationController())
     
-    private func createViewModel(room: Room) -> RoomDetailViewModel {
+    private func createViewModel(roomId: UUID) -> RoomDetailViewModel {
         Resolver.registerUseCaseMocks()
-        return RoomDetailViewModel(flowController: flowController, room: room)
+        return RoomDetailViewModel(flowController: flowController, roomId: roomId)
     }
     
     // MARK: - Tests
     
     func testShowPlantDetail() async {
         // given
-        let room = Room.mock(id: UUID())
         let plantId = UUID()
-        let vm = createViewModel(room: room)
+        let vm = createViewModel(roomId: UUID())
         
         // when
         vm.onIntent(.showPlantDetail(plantId: plantId))
@@ -40,7 +39,7 @@ final class RoomDetailViewModelTests: XCTestCase {
     func testRefresh() async {
         // given
         let room = Room.mock(id: UUID())
-        let vm = createViewModel(room: room)
+        let vm = createViewModel(roomId: UUID())
         
         // when
         vm.onIntent(.refresh)
@@ -52,11 +51,10 @@ final class RoomDetailViewModelTests: XCTestCase {
     
     func testCompleteTaskForPlant() async {
         // given
-        let room = Room.mock(id: UUID())
         let plant = Plant.mock(id: UUID())
         let taskType = TaskType.watering
         
-        let vm = createViewModel(room: room)
+        let vm = createViewModel(roomId: UUID())
         
         // when
         vm.onIntent(.completeTaskForPlant(plant: plant, taskType: taskType))
@@ -68,9 +66,8 @@ final class RoomDetailViewModelTests: XCTestCase {
     
     func testSnackbarDataChanged() async {
         // given
-        let room = Room.mock(id: UUID())
         let snackbarData = SnackbarData(message: "Test Snackbar")
-        let vm = createViewModel(room: room)
+        let vm = createViewModel(roomId: UUID())
         
         // when
         vm.onIntent(.snackbarDataChanged(snackbarData))
@@ -82,8 +79,7 @@ final class RoomDetailViewModelTests: XCTestCase {
     
     func testUploadImage() async {
         // given
-        let room = Room.mock(id: UUID())
-        let vm = createViewModel(room: room)
+        let vm = createViewModel(roomId: UUID())
         
         // Create a valid UIImage
         let size = CGSize(width: 1, height: 1)
@@ -101,8 +97,7 @@ final class RoomDetailViewModelTests: XCTestCase {
     
     func testToggleImagePicker() async {
         // given
-        let room = Room.mock(id: UUID())
-        let vm = createViewModel(room: room)
+        let vm = createViewModel(roomId: UUID())
         
         // when
         vm.onIntent(.toggleImagePicker)

@@ -23,6 +23,7 @@ final class SelectRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
 
     init(
         flowController: FlowController?,
+        selectedRoom: Room?,
         onSave: @escaping (Room?) -> Void
     ) {
         self.flowController = flowController
@@ -30,7 +31,7 @@ final class SelectRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
         
         super.init()
         
-        loadData()
+        loadData(selectedRoom: selectedRoom)
     }
     
     // MARK: - Lifecycle
@@ -79,14 +80,15 @@ final class SelectRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
     }
     
     private func selectRoom(_ room: Room?) {
-        if state.selectedRoom?.id == room?.id, room?.id != nil {
-            state.selectedRoom = nil
-            return
+        guard state.selectedRoom?.id != room?.id else { return }
+        
+        if let room {
+            state.selectedRoom = room
         }
-        state.selectedRoom = room
     }
     
-    private func loadData() {
+    private func loadData(selectedRoom: Room? = nil) {
+        state.selectedRoom = selectedRoom
         state.isLoading = true
         let getAllRoomsUseCase = getAllRoomsUseCase
         

@@ -21,8 +21,7 @@ final class AddRoomViewModelTests: XCTestCase {
         return AddRoomViewModel(
             flowController: flowController,
             editingId: nil,
-            onShouldRefresh: {},
-            onDelete: {}
+            onShouldRefresh: {}
         )
     }
     
@@ -111,8 +110,7 @@ final class AddRoomViewModelTests: XCTestCase {
         let vm = AddRoomViewModel(
             flowController: flowController,
             editingId: editingId,
-            onShouldRefresh: {},
-            onDelete: {}
+            onShouldRefresh: {}
         )
         
         // when

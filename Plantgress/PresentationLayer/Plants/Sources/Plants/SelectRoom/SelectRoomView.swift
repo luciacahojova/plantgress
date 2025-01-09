@@ -95,6 +95,7 @@ struct SelectRoomView: View {
     
     let vm = SelectRoomViewModel(
         flowController: nil,
+        selectedRoom: nil,
         onSave: { _ in }
     )
     

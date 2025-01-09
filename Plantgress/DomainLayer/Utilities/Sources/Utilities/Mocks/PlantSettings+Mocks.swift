@@ -10,7 +10,7 @@ import SharedDomain
 public extension PlantSettings {
     static var mock: PlantSettings {
         PlantSettings(
-            tasksConfiguartions: .mock
+            tasksConfigurations: .mock
         )
     }
 }

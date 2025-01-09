@@ -63,7 +63,10 @@ struct SelectionRow: View {
             HStack(spacing: Constants.Spacing.mediumLarge) {
                 RemoteImage(
                     urlString: imageUrlString,
-                    contentMode: .fill
+                    contentMode: .fill,
+                    customPlaceholder: {
+                        Text("🪴")
+                    }
                 )
                 .frame(width: 140, height: 50)
                 .cornerRadius(Constants.CornerRadius.large)

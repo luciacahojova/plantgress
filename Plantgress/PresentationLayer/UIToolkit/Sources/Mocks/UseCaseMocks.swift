@@ -128,7 +128,7 @@ class GetPlantUseCaseMock: GetPlantUseCase {
 }
 
 class DeletePlantUseCaseMock: DeletePlantUseCase {
-    func execute(id: UUID) async throws {}
+    func execute(plantId: UUID, roomId: UUID?) async throws {}
 }
 
 class GetAllPlantsUseCaseMock: GetAllPlantsUseCase {

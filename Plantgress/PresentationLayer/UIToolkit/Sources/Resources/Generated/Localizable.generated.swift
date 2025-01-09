@@ -132,6 +132,10 @@ public enum Strings {
   public static let noPlantsEmptyContentMessage = Strings.tr("Localizable", "no_plants_empty_content_message", fallback: "You have no plants without a room.")
   /// There are no plants in this room.
   public static let noPlantsInRoomEmptyContentMessage = Strings.tr("Localizable", "no_plants_in_room_empty_content_message", fallback: "There are no plants in this room.")
+  /// No plants with %@ tracked.
+  public static func noPlantsWithTaskSnackbarMessage(_ p1: Any) -> String {
+    return Strings.tr("Localizable", "no_plants_with_task_snackbar_message", String(describing: p1), fallback: "No plants with %@ tracked.")
+  }
   /// You have no rooms.
   public static let noRoomsMessage = Strings.tr("Localizable", "no_rooms_message", fallback: "You have no rooms.")
   /// You have no tracked tasks.

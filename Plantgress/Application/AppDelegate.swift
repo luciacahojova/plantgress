@@ -22,6 +22,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+        
         // Configue Firebae
         FirebaseApp.configure()
         

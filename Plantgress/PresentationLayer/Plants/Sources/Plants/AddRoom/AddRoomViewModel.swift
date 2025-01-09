@@ -28,19 +28,16 @@ final class AddRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
     
     private weak var flowController: FlowController?
     private let onShouldRefresh: () -> Void
-    private let onDelete: () -> Void
     
     // MARK: - Init
 
     init(
         flowController: FlowController?,
         editingId: UUID?,
-        onShouldRefresh: @escaping () -> Void,
-        onDelete: @escaping () -> Void
+        onShouldRefresh: @escaping () -> Void
     ) {
         self.flowController = flowController
         self.onShouldRefresh = onShouldRefresh
-        self.onDelete = onDelete
         
         super.init()
         
@@ -141,8 +138,7 @@ final class AddRoomViewModel: BaseViewModel, ViewModel, ObservableObject {
             Task {
                 do {
                     try await deleteRoomUseCase.execute(roomId: editingId, plants: state.plants)
-                    onDelete()
-                    flowController?.handleFlow(PlantsFlow.pop)
+                    flowController?.handleFlow(PlantsFlow.popToRoot)
                 } catch {
                     setFailedSnackbarData(message: Strings.failedToDeleteRoomSnackbar)
                 }

@@ -18,7 +18,11 @@ final class PlantDetailViewModelTests: XCTestCase {
     
     private func createViewModel(plantId: UUID = UUID()) -> PlantDetailViewModel {
         Resolver.registerUseCaseMocks()
-        return PlantDetailViewModel(flowController: flowController, plantId: plantId)
+        return PlantDetailViewModel(
+            flowController: flowController,
+            plantId: plantId,
+            onShouldRefresh: {}
+        )
     }
     
     // MARK: - Tests

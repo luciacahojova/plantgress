@@ -16,6 +16,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     @Injected private var getCurrentUserLocallyUseCase: GetCurrentUserLocallyUseCase
     @Injected private var getPlantUseCase: GetPlantUseCase
     @Injected private var getRoomUseCase: GetRoomUseCase
+    @Injected private var movePlantToRoomUseCase: MovePlantToRoomUseCase
     @Injected private var createPlantUseCase: CreatePlantUseCase
     @Injected private var deletePlantUseCase: DeletePlantUseCase
     @Injected private var updatePlantUseCase: UpdatePlantUseCase
@@ -57,6 +58,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     struct State {
         var userId: String?
         var editingId: UUID?
+        var initialRoomId: UUID?
         
         var name: String = ""
         var room: Room?
@@ -144,9 +146,9 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
         executeTask(
             Task {
                 do {
-                    try await deletePlantUseCase.execute(id: plantId)
+                    try await deletePlantUseCase.execute(plantId: plantId, roomId: state.room?.id)
                     onShouldRefresh()
-                    flowController?.handleFlow(PlantsFlow.pop)
+                    flowController?.handleFlow(PlantsFlow.popToRoot)
                 } catch {
                     setFailedSnackbarData(message: Strings.plantCreationFailedToDeleteSnackbar)
                 }
@@ -189,6 +191,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
     private func pickRoom() {
         flowController?.handleFlow(
             PlantsFlow.presentPickRoom(
+                selectedRoom: state.room,
                 onSave: { room in
                     self.state.room = room
                 }
@@ -276,16 +279,20 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
             roomId: state.room?.id,
             images: state.uploadedImages,
             settings: .init(
-                tasksConfiguartions: Array(state.tasks.values)
+                tasksConfigurations: Array(state.tasks.values)
             )
         )
         
         let createPlantUseCase = createPlantUseCase
         let updatePlantUseCase = updatePlantUseCase
+        let movePlantToRoomUseCase = movePlantToRoomUseCase
         executeTask(
             Task {
                 do {
                     if state.isEditing {
+                        if let fromRoomId = state.initialRoomId, let toRoomId = plant.roomId, fromRoomId != toRoomId {
+                           try await movePlantToRoomUseCase.execute(plantId: plant.id, fromRoomId: fromRoomId, toRoomId: toRoomId)
+                        }
                         try await updatePlantUseCase.execute(plant: plant)
                     } else {
                         try await createPlantUseCase.execute(plant: plant)
@@ -297,7 +304,7 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
                     setFailedSnackbarData(
                         message: state.isEditing
                             ? Strings.plantCreationFailedToUpdateSnackbar
-                        : Strings.plantCreationFailedToCreateSnackbar
+                            : Strings.plantCreationFailedToCreateSnackbar
                     )
                 }
             }
@@ -383,11 +390,12 @@ final class AddPlantViewModel: BaseViewModel, ViewModel, ObservableObject {
                     guard let plant = try? await getPlantUseCase.execute(id: editingId) else { return }
                     state.name = plant.name
                     if let roomId = plant.roomId {
+                        state.initialRoomId = roomId
                         state.room = try? await getRoomUseCase.execute(roomId: roomId)
                     }
                     state.uploadedImages = plant.images
                     
-                    plant.settings.tasksConfiguartions.forEach { task in
+                    plant.settings.tasksConfigurations.forEach { task in
                         state.tasks[task.taskType] = task
                     }
                 }

@@ -10,7 +10,7 @@ import SharedDomain
 public extension PlantSettings {
     static var `default`: PlantSettings {
         PlantSettings(
-            tasksConfiguartions: .default
+            tasksConfigurations: .default
         )
     }
     
@@ -18,9 +18,9 @@ public extension PlantSettings {
         taskType: TaskType,
         with updatedTask: TaskConfiguration
     ) -> PlantSettings {
-        let updatedTasks = tasksConfiguartions.map { task in
+        let updatedTasks = tasksConfigurations.map { task in
             task.taskType == taskType ? updatedTask : task
         }
-        return PlantSettings(tasksConfiguartions: updatedTasks)
+        return PlantSettings(tasksConfigurations: updatedTasks)
     }
 }

@@ -13,14 +13,14 @@ struct RoomList: View {
     
     private let rooms: [Room]
     private let completeTaskAction: (UUID, TaskType) -> Void
-    private let openRoomDetailAction: (Room) -> Void
+    private let openRoomDetailAction: (UUID) -> Void
     
     private let isLoading: Bool
     
     init(
         rooms: [Room],
         completeTaskAction: @escaping (UUID, TaskType) -> Void,
-        openRoomDetailAction: @escaping (Room) -> Void
+        openRoomDetailAction: @escaping (UUID) -> Void
     ) {
         self.rooms = rooms
         self.completeTaskAction = completeTaskAction

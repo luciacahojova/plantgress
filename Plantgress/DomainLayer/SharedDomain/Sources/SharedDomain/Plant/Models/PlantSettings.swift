@@ -8,11 +8,11 @@
 import Foundation
 
 public struct PlantSettings: Codable, Sendable, Equatable {
-    public let tasksConfiguartions: [TaskConfiguration]
+    public let tasksConfigurations: [TaskConfiguration]
     
     public init(
-        tasksConfiguartions: [TaskConfiguration]
+        tasksConfigurations: [TaskConfiguration]
     ) {
-        self.tasksConfiguartions = tasksConfiguartions
+        self.tasksConfigurations = tasksConfigurations
     }
 }
