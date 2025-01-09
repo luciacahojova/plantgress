@@ -10,14 +10,23 @@ import Foundation
 import SharedDomain
 import Utilities
 
+/// Implementation of the `RoomRepository` protocol for managing rooms and plants in Firestore.
 public struct RoomRepositoryImpl: RoomRepository {
     
+    /// Firebase Firestore provider for database operations.
     private let firebaseFirestoreProvider: FirebaseFirestoreProvider
 
+    /// Initializes a new instance of `RoomRepositoryImpl`.
+    /// - Parameter firebaseFirestoreProvider: The Firestore provider for handling database operations.
     public init(firebaseFirestoreProvider: FirebaseFirestoreProvider) {
         self.firebaseFirestoreProvider = firebaseFirestoreProvider
     }
 
+    /// Creates a new room and assigns plants to it.
+    /// - Parameters:
+    ///   - room: The room to be created.
+    ///   - plants: The list of plants to associate with the room.
+    /// - Throws: An error if the operation fails.
     public func createRoom(room: Room, plants: [Plant]) async throws {
         // Extract preview images from the first two plants
         let previewImages = plants.prefix(2).compactMap { $0.images.first?.urlString }
@@ -40,7 +49,13 @@ public struct RoomRepositoryImpl: RoomRepository {
         }
     }
     
+    /// Deletes a room and removes its association with plants.
+    /// - Parameters:
+    ///   - roomId: The ID of the room to delete.
+    ///   - plants: The list of plants associated with the room.
+    /// - Throws: An error if the operation fails.
     public func deleteRoom(roomId: String, plants: [Plant]) async throws {
+        // Remove room association from all plants
         for plant in plants {
             try await firebaseFirestoreProvider.updateField(
                 path: DatabaseConstants.plantsCollection,
@@ -49,22 +64,31 @@ public struct RoomRepositoryImpl: RoomRepository {
             )
         }
         
+        // Delete the room in Firestore
         try await firebaseFirestoreProvider.delete(
             path: DatabaseConstants.roomsCollection,
             id: roomId
         )
     }
     
+    /// Updates an existing room and its associated plants.
+    /// - Parameters:
+    ///   - room: The updated room information.
+    ///   - plants: The list of plants to associate with the room.
+    /// - Throws: An error if the operation fails.
     public func updateRoom(room: Room, plants: [Plant]) async throws {
+        // Extract preview images from the first two plants
         let previewImages = plants.prefix(2).compactMap { $0.images.first?.urlString }
         let roomWithImages = Room(id: room.id, name: room.name, imageUrls: previewImages)
         
+        // Update the room in Firestore
         try await firebaseFirestoreProvider.update(
             path: DatabaseConstants.roomsCollection,
             id: room.id.uuidString,
             data: roomWithImages
         )
 
+        // Update the `roomId` field for each plant
         for plant in plants {
             try await firebaseFirestoreProvider.updateField(
                 path: DatabaseConstants.plantsCollection,
@@ -74,6 +98,11 @@ public struct RoomRepositoryImpl: RoomRepository {
         }
     }
 
+    /// Adds a plant to a specific room.
+    /// - Parameters:
+    ///   - roomId: The ID of the room.
+    ///   - plantId: The ID of the plant to add.
+    /// - Throws: An error if the operation fails.
     public func addPlantToRoom(roomId: UUID, plantId: UUID) async throws {
         // Update the `roomId` field of the plant document
         try await firebaseFirestoreProvider.updateField(
@@ -86,6 +115,10 @@ public struct RoomRepositoryImpl: RoomRepository {
         try await updateRoomPreviewImages(roomId: roomId)
     }
 
+    /// Retrieves a room by its ID.
+    /// - Parameter roomId: The ID of the room.
+    /// - Returns: The room object.
+    /// - Throws: An error if the operation fails.
     public func getRoom(roomId: UUID) async throws -> Room {
         return try await firebaseFirestoreProvider.get(
             path: DatabaseConstants.roomsCollection,
@@ -94,6 +127,10 @@ public struct RoomRepositoryImpl: RoomRepository {
         )
     }
 
+    /// Retrieves all plants associated with a specific room.
+    /// - Parameter roomId: The ID of the room.
+    /// - Returns: A list of plants in the room.
+    /// - Throws: An error if the operation fails.
     public func getPlantsForRoom(roomId: UUID) async throws -> [Plant] {
         return try await firebaseFirestoreProvider.get(
             path: DatabaseConstants.plantsCollection,
@@ -104,6 +141,9 @@ public struct RoomRepositoryImpl: RoomRepository {
         )
     }
     
+    /// Retrieves all rooms from the database.
+    /// - Returns: A list of all rooms.
+    /// - Throws: An error if the operation fails.
     public func getAllRooms() async throws -> [Room] {
         try await firebaseFirestoreProvider.getAll(
             path: DatabaseConstants.roomsCollection,
@@ -111,8 +151,11 @@ public struct RoomRepositoryImpl: RoomRepository {
         )
     }
 
+    /// Updates the preview images for a specific room.
+    /// - Parameter roomId: The ID of the room.
+    /// - Throws: An error if the operation fails.
     public func updateRoomPreviewImages(roomId: UUID) async throws {
-        // Step 1: Fetch the first two plants for the room
+        // Fetch the first two plants for the room
         let plants = try await firebaseFirestoreProvider.get(
             path: DatabaseConstants.plantsCollection,
             filters: [FirestoreFilter(field: "roomId", operator: .isEqualTo, value: roomId.uuidString)],
@@ -121,10 +164,10 @@ public struct RoomRepositoryImpl: RoomRepository {
             as: Plant.self
         )
 
-        // Step 2: Extract preview images from the fetched plants
+        // Extract preview images from the fetched plants
         let previewImages = plants.compactMap { $0.images.first?.urlString }
 
-        // Step 3: Update only the `imageUrls` field in the room document
+        // Update only the `imageUrls` field in the room document
         try await firebaseFirestoreProvider.updateField(
             path: DatabaseConstants.roomsCollection,
             id: roomId.uuidString,
@@ -132,6 +175,12 @@ public struct RoomRepositoryImpl: RoomRepository {
         )
     }
 
+    /// Moves a plant from one room to another.
+    /// - Parameters:
+    ///   - plantId: The ID of the plant to move.
+    ///   - fromRoomId: The ID of the current room.
+    ///   - toRoomId: The ID of the destination room.
+    /// - Throws: An error if the operation fails.
     public func movePlantToRoom(plantId: UUID, fromRoomId: UUID, toRoomId: UUID) async throws {
         // Update the `roomId` field for the plant document
         try await firebaseFirestoreProvider.updateField(
@@ -145,6 +194,11 @@ public struct RoomRepositoryImpl: RoomRepository {
         try await updateRoomPreviewImages(roomId: toRoomId)
     }
 
+    /// Removes a plant from a room.
+    /// - Parameters:
+    ///   - plantId: The ID of the plant to remove.
+    ///   - roomId: The ID of the room.
+    /// - Throws: An error if the operation fails.
     public func removePlantFromRoom(plantId: UUID, roomId: UUID) async throws {
         // Update the `roomId` field to `nil` for the specified plant
         try await firebaseFirestoreProvider.updateField(
