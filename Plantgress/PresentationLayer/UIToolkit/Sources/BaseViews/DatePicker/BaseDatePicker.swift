@@ -22,7 +22,7 @@ public struct BaseDatePicker: View {
         datePickerComponents: DatePickerComponents,
         foregroundColor: Color = Colors.primaryText,
         backgroundColor: Color = Colors.gray,
-        tintColor: Color = Colors.green,
+        tintColor: Color = Colors.coral,
         dateFormatter: DateFormatter = Formatter.Date.MMMdyyyy
     ) {
         self._date = date
