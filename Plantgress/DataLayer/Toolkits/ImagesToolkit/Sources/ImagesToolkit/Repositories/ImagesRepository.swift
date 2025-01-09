@@ -11,14 +11,25 @@ import SharedDomain
 import SwiftUI
 import Utilities
 
+/// Implementation of the `ImagesRepository` protocol for managing image storage and processing in Firestore.
 public struct ImagesRepositoryImpl: ImagesRepository {
     
+    /// Firebase Storage provider for image storage operations.
     private let firebaseStorageProvider: FirebaseStorageProvider
     
+    /// Initializes a new instance of `ImagesRepositoryImpl`.
+    /// - Parameter firebaseStorageProvider: The Firebase Storage provider for handling image-related operations.
     public init(firebaseStorageProvider: FirebaseStorageProvider) {
         self.firebaseStorageProvider = firebaseStorageProvider
     }
     
+    /// Uploads an image to Firebase Storage.
+    /// - Parameters:
+    ///   - userId: The user ID associated with the image.
+    ///   - imageId: The unique identifier for the image.
+    ///   - imageData: The image data to upload.
+    /// - Returns: The URL of the uploaded image.
+    /// - Throws: An error if the upload fails.
     public func uploadImage(userId: String, imageId: String, imageData: Data) async throws -> URL {
         let imagePath = DatabaseConstants.imagePath(userId: userId, imageId: imageId)
         
@@ -29,6 +40,10 @@ public struct ImagesRepositoryImpl: ImagesRepository {
         )
     }
     
+    /// Prepares images for sharing by adding text overlays with their associated dates.
+    /// - Parameter images: The list of images containing metadata such as URLs and dates.
+    /// - Returns: A list of processed `UIImage` objects ready for sharing.
+    /// - Throws: An error if the preparation process fails.
     public func prepareImagesForSharing(images: [ImageData]) async throws -> [UIImage] {
         var imagesToShare: [UIImage] = []
         
@@ -51,6 +66,10 @@ public struct ImagesRepositoryImpl: ImagesRepository {
         return imagesToShare
     }
     
+    /// Downloads a `UIImage` from a given URL string.
+    /// - Parameter urlString: The URL string of the image to download.
+    /// - Returns: The downloaded `UIImage`, or `nil` if the operation fails.
+    /// - Throws: An error if the download fails.
     func downloadUiImage(urlString: String) async throws -> UIImage? {
         guard let url = URL(string: urlString) else { return nil }
         let cache = URLCache.shared
@@ -68,6 +87,11 @@ public struct ImagesRepositoryImpl: ImagesRepository {
         return UIImage(data: data)
     }
     
+    /// Resizes an image to a specified target width while maintaining its aspect ratio.
+    /// - Parameters:
+    ///   - image: The original `UIImage` to resize.
+    ///   - targetWidth: The desired width of the resized image.
+    /// - Returns: The resized `UIImage`, or `nil` if resizing fails.
     func resizeImage(image: UIImage, targetWidth: CGFloat) -> UIImage? {
         let aspectRatio = image.size.height / image.size.width
         let targetHeight = targetWidth * aspectRatio
@@ -79,6 +103,11 @@ public struct ImagesRepositoryImpl: ImagesRepository {
         }
     }
 
+    /// Adds a text overlay with date information to an image.
+    /// - Parameters:
+    ///   - image: The original `UIImage` to modify.
+    ///   - date: The date to display as a text overlay.
+    /// - Returns: The modified `UIImage` with the text overlay, or `nil` if the operation fails.
     func addTextOverlayToImage(image: UIImage, date: Date) -> UIImage? {
         let targetWidth: CGFloat = 1024
         guard let resizedImage = resizeImage(image: image, targetWidth: targetWidth) else {
@@ -121,6 +150,9 @@ public struct ImagesRepositoryImpl: ImagesRepository {
         }
     }
     
+    /// Downloads an image and converts it into a SwiftUI `Image`.
+    /// - Parameter urlString: The URL string of the image to download.
+    /// - Returns: A SwiftUI `Image` object, or `nil` if the operation fails.
     public func downloadImage(urlString: String) async -> Image? {
         do {
             guard let url = URL(string: urlString) else { return nil }
@@ -151,6 +183,11 @@ public struct ImagesRepositoryImpl: ImagesRepository {
         }
     }
     
+    /// Deletes an image from Firebase Storage.
+    /// - Parameters:
+    ///   - userId: The user ID associated with the image.
+    ///   - imageId: The unique identifier of the image to delete.
+    /// - Throws: An error if the deletion fails.
     public func delete(userId: String, imageId: String) async throws {
         let imagePath = DatabaseConstants.imagePath(userId: userId, imageId: imageId)
         

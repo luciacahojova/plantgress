@@ -11,14 +11,23 @@ import SharedDomain
 import UserNotifications
 import Utilities
 
+/// Implementation of the `TaskRepository` protocol for managing plant tasks, notifications, and scheduling.
 public struct TaskRepositoryImpl: TaskRepository {
     
+    /// Firebase Firestore provider for database operations.
     private let firebaseFirestoreProvider: FirebaseFirestoreProvider
 
+    /// Initializes a new instance of `TaskRepositoryImpl`.
+    /// - Parameter firebaseFirestoreProvider: The Firestore provider for handling database operations.
     public init(firebaseFirestoreProvider: FirebaseFirestoreProvider) {
         self.firebaseFirestoreProvider = firebaseFirestoreProvider
     }
     
+    /// Retrieves the upcoming tasks for a specific plant within a specified number of days.
+    /// - Parameters:
+    ///   - plant: The plant for which to retrieve tasks.
+    ///   - days: The range of days to include for upcoming tasks.
+    /// - Returns: An array of upcoming tasks for the plant.
     public func getUpcomingTasks(for plant: Plant, days: Int) async -> [PlantTask] {
         let today = Date()
         let completedTasks = (try? await getCompletedTasks(for: plant.id)) ?? []
@@ -58,6 +67,11 @@ public struct TaskRepositoryImpl: TaskRepository {
         return tasks.sorted { $0.dueDate < $1.dueDate }
     }
     
+    /// Finds the closest task period to the specified start date.
+    /// - Parameters:
+    ///   - startDate: The start date to compare against task periods.
+    ///   - periods: A list of task periods to evaluate.
+    /// - Returns: The closest task period, or `nil` if none is found.
     private func findClosestPeriod(startDate: Date, periods: [TaskPeriod]) -> TaskPeriod? {
         var closestPeriod: TaskPeriod?
         var minimumInterval: TimeInterval = .greatestFiniteMagnitude
@@ -76,6 +90,12 @@ public struct TaskRepositoryImpl: TaskRepository {
         return closestPeriod
     }
     
+    /// Creates a new `PlantTask` object.
+    /// - Parameters:
+    ///   - plant: The plant associated with the task.
+    ///   - taskType: The type of the task.
+    ///   - dueDate: The due date of the task.
+    /// - Returns: The created `PlantTask` object.
     private func createPlantTask(plant: Plant, taskType: TaskType, dueDate: Date) -> PlantTask {
         PlantTask(
             id: UUID(),
@@ -89,6 +109,11 @@ public struct TaskRepositoryImpl: TaskRepository {
         )
     }
 
+    /// Retrieves upcoming tasks for multiple plants within a specified number of days.
+    /// - Parameters:
+    ///   - plants: A list of plants for which to retrieve tasks.
+    ///   - days: The range of days to include for upcoming tasks.
+    /// - Returns: An array of upcoming tasks for all plants.
     public func getUpcomingTasks(for plants: [Plant], days: Int) async -> [PlantTask] {
         var allUpcomingTasks: [PlantTask] = []
 
@@ -99,13 +124,21 @@ public struct TaskRepositoryImpl: TaskRepository {
         return allUpcomingTasks.sorted { $0.dueDate < $1.dueDate }
     }
 
+    /// Retrieves all completed tasks for a specific plant.
+    /// - Parameter plantId: The ID of the plant.
+    /// - Returns: A sorted array of completed tasks.
+    /// - Throws: An error if the operation fails.
     public func getCompletedTasks(for plantId: UUID) async throws -> [PlantTask] {
         return try await firebaseFirestoreProvider.getAll(
             path: DatabaseConstants.taskPath(plantId: plantId.uuidString),
             as: PlantTask.self
         ).sorted { ($0.completionDate ?? $0.dueDate) > ($1.completionDate  ?? $0.dueDate) }
     }
-
+    
+    /// Retrieves all completed tasks for multiple plants.
+    /// - Parameter plantIds: A list of plant IDs.
+    /// - Returns: A sorted array of completed tasks for the plants.
+    /// - Throws: An error if the operation fails.
     public func getCompletedTasks(for plantIds: [UUID]) async throws -> [PlantTask] {
         var allCompletedTasks: [PlantTask] = []
 
@@ -117,6 +150,11 @@ public struct TaskRepositoryImpl: TaskRepository {
         return allCompletedTasks.sorted { ($0.completionDate ?? $0.dueDate) > ($1.completionDate  ?? $0.dueDate) }
     }
     
+    /// Deletes a specific task for a plant.
+    /// - Parameters:
+    ///   - task: The task to delete.
+    ///   - plant: The plant associated with the task.
+    /// - Throws: An error if the deletion fails.
     public func deleteTask(_ task: PlantTask, plant: Plant) async throws {
         if task.isCompleted {
             // Delete the completed task from Firestore
@@ -143,6 +181,11 @@ public struct TaskRepositoryImpl: TaskRepository {
         }
     }
     
+    /// Deletes the last completed task of a specific type for a plant.
+    /// - Parameters:
+    ///   - plant: The plant associated with the task.
+    ///   - taskType: The type of task to delete.
+    /// - Throws: An error if the operation fails.
     public func deleteTask(for plant: Plant, taskType: TaskType) async throws {
         let completedTasks = try await getCompletedTasks(for: plant.id)
         
@@ -155,6 +198,13 @@ public struct TaskRepositoryImpl: TaskRepository {
         }
     }
     
+    /// Marks a task as completed for a plant and schedules the next occurrence.
+    /// - Parameters:
+    ///   - plant: The plant associated with the task.
+    ///   - taskType: The type of task to complete.
+    ///   - dueDate: The due date of the task. Defaults to the nearest due date.
+    ///   - completionDate: The completion date of the task.
+    /// - Throws: An error if the operation fails.
     public func completeTask(for plant: Plant, taskType: TaskType, dueDate: Date?, completionDate: Date) async throws {
         let pendingNotifications = await getPendingNotifications()
         guard let notificationDueDate = (
@@ -222,6 +272,12 @@ public struct TaskRepositoryImpl: TaskRepository {
         }
     }
     
+    /// Marks a task as completed for all plants in a room.
+    /// - Parameters:
+    ///   - plants: A list of plants in the room.
+    ///   - taskType: The type of task to complete.
+    ///   - completionDate: The completion date of the task.
+    /// - Throws: An error if the operation fails.
     public func completeTaskForRoom(
         plants: [Plant],
         taskType: TaskType,
@@ -255,6 +311,8 @@ public struct TaskRepositoryImpl: TaskRepository {
         }
     }
     
+    /// Deletes all tasks for a specific plant.
+    /// - Parameter plantId: The ID of the plant.
     public func deleteAllTasks(for plantId: UUID) {
         print("🗑️ Deleting tasks for plant: (\(plantId))")
         
@@ -269,6 +327,9 @@ public struct TaskRepositoryImpl: TaskRepository {
         removeTaskConfigurationFromUserDefaults(for: plantId)
     }
     
+    /// Synchronizes all notifications for multiple plants.
+    /// - Parameter plants: A list of plants for which to synchronize notifications.
+    /// - Throws: An error if the synchronization fails.
     public func synchronizeAllNotifications(for plants: [Plant]) async throws {
         for plant in plants {
             try await synchronizeNotifications(for: plant)
@@ -277,6 +338,9 @@ public struct TaskRepositoryImpl: TaskRepository {
         await printPendingNotifications()
     }
 
+    /// Synchronizes notifications for a specific plant.
+    /// - Parameter plant: The plant for which to synchronize notifications.
+    /// - Throws: An error if the synchronization fails.
     public func synchronizeNotifications(for plant: Plant) async throws {
         print("🔄 Synchronizing notifications for plant: \(plant.name) (\(plant.id))")
         
@@ -324,6 +388,9 @@ public struct TaskRepositoryImpl: TaskRepository {
         try saveTaskConfiguration(for: plant)
     }
     
+    /// Initializes notifications for a newly added plant.
+    /// - Parameter plant: The plant for which to initialize notifications.
+    /// - Throws: An error if the initialization fails.
     public func initializeNotifications(for plant: Plant) async throws {
         print("🔄 Initializing notifications for new plant: \(plant.name) (\(plant.id))")
         
@@ -346,6 +413,13 @@ public struct TaskRepositoryImpl: TaskRepository {
         try saveTaskConfiguration(for: plant)
     }
 
+    /// Schedules the next notification for a plant task.
+    /// - Parameters:
+    ///   - plant: The plant associated with the task.
+    ///   - taskType: The type of task to schedule.
+    ///   - dueDate: The next due date for the task.
+    ///   - completionDate: The completion date of the task.
+    /// - Throws: An error if the scheduling fails.
     public func scheduleNextNotification(for plant: Plant, taskType: TaskType, dueDate: Date, completionDate: Date) async throws {
         // Find the task configuration for the given task type
         guard let taskConfig = plant.settings.tasksConfigurations.first(where: { $0.taskType == taskType }) else {
